@@ -14,13 +14,9 @@
 		{
 			document.getElementById('startbutton').style.display='block';
 		}
-		function destroystart() 
-		{
-			document.getElementById('startbutton').style.display='none';
-		}
 		</script>
 </head>
-<body>
+<body onload="start()">
 	<div id="starttext" onclick="document.getElementById('userdropdown').style.display='none';">
 		<span>Movies and Music</span>
 	</div>
@@ -67,13 +63,6 @@
 			<div class="line">
 
 				<div class="tile">
-					<a href="plutotv/main.html">					
-						<img src="images/bblack.png" height="125" width="258"/>
-					</a>
-					<p>PlutoTV</p>
-				</div>
-
-				<div class="tile">
 					<a href="tvcountries/main.html">					
 						<img src="images/bblack.png" height="125" width="258"/>
 					</a>
@@ -88,20 +77,6 @@
 				</div>
 
 			</div>
-
-			<div class="line">
-			</div>
-
-			<div class="line">
-				<div class="tile">
-					<a href="../index.html">
-						<img src="images/bcyan.png" height="125" width="258"/>
-					</a>
-					<p>< <  B A C K</p>
-				</div>
-				
-
-			</div>
 		</div>
 
 	</div>
@@ -109,8 +84,8 @@
 <div id="starthoverarea" onmouseover="start()" class="hotcorner">
 </div>
 
-<div id="startbutton" onmouseout="destroystart()">
-<a href="../start/index.html"><img src="../common/img/charmsbar/startbutton.png"/></a>
+<div id="startbutton" onmouseout="start()">
+<a href="../index.html"><img src="../common/img/charmsbar/startbutton.png"/></a>
 </div>
 
 </body>
