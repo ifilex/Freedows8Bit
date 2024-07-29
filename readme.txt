@@ -1,4 +1,4 @@
-﻿Glass Program Manager v 1.2
+﻿Glass Program Manager v 3.0
 
 Glass​ es una aplicación de simulación de escritorio de código abierto para dispositivos Android 
 actualmente en desarrollo que se centra específicamente en la informática personal y multimedia. 

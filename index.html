@@ -1,17 +1,339 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-<link rel="preconnect" href="https://fonts.googleapis.com"> 
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,300&display=swap" rel="stylesheet">
-<meta http-equiv="x-ua-compatible" content="IE=edge">
-<title>Glass :: Program Manager</title>
-<META HTTP-EQUIV="REFRESH" CONTENT="0;URL=accesories/index.html">
-<link rel="stylesheet" href="style.css"/>
-<link rel="shortcut icon" href="favicon.ico"/>
-<script>
-var passwd = 'document.getElementById('passwd')';
-</script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WineBOX</title>
+    <meta name="description" content="A Windows emulator and compiler.">
+    <link rel="shortcut icon" href="src/icons/favicon.png" sizes="152x152">
+    <link rel="apple-touch-icon" href="src/icons/favicon.png">
+    <meta name="theme-color" content="#000"/>
+    <link rel="manifest" href="manifest.json" />
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="WineBOX">
+    <meta property="og:url" content="/">
+    <meta property="og:description" content="A Windows emu within browser.">
+    <link rel="preload" href="src/wallpaper/img100.webp" as="image">
+    <link rel="preload" href="src/wallpaper/img18.webp" as="image">
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js');
+            });
+        }
+    </script>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
+    <!-- <link rel="stylesheet" href="src/css/jquery-ui.min.css"> -->
+    <!-- For Boot Screen -->
+    <style>
+        * {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .boot,
+        .boot-animation {
+            width: 100vw;
+            height: 100vh;
+            background-color: black;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            cursor: none;
+        }
+
+        .boot-animation {
+            display: none;
+            filter: brightness(1.34) contrast(1.06);
+            background-color: white;
+        }
+    </style>
+    <link rel="stylesheet" href="src/css/style.css">
+
 </head>
+
 <body>
+    <!-- Use this for custom cursor -->
+    <!--<img src="http://www.rw-designer.com/cursor-extern.php?id=139827" id="mouse" style="position: absolute;transition:none;pointer-events: none;z-index: 10000;" height=35>
+    <script>
+        document.body.onmousemove = e => {
+            document.querySelector("#mouse").style.setProperty("top", e.clientY + 'px');
+            document.querySelector("#mouse").style.setProperty("left", e.clientX + 'px');
+        }
+    </script>
+
+<!-- Lock Screen Box -->
+    <div id="lockScreen">
+        <div id="timeBox">
+          
+            <span class="date">Version 3.00</span>
+        </div>
+    </div>
+
+    <!-- making a power on div and make user click a button so that we can autoplay videos -->
+    <div class="powerOnBox">
+        <div class="power-switch" id="powerOnBtn">
+            <input type="checkbox" />
+            <div class="button">
+                <svg class="power-off">
+                    <use xlink:href="#a" class="a" />
+                    <use xlink:href="#b" class="b" />
+                </svg>
+                <svg class="power-on">
+                    <use xlink:href="#a" class="a" />
+                    <use xlink:href="#b" class="b" />
+                </svg>
+            </div>
+        </div>
+        <span style="color: lavender">Click to start the emulator</span>
+        <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+            <symbol xmlns="http://www.w3.org/2000/svg" id="a" viewBox="0 0 150 150">
+                <path d="M75 34v24" />
+            </symbol>
+            <symbol xmlns="http://www.w3.org/2000/svg" id="b" viewBox="0 0 150 150">
+                <circle cx="75" cy="80" r="35" />
+            </symbol>
+        </svg>
+    </div>
+    <!-- Boot Elements -->
+    <div class="boot">
+        <img src="src/others/windowsLogo.svg" alt="Windows Logo" width="70" />
+        <picture>
+            <source srcset="src/others/bootLoader.svg">
+            <img src="src/others/bootLoader.gif" alt="Windows boot loader" width="50" height="50">
+        </picture>
+    </div>
+    <div class="boot-animation">
+        <!-- does not work in google chrome if the video is not muted.
+        works in firefox if autoplay permission for the site is granted.
+    works even on chrome with certain criteria fulfilled:
+    For more details: 
+    https://developers.google.com/web/updates/2017/09/autoplay-policy-changes -->
+        <audio preload="auto" width="150" height="150" id="startupAudio">
+            <source src="src/sounds/Windows Startup.webm" type="audio/webm">
+            <source src="src/sounds/Windows Startup.mp3" type="audio/mp3">
+        </audio>
+    </div>
+
+    <!-- EDGE BROWSER -->
+    <!--
+    <div id = "browser" class="resizableWindow resizable">
+        <div class="tittleWindow">
+            <p>Edge</p>
+        </div>
+        <iframe class="frameresizableWindow" src="https://www.bing.com/"></iframe>
+    </div>
+    -->
+    <!-- EDGE BROWSER -->
+    <div class="desktop">
+        <div class="desktopIcons">
+            <!-- desktop icon 1 -->
+            <figure id="deskcomp" onclick="executeProgram('winefile')">
+                <img src="src/icons/Computer.png" alt="Wine This PC icon">
+                <figcaption class="iconName">This PC</figcaption>
+            </figure>
+            <!-- desktop icon 2 -->
+            <figure id="deskvscode" onclick="executeProgram('fasm')">
+                <img src="src/icons/vscode.png" alt="EXE to APK dev Icon">
+                <figcaption class="iconName">Flat Assembler</figcaption>
+            </figure>
+            <!-- desktop icon 3 -->
+            <figure id="deskbrowser" onclick="executeProgram('msedge')">
+                <!-- <button onclick = "OCBROWSER()" id = "browserbtn" class = "Iconshell"> -->
+                <img src="src/icons/edge.svg" alt="Edge Icon">
+                <figcaption class="iconName">Internet Explorer</figcaption>
+                <!-- </button> -->
+            </figure>
+        </div>
+    </div>
+
+    <div class="start">
+        <div class="search">
+            <label>
+                <input type="text" placeholder="Type here to search" id="searchBar">
+            </label>
+        </div>
+        <div class="pinned">
+            <div class="start-top-elements">
+                <span>Pinned</span>
+                <button class="openAll" id="allapps">All apps <img src="src/icons/right.svg" alt="open all apps"
+                        class="smallRight"></button>
+            </div>
+            <div class="start-icons">
+                <figure id="startEdge" onclick="executeProgram('msedge')">
+                    <img src="src/icons/edge.svg" alt="Edge icon">
+                    <figcaption>Internet</figcaption>
+                </figure>
+                <figure id="startWordpad" onclick="executeProgram('wordpad')" >
+                    <img src="src/icons/word.svg" alt="Wordpad icon">
+                    <figcaption>Wordpad</figcaption>
+                </figure>
+                <figure id="startOffice" onclick="executeProgram('soffice')">
+                    <img src="src/icons/office.svg" alt="Open Office icon">
+                    <figcaption>Open Office</figcaption>
+                </figure>
+                <figure id="startTex" onclick="executeProgram('texworks')">
+                    <img src="src/icons/favicon.png" alt="Tex Works icon">
+                    <figcaption>Tex Works</figcaption>
+                </figure>
+                <figure id="startNotepad"
+onclick="executeProgram('notepad')">
+                    <img src="src/icons/notepad.png" alt="Notepad icon">
+                    <figcaption>Notepad</figcaption>
+                </figure>
+                <figure id="startCalendar" onclick="executeProgram('calendar')">
+                    <img src="src/icons/calender.svg" alt="Calender icon">
+                    <figcaption>Calender</figcaption>
+                </figure>
+                <figure id="startStore" onclick="executeProgram('store')">
+                    <img src="src/icons/store.png" alt="FreeDOS Store icon">
+                    <figcaption>Games Store</figcaption>
+                </figure>
+                <figure id="startPaint" onclick="executeProgram('paint')">
+                    <img src="src/icons/photos.svg" alt="Windows Paint icon">
+                    <figcaption>Paint</figcaption>
+                </figure>
+                <figure id="startNoteplus" onclick="executeProgram('npp')">
+                    <img src="src/icons/oneNote.svg" alt="OneNote icon">
+                    <figcaption>Notepad Plus</figcaption>
+                </figure>
+                <figure id="startexe2apk" onclick="executeProgram('fasm')">
+                    <img src="src/icons/yourPhone.svg" alt="Windows for your Phone icon">
+                    <figcaption>EXE to APKs</figcaption>
+                </figure>
+                <figure id="startToDo" onclick="executeProgram('todo')">
+                    <img src="src/icons/toDo.svg" alt="To DO icon">
+                    <figcaption>To Do</figcaption>
+                </figure>
+                <figure id="startRec"
+onclick="executeProgram('rec')">
+                    <img src="src/icons/movies.svg" alt="Sound Rec icon">
+                    <figcaption>Sound Record</figcaption>
+                </figure>
+                <figure id="startSettings" onclick="executeProgram('settings')">
+                    <img src="src/icons/settings.svg" alt="Windows 11 Settings icon">
+                    <figcaption>Settings</figcaption>
+                </figure>
+                <figure id="startCalci" onclick="executeProgram('calc')">
+                    <img src="src/icons/calculator.svg" alt="Windows Calculator icon">
+                    <figcaption>Calculator</figcaption>
+                </figure>
+                <figure id="startSol"
+onclick="executeProgram('sol')">
+                    <img src="src/icons/favicon.png" alt="Sol icon">
+                    <figcaption>Sol</figcaption>
+                </figure>
+                <figure id="startWinemine"
+onclick="executeProgram('winemine')">
+                    <img src="src/icons/favicon.png" alt="Winemine">
+                    <figcaption>Winemine</figcaption>
+                </figure>
+                <figure id="startMovies" onclick="executeProgram('multimedia')">
+                    <img src="src/icons/movies.svg" alt="Windows Movies & TV icon">
+                    <figcaption>Movies & TV</figcaption>
+                </figure>
+                <figure id="startClock" onclick="executeProgram('clock')">
+                    <img src="src/icons/clock.svg" alt="Wine Clock icon">
+                    <figcaption>Clock</figcaption>
+                </figure>
+            </div>
+        </div>
+        <div class="recommended">
+            <div class="start-top-elements">
+                <span>Recommended</span>
+                <button class="openAll">More<img src="src/icons/right.svg" alt="open all apps"
+                        class="smallRight"></button>
+            </div>
+        </div>
+        <div class="others">
+            <div class="user">
+                <img src="src/icons/user.png" alt="Wine User icon">
+                <span>Root</span>
+            </div>
+            <a href="src/redirects/shutdown/logoff.html"><img src="src/icons/shutdown.svg" alt="Shutdown icon" id="shutdown"></a>
+        </div>
+    </div>
+    <div class="taskbar">
+        <div class="center">
+            <img src="src/icons/startButton.png" alt="Start icon" id="starticon">
+            <img src="src/icons/taskView.svg" alt="Wine Store" onclick="executeProgram('winestore')" id="winestore">
+            <img src="src/icons/edge.svg" alt="Internet Explorer icon" onclick="executeProgram('msedge')" id="neticon">
+            <img src="src/icons/store.png" alt="FreeDOS Store icon"  onclick="executeProgram('store')" id="freedostore">
+        </div>
+        <div class="right">
+            <img src="src/icons/up.svg" alt="Up arrow">
+            <img src="src/icons/keyboard.svg" alt="Keyboard Meta Keys" id="keyboardOpener">
+            <div class="time-date">
+                <span></span>
+                <span></span>
+                <input type="checkbox" name="ncCheck" id="ncCheck" style="display: none;" checked>
+            </div>
+        </div>
+    </div>
+    <link rel="stylesheet" href="src/css/actionCenter.css">
+    <div class="notification-center">
+        <div class="notifications">
+        </div>
+        <div class="calender">
+            <div class="calender-top">
+                <span>Calender</span>
+                <img src="src/icons/down.svg" alt="Down Icon" width="20" height="20">
+            </div>
+        </div>
+    </div>
+    <div id="context-menu">
+        <div class="item"><img src="src/icons/terminal.png" alt="Terminal" onclick="executeProgram('shell')" id="starticon"> Open in Windows Terminal</div>
+    </div>
+    <!-- making run dialog -->
+    <div class="runDialog window">
+        <div class="runHeader"> <img src="src/icons/runicon.png" alt="run icon" class="runIconSmall"> <span>Run</span>
+            <div class="optionsWrapper"><img src="src/icons/cross.svg" alt="close" class="windowOptions windowCrosser"></div>
+        </div>
+        <div class="runBody">
+            <div class="runBodyMessage"><img src="src/icons/runicon.png" alt="run Icon" id="runIconBody"><span>Type the name of the program, folder, document or internet resources, and windows will open it for you.</span></div>
+            <label for="runInputField">Open: </label><input type="text" id="runInputField" autocomplete="off">
+        </div>
+        <div class="runFooter">
+            <button class="disabledButton" id="runOkBtn">Ok</button>
+            <button>Cancel</button>
+            <button>Browse...</button>
+        </div>
+    </div>
+    <div class="brightness-overlay"></div>
+    <div id="keyboard">
+        <div class="keys" id="keyboardHider">
+            <img src="src/icons/right.svg" alt="Hide the keyboard" style="transform: rotate(90deg);">
+        </div>
+        <div class="keys" data-value="Win" id="winkey">
+            <img src="src/icons/winkey.svg" alt="" style="filter: invert(1);width: 70%;">
+        </div>
+        <div class="keys" data-value="Alt" id="altKey">Alt</div>
+        <div class="keys" data-value="Ctrl" id="ctrlKey">Ctrl</div>
+    </div>
+    <div class="imagesToBePreloaded" style="display: none;"></div>
+    <!--
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="src/js/jquery-ui.min.js"></script>
+    <script src="src/js/iframes-apps.js"></script>
+    -->
+    <script src="src/js/boot.js"></script>
+    <script src="src/js/start.js"></script>
+    <script src="src/js/desktop.js"></script>
+    <script src="src/js/window.js"></script>
+    <script src="src/js/run.js"></script>
+    <script src="src/js/keyboard.js"></script>
+    <script src="src/js/taskbar.js"></script>
+    <script src="src/js/notification.js"></script>
+    <link rel="stylesheet" type="text/css" href="src/css/webapps.css">
+    <link rel="stylesheet" type="text/css" href="src/css/animations.css">
+    <script src="src/js/tutorial.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css">
+    <script src="src/js/tooltip.js"></script>
+
 </body>
+
+</html>
