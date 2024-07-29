@@ -6,7 +6,7 @@
   "scope": "/wine/?source=pwa",
   "display": "fullscreen",
   "display_override": ["standalone", "minimal-ui"],
-  "start_url": "/Freedows8bit/",
+  "start_url": "/Freedows8Bit/",
   "background_color": "#FFFFFF",
   "theme_color": "#000",
   "description": "A simple Windows emulator.",
