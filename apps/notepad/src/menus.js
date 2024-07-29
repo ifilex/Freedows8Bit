@@ -58,23 +58,7 @@ var menus = {
 		// 	enabled: false,
 		// 	description: "Opens this document.",
 		// },
-		MENU_DIVIDER,
-		{
-			item: "E&xit",
-			// shortcut: "Alt+F4",
-			action: () => {
-				try {
-					if (frameElement && window.close && !/\{\s*\[native code\]\s*\}/.test(window.close.toString())) {
-						window.close();
-						return;
-					}
-				} catch (e) {
-				}
-				window.location = "../../start/index.html";
-			},
-			description: "Quits Notepad.",
-		}
-	],
+			],
 	"&Edit": [
 		{
 			item: "&Undo",
