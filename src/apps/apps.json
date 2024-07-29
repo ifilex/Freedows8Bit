@@ -201,7 +201,7 @@
     "calendar": {
         "name": "Calendar",
         "src": "src/apps/calendar.html",
-        "icon": "src/icons/calendar.png"
+        "icon": "src/icons/calender.png"
     },
     "clock": {
         "name": "Clock",

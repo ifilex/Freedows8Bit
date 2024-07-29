@@ -37,30 +37,6 @@ var menus = {
 			action: function () { },
 			description: "Shows properties for this sound file.",
 		},
-		MENU_DIVIDER,
-		{
-			item: "E&xit",
-			shortcut: "Alt+F4",
-			action: () => {
-				try {
-					// API contract is containing page can override window.close()
-					// Note that e.g. (()=>{}).bind().toString() gives "function () { [native code] }"
-					// so the window.close() must not use bind() (not that that's common practice anyway)
-					if (frameElement && window.close && !/\{\s*\[native code\]\s*\}/.test(window.close.toString())) {
-						window.close();
-						return;
-					}
-				} catch (e) {
-					// In a cross-origin iframe, most likely
-					// @TODO: establish postMessage API
-				}
-				// In a cross-origin iframe, or same origin but without custom close(), or top level:
-				// Not all browsers support close() for closing a tab,
-				// so redirect instead. Exit to the official web desktop.
-				window.location = "../../start/index.html";
-			},
-			description: "Quits Sound Recorder.",
-		}
 	],
 	"&Edit": [
 		/*
