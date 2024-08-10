@@ -12,6 +12,11 @@
         "src": "src/apps/winefile.html",
         "icon": "src/icons/favicon.png"
     },
+    "wallet": {
+        "name": "Wallet",
+        "src": "src/apps/wallet.html",
+        "icon": "src/icons/wallet.png"
+    },
     "charmap": {
         "name": "CharMap",
         "src": "src/apps/charmap.html",
@@ -25,7 +30,7 @@
     "sol": {
         "name": "Sol",
         "src": "src/apps/sol.html",
-        "icon": "src/icons/favicon.png"
+        "icon": "src/icons/sol.png"
     },
     "spider": {
         "name": "Spider",
@@ -35,7 +40,7 @@
     "winemine": {
         "name": "Winemine",
         "src": "src/apps/winemine.html",
-        "icon": "src/icons/favicon.png"
+        "icon": "src/icons/winemine.png"
     },
     "xbill": {
         "name": "XBill",
