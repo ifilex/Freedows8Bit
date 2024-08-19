@@ -12,6 +12,11 @@
         "src": "src/apps/winefile.html",
         "icon": "src/icons/favicon.png"
     },
+    "winehelp": {
+        "name": "Winehelp",
+        "src": "src/apps/winehelp.html",
+        "icon": "src/icons/yourPhone.png"
+    },
     "wallet": {
         "name": "Wallet",
         "src": "src/apps/wallet.html",
@@ -110,6 +115,11 @@
     "shell": {
         "name": "Windows PowerShell",
         "src": "src/apps/shell.html",
+        "icon": "src/icons/terminal.png"
+    },
+    "xterm": {
+        "name": "Xterm",
+        "src": "src/apps/xterm.html",
         "icon": "src/icons/terminal.png"
     },
     "store": {

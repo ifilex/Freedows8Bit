@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cómo Portar Aplicaciones de Windows de 32 bits a Android usando MIT App Inventor y WineBOX Kernel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        h2 {
+            color: #007bff;
+        }
+        p {
+            margin: 10px 0;
+        }
+        ul {
+            margin: 10px 0 20px 20px;
+            padding: 0;
+        }
+        ul li {
+            margin: 5px 0;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Cómo Portar Aplicaciones de Windows de 32 bits a Android usando MIT App Inventor y WineBOX Kernel</h1>
+</header>
+
+<main>
+    <section>
+        <h2>Introducción</h2>
+        <p>Portar aplicaciones de Windows de 32 bits a Android utilizando <a href="http://appinventor.mit.edu/">MIT App Inventor</a> y el núcleo WineBOX es un proceso avanzado que permite ejecutar aplicaciones de Windows en dispositivos Android e iOS. Esta guía te llevará paso a paso desde la creación de un proyecto nuevo hasta la integración del kernel de WineBOX.</p>
+    </section>
+
+    <section>
+        <h2>Requisitos Previos</h2>
+        <ul>
+            <li>Conocimientos básicos de <a href="http://appinventor.mit.edu/">MIT App Inventor</a>.</li>
+            <li>Familiaridad con el desarrollo de aplicaciones Android.</li>
+            <li>Acceso al núcleo WineBOX.</li>
+            <li>La aplicación de Windows de 32 bits que deseas portar (en formato .zip).</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Pasos</h2>
+
+        <h3>Crear un Proyecto Nuevo en MIT App Inventor:</h3>
+        <ul>
+            <li>Accede a <a href="http://appinventor.mit.edu/">MIT App Inventor</a> e inicia sesión con tu cuenta.</li>
+            <li>En la pantalla principal, selecciona "Proyectos" en el menú superior y haz clic en "Iniciar un nuevo proyecto".</li>
+            <li>Asigna un nombre a tu proyecto (por ejemplo, "WindowsPortApp") y haz clic en "Aceptar".</li>
+        </ul>
+
+        <h3>Configurar la Interfaz de Usuario:</h3>
+        <ul>
+            <li>En la sección de diseño ("Diseñador"), selecciona y arrastra un componente de "Layout" (diseño) a tu pantalla, como "HorizontalArrangement" para organizar los elementos.</li>
+            <li>Agrega otros componentes necesarios para tu aplicación, como botones o etiquetas, según el diseño deseado.</li>
+        </ul>
+
+        <h3>Incluir un Navegador Web:</h3>
+        <ul>
+            <li>En la paleta de componentes, ve a "User Interface" (Interfaz de usuario) y selecciona "WebViewer" (Visor web).</li>
+            <li>Arrastra el componente "WebViewer" a tu pantalla de diseño.</li>
+            <li>En las propiedades del "WebViewer", asegúrate de desactivar la opción de "Zoom Enabled" (Zoom habilitado) para que la página se muestre sin zoom.</li>
+            <li>En la propiedad "Home URL" (URL de inicio), ingresa la siguiente dirección: <a href="https://ifilex.github.io/Freedows8Bit/accesories/wine.html?app=archivozipsinlaextensionzip&p=archivo.EXE">https://ifilex.github.io/Freedows8Bit/accesories/wine.html?app=archivozipsinlaextensionzip&p=archivo.EXE</a></li>
+        </ul>
+
+        <h3>Integrar el Kernel de WineBOX:</h3>
+        <ul>
+            <li>Para integrar el kernel de WineBOX, primero debes incluir el archivo .zip que contiene tu aplicación de Windows de 32 bits en el proyecto. Hazlo seleccionando "Media" en el panel de la derecha y luego "Subir archivo…".</li>
+            <li>Sube tu archivo .zip, pero recuerda no incluir la extensión .zip en la URL del "WebViewer". Por ejemplo, si tu archivo se llama miaplicacion.zip, la URL que debes usar sería: <a href="https://ifilex.github.io/Freedows8Bit/accesories/wine.html?app=miaplicacion&p=miaplicacion.exe">https://ifilex.github.io/Freedows8Bit/accesories/wine.html?app=miaplicacion&p=miaplicacion.exe</a></li>
+            <li>Asegúrate de incluir el nombre completo del archivo ejecutable de la aplicación de Windows (incluyendo la extensión .exe) en la URL.</li>
+        </ul>
+
+        <h3>Ajustes Finales y Recordatorio:</h3>
+        <ul>
+            <li>Este método solo admite aplicaciones de Windows de 32 bits. Asegúrate de que la aplicación que subas cumpla con este requisito.</li>
+            <li>Una vez configurado todo, guarda tu proyecto y pruébalo en un dispositivo Android o iOS.</li>
+        </ul>
+
+        <h3>Prueba y Distribución:</h3>
+        <ul>
+            <li>Prueba la aplicación en diferentes dispositivos para asegurarte de que se ejecuta correctamente.</li>
+            <li>Una vez que todo esté funcionando, empaqueta tu aplicación y distribúyela según sea necesario.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Conclusión</h2>
+        <p>Portar aplicaciones de Windows de 32 bits a Android e iOS utilizando <a href="http://appinventor.mit.edu/">MIT App Inventor</a> y el núcleo WineBOX a través de un navegador web es un proceso que requiere precisión. Sigue estos pasos cuidadosamente y asegúrate de probar tu aplicación en varios dispositivos para garantizar su compatibilidad.</p>
+        <p>Con esta guía, deberías poder crear un proyecto en MIT App Inventor y configurar todo lo necesario para ejecutar aplicaciones de Windows de 32 bits en Android e iOS.</p>
+    </section>
+</main>
+
+</body>
+</html>
