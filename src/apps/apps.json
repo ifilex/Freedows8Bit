@@ -188,6 +188,11 @@
         "src": "src/apps/powerpoint.html",
         "icon": "src/icons/powerPoint.svg"
     },
+    "progman": {
+        "name": "Progman",
+        "src": "src/apps/progman.html",
+        "icon": "src/icons/Computer.png"
+    },
     "sumatrapdf": {
         "name": "SumatraPDF",
         "src": "src/apps/sumatrapdf.html",

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selector de Archivos</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+</head>
+<body>
+    <h1>Seleccione un archivo ZIP</h1>
+    
+    <!-- Botón para seleccionar archivo -->
+    <input type="file" id="fileInput" accept=".zip">
+    
+    <!-- Iframe donde se cargará la URL generada -->
+    <iframe id="appFrame" width="100%" height="500px"></iframe>
+
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const fileName = file.name.replace('.zip', '');
+            const expectedExeFile = `${fileName}.exe`;
+
+            // Leer el archivo ZIP
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                JSZip.loadAsync(e.target.result).then(function(zip) {
+                    // Verificar si el archivo .exe esperado está en el ZIP
+                    if (zip.files[expectedExeFile]) {
+                        // Si el archivo está presente, preguntar al usuario si desea continuar
+                        const userConfirmed = confirm(`El archivo ${expectedExeFile} fue encontrado. ¿Desea continuar con la carga?`);
+                        if (userConfirmed) {
+                            // Generar la URL
+                            const url = `https://ifilex.github.io/Freedows8Bit/accesories/wine.html?app=${fileName}&p=${expectedExeFile}`;
+                            
+                            // Establecer el src del iframe a la URL generada
+                            document.getElementById('appFrame').src = url;
+                        }
+                    } else {
+                        // Mostrar un cuadro de diálogo de error si el archivo .exe no se encuentra
+                        alert('Ejecutable no compatible con Winebox');
+                    }
+                }).catch(function(err) {
+                    // Manejar errores de lectura del ZIP con un cuadro de diálogo de error
+                    alert('Error al leer el archivo ZIP');
+                });
+            };
+            reader.readAsArrayBuffer(file);
+        });
+    </script>
+</body>
+</html>

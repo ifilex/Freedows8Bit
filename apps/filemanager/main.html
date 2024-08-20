@@ -1,250 +1,283 @@
-<html><head><base href="https://websim.io/filemanager/">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Windows 32 bit to APK android software kit</title>
-<style>
-    body, html {
-        margin: 0;
-        padding: 0;
-        font-family: 'Segoe UI', Arial, sans-serif;
-        background-color: #f3f3f3;
-        height: 100%;
-        overflow: hidden;
-    }
-    .file-manager {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-    }
-    .toolbar {
-        background-color: #f0f0f0;
-        padding: 10px;
-        border-bottom: 1px solid #e0e0e0;
-    }
-    .content {
-        display: flex;
-        flex: 1;
-    }
-    .main-content {
-        flex: 1;
-        padding: 20px;
-        display: flex;
-        flex-wrap: wrap;
-        align-content: flex-start;
-        overflow-y: auto;
-    }
-    .file-icon {
-        width: 120px;
-        height: 120px;
-        margin: 10px;
-        text-align: center;
-        cursor: pointer;
-        transition: transform 0.2s ease-in-out;
-    }
-    .file-icon:hover {
-        transform: scale(1.05);
-    }
-    .file-icon svg {
-        width: 80px;
-        height: 80px;
-    }
-    .file-name {
-        font-size: 12px;
-        margin-top: 5px;
-        word-wrap: break-word;
-    }
-    .window-container {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 80%;
-        height: 80%;
-        background-color: white;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        display: none;
-        flex-direction: column;
-        z-index: 1000;
-    }
-    .window-titlebar {
-        background-color: #f0f0f0;
-        padding: 5px 10px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-top-left-radius: 5px;
-        border-top-right-radius: 5px;
-    }
-    .window-content {
-        flex: 1;
-        overflow: hidden;
-    }
-    .close-btn {
-        cursor: pointer;
-        font-size: 20px;
-    }
-    .help-content {
-        padding: 20px;
-        overflow-y: auto;
-        height: 100%;
-    }
-    iframe {
-        width: 100%;
-        height: 100%;
-        border: none;
-    }
-</style>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Program Manager</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Tahoma, Geneva, sans-serif;
+            background-color: #008080; /* Estilo de fondo Windows 3.1 */
+            color: black;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+        #menuBar {
+            background-color: #C0C0C0; /* Color de barra de menú */
+            padding: 5px;
+            border-bottom: 2px solid #000;
+            display: flex;
+            justify-content: space-between;
+        }
+        .menu {
+            margin: 0 10px;
+            cursor: pointer;
+            position: relative;
+        }
+        .menuContent {
+            display: none;
+            position: absolute;
+            top: 20px;
+            left: 0;
+            background-color: #C0C0C0;
+            border: 1px solid black;
+            padding: 5px;
+            box-shadow: 3px 3px 5px #333;
+            z-index: 1000;
+        }
+        .menuContent div {
+            padding: 5px;
+            cursor: pointer;
+        }
+        .menuContent div:hover {
+            background-color: #000080;
+            color: white;
+        }
+        #desktop {
+            flex: 1;
+            background-color: #008080;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            gap: 10px;
+            overflow-y: auto;
+        }
+        .shortcut {
+            width: 100px;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+        .shortcut img {
+            width: 50px;
+            height: 50px;
+        }
+        .shortcut:hover {
+            border: 1px solid black;
+        }
+        #appFrame {
+            display: none;
+            width: 100%;
+            height: 100%;
+            border: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 2000;
+            background-color: white;
+        }
+        #closeFrame {
+            display: none;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 2001;
+            cursor: pointer;
+            background-color: red;
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
-<div class="file-manager">
-    <div class="toolbar">
-        <h2>Windows 32 bit to APK android software kit</h2>
-    </div>
-    <div class="content">
-        <div class="main-content" id="mainContent">
-            <!-- Icons will be dynamically added here -->
+    <!-- Barra de menú -->
+    <div id="menuBar">
+        <div class="menu">
+            Archivo
+            <div class="menuContent">
+                <div id="menuInstalar">Instalar</div>
+                <div id="menuDesinstalar">Desinstalar</div>
+                <hr>
+                <div id="menuEjecutar">Ejecutar...</div>
+            </div>
+        </div>
+        <div class="menu">
+            Ayuda
+            <div class="menuContent">
+                <div id="menuContenido">Contenido</div>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="window-container" id="windowContainer">
-    <div class="window-titlebar">
-        <span id="windowTitle"></span>
-        <span class="close-btn" onclick="closeWindow()">&times;</span>
+    <!-- Escritorio (zona de accesos directos) -->
+    <div id="desktop"></div>
+
+    <!-- Iframe donde se ejecutan los programas -->
+    <iframe id="appFrame"></iframe>
+    <div id="closeFrame">Cerrar</div>
+
+    <!-- Formulario de instalación -->
+    <div id="installForm" style="display: none;">
+        <h2>Instalar Nuevo Programa</h2>
+        <form id="installProgramForm">
+            <label for="zipFile">Archivo ZIP:</label>
+            <input type="file" id="zipFile" accept=".zip"><br><br>
+            <label for="programName">Nombre del Programa:</label>
+            <input type="text" id="programName"><br><br>
+            <label for="programIcon">Icono (URL):</label>
+            <input type="text" id="programIcon"><br><br>
+            <button type="submit">Instalar</button>
+        </form>
     </div>
-    <div class="window-content" id="windowContent">
-        <!-- Window content will be dynamically added here -->
+
+    <!-- Formulario de desinstalación -->
+    <div id="uninstallForm" style="display: none;">
+        <h2>Desinstalar Programa</h2>
+        <select id="programList"></select><br><br>
+        <button id="uninstallButton">Desinstalar</button>
     </div>
-</div>
 
-<script>
-    const fileData = [
-        {
-            name: "FASM Compiler",
-            icon: `
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-                    <rect x="10" y="10" width="80" height="80" rx="10" ry="10" fill="#34495e"/>
-                    <text x="50" y="40" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle">FASM</text>
-                    <text x="50" y="60" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle">Compiler</text>
-                    <path d="M20 70 L40 70 L50 80 L60 70 L80 70" stroke="white" stroke-width="3" fill="none"/>
-                    <circle cx="50" cy="80" r="5" fill="#e74c3c"/>
-                </svg>
-            `,
-            url: "https://ifilex.github.io/Freedows8Bit/accesories/wine.html?app=fasm&p=FASMW.EXE"
-        },
-        {
-            name: "Help",
-            icon: `
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="40" fill="#3498db"/>
-                    <text x="50" y="70" font-family="Arial, sans-serif" font-size="60" fill="white" text-anchor="middle">?</text>
-                </svg>
-            `,
-            type: "help"
-        },
-        {
-            name: "MIT App Inventor",
-            icon: `
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-                    <rect x="10" y="10" width="80" height="80" rx="10" ry="10" fill="#4285f4"/>
-                    <text x="50" y="65" font-family="Arial, sans-serif" font-size="50" fill="white" text-anchor="middle">AI</text>
-                    <path d="M20 80 L40 40 L60 80" stroke="white" stroke-width="6" fill="none"/>
-                    <circle cx="80" cy="30" r="10" fill="#ea4335"/>
-                </svg>
-            `,
-            url: "https://ai2.appinventor.mit.edu/"
-        }
-    ];
+    <!-- Ayuda Contenido -->
+    <div id="helpContent" style="display: none;">
+        <h2>Ayuda - Contenido</h2>
+        <p>Esta aplicación emula el estilo del Program Manager de Windows 3.1, donde puedes instalar y ejecutar programas ZIP.</p>
+        <p><strong>Formato del archivo ZIP:</strong></p>
+        <ul>
+            <li>Debe contener un archivo ejecutable (.exe).</li>
+            <li>El nombre del archivo ZIP y del archivo .exe deben coincidir.</li>
+        </ul>
+    </div>
 
-    // Sort the fileData array alphabetically by name
-    fileData.sort((a, b) => a.name.localeCompare(b.name));
+    <script>
+        $(document).ready(function() {
+            // Mostrar/Ocultar menús
+            $('.menu').on('click', function() {
+                $(this).find('.menuContent').toggle();
+                $('.menuContent').not($(this).find('.menuContent')).hide();
+            });
 
-    function createFileIcon(file) {
-        const iconDiv = document.createElement('div');
-        iconDiv.className = 'file-icon';
-        iconDiv.innerHTML = `
-            ${file.icon}
-            <div class="file-name">${file.name}</div>
-        `;
-        iconDiv.onclick = () => {
-            if (file.type === "help") {
-                showHelpContent(file.name);
-            } else {
-                showWebContent(file.name, file.url);
+            // Manejo de instalación
+            $('#menuInstalar').on('click', function() {
+                $('#installForm').show();
+            });
+
+            $('#installProgramForm').on('submit', function(e) {
+                e.preventDefault();
+                const file = $('#zipFile')[0].files[0];
+                const name = $('#programName').val();
+                const icon = $('#programIcon').val() || 'https://via.placeholder.com/50';
+
+                if (file && name) {
+                    // Guardar acceso directo
+                    const shortcuts = JSON.parse(localStorage.getItem('shortcuts')) || [];
+                    shortcuts.push({ name, icon, file });
+                    localStorage.setItem('shortcuts', JSON.stringify(shortcuts));
+
+                    addShortcut(name, icon, file);
+                    $('#installForm').hide();
+                }
+            });
+
+            // Manejo de desinstalación
+            $('#menuDesinstalar').on('click', function() {
+                const shortcuts = JSON.parse(localStorage.getItem('shortcuts')) || [];
+                $('#programList').empty();
+                shortcuts.forEach((shortcut, index) => {
+                    $('#programList').append(new Option(shortcut.name, index));
+                });
+
+                $('#uninstallForm').show();
+            });
+
+            $('#uninstallButton').on('click', function() {
+                const index = $('#programList').val();
+                const shortcuts = JSON.parse(localStorage.getItem('shortcuts')) || [];
+                shortcuts.splice(index, 1);
+                localStorage.setItem('shortcuts', JSON.stringify(shortcuts));
+                loadShortcuts();
+                $('#uninstallForm').hide();
+            });
+
+            // Manejo de ejecución de archivos ZIP
+            $('#menuEjecutar').on('click', function() {
+                const input = $('<input type="file" accept=".zip">');
+                input.on('change', function(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        executeFile(file);
+                    }
+                });
+                input.click();
+            });
+
+            // Cargar contenido de ayuda
+            $('#menuContenido').on('click', function() {
+                $('#helpContent').show();
+            });
+
+            // Cargar accesos directos desde localStorage
+            loadShortcuts();
+
+            // Función para cargar accesos directos desde cookies
+            function loadShortcuts() {
+                const shortcuts = JSON.parse(localStorage.getItem('shortcuts')) || [];
+                $('#desktop').empty();
+                shortcuts.forEach(shortcut => {
+                    addShortcut(shortcut.name, shortcut.icon, shortcut.file);
+                });
             }
-        };
-        return iconDiv;
-    }
 
-    function populateMainContent() {
-        const mainContent = document.getElementById('mainContent');
-        fileData.forEach(file => {
-            mainContent.appendChild(createFileIcon(file));
+            // Función para añadir un acceso directo
+            function addShortcut(name, icon, file) {
+                const shortcut = $('<div class="shortcut"></div>');
+                shortcut.append(`<img src="${icon}" alt="${name}">`);
+                shortcut.append(`<p>${name}</p>`);
+
+                shortcut.on('dblclick', function() {
+                    executeFile(file);
+                });
+
+                $('#desktop').append(shortcut);
+            }
+
+            // Función para ejecutar un archivo
+            function executeFile(file) {
+                const fileName = file.name.replace('.zip', '');
+                const expectedExeFile = `${fileName}.exe`;
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    JSZip.loadAsync(e.target.result).then(function(zip) {
+                        if (zip.files[expectedExeFile]) {
+                            const userConfirmed = confirm(`El archivo ${expectedExeFile} fue encontrado. ¿Desea continuar con la carga?`);
+                            if (userConfirmed) {
+                                const url = `https://ifilex.github.io/Freedows8Bit/accesories/wine.html?app=${fileName}&p=${expectedExeFile}`;
+                                $('#appFrame').attr('src', url).show();
+                                $('#closeFrame').show();
+                            }
+                        } else {
+                            alert('Ejecutable no compatible con Winebox');
+                        }
+                    }).catch(function(err) {
+                        alert('Error al leer el archivo ZIP');
+                    });
+                };
+                reader.readAsArrayBuffer(file);
+            }
+
+            // Cerrar iframe
+            $('#closeFrame').on('click', function() {
+                $('#appFrame').hide().attr('src', '');
+                $(this).hide();
+            });
         });
-    }
-
-    function showHelpContent(title) {
-        const helpContent = `
-            <div class="help-content">
-                <h2>How to Port Windows 32-bit Applications to Android using MIT App Inventor and WineBOX Kernel</h2>
-                
-                <h3>Introduction</h3>
-                <p>Porting Windows 32-bit applications to Android using MIT App Inventor and the WineBOX kernel is an advanced process that allows you to run Windows applications on Android devices. This guide will provide a high-level overview of the steps involved.</p>
-                
-                <h3>Prerequisites</h3>
-                <ul>
-                    <li>Basic knowledge of MIT App Inventor</li>
-                    <li>Familiarity with Android app development</li>
-                    <li>Access to the WineBOX kernel</li>
-                    <li>The Windows 32-bit application you want to port</li>
-                </ul>
-                
-                <h3>Steps</h3>
-                <ol>
-                    <li><strong>Prepare the Windows application:</strong> Ensure your Windows 32-bit application is compatible with the WineBOX kernel.</li>
-                    <li><strong>Set up MIT App Inventor:</strong> Create a new project in MIT App Inventor that will serve as the wrapper for your Windows application.</li>
-                    <li><strong>Integrate WineBOX kernel:</strong> Use MIT App Inventor's extension feature to include the WineBOX kernel in your project.</li>
-                    <li><strong>Create the user interface:</strong> Design a simple interface in MIT App Inventor that will launch your Windows application.</li>
-                    <li><strong>Implement WineBOX initialization:</strong> Write code to initialize the WineBOX kernel when your app starts.</li>
-                    <li><strong>Load the Windows application:</strong> Implement functionality to load your Windows application into the WineBOX environment.</li>
-                    <li><strong>Handle input and output:</strong> Create methods to handle user input and display output from the Windows application.</li>
-                    <li><strong>Optimize performance:</strong> Fine-tune the app to ensure smooth performance on Android devices.</li>
-                    <li><strong>Test thoroughly:</strong> Test your ported application on various Android devices to ensure compatibility and stability.</li>
-                    <li><strong>Package and distribute:</strong> Once testing is complete, package your app and distribute it through appropriate channels.</li>
-                </ol>
-                
-                <h3>Conclusion</h3>
-                <p>Porting Windows 32-bit applications to Android using MIT App Inventor and the WineBOX kernel is a complex process that requires a good understanding of both platforms. While this guide provides an overview, you may need to consult more detailed resources and potentially seek expert assistance for specific applications or advanced features.</p>
-            </div>
-        `;
-        showWindowContent(title, helpContent);
-    }
-
-    function showWebContent(title, url) {
-        const iframeContent = `<iframe src="${url}" title="${title}"></iframe>`;
-        showWindowContent(title, iframeContent);
-    }
-
-    function showWindowContent(title, content) {
-        const windowContainer = document.getElementById('windowContainer');
-        const windowContent = document.getElementById('windowContent');
-        const windowTitle = document.getElementById('windowTitle');
-        
-        windowTitle.textContent = title;
-        windowContent.innerHTML = content;
-        windowContainer.style.display = 'flex';
-    }
-
-    function closeWindow() {
-        const windowContainer = document.getElementById('windowContainer');
-        const windowContent = document.getElementById('windowContent');
-        
-        windowContainer.style.display = 'none';
-        windowContent.innerHTML = '';
-    }
-
-    populateMainContent();
-</script>
+    </script>
 </body>
 </html>
