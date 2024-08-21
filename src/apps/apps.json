@@ -12,6 +12,14 @@
         "src": "src/apps/winefile.html",
         "icon": "src/icons/favicon.png"
     },
+
+    "winezip": {
+        "name": "Winezip",
+        "src": "src/apps/winezip.html",
+        "icon": "src/icons/icons8-winrar-480.png"
+    },
+
+
     "winehelp": {
         "name": "Winehelp",
         "src": "src/apps/winehelp.html",

@@ -1,2 +1,2 @@
 @echo off
-py -m http.server 1030
+py -m http.server 1032
