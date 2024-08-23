@@ -201,6 +201,11 @@
         "src": "src/apps/progman.html",
         "icon": "src/icons/Computer.png"
     },
+    "fileExplorer": {
+        "name": "Explorer",
+        "src": "src/apps/progman.html",
+        "icon": "src/icons/fileExplorer.png"
+    },
     "sumatrapdf": {
         "name": "SumatraPDF",
         "src": "src/apps/sumatrapdf.html",

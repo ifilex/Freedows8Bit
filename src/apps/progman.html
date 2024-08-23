@@ -1,26 +1,742 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Progman</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #1E1E1E;
-            font-family: sans-serif;
-        }
-        iframe {
-            width: 100vw;
-            height: 100vh;
-            overflow: scroll;
-        }
-    </style>
+<html><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Program Manager</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;500;600&display=swap');
+
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    background-color: #f3f3f3;
+    overflow: hidden;
+    color: #000000;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.program-manager {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-image: url('https://windows11.now.sh/img/backgrounds/default.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.menu-bar {
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+    position: relative;
+    flex-wrap: wrap;
+}
+
+.menu-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    position: relative;
+    border-radius: 4px;
+    transition: background-color 0.2s, color 0.2s;
+    font-weight: 500;
+    color: #1a1a1a;
+    margin: 2px;
+}
+
+.menu-item:hover {
+    background-color: rgba(255, 255, 255, 0.6);
+    color: #0078d4;
+}
+
+.menu-content {
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+    z-index: 1001;
+    left: 0;
+    top: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.menu-content a {
+    color: #1a1a1a;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.2s, color 0.2s;
+    font-weight: 400;
+}
+
+.menu-content a:hover {
+    background-color: rgba(0, 120, 212, 0.1);
+    color: #0078d4;
+}
+
+.content {
+    flex-grow: 1;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    padding: 20px;
+    overflow-y: auto;
+    position: relative;
+    z-index: 1;
+    justify-content: center;
+}
+
+.shortcut {
+    width: 80px;
+    height: 90px;
+    margin: 10px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.2s, background-color 0.2s;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.shortcut:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.shortcut img {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 5px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+.shortcut-name {
+    font-size: 12px;
+    word-wrap: break-word;
+    color: #000000;
+    text-shadow: 0 1px 2px rgba(255,255,255,0.7);
+    font-weight: 500;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 4px 20px 0 rgba(0,0,0,0.1);
+    border-radius: 10px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close:hover,
+.close:focus {
+    color: #000000;
+}
+
+#frame-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    display: none;
+    z-index: 2000;
+}
+
+#frame-container iframe {
+    width: 100%;
+    height: calc(100% - 40px);
+    border: none;
+}
+
+#close-frame {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    line-height: 40px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    transition: background-color 0.2s;
+}
+
+#close-frame:hover {
+    background-color: #ffffff;
+}
+
+input[type="text"], input[type="file"], select, button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 14px;
+}
+
+button {
+    background-color: #0078d4;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-weight: 500;
+}
+
+button:hover {
+    background-color: #106ebe;
+}
+
+h2 {
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 20px;
+}
+
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .menu-bar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .menu-item {
+        width: 100%;
+        text-align: left;
+    }
+
+    .menu-content {
+        width: 100%;
+        position: static;
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    .content {
+        justify-content: space-around;
+    }
+
+    .shortcut {
+        width: 70px;
+        height: 80px;
+        margin: 5px;
+    }
+
+    .shortcut img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .shortcut-name {
+        font-size: 10px;
+    }
+
+    .modal-content {
+        width: 95%;
+        margin: 5% auto;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .content {
+        justify-content: space-around;
+    }
+
+    .shortcut {
+        width: 75px;
+        height: 85px;
+    }
+}
+
+@media (min-width: 1025px) {
+    .content {
+        justify-content: flex-start;
+    }
+}
+
+</style>
 </head>
 <body>
-    <iframe src="../../apps/progman/main.html" frameborder="0"></iframe>
+<div class="program-manager">
+    <div class="menu-bar">
+        <div class="menu-item" onclick="toggleMenu('file-menu')">
+            <span data-i18n="file"></span>
+            <div id="file-menu" class="menu-content">
+                <a href="#" onclick="openInstallModal()" data-i18n="install"></a>
+                <a href="#" onclick="openUninstallModal()" data-i18n="uninstall"></a>
+                <hr>
+                <a href="#" onclick="openExecuteModal()" data-i18n="execute"></a>
+            </div>
+        </div>
+        <div class="menu-item" onclick="toggleMenu('help-menu')">
+            <span data-i18n="help"></span>
+            <div id="help-menu" class="menu-content">
+                <a href="#" onclick="showHelp()" data-i18n="content"></a>
+            </div>
+        </div>
+    </div>
+    <div class="content" id="shortcuts-container">
+        <!-- Shortcuts will be dynamically added here -->
+    </div>
+</div>
+
+<div id="install-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('install-modal')">&times;</span>
+        <h2 data-i18n="installApp"></h2>
+        <form id="install-form">
+            <label for="zip-file" data-i18n="zipFile"></label>
+            <input type="file" id="zip-file" accept=".zip" required><br><br>
+            <label for="shortcut-name" data-i18n="shortcutName"></label>
+            <input type="text" id="shortcut-name" required><br><br>
+            <label for="shortcut-icon" data-i18n="shortcutIcon"></label>
+            <input type="file" id="shortcut-icon" accept="image/*"><br><br>
+            <button type="submit" data-i18n="install"></button>
+        </form>
+    </div>
+</div>
+
+<div id="uninstall-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('uninstall-modal')">&times;</span>
+        <h2 data-i18n="uninstallApp"></h2>
+        <select id="uninstall-select">
+            <!-- Options will be dynamically added here -->
+        </select>
+        <button onclick="uninstallShortcut()" data-i18n="uninstall"></button>
+    </div>
+</div>
+
+<div id="execute-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('execute-modal')">&times;</span>
+        <h2 data-i18n="executeApp"></h2>
+        <input type="file" id="execute-file" accept=".zip">
+        <button onclick="executeZip()" data-i18n="execute"></button>
+    </div>
+</div>
+
+<div id="help-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('help-modal')">&times;</span>
+        <h2 data-i18n="help"></h2>
+        <p data-i18n="helpContent"></p>
+    </div>
+</div>
+
+<div id="frame-container">
+    <button id="close-frame" onclick="closeFrame()">&times;</button>
+    <iframe id="app-frame" src=""></iframe>
+</div>
+
+<script>
+let shortcuts = [];
+let draggedShortcut = null;
+
+// Language translations
+const translations = {
+    'en': {
+        file: 'File',
+        help: 'Help',
+        install: 'Install',
+        uninstall: 'Uninstall',
+        execute: 'Execute...',
+        content: 'Content',
+        installApp: 'Install Application',
+        uninstallApp: 'Uninstall Application',
+        executeApp: 'Execute Application',
+        zipFile: 'ZIP File:',
+        shortcutName: 'Shortcut Name:',
+        shortcutIcon: 'Shortcut Icon:',
+        localDisk: 'Local Disk',
+        helpContent: `
+            Welcome to the Windows 11 style Program Manager. This application allows you to create shortcuts to ZIP files containing executable applications.
+
+            Instructions:
+            1. To install a new application:
+               - Click on "File" > "Install"
+               - Select a ZIP file
+               - Assign a name to the shortcut
+               - Optionally, select a custom icon
+               - If no icon is provided, a generic Windows 11 style app icon will be assigned
+
+            2. To uninstall an application:
+               - Click on "File" > "Uninstall"
+               - Select the shortcut you want to remove
+
+            3. To execute an application:
+               - Click on the shortcut on the main screen
+               - Or go to "File" > "Execute..." and manually select a ZIP file
+
+            4. To move a shortcut:
+               - Click and hold on the icon and drag it to the desired position
+
+            5. Local Disk:
+               - The "Local Disk" icon is a permanent shortcut that allows you to explore your PC's content
+               - You can execute ZIP files directly from this explorer
+
+            ZIP File Format:
+            - Each ZIP file should contain an executable file with the same name as the ZIP file, but with the .exe extension
+            - For example, if the ZIP file is called "myapp.zip", it should contain a file called "myapp.exe"
+            - If the ZIP file doesn't contain the corresponding executable, an error message will be shown indicating that the file is not compatible
+
+            Shortcuts created will be automatically saved and will appear each time you open the application.
+        `
+    },
+    'es': {
+        file: 'Archivo',
+        help: 'Ayuda',
+        install: 'Instalar',
+        uninstall: 'Desinstalar',
+        execute: 'Ejecutar...',
+        content: 'Contenido',
+        installApp: 'Instalar Aplicación',
+        uninstallApp: 'Desinstalar Aplicación',
+        executeApp: 'Ejecutar Aplicación',
+        zipFile: 'Archivo ZIP:',
+        shortcutName: 'Nombre del Acceso Directo:',
+        shortcutIcon: 'Icono del Acceso Directo:',
+        localDisk: 'Disco Local',
+        helpContent: `
+            Bienvenido al Administrador de Programas estilo Windows 11. Esta aplicación te permite crear accesos directos a archivos ZIP que contienen aplicaciones ejecutables.
+
+            Instrucciones de uso:
+            1. Para instalar una nueva aplicación:
+               - Haz clic en "Archivo" > "Instalar"
+               - Selecciona un archivo ZIP
+               - Asigna un nombre al acceso directo
+               - Opcionalmente, selecciona un icono personalizado
+               - Si no se proporciona un icono, se asignará uno genérico de estilo Windows 11
+
+            2. Para desinstalar una aplicación:
+               - Haz clic en "Archivo" > "Desinstalar"
+               - Selecciona el acceso directo que deseas eliminar
+
+            3. Para ejecutar una aplicación:
+               - Haz clic en el acceso directo en la pantalla principal
+               - O bien, ve a "Archivo" > "Ejecutar..." y selecciona manualmente un archivo ZIP
+
+            4. Para mover un acceso directo:
+               - Mantén presionado el clic sobre el icono y arrástralo a la posición deseada
+
+            5. Disco local:
+               - El icono "Disco local" es un acceso directo permanente que te permite explorar el contenido de tu PC
+               - Puedes ejecutar archivos ZIP directamente desde este explorador
+
+            Formato de los archivos ZIP:
+            - Cada archivo ZIP debe contener un archivo ejecutable con el mismo nombre que el archivo ZIP, pero con la extensión .exe
+            - Por ejemplo, si el archivo ZIP se llama "miapp.zip", debe contener un archivo llamado "miapp.exe"
+            - Si el archivo ZIP no contiene el ejecutable correspondiente, se mostrará un mensaje de error indicando que el archivo no es compatible
+
+            Los accesos directos creados se guardarán automáticamente y aparecerán cada vez que abras la aplicación.
+        `
+    },
+    // Add more languages here
+};
+
+// Detect user's language
+const userLanguage = navigator.language.split('-')[0] || 'en';
+
+// Set the language
+let currentLanguage = translations[userLanguage] ? userLanguage : 'en';
+
+// Function to update text based on current language
+function updateLanguage() {
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (translations[currentLanguage][key]) {
+            element.textContent = translations[currentLanguage][key];
+        }
+    });
+}
+
+// Generic Windows 11 style app icon (SVG)
+const genericAppIcon = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="48" height="48">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#60cdff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0078d4;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="28" height="28" rx="6" fill="url(#grad)"/>
+  <rect x="7" y="7" width="18" height="18" rx="4" fill="#ffffff"/>
+</svg>
+`;
+
+// Disco local icon (SVG)
+const discoLocalIcon = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="48" height="48">
+  <defs>
+    <linearGradient id="diskGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffd700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffa500;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="28" height="28" rx="6" fill="url(#diskGrad)"/>
+  <rect x="6" y="6" width="20" height="20" rx="3" fill="#ffffff"/>
+  <rect x="9" y="9" width="14" height="3" rx="1" fill="#ffa500"/>
+  <rect x="9" y="14" width="14" height="3" rx="1" fill="#ffa500"/>
+  <rect x="9" y="19" width="14" height="3" rx="1" fill="#ffa500"/>
+</svg>
+`;
+
+function toggleMenu(menuId) {
+    const menu = document.getElementById(menuId);
+    const isVisible = menu.style.display === 'block';
+    closeAllMenus();
+    if (!isVisible) {
+        menu.style.display = 'block';
+    }
+}
+
+function closeAllMenus() {
+    const menus = document.getElementsByClassName('menu-content');
+    for (let menu of menus) {
+        menu.style.display = 'none';
+    }
+}
+
+function openInstallModal() {
+    document.getElementById('install-modal').style.display = 'block';
+    closeAllMenus();
+}
+
+function openUninstallModal() {
+    document.getElementById('uninstall-modal').style.display = 'block';
+    closeAllMenus();
+    populateUninstallSelect();
+}
+
+function openExecuteModal() {
+    document.getElementById('execute-modal').style.display = 'block';
+    closeAllMenus();
+}
+
+function showHelp() {
+    document.getElementById('help-modal').style.display = 'block';
+    closeAllMenus();
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+}
+
+function populateUninstallSelect() {
+    const select = document.getElementById('uninstall-select');
+    select.innerHTML = '';
+    shortcuts.forEach((shortcut, index) => {
+        if (shortcut.name !== translations[currentLanguage].localDisk) {
+            const option = document.createElement('option');
+            option.value = index;
+            option.textContent = shortcut.name;
+            select.appendChild(option);
+        }
+    });
+}
+
+document.getElementById('install-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const zipFile = document.getElementById('zip-file').files[0];
+    const shortcutName = document.getElementById('shortcut-name').value;
+    const shortcutIcon = document.getElementById('shortcut-icon').files[0];
+
+    if (zipFile && shortcutName) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const shortcut = {
+                name: shortcutName,
+                zip: zipFile.name,
+                icon: shortcutIcon ? URL.createObjectURL(shortcutIcon) : 'data:image/svg+xml;base64,' + btoa(genericAppIcon)
+            };
+            shortcuts.push(shortcut);
+            saveShortcuts();
+            renderShortcuts();
+            closeModal('install-modal');
+        };
+        reader.readAsDataURL(zipFile);
+    }
+});
+
+function uninstallShortcut() {
+    const select = document.getElementById('uninstall-select');
+    const index = select.value;
+    if (index !== '') {
+        shortcuts.splice(index, 1);
+        saveShortcuts();
+        renderShortcuts();
+        closeModal('uninstall-modal');
+    }
+}
+
+function executeZip() {
+    const zipFile = document.getElementById('execute-file').files[0];
+    if (zipFile) {
+        const zipName = zipFile.name.replace('.zip', '');
+        openFrame(zipName);
+        closeModal('execute-modal');
+    }
+}
+
+function renderShortcuts() {
+    const container = document.getElementById('shortcuts-container');
+    container.innerHTML = '';
+    
+    // Add Disco local shortcut
+    const discoLocalElement = createShortcutElement({
+        name: translations[currentLanguage].localDisk,
+        icon: 'data:image/svg+xml;base64,' + btoa(discoLocalIcon),
+        isDiscoLocal: true
+    }, -1);
+    container.appendChild(discoLocalElement);
+
+    shortcuts.forEach((shortcut, index) => {
+        if (shortcut.name !== translations[currentLanguage].localDisk) {
+            const shortcutElement = createShortcutElement(shortcut, index);
+            container.appendChild(shortcutElement);
+        }
+    });
+}
+
+function createShortcutElement(shortcut, index) {
+    const shortcutElement = document.createElement('div');
+    shortcutElement.className = 'shortcut';
+    shortcutElement.draggable = !shortcut.isDiscoLocal;
+    shortcutElement.innerHTML = `
+        <img src="${shortcut.icon}" alt="${shortcut.name} icon" width="48" height="48">
+        <div class="shortcut-name">${shortcut.name}</div>
+    `;
+    if (shortcut.isDiscoLocal) {
+        shortcutElement.addEventListener('click', openDiscoLocal);
+    } else {
+        shortcutElement.addEventListener('click', () => openFrame(shortcut.zip.replace('.zip', '')));
+        shortcutElement.addEventListener('dragstart', (e) => {
+            draggedShortcut = index;
+            e.dataTransfer.setData('text/plain', index);
+        });
+        shortcutElement.addEventListener('dragover', (e) => {
+            e.preventDefault();
+        });
+        shortcutElement.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const dropIndex = index;
+            if (draggedShortcut !== null && draggedShortcut !== dropIndex) {
+                const [removed] = shortcuts.splice(draggedShortcut, 1);
+                shortcuts.splice(dropIndex, 0, removed);
+                saveShortcuts();
+                renderShortcuts();
+            }
+            draggedShortcut = null;
+        });
+    }
+    return shortcutElement;
+}
+
+function openDiscoLocal() {
+    const frame = document.getElementById('app-frame');
+    frame.src = "https://ifilex.github.io/Freedows8Bit/accesories/wine.html?app=files&p=winefile.exe";
+    document.getElementById('frame-container').style.display = 'block';
+}
+
+function openFrame(appName) {
+    const frame = document.getElementById('app-frame');
+    frame.src = `https://ifilex.github.io/Freedows8Bit/accesories/wine.html?app=${appName}&p=${appName}.exe`;
+    document.getElementById('frame-container').style.display = 'block';
+}
+
+function closeFrame() {
+    document.getElementById('frame-container').style.display = 'none';
+    document.getElementById('app-frame').src = '';
+}
+
+function saveShortcuts() {
+    localStorage.setItem('shortcuts', JSON.stringify(shortcuts));
+}
+
+function loadShortcuts() {
+    const savedShortcuts = localStorage.getItem('shortcuts');
+    if (savedShortcuts) {
+        shortcuts = JSON.parse(savedShortcuts);
+    }
+    // Ensure Local Disk is always present
+    if (!shortcuts.some(shortcut => shortcut.name === translations[currentLanguage].localDisk)) {
+        shortcuts.unshift({
+            name: translations[currentLanguage].localDisk,
+            icon: 'data:image/svg+xml;base64,' + btoa(discoLocalIcon),
+            isDiscoLocal: true
+        });
+    }
+    renderShortcuts();
+}
+
+window.onclick = function(event) {
+    if (!event.target.matches('.menu-item')) {
+        closeAllMenus();
+    }
+}
+
+window.onload = function() {
+    updateLanguage();
+    loadShortcuts();
+};
+</script>
 </body>
 </html>
