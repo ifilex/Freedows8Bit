@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
 		<meta http-equiv="x-ua-compatible" content="IE=edge">
-		<title>Wine 1.7.5</title>
+		<title>WineBOX</title>
 		<!--[if IE]><style>#targetIE {margin-left:-2.5px;}</style><![endif]-->
 		<link rel="stylesheet" href="lib/style.css"/>
      		<link rel="stylesheet" type="text/css" href="wine.css">
@@ -38,9 +38,9 @@
           <span id="sound-checkbox" style="display: none">
               <input type="checkbox" id="soundToggle" onclick="toggleSound();" />Enable Sound
           </span>
-          <input type="checkbox" id="pointerLock" checked>
+          <input style="display: none" id="pointerLock" unchecked>
           <input type="checkbox" id="showConsole" onclick="toggleConsole();" unchecked>
-          <input type="checkbox" id="resize">
+          <!-- input type="checkbox" id="resize" -->
           <!-- input type="checkbox" id="fullscreen" onclick="Module.requestFullScreen(document.getElementById('pointerLock').checked, document.getElementById('resize').checked)" checked -->
         </div>
         <div id="dropzone">
@@ -85,11 +85,11 @@
             document.getElementById('loading').style.display = '';
             Config.isRunningInline = true;
             //Config.showUploadDownload = true;
-            //Config.locateRootBaseUrl = "/boxedwine/fs/";
-            //Config.locateAppBaseUrl = "/boxedwine/apps/";
-            //Config.locateOverlayBaseUrl = "/boxedwine/apps/";
-            Config.urlParams = "p=notepad";
-            //Config.urlParams = addDefaultOnDemand("p=notepad");
+            //Config.locateRootBaseUrl = "/wine/fs/";
+            //Config.locateAppBaseUrl = "/wine/apps/";
+            //Config.locateOverlayBaseUrl = "/wine/apps/";
+            Config.urlParams = "p=dock";
+            //Config.urlParams = addDefaultOnDemand("p=dock");
             var script = document.createElement('script');
             script.src = "kernel.js";
             document.body.appendChild(script);
@@ -99,7 +99,7 @@
         		if(params.length >0) {
         			params = params + "&";
         		}
-        		params = params + "ondemand=root&root=fullWine1.7.55-v8&inline-default-ondemand-root-overlay=wine1.7.55-v8-min";
+        		params = params + "ondemand=root&root=dlls&inline-default-ondemand-root-overlay=dlls";
         	}
         	return params;
         }
