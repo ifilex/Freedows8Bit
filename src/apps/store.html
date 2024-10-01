@@ -1,26 +1,848 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Store</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #1E1E1E;
-            font-family: sans-serif;
-        }
-        iframe {
-            width: 100vw;
-            height: 100vh;
-            overflow: scroll;
-        }
-    </style>
+<title>WineBOX Store</title>
+
+<style>
+  body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #141414;
+    color: #ffffff;
+    display: flex;
+  }
+  .sidebar {
+    width: 100px; /* Increase width to accommodate labels */
+    background-color: #000000;
+    height: 100vh;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px; /* Reduce top padding */
+  }
+  .sidebar-icon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  .sidebar-icon {
+    width: 30px; /* Make icons smaller */
+    height: 30px;
+    margin-bottom: 5px;
+    opacity: 0.8; /* Make icons slightly transparent for a softer look */
+    transition: transform 0.3s ease;
+  }
+  .sidebar-icon:hover {
+    transform: scale(1.1);
+  }
+  .sidebar-label {
+    font-size: 10px;
+    color: #ffffff;
+    text-align: center;
+  }
+  .main-content {
+    margin-left: 100px; /* Adjusted for new sidebar width */
+    width: calc(100% - 100px);
+  }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .header {
+    background-color: #000000;
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #a0a0a0; /* Changed from #e50914 to a dark gray */
+  }
+  .search-bar {
+    display: flex;
+    align-items: center;
+  }
+  .search-input {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    width: 300px;
+  }
+  .search-button {
+    background-color: #4a4a4a; /* Changed from #e50914 to a dark gray */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .categories {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .category-button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .category-button:hover, .category-button.active {
+    background-color: #666666; /* Changed from #e50914 to a dark gray */
+  }
+  .app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+  .app-card {
+    background-color: #2f2f2f;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+  .app-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  }
+  .app-thumbnail {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  .app-info {
+    padding: 15px;
+  }
+  .app-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  .app-category {
+    color: #ccc;
+    margin-bottom: 5px;
+  }
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.9);
+  }
+  .modal-content {
+    background-color: #181818;
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 800px;
+    width: 90%;
+  }
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .close:hover,
+  .close:focus {
+    color: #fff;
+  }
+  .app-details {
+    margin-top: 20px;
+  }
+  .action-button {
+    background-color: #4a4a4a; /* Changed from #e50914 to a dark gray */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .action-button:hover {
+    background-color: #666666; /* Changed from #ff0f1f to a lighter gray */
+  }
+</style>
 </head>
 <body>
-    <iframe src="../../store/main.html" frameborder="0"></iframe>
+  <div class="sidebar">
+    <div class="sidebar-icon-container">
+      <svg class="sidebar-icon" viewBox="0 0 24 24" fill="white">
+        <path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z" />
+      </svg>
+    </div>
+    <div class="sidebar-icon-container">
+      <svg class="sidebar-icon" viewBox="0 0 24 24" fill="white">
+        <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" />
+      </svg>
+      <span class="sidebar-label">Aplicaciones</span>
+    </div>
+    <div class="sidebar-icon-container">
+      <svg class="sidebar-icon" viewBox="0 0 24 24" fill="white">
+        <path d="M21,6H3A2,2 0 0,0 1,8V16A2,2 0 0,0 3,18H21A2,2 0 0,0 23,16V8A2,2 0 0,0 21,6M21,16H3V8H21M6,15H8V13H10V11H8V9H6V11H4V13H6M14.5,12A1.5,1.5 0 0,1 16,13.5A1.5,1.5 0 0,1 14.5,15A1.5,1.5 0 0,1 13,13.5A1.5,1.5 0 0,1 14.5,12M18.5,9A1.5,1.5 0 0,1 20,10.5A1.5,1.5 0 0,1 18.5,12A1.5,1.5 0 0,1 17,10.5A1.5,1.5 0 0,1 18.5,9Z" />
+      </svg>
+      <span class="sidebar-label">Juegos</span>
+    </div>
+    <div class="sidebar-icon-container">
+      <svg class="sidebar-icon" viewBox="0 0 24 24" fill="white">
+        <path d="M21,16V4H3V16H21M21,2A2,2 0 0,1 23,4V16A2,2 0 0,1 21,18H14V20H16V22H8V20H10V18H3C1.89,18 1,17.1 1,16V4C1,2.89 1.89,2 3,2H21M5,6H14V11H5V6M15,6H19V8H15V6M19,9V14H15V9H19M5,12H9V14H5V12M10,12H14V14H10V12Z" />
+      </svg>
+      <span class="sidebar-label">Arcade</span>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <header class="header">
+      <div class="header-content">
+        <div class="logo">WineBOX Store</div>
+        <div class="search-bar">
+          <input type="text" class="search-input" placeholder="Find apps...">
+          <button class="search-button">Find</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="categories" id="categories">
+        <button class="category-button active" data-category="all">Alls</button>
+        <button class="category-button" data-category="games">Games</button>
+        <button class="category-button" data-category="apps">Apps</button>
+        <button class="category-button" data-category="utilities">Utilities</button>
+        <button class="category-button" data-category="arcade">Arcade</button>
+        <button class="category-button" data-category="rts">Strategy</button>
+      </div>
+      <div class="app-grid" id="appGrid"></div>
+    </div>
+
+    <div id="appModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="app-details" id="appDetails"></div>
+        <div class="app-actions">
+          <button id="launchButton" class="action-button">Run</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const appData = [
+        {
+          name: "Blood",
+          image: "box/blood.jpg",
+          description: "Blood is a 3D first-person shooter video game developed by Monolith Productions and published by GT Interactive.",
+          category: "games",
+          link: "blood.html"
+        },
+        {
+          name: "Diablo",
+          image: "box/diablo.jpg",
+          description: "Diablo is an action role-playing dungeon crawler video game series developed by Blizzard North and continued by Blizzard Entertainment after the North studio shut down in 2005.",
+          category: "games",
+          link: "diablo.html"
+        },
+        {
+          name: "Doom",
+          image: "box/doom.jpg",
+          description: "*Doom* is a first-person shooter game released in 1993, developed by id Software. Players take on the role of a space marine battling hordes of demons and hellish creatures in a Martian base. It's renowned for its fast-paced action, groundbreaking graphics for its time, and for being one of the pioneers of the FPS genre.",
+          category: "games",
+          link: "doom.html"
+        },
+        {
+          name: "Doom II",
+          image: "box/doom2.jpg",
+          description: "*Doom* is a first-person shooter game released in 1993, developed by id Software. Players take on the role of a space marine battling hordes of demons and hellish creatures in a Martian base. It's renowned for its fast-paced action, groundbreaking graphics for its time, and for being one of the pioneers of the FPS genre.",
+          category: "games",
+          link: "doom2.html"
+        },
+        {
+          name: "Duke Nukem 3D",
+          image: "box/duke3d.webp",
+          description: "Duke Nukem 3D is a first-person shooter video game developed by 3D Realms.",
+          category: "games",
+          link: "duke3d.html"
+        },
+        {
+          name: "Dune 2000",
+          image: "box/dune2000.jpg",
+          description: "This is recreation of the classic strategy game Dune 2000.",
+          category: "rts",
+          link: "dune2000.html"
+        },
+        {
+          name: "Dune II",
+          image: "box/dune2.jpg",
+          description: "This is recreation of the classic strategy game Dune 2.",
+          category: "rts",
+          link: "dune2.html"
+        },
+        {
+          name: "Final DOOM",
+          image: "box/finaldoom.jpg",
+          description: "Final Doom is a first-person shooter video game developed by TeamTNT, and Dario and Milo Casali, and was released by id Software.",
+          category: "games",
+          link: "finaldoom.html"
+        },
+        {
+          name: "Grand Theft Auto",
+          image: "box/gta.jpg",
+          description: "Grand Theft Auto is a famous and most played DOS game that now is available to play in browser.",
+          category: "games",
+          link: "dune2.html"
+        },
+        {
+          name: "Heretic",
+          image: "box/heretic.jpg",
+          description: "Heretic: Shadow of the Serpent Riders is a dark fantasy, spellcasting, first-person shooter developed by Raven Software and published by id Software in 1994.",
+          category: "games",
+          link: "heretic.html"
+        },
+        {
+          name: "Indianapolis 500: The Simulation",
+          image: "box/indi.jpg",
+          description: "Indianapolis 500: The Simulation is a 1989 computer game for MS-DOS. It was hailed as the first step of differentiating racing games from the arcade realm and into racing simulation.",
+          category: "rts",
+          link: "indi.html"
+        },
+        {
+          name: "Mortal Kombat",
+          image: "box/mk.jpg",
+          description: "Mortal Kombat is a fighting game in which players battle opponents in one-on-one matches. The player that depletes the opponent's health bar first wins",
+          category: "games",
+          link: "mk.html"
+        },
+        {
+          name: "Open TTD",
+          image: "box/openttd.jpg",
+          description: "OpenTTD is a business simulation game in which players try to earn money by transporting passengers, minerals and goods via road, rail, water and air. It is an open-source remake and expansion of the 1995 Chris Sawyer video game Transport Tycoon Deluxe.",
+          category: "rts",
+          link: "openttd.html"
+        },
+        {
+          name: "Quake",
+          image: "box/quake.jpg",
+          description: "Play legendary Quake game in browser without registration and ads. You can play orginal game as well as Scourge of Armagon and Dissolution of Eternity",
+          category: "games",
+          link: "quake.html"
+        },
+        {
+          name: "Quarantine",
+          image: "box/qua.jpg",
+          description: "Quarantine is a 1994 racing/first-person shooter video game for MS-DOS and 3DO, created by Imagexcel and published by GameTek.",
+          category: "games",
+          link: "quarantine.html"
+        },
+        {
+          name: "Space Quest: Chapter I - The Sarien Encounter",
+          image: "box/spaceq.jpg",
+          description: "Space Quest: Chapter I – The Sarien Encounter is a graphic adventure game, created by Scott Murphy and Mark Crowe.",
+          category: "games",
+          link: "spaceq.html"
+        },
+        {
+          name: "Test Drive",
+          image: "box/testdrive.jpg",
+          description: "Test Drive is a series of racing video games that were originally published by Accolade until they were bought by Infogrames, which later turned into Atari. ",
+          category: "games",
+          link: "testdrive.html"
+        },
+        {
+          name: "The Need for Speed",
+          image: "box/nfs.jpg",
+          description: "The Need for Speed is a 1994 racing game developed by EA Canada, originally known as Pioneer Productions, and published by Electronic Arts for 3DO. ",
+          category: "games",
+          link: "nfs.html"
+        },
+        {
+          name: "Ultimate DOOM",
+          image: "box/ultimate.jpg",
+          description: "This is an updated release of the original DOOM called THE ULTIMATE DOOM. THE ULTIMATE DOOM was released in late 1993 which is months before DOOM II came out.",
+          category: "games",
+          link: "ultimatedoom.html"
+        },
+        {
+          name: "Wolfenstein 3D",
+          image: "box/wolf3d.jpg",
+          description: "Wolfenstein 3D is a first-person shooter video game developed by id Software and published by Apogee Software and FormGen. ",
+          category: "games",
+          link: "wolf3d.html"
+        },
+        {
+          name: "WolfenDOOM",
+          image: "box/wolfdoom.jpg",
+          description: "Wolfenstein 3D under the DOOM world. ",
+          category: "games",
+          link: "wolfdoom.html"
+        },
+        {
+          name: "Wing Commander",
+          image: "box/wing.jpg",
+          description: "Wing Commander is a space flight simulation game, with the player piloting a ship, completing missions, and engaging enemy ships of various capabilities.",
+          category: "games",
+          link: "wing.html"
+        },
+        {
+          name: "AbiWord",
+          image: "box/abiword.png",
+          description: "Procesador de texto profesional.",
+          category: "apps",
+          link: "abiword.html"
+        },
+        {
+          name: "Explorer++",
+          image: "box/explorer.jpg",
+          description: "Gestor de archivos para Windows.",
+          category: "utilities",
+          link: "explorer.html"
+        },
+        {
+          name: "7Zip",
+          image: "box/7zip.jpg",
+          description: "7-Zip is a file archiver with a high compression ratio. Download 7-Zip 24.08 (2024-08-11) for Windows x64 (64-bit).",
+          category: "utilities",
+          link: "zip.html"
+        },
+        {
+          name: "Audacity",
+          image: "box/audacity.jpg",
+          description: "Audacity is the world's most popular audio editing and recording app. Edit, mix, and enhance your audio tracks with the power of Audacity.",
+          category: "apps",
+          link: "audacity.html"
+        },
+        {
+          name: "Charmap",
+          image: "box/charmap.jpg",
+          description: "An internet-based character map (charmap) tool that encompasses all Unicode characters, symbols and emojis, it also offers a user-friendly search function.",
+          category: "utilities",
+          link: "audacity.html"
+        },
+        {
+          name: "Control",
+          image: "box/control.png",
+          description: "The Windows Control Panel is a tool that allows users to adjust system settings and customize hardware and software options.",
+          category: "utilities",
+          link: "control.html"
+        },
+        {
+          name: "Flat Assemblerl",
+          image: "box/fasm.jpg",
+          description: "Flat assembler is a free, multi-pass assembler with Intel-style syntax for the IA-32 and x86-64 architectures.",
+          category: "apps",
+          link: "fasm.html"
+        },
+        {
+          name: "JPEGView",
+          image: "box/jpegview.jpg",
+          description: "JPEGView is a lean, fast and highly configurable viewer/editor for JPEG, BMP, PNG, WEBP, TGA, GIF and TIFF images with a minimal GUI.",
+          category: "utilities",
+          link: "jpegview.html"
+        },        
+       {
+          name: "Media Player Classic",
+          image: "box/mpc.png",
+          description: "MPC-HC is an extremely light-weight, open source media player for Windows®. It supports all common video and audio file formats available for playback.",
+          category: "apps",
+          link: "mpc.html"
+        },        
+       {
+          name: "Netsurf",
+          image: "box/netsurf.jpg",
+          description: "NetSurf is a multi-platform web browser for RISC OS, UNIX-like platforms (including Linux), Mac OS X, and more.",
+          category: "apps",
+          link: "netsurf.html"
+        },     
+       {
+          name: "Notepad",
+          image: "box/notepad.png",
+          description: "MPC-HC is an extremely light-weight, open source media player for Windows®. It supports all common video and audio file formats available for playback.",
+          category: "apps",
+          link: "note.html"
+        },        
+       {
+          name: "Notepad++",
+          image: "box/npp.jpg",
+          description: "Notepad++ is a free (as in “free speech” and also as in “free beer”) source code editor and Notepad replacement that supports several languages.",
+          category: "apps",
+          link: "npp.html"
+        },       
+       {
+          name: "Paint",
+          image: "box/paint.jpg",
+          description: "Paint is a versatile and user-friendly graphics editing app in Windows for you to create, edit, and manipulate images and drawings.",
+          category: "apps",
+          link: "paint.html"
+        },        
+       {
+          name: "Open Office",
+          image: "box/soffice.jpg",
+          description: "The Apache OpenOffice project announces the official release of version 4.1.15. In the Release Notes you can read about all new bugfixes, improvements.",
+          category: "apps",
+          link: "soffice.html"
+        },        
+       {
+          name: "Sumatra PDF",
+          image: "box/sumatra.jpg",
+          description: "Sumatra PDF PDF, eBook (epub, mobi), comic book (cbz/cbr), DjVu, XPS, CHM, image viewer for Windows. Fast, small, packed with features, customizable, free.",
+          category: "utilities",
+          link: "sumatrapdf.html"
+        },        
+       {
+          name: "TexWorks",
+          image: "box/texworks.jpg",
+          description: "A simple (La)TeX editor and PDF previewer that is available on all major desktop operating systems.",
+          category: "apps",
+          link: "texworks.html"
+        },        
+       {
+          name: "TuxPaint",
+          image: "box/tuxpaint.png",
+          description: "Tux Paint is a free, award-winning drawing program for children ages 3 to 12 (for example, preschool and K-6).",
+          category: "apps",
+          link: "tuxpaint.html"
+        },        
+       {
+          name: "UltraISO",
+          image: "box/ultraiso.jpg",
+          description: "Bootable CD/DVD creation is quick and simple with UltraISO - make a bootable CD or DVD and adapt it in any way you want.",
+          category: "utilities",
+          link: "ultraiso.html"
+        },
+       {
+          name: "VirtualDUB",
+          image: "box/virtualdub.jpg",
+          description: "VirtualDub is a video capture/processing utility for 32-bit and 64-bit Windows platforms (98/ME/NT4/2000/XP/Vista/7), licensed under the GNU General Public.",
+          category: "utilities",
+          link: "virtualdub.html"
+        },
+       {
+          name: "WinAMP",
+          image: "box/winamp.jpg",
+          description: "Winamp builds the tools that empower artists to manage their music and revenue while delivering a player that offers the perfect listening experience.",
+          category: "apps",
+          link: "winamp.html"
+        },
+       {
+          name: "Wordpad",
+          image: "box/wordpad.jpg",
+          description: "WordPad is a word processor included with Windows 95 and later. Similarly to its predecessor Microsoft Write, it is a basic word processor.",
+          category: "apps",
+          link: "wordpad.html"
+        },
+        {
+          name: "Arkanoid",
+          image: "box/arkanoid.png",
+          description: "Arkanoid is a block breaker video game. Its plot involves the starship Arkanoid being attacked by a mysterious entity from space named DOH. ",
+          category: "arcade",
+          link: "arkanoid.html"
+        },
+        {
+          name: "Baby Type",
+          image: "box/baby.jpg",
+          description: "BabyType is a multi-language educational game aimed at teaching fast touch typing skills. ",
+          category: "arcade",
+          link: "babytype.html"
+        },
+        {
+          name: "Baryon",
+          image: "box/baryon.jpg",
+          description: "Baryon is a straightforward vertical shooter which features a smooth graphical engine, a short digital sound track and various types of enemies.",
+          category: "arcade",
+          link: "baryon.html"
+        },
+        {
+          name: "CD-MAN",
+          image: "box/cdman.jpg",
+          description: "CD-Man features 5 different worlds to pass each having nicely-drawn graphics in high-res EGA mode and therefore a new character.",
+          category: "arcade",
+          link: "cdman.html"
+        },
+        {
+          name: "Dave",
+          image: "box/dave.jpg",
+          description: "Dangerous Dave in the Haunted Mansion is a famous and most played DOS game that now is available to play in browser. With virtual mobile controls you also can play in Dangerous Dave in the Haunted Mansion on mobile.",
+          category: "arcade",
+          link: "dave.html"
+        },
+        {
+          name: "Disney Aladdin",
+          image: "box/aladdin.jpg",
+          description: "Disney's Aladdin is a famous and most played DOS game that now is available to play in browser. With virtual mobile controls you also can play in Disney's Aladdin on mobile.",
+          category: "arcade",
+          link: "aladdin.html"
+        },
+        {
+          name: "Earthworm Jim",
+          image: "box/jim.jpg",
+          description: "Earthworm Jim is a famous and most played DOS game that now is available to play in browser. With virtual mobile controls you also can play in Earthworm Jim on mobile.",
+          category: "arcade",
+          link: "earthworm.html"
+        },
+        {
+          name: "Golden Axe",
+          image: "box/axe.jpg",
+          description: "  Golden Axe is a side-scrolling, beat 'em up, hack and slash arcade video game released in 1989 by Sega for the System 16-B arcade hardware.",
+          category: "arcade",
+          link: "goldenaxe.html"
+        },
+        {
+          name: "Out this world",
+          image: "box/out.jpg",
+          description: "Out of This World is a famous and most played DOS game that now is available to play in browser. With virtual mobile controls you also can play in Out of This World on mobile.",
+          category: "arcade",
+          link: "out.html"
+        },
+        {
+          name: "Prince of persia",
+          image: "box/pre1.jpg",
+          description: "Prince of Persia is a 1989 cinematic platform game developed and published by Broderbund for the Apple II. It was designed and implemented by Jordan Mechner.",
+          category: "arcade",
+          link: "princeofpersia.html"
+        },
+        {
+          name: "Prince of persia 2",
+          image: "box/prince2.jpg",
+          description: "Prince of Persia 2: The Shadow and the Flame is a platform game released by Brøderbund in 1993.",
+          category: "arcade",
+          link: "princeofpersia2.html"
+        },
+        {
+          name: "Prehistorik",
+          image: "box/spaceinvaders.png",
+          description: "Prehistorik is a platform game developed by Titus Interactive for the Amiga, Atari ST, Amstrad CPC and DOS.",
+          category: "arcade",
+          link: "prehistorik.html"
+        },
+        {
+          name: "Prehistorik 2",
+          image: "box/pre2.jpg",
+          description: "Prehistorik 2 is a platform game developed by Titus Interactive for the Amiga, Atari ST, Amstrad CPC and DOS.",
+          category: "arcade",
+          link: "prehistorik2.html"
+        },
+        {
+          name: "Space Invaders",
+          image: "box/spaceinvaders.png",
+          description: "Icónico juego arcade de disparos espaciales.",
+          category: "arcade",
+          link: "spaceinvaders.html"
+        },
+        {
+          name: "The Lost Vikings",
+          image: "box/vikings.jpg",
+          description: "In the game, the three Vikings get kidnapped by Tomator, emperor of the alien Croutonian empire, for an inter-galactic zoo and become lost in various periods.",
+          category: "arcade",
+          link: "vikings.html"
+        },
+        {
+          name: "XBill",
+          image: "box/xbill.webp",
+          description: "XBill is an arcade style game for the X Window System. The game features a bespectacled character known as Bill.",
+          category: "arcade",
+          link: "xbill.html"
+        },
+        {
+          name: "Oregon Trail Delux",
+          image: "box/oregon.jpg",
+          description: "You get to play the role of a wagon leader and guide your group of chosen settlers from Independence, Missouri, to the Willamette Valley in Oregon.",
+          category: "rts",
+          link: "oregon.html"
+        },
+        {
+          name: "Heroes of Might and Magic II",
+          image: "box/heroes2.jpg",
+          description: "The canonical ending of Heroes I results in Lord Morglin Ironfist’s victory. In the following years, he has successfully unified the continent of Enroth and secured his rule as king.",
+          category: "rts",
+          link: "heroes.html"
+        },
+        {
+          name: "Warcraft",
+          image: "box/war1.jpg",
+          description: "Warcraft: Orcs & Humans is a real-time strategy game (RTS) developed and published by Blizzard Entertainment, and published by Interplay Productions in Europe.",
+          category: "rts",
+          link: "warcraft.html"
+        },
+        {
+          name: "Warcraft II",
+          image: "box/war2.jpg",
+          description: "WarCraft II: Tides of Darkness is a sequel to WarCraft: Orcs & Humans strategy game for DOS.",
+          category: "rts",
+          link: "warcraft2.html"
+        },
+        {
+          name: "Command & Conquer",
+          image: "box/command.jpg",
+          description: "Wage real-time war in more ways than ever with a modern and near-future arsenal. Command the powerful US forces.",
+          category: "rts",
+          link: "commandconquer.html"
+        },
+        {
+          name: "Sim City",
+          image: "box/simcity.jpg",
+          description: "SimCity is an open-ended city-building video game franchise originally designed by Will Wright.",
+          category: "rts",
+          link: "simcity.html"
+        },
+        {
+          name: "Sim City 2000",
+          image: "box/sim2000.jpg",
+          description: "SimCity 2000 marked a major shift in gameplay from the original SimCity, the basic structure set forth in this seminal version has defined subsequent releases.",
+          category: "rts",
+          link: "simcity2000.html"
+        },
+        {
+          name: "X-COM: UFO Defense",
+          image: "box/xcom.jpg",
+          description: "Shooting down UFOs is just the beginning: you must then lead a squad of heavily-armed soldiers across different terrains as they investigate the UFO crash site.",
+          category: "rts",
+          link: "xcom.html"
+        },
+        {
+          name: "Master of Orion II",
+          image: "box/master.jpg",
+          description: "Forge an empire in a universe where population growth is stripping away planetary resources. Colonize unknown planets and trade.",
+          category: "rts",
+          link: "masteroforion.html"
+        }
+      ];
+
+      function displayApps(apps) {
+        const appGrid = document.getElementById('appGrid');
+        appGrid.innerHTML = '';
+        
+        apps.forEach(app => {
+          const appCard = document.createElement('div');
+          appCard.classList.add('app-card');
+          
+          appCard.innerHTML = `
+            <img src="${app.image}" alt="${app.name}" class="app-thumbnail">
+            <div class="app-info">
+              <div class="app-title">${app.name}</div>
+              <div class="app-category">${app.category}</div>
+            </div>
+          `;
+          
+          appCard.addEventListener('click', () => openAppModal(app));
+          
+          appGrid.appendChild(appCard);
+        });
+      }
+
+      function openAppModal(app) {
+        const appDetails = document.getElementById('appDetails');
+        const modal = document.getElementById('appModal');
+
+        appDetails.innerHTML = `
+          <h2>${app.name}</h2>
+          <img src="${app.image}" alt="${app.name}" style="max-width: 200px;">
+          <p><strong>Categoría:</strong> ${app.category}</p>
+          <p><strong>Descripción:</strong> ${app.description}</p>
+        `;
+
+        const launchButton = document.getElementById('launchButton');
+        launchButton.onclick = () => location.href=app.link;
+
+        modal.style.display = 'block';
+      }
+
+      const categoryButtons = document.querySelectorAll('.category-button');
+      categoryButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          categoryButtons.forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
+          const category = button.dataset.category;
+          const filteredApps = category === 'all' ? appData : appData.filter(app => app.category === category);
+          displayApps(filteredApps);
+        });
+      });
+
+      const searchInput = document.querySelector('.search-input');
+      const searchButton = document.querySelector('.search-button');
+
+      function searchApps(query) {
+        const filteredApps = appData.filter(app => 
+          app.name.toLowerCase().includes(query.toLowerCase()) || 
+          app.description.toLowerCase().includes(query.toLowerCase())
+        );
+        displayApps(filteredApps);
+      }
+
+      searchButton.addEventListener('click', () => {
+        const query = searchInput.value.trim();
+        if (query) {
+          searchApps(query);
+        }
+      });
+
+      searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          const query = searchInput.value.trim();
+          if (query) {
+            searchApps(query);
+          }
+        }
+      });
+
+      const closeBtn = document.querySelector('.close');
+      const modal = document.getElementById('appModal');
+
+      closeBtn.onclick = function() {
+        modal.style.display = 'none';
+      }
+
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = 'none';
+        }
+      }
+
+      displayApps(appData);
+
+      const sidebarIcons = document.querySelectorAll('.sidebar-icon');
+      sidebarIcons.forEach((icon, index) => {
+        icon.addEventListener('click', () => {
+          switch(index) {
+            case 0:
+              displayApps(appData);
+              break;
+            case 1:
+              displayApps(appData.filter(app => app.category === 'apps'));
+              break;
+            case 2:
+              displayApps(appData.filter(app => app.category === 'games'));
+              break;
+            case 3:
+              displayApps(appData.filter(app => app.category === 'arcade'));
+              break;
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>

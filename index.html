@@ -157,14 +157,15 @@
                         class="smallRight"></button>
             </div>
             <div class="start-icons">
+                <figure id="startWordpad" onclick="executeProgram('fileExplorer')" >
+                    <img src="src/icons/fileExplorer.png" alt="Explorer icon">
+                    <figcaption>Yours Apps</figcaption>
+                </figure>
                 <figure id="startEdge" onclick="executeProgram('msedge')">
                     <img src="src/icons/edge.svg" alt="Edge icon">
                     <figcaption>Internet</figcaption>
                 </figure>
-                <figure id="startWordpad" onclick="executeProgram('wordpad')" >
-                    <img src="src/icons/word.svg" alt="Wordpad icon">
-                    <figcaption>Wordpad</figcaption>
-                </figure>
+
                 <figure id="startOffice" onclick="executeProgram('soffice')">
                     <img src="src/icons/office.svg" alt="Open Office icon">
                     <figcaption>Office</figcaption>
@@ -182,9 +183,9 @@ onclick="executeProgram('notepad')">
                     <img src="src/icons/calender.svg" alt="Calender icon">
                     <figcaption>Calender</figcaption>
                 </figure>
-                <figure id="startStore" onclick="executeProgram('store')">
-                    <img src="src/icons/store.png" alt="FreeDOS Store icon">
-                    <figcaption>Games</figcaption>
+                <figure id="startDOS" onclick="executeProgram('dosbox')">
+                    <img src="src/icons/dosbox.png" alt="FreeDOS Store icon">
+                    <figcaption>DOSBox</figcaption>
                 </figure>
                 <figure id="startPaint" onclick="executeProgram('paint')">
                     <img src="src/icons/photos.svg" alt="Windows Paint icon">
@@ -246,7 +247,7 @@ onclick="executeProgram('winemine')">
     <div class="taskbar">
         <div class="center">
             <img src="src/icons/startButton.png" alt="Start icon" id="starticon">
-            <img src="src/icons/taskView.svg" alt="Wine Store" onclick="executeProgram('winestore')" id="winestore">
+            <img src="src/icons/taskView.svg" alt="Dock Store" onclick="executeProgram('dock')" id="dock">
 		<img src="src/icons/fileExplorer.png" alt="Fileamanger icon" onclick="executeProgram('fileExplorer')" id="neticon">
             <img src="src/icons/edge.svg" alt="Internet Explorer icon" onclick="executeProgram('msedge')" id="neticon">
             <img src="src/icons/store.png" alt="FreeDOS Store icon"  onclick="executeProgram('store')" id="freedostore">

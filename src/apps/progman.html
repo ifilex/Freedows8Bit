@@ -699,13 +699,13 @@ function createShortcutElement(shortcut, index) {
 
 function openDiscoLocal() {
     const frame = document.getElementById('app-frame');
-    frame.src = "https://ifilex.github.io/Freedows8Bit/accesories/wine.html?app=files&p=winefile.exe";
+    frame.src = "../../accesories/wine.html?app=files&p=winefile.exe";
     document.getElementById('frame-container').style.display = 'block';
 }
 
 function openFrame(appName) {
     const frame = document.getElementById('app-frame');
-    frame.src = `https://ifilex.github.io/Freedows8Bit/accesories/wine.html?app=${appName}&p=${appName}.exe`;
+    frame.src = `../../accesories/wine.html?app=${appName}&p=${appName}.exe`;
     document.getElementById('frame-container').style.display = 'block';
 }
 

@@ -30,6 +30,11 @@
         "src": "src/apps/wallet.html",
         "icon": "src/icons/wallet.png"
     },
+    "dosbox": {
+        "name": "DOSBox",
+        "src": "src/apps/dosbox.html",
+        "icon": "src/icons/dosbox.png"
+    },
     "charmap": {
         "name": "CharMap",
         "src": "src/apps/charmap.html",
@@ -97,7 +102,7 @@
     },
     "7zip": {
         "name": "7zip",
-        "src": "src/apps/7zip.html",
+        "src": "src/apps/zip.html",
         "icon": "src/icons/favicon.png"
     },
     "thebreakdown": {
@@ -131,7 +136,7 @@
         "icon": "src/icons/terminal.png"
     },
     "store": {
-        "name": "Game Store",
+        "name": "WineBOX Store",
         "src": "src/apps/store.html",
         "icon": "src/icons/store.png"
     },
@@ -235,6 +240,11 @@
         "name": "Calendar",
         "src": "src/apps/calendar.html",
         "icon": "src/icons/calender.png"
+    },
+    "dock": {
+        "name": "Dock Desktop",
+        "src": "src/apps/dock.html",
+        "icon": "src/icons/taskView.svg"
     },
     "clock": {
         "name": "Clock",

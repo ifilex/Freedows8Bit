@@ -1,0 +1,9 @@
+{
+  "name": "Wine",
+  "version": "5.0.0",
+  "description": "Wine Port",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  }
+}
