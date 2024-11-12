@@ -8,9 +8,11 @@ This innovative emulator allows users to run Windows applications and games seam
 
 Experience the capabilities of Freedows8Bit through our live demo: 
 
-[Web Testing](https://ifilex.github.io/Freedows8Bit/) Join us on this exciting journey to redefine accessibility in computing!
+[Web Testing](https://ifilex.github.io/Freedows8Bit/) 
 
-##Installation instructions for Android:
+Join us on this exciting journey to redefine accessibility in computing!
+
+## Installation instructions for Android:
 
 1. Install [Termux](https://github.com/ifilex/Freedows8Bit/releases/download/apks/termux.apk) and [Termux-x11](https://github.com/ifilex/Freedows8Bit/releases/download/apks/termux-x11.apk).
 2. Start Termux,and  run the WineBOX install command:
