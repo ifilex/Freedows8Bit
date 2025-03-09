@@ -14,4 +14,4 @@ echo "==========================================================="
 echo ""
 echo "- Download the online installer.."
     
-curl -o winebox.py https://raw.githubusercontent.com/ifilex/Freedows8Bit/main/src/winebox.py && python3 winebox.py
+curl -o winebox.py https://raw.githubusercontent.com/ifilex/Freedows8Bit/main/src/winebox.py && python3 winebox.py && winebox
