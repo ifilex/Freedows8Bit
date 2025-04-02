@@ -1,0 +1,71 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nintendo Switch Style Interface</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-background"></div>
+    
+    <header class="header">
+        <div class="user-profile">
+            <div class="user-avatar">
+                <svg viewBox="0 0 24 24" width="24" height="24">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="currentColor"/>
+                </svg>
+            </div>
+            <span class="user-name">Player 1</span>
+        </div>
+        
+        <div class="nav-actions">
+            <button class="nav-button" id="homeButton">
+                <svg viewBox="0 0 24 24" width="24" height="24">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" fill="currentColor"/>
+                </svg>
+                Home
+            </button>
+            <button class="nav-button" id="settingsButton">
+                <svg viewBox="0 0 24 24" width="24" height="24">
+                    <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49 1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z" fill="currentColor"/>
+                </svg>
+                Settings
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <h2 class="section-title">Recently Played</h2>
+        <div class="switch-interface">
+            <div class="recent-apps" id="recentApps">
+                <!-- Recent apps will be inserted here -->
+            </div>
+            <div class="add-app">
+                <a href="store.html" class="add-button">
+                    <svg viewBox="0 0 24 24" width="100%" height="100%">
+                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="currentColor"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <dialog id="settingsModal">
+        <h2>Settings</h2>
+        <form class="settings-form">
+            <div class="form-group">
+                <label for="playerNameInput">Player Name</label>
+                <input type="text" id="playerNameInput" maxlength="20" placeholder="Enter player name">
+            </div>
+            <div class="settings-buttons">
+                <button type="button" id="clearRecentApps" class="settings-button danger">Clear Recent Apps</button>
+                <button type="button" id="closeSettings" class="settings-button">Cancel</button>
+                <button type="button" id="saveSettings" class="settings-button">Save</button>
+            </div>
+        </form>
+    </dialog>
+
+    <script type="module" src="config.js"></script>
+    <script type="module" src="app.js"></script>
+</body>
+</html>

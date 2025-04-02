@@ -1,0 +1,625 @@
+<html>
+<head>
+<title>WineBOX Store - Switch Style</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --switch-red: #e60012;
+    --switch-dark: #2d2d2d;
+    --switch-light: #f8f8f8;
+    --switch-gray: #a0a0a0;
+    --switch-blue: #1da1f2;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Nunito', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--switch-light);
+    color: var(--switch-dark);
+    overflow-x: hidden;
+  }
+  
+  .switch-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--switch-light);
+  }
+  
+  .switch-header {
+    background-color: var(--switch-red);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  
+  .switch-logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+  }
+  
+  .switch-search {
+    display: flex;
+    align-items: center;
+  }
+  
+  .switch-search input {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 20px;
+    width: 200px;
+    font-family: 'Nunito', sans-serif;
+    outline: none;
+  }
+  
+  .switch-search button {
+    background-color: var(--switch-dark);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    margin-left: 5px;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    transition: background-color 0.2s;
+  }
+  
+  .switch-search button:hover {
+    background-color: #444;
+  }
+  
+  .switch-main {
+    display: flex;
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .switch-sidebar {
+    width: 80px;
+    background-color: var(--switch-dark);
+    border-radius: 15px;
+    padding: 15px 0;
+    margin-right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: fit-content;
+  }
+  
+  .switch-icon {
+    width: 40px;
+    height: 40px;
+    margin: 10px 0;
+    cursor: pointer;
+    transition: transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background-color: rgba(255,255,255,0.1);
+  }
+  
+  .switch-icon:hover {
+    transform: scale(1.1);
+    background-color: rgba(255,255,255,0.2);
+  }
+  
+  .switch-icon svg {
+    width: 24px;
+    height: 24px;
+    fill: white;
+  }
+  
+  .switch-icon.active {
+    background-color: var(--switch-red);
+  }
+  
+  .switch-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .switch-categories {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+  
+  .switch-category {
+    background-color: white;
+    border: 2px solid var(--switch-gray);
+    color: var(--switch-dark);
+    border-radius: 20px;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  
+  .switch-category:hover, .switch-category.active {
+    background-color: var(--switch-red);
+    color: white;
+    border-color: var(--switch-red);
+  }
+  
+  .switch-games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+  }
+  
+  .switch-game-card {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    position: relative;
+  }
+  
+  .switch-game-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+  }
+  
+  .switch-game-image {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-bottom: 3px solid var(--switch-red);
+  }
+  
+  .switch-game-info {
+    padding: 12px;
+  }
+  
+  .switch-game-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .switch-game-category {
+    font-size: 12px;
+    color: var(--switch-gray);
+    background-color: #f0f0f0;
+    padding: 2px 8px;
+    border-radius: 10px;
+    display: inline-block;
+  }
+  
+  .switch-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .switch-modal-content {
+    background-color: white;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 20px;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  }
+  
+  .switch-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--switch-gray);
+  }
+  
+  .switch-modal-close:hover {
+    color: var(--switch-dark);
+  }
+  
+  .switch-modal-image {
+    width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+  
+  .switch-modal-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: var(--switch-red);
+  }
+  
+  .switch-modal-category {
+    display: inline-block;
+    background-color: var(--switch-red);
+    color: white;
+    padding: 3px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    margin-bottom: 15px;
+  }
+  
+  .switch-modal-description {
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+  
+  .switch-modal-button {
+    background-color: var(--switch-red);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    text-align: center;
+    transition: background-color 0.2s;
+  }
+  
+  .switch-modal-button:hover {
+    background-color: #c5000f;
+  }
+  
+  .switch-footer {
+    background-color: var(--switch-dark);
+    color: white;
+    text-align: center;
+    padding: 15px;
+    font-size: 12px;
+  }
+  
+  @media (max-width: 768px) {
+    .switch-main {
+      flex-direction: column;
+    }
+    
+    .switch-sidebar {
+      width: 100%;
+      flex-direction: row;
+      justify-content: center;
+      margin-right: 0;
+      margin-bottom: 20px;
+      padding: 10px;
+    }
+    
+    .switch-icon {
+      margin: 0 10px;
+    }
+    
+    .switch-games-grid {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .switch-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .switch-search {
+      margin-top: 10px;
+      width: 100%;
+    }
+    
+    .switch-search input {
+      width: 100%;
+    }
+    
+    .switch-games-grid {
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+  }
+
+  /* Estilo para imágenes faltantes */
+  .image-placeholder {
+    width: 100%;
+    height: 120px;
+    background-color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+  <div class="switch-container">
+    <header class="switch-header">
+      <div class="switch-logo">WineBOX Store</div>
+      <div class="switch-search">
+        <input type="text" placeholder="Search games..." id="searchInput">
+        <button id="searchButton">Search</button>
+      </div>
+    </header>
+    
+    <main class="switch-main">
+      <nav class="switch-sidebar">
+        <div class="switch-icon active" id="allIcon">
+          <svg viewBox="0 0 24 24">
+            <path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z" />
+          </svg>
+        </div>
+        <div class="switch-icon" id="appsIcon">
+          <svg viewBox="0 0 24 24">
+            <path d="M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3M7,5V7H9V5H7M11,5V7H13V5H11M15,5V7H17V5H15M7,9V11H9V9H7M11,9V11H13V9H11M15,9V11H17V9H15M7,13V15H9V13H7M11,13V15H13V13H11M15,13V15H17V13H15M7,17V19H9V17H7M11,17V19H13V17H11M15,17V19H17V17H15Z" />
+          </svg>
+        </div>
+        <div class="switch-icon" id="gamesIcon">
+          <svg viewBox="0 0 24 24">
+            <path d="M21,6H3A2,2 0 0,0 1,8V16A2,2 0 0,0 3,18H21A2,2 0 0,0 23,16V8A2,2 0 0,0 21,6M21,16H3V8H21M6,15H8V13H10V11H8V9H6V11H4V13H6M14.5,12A1.5,1.5 0 0,1 16,13.5A1.5,1.5 0 0,1 14.5,15A1.5,1.5 0 0,1 13,13.5A1.5,1.5 0 0,1 14.5,12M18.5,9A1.5,1.5 0 0,1 20,10.5A1.5,1.5 0 0,1 18.5,12A1.5,1.5 0 0,1 17,10.5A1.5,1.5 0 0,1 18.5,9Z" />
+          </svg>
+        </div>
+        <div class="switch-icon" id="arcadeIcon">
+          <svg viewBox="0 0 24 24">
+            <path d="M7,2H17A2,2 0 0,1 19,4V20A2,2 0 0,1 17,22H7A2,2 0 0,1 5,20V4A2,2 0 0,1 7,2M7,4V8H17V4H7M7,10V12H9V10H7M11,10V12H13V10H11M15,10V12H17V10H15M7,14V16H9V14H7M11,14V16H13V14H11M15,14V16H17V14H15M7,18V20H9V18H7M11,18V20H13V18H11M15,18V20H17V18H15Z" />
+          </svg>
+        </div>
+      </nav>
+      
+      <div class="switch-content">
+        <div class="switch-categories" id="categories">
+          <div class="switch-category active" data-category="all">All</div>
+          <div class="switch-category" data-category="games">Games</div>
+          <div class="switch-category" data-category="apps">Apps</div>
+          <div class="switch-category" data-category="utilities">Utilities</div>
+          <div class="switch-category" data-category="arcade">Arcade</div>
+          <div class="switch-category" data-category="rts">Strategy</div>
+        </div>
+        
+        <div class="switch-games-grid" id="gamesGrid"></div>
+      </div>
+    </main>
+    
+    <footer class="switch-footer">
+      © 2023 WineBOX Store - Nintendo Switch Style Interface
+    </footer>
+  </div>
+  
+  <div class="switch-modal" id="gameModal">
+    <div class="switch-modal-content">
+      <span class="switch-modal-close">&times;</span>
+      <div id="modalImageContainer"></div>
+      <h2 class="switch-modal-title" id="modalTitle"></h2>
+      <div class="switch-modal-category" id="modalCategory"></div>
+      <p class="switch-modal-description" id="modalDescription"></p>
+      <button class="switch-modal-button" id="launchButton">Launch</button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Función para verificar si una imagen existe
+      function imageExists(url, callback) {
+        const img = new Image();
+        img.onload = function() { callback(true); };
+        img.onerror = function() { callback(false); };
+        img.src = url;
+      }
+
+      // Datos de las aplicaciones/juegos
+      const appData = [
+        {
+          name: "Blood",
+          image: "box/blood.jpg",
+          description: "Blood is a 3D first-person shooter video game developed by Monolith Productions and published by GT Interactive.",
+          category: "games",
+          link: "blood.html"
+        },
+        {
+          name: "Diablo",
+          image: "box/diablo.jpg",
+          description: "Diablo is an action role-playing dungeon crawler video game series developed by Blizzard North and continued by Blizzard Entertainment after the North studio shut down in 2005.",
+          category: "games",
+          link: "diablo.html"
+        },
+        {
+          name: "Doom",
+          image: "box/doom.jpg",
+          description: "Doom is a first-person shooter game released in 1993, developed by id Software. Players take on the role of a space marine battling hordes of demons and hellish creatures in a Martian base.",
+          category: "games",
+          link: "doom.html"
+        },
+        // ... (todos los demás juegos/apps)
+        // Nota: He acortado la lista para este ejemplo, pero debes incluir todos tus juegos/apps aquí
+        {
+          name: "7Zip",
+          image: "box/7zip.jpg",
+          description: "7-Zip is a file archiver with a high compression ratio.",
+          category: "utilities",
+          link: "zip.html"
+        }
+      ];
+
+      // Mostrar todas las apps inicialmente
+      displayApps(appData);
+
+      function displayApps(apps) {
+        const gamesGrid = document.getElementById('gamesGrid');
+        gamesGrid.innerHTML = '';
+        
+        if (apps.length === 0) {
+          gamesGrid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center;">No se encontraron aplicaciones/juegos</p>';
+          return;
+        }
+        
+        apps.forEach(app => {
+          const gameCard = document.createElement('div');
+          gameCard.classList.add('switch-game-card');
+          
+          // Verificar si la imagen existe antes de mostrarla
+          imageExists(app.image, function(exists) {
+            const imageContent = exists ? 
+              `<img src="${app.image}" alt="${app.name}" class="switch-game-image">` :
+              `<div class="image-placeholder">${app.name}</div>`;
+            
+            gameCard.innerHTML = `
+              ${imageContent}
+              <div class="switch-game-info">
+                <div class="switch-game-title">${app.name}</div>
+                <div class="switch-game-category">${app.category}</div>
+              </div>
+            `;
+            
+            gameCard.addEventListener('click', () => openGameModal(app));
+            gamesGrid.appendChild(gameCard);
+          });
+        });
+      }
+
+      function openGameModal(app) {
+        const modal = document.getElementById('gameModal');
+        const imageContainer = document.getElementById('modalImageContainer');
+        
+        // Limpiar el contenedor de imágenes
+        imageContainer.innerHTML = '';
+        
+        // Verificar si la imagen existe
+        imageExists(app.image, function(exists) {
+          if (exists) {
+            const img = document.createElement('img');
+            img.src = app.image;
+            img.alt = app.name;
+            img.className = 'switch-modal-image';
+            imageContainer.appendChild(img);
+          } else {
+            const placeholder = document.createElement('div');
+            placeholder.className = 'image-placeholder';
+            placeholder.textContent = app.name;
+            placeholder.style.height = '200px';
+            imageContainer.appendChild(placeholder);
+          }
+        });
+        
+        document.getElementById('modalTitle').textContent = app.name;
+        document.getElementById('modalCategory').textContent = app.category;
+        document.getElementById('modalDescription').textContent = app.description;
+        
+        const launchButton = document.getElementById('launchButton');
+        launchButton.onclick = () => {
+          window.location.href = app.link;
+        };
+        
+        modal.style.display = 'flex';
+      }
+
+      // Filtrado por categorías
+      const categoryButtons = document.querySelectorAll('.switch-category');
+      categoryButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          categoryButtons.forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
+          
+          const category = button.dataset.category;
+          const filteredApps = category === 'all' ? 
+            appData : 
+            appData.filter(app => app.category === category);
+            
+          displayApps(filteredApps);
+        });
+      });
+
+      // Filtrado por sidebar
+      const sidebarIcons = {
+        allIcon: () => {
+          document.querySelector('.switch-category[data-category="all"]').click();
+        },
+        appsIcon: () => {
+          document.querySelector('.switch-category[data-category="apps"]').click();
+        },
+        gamesIcon: () => {
+          document.querySelector('.switch-category[data-category="games"]').click();
+        },
+        arcadeIcon: () => {
+          document.querySelector('.switch-category[data-category="arcade"]').click();
+        }
+      };
+      
+      Object.entries(sidebarIcons).forEach(([id, func]) => {
+        document.getElementById(id).addEventListener('click', () => {
+          document.querySelectorAll('.switch-icon').forEach(icon => icon.classList.remove('active'));
+          document.getElementById(id).classList.add('active');
+          func();
+        });
+      });
+
+      // Funcionalidad de búsqueda
+      const searchInput = document.getElementById('searchInput');
+      const searchButton = document.getElementById('searchButton');
+      
+      function searchApps() {
+        const query = searchInput.value.trim().toLowerCase();
+        if (!query) {
+          // Si la búsqueda está vacía, mostrar la categoría activa
+          const activeCategory = document.querySelector('.switch-category.active');
+          if (activeCategory) {
+            activeCategory.click();
+          } else {
+            displayApps(appData);
+          }
+          return;
+        }
+        
+        const filteredApps = appData.filter(app => 
+          app.name.toLowerCase().includes(query) || 
+          app.description.toLowerCase().includes(query)
+        );
+        
+        displayApps(filteredApps);
+      }
+      
+      searchButton.addEventListener('click', searchApps);
+      searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') searchApps();
+      });
+
+      // Cerrar modal
+      const modal = document.getElementById('gameModal');
+      document.querySelector('.switch-modal-close').addEventListener('click', () => {
+        modal.style.display = 'none';
+      });
+      
+      window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

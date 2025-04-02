@@ -1,7 +1,6 @@
 <html>
 <head>
 <title>WineBOX Store</title>
-
 <style>
   body {
     font-family: 'Roboto', sans-serif;
@@ -12,14 +11,14 @@
     display: flex;
   }
   .sidebar {
-    width: 100px; /* Increase width to accommodate labels */
+    width: 100px;
     background-color: #000000;
     height: 100vh;
     position: fixed;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 10px; /* Reduce top padding */
+    padding-top: 10px;
   }
   .sidebar-icon-container {
     display: flex;
@@ -28,10 +27,10 @@
     margin-bottom: 15px;
   }
   .sidebar-icon {
-    width: 30px; /* Make icons smaller */
+    width: 30px;
     height: 30px;
     margin-bottom: 5px;
-    opacity: 0.8; /* Make icons slightly transparent for a softer look */
+    opacity: 0.8;
     transition: transform 0.3s ease;
   }
   .sidebar-icon:hover {
@@ -43,7 +42,7 @@
     text-align: center;
   }
   .main-content {
-    margin-left: 100px; /* Adjusted for new sidebar width */
+    margin-left: 100px;
     width: calc(100% - 100px);
   }
   .container {
@@ -69,11 +68,12 @@
   .logo {
     font-size: 24px;
     font-weight: bold;
-    color: #a0a0a0; /* Changed from #e50914 to a dark gray */
+    color: #a0a0a0;
   }
   .search-bar {
     display: flex;
     align-items: center;
+    gap: 10px;
   }
   .search-input {
     padding: 10px;
@@ -82,12 +82,106 @@
     width: 300px;
   }
   .search-button {
-    background-color: #4a4a4a; /* Changed from #e50914 to a dark gray */
+    background-color: #4a4a4a;
     color: white;
     border: none;
     padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
+  }
+  .joystick-button {
+    background-color: #333;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .joystick-button.connected {
+    background-color: #666;
+  }
+  .recent-section {
+    position: relative;
+    margin: 20px 0 40px;
+  }
+  .recent-apps-container {
+    position: relative;
+    padding-bottom: 30px;
+  }
+  .selected-app-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to right, rgba(74, 74, 74, 0.8), rgba(42, 42, 42, 0.8));
+    color: white;
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    pointer-events: none;
+  }
+  .recent-app.selected ~ .selected-app-info {
+    opacity: 1;
+  }
+  .recent-apps {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 10px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .recent-apps::-webkit-scrollbar {
+    display: none;
+  }
+  .recent-app {
+    width: 160px;
+    height: 160px;
+    border-radius: 8px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.2s;
+    border: 2px solid transparent;
+    flex-shrink: 0;
+  }
+  .recent-app:hover {
+    transform: scale(1.1);
+  }
+  .recent-app.selected {
+    border: 2px solid #4a4a4a;
+    transform: scale(1.1);
+  }
+  .scroll-indicator {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    font-size: 24px;
+    width: 30px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 10;
+  }
+  .recent-apps-container:hover .scroll-indicator {
+    opacity: 1;
   }
   .categories {
     display: flex;
@@ -105,8 +199,10 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
-  .category-button:hover, .category-button.active {
-    background-color: #666666; /* Changed from #e50914 to a dark gray */
+  .category-button:hover, 
+  .category-button.active,
+  .category-button.selected {
+    background-color: #666666;
   }
   .app-grid {
     display: grid;
@@ -120,8 +216,14 @@
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
+    position: relative;
   }
   .app-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  }
+  .app-card.selected {
+    outline: 3px solid #4a4a4a;
     transform: scale(1.05);
     box-shadow: 0 10px 20px rgba(0,0,0,0.3);
   }
@@ -176,16 +278,109 @@
     margin-top: 20px;
   }
   .action-button {
-    background-color: #4a4a4a; /* Changed from #e50914 to a dark gray */
+    background-color: #4a4a4a;
     color: white;
     border: none;
     padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-right: 10px;
   }
-  .action-button:hover {
-    background-color: #666666; /* Changed from #ff0f1f to a lighter gray */
+  .action-button:hover, 
+  .action-button.selected {
+    background-color: #666666;
+  }
+  .joystick-dialog {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #2f2f2f;
+    border-radius: 8px;
+    padding: 20px;
+    width: 80%;
+    max-width: 600px;
+    z-index: 2000;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+  }
+  .joystick-dialog h2 {
+    margin-top: 0;
+    color: #a0a0a0;
+  }
+  .joystick-status {
+    margin: 15px 0;
+    font-size: 16px;
+  }
+  .joystick-connect-btn {
+    background-color: #4a4a4a;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+  }
+  .joystick-connect-btn:hover {
+    background-color: #666666;
+  }
+  .joystick-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #aaa;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .joystick-close:hover {
+    color: #fff;
+  }
+  .joystick-types {
+    display: none;
+    margin-top: 20px;
+  }
+  .joystick-types h3 {
+    color: #a0a0a0;
+    margin-bottom: 15px;
+  }
+  .joystick-type-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 40%;
+    float: left;
+  }
+  .joystick-type-btn {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.3s;
+  }
+  .joystick-type-btn:hover {
+    background-color: #666;
+  }
+  .joystick-preview {
+    width: 55%;
+    float: right;
+    text-align: center;
+    display: none;
+  }
+  .joystick-preview img {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 8px;
+  }
+  .clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
   }
 </style>
 </head>
@@ -223,15 +418,26 @@
         <div class="search-bar">
           <input type="text" class="search-input" placeholder="Find apps...">
           <button class="search-button">Find</button>
+          <button id="joystickButton" class="joystick-button" title="Joystick status">🎮</button>
         </div>
       </div>
     </header>
 
     <div class="container">
+      <div class="recent-section">
+        <div class="recent-title">Recently Used</div>
+        <div class="recent-apps-container">
+          <div class="recent-apps" id="recentApps"></div>
+          <div class="scroll-indicator" id="scrollIndicator">></div>
+          <div class="selected-app-info" id="selectedAppInfo"></div>
+        </div>
+      </div>
+
       <div class="categories" id="categories">
         <button class="category-button active" data-category="all">Alls</button>
-        <button class="category-button" data-category="games">Games</button>
         <button class="category-button" data-category="apps">Apps</button>
+        <button class="category-button" data-category="games">Games</button>
+        <button class="category-button" data-category="multimedia">Multimedia</button>
         <button class="category-button" data-category="utilities">Utilities</button>
         <button class="category-button" data-category="arcade">Arcade</button>
         <button class="category-button" data-category="rts">Strategy</button>
@@ -250,10 +456,32 @@
     </div>
   </div>
 
+  <div id="joystickDialog" class="joystick-dialog">
+    <span class="joystick-close">&times;</span>
+    <h2>Estado del Control</h2>
+    <div class="joystick-status" id="joystickStatusText">No se detectó ningún control conectado.</div>
+    <button id="connectJoystickBtn" class="joystick-connect-btn">CONECTAR MI CONTROL</button>
+    <div id="joystickTypes" class="joystick-types clearfix">
+      <h3>Elige tu control:</h3>
+      <div class="joystick-type-buttons">
+        <button class="joystick-type-btn" data-type="xbox">Xbox</button>
+        <button class="joystick-type-btn" data-type="playstation">PlayStation</button>
+        <button class="joystick-type-btn" data-type="amazon">Amazon</button>
+        <button class="joystick-type-btn" data-type="generic">Genérico</button>
+      </div>
+      <div class="joystick-preview" id="joystickPreview"></div>
+    </div>
+  </div>
+
+  <audio id="navSound" preload="auto">
+    <source src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-jump-coin-216.mp3" type="audio/mpeg">
+  </audio>
+
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const appData = [
-        {
+
+      {
           name: "Blood",
           image: "box/blood.jpg",
           description: "Blood is a 3D first-person shooter video game developed by Monolith Productions and published by GT Interactive.",
@@ -329,6 +557,13 @@
           description: "Indianapolis 500: The Simulation is a 1989 computer game for MS-DOS. It was hailed as the first step of differentiating racing games from the arcade realm and into racing simulation.",
           category: "rts",
           link: "indi.html"
+        },
+        {
+          name: "Media IPTV",
+          image: "box/media.png",
+          description: "An IPTV media player is an application that streams live TV, video-on-demand, and online channels via IPTV protocols, offering playlist support, EPG integration, and customizable viewing options.",
+          category: "multimedia",
+          link: "http://www.winebox.cloud/apps/hmpi/index.html"
         },
         {
           name: "Mortal Kombat",
@@ -408,11 +643,46 @@
           link: "wing.html"
         },
         {
+          name: "Youtube",
+          image: "box/youtube.png",
+          description: "YouTube is an online video platform that allows users to watch, upload, share, and stream content, including videos, live broadcasts, and playlists across various categories.",
+          category: "multimedia",
+          link: "http://www.youtube.com"
+        },
+        {
+          name: "Youtube Music",
+          image: "box/youtubemusic.png",
+          description: "YouTube Music is a streaming service that offers music playback, personalized playlists, offline listening, and music video integration from YouTube’s extensive catalog.",
+          category: "multimedia",
+          link: "https://music.youtube.com"
+        },
+        {
+          name: "Arachne Browser",
+          image: "box/arachne.jpg",
+          description: "Web Browser for MS-DOS.",
+          category: "apps",
+          link: "arachne.html"
+        },
+        {
           name: "AbiWord",
           image: "box/abiword.png",
           description: "Procesador de texto profesional.",
           category: "apps",
           link: "abiword.html"
+        },
+        {
+          name: "Desktop",
+          image: "box/dock.png",
+          description: "The desktop is a graphical workspace in WineBOX that allows users to organize icons, access files, and launch applications. It serves as the main interface for managing windows, shortcuts, and system functions.",
+          category: "apps",
+          link: "dock.html"
+        },
+        {
+          name: "DosBOX",
+          image: "box/dosbox.png",
+          description: "Run, test and install MS-DOS programs and game, packet in zip format.",
+          category: "apps",
+          link: "dosbox.html"
         },
         {
           name: "Explorer++",
@@ -436,11 +706,25 @@
           link: "audacity.html"
         },
         {
-          name: "Charmap",
-          image: "box/charmap.jpg",
-          description: "An internet-based character map (charmap) tool that encompasses all Unicode characters, symbols and emojis, it also offers a user-friendly search function.",
+          name: "Calc",
+          image: "box/calc.png",
+          description: "Calculator is a built-in WineBOX application that provides basic and advanced mathematical functions, including standard, scientific, programmer, and date calculations.",
           category: "utilities",
-          link: "audacity.html"
+          link: "calc.html"
+        },
+        {
+          name: "Calendar",
+          image: "box/calendar.png",
+          description: "Calendar is a WineBOX application that helps users manage schedules, create events, set reminders, and sync with online calendars for seamless planning.",
+          category: "utilities",
+          link: "calendar.html"
+        },
+        {
+          name: "Clock",
+          image: "box/clock.png",
+          description: "Clock is a Windows application that provides alarms, timers, a stopwatch, and world time features to help users manage time efficiently.",
+          category: "utilities",
+          link: "clock.html"
         },
         {
           name: "Control",
@@ -448,6 +732,13 @@
           description: "The Windows Control Panel is a tool that allows users to adjust system settings and customize hardware and software options.",
           category: "utilities",
           link: "control.html"
+        },
+        {
+          name: "DOSShell",
+          image: "box/dosshell.png",
+          description: "A filemanager for MS-DOS.",
+          category: "utilities",
+          link: "dosshell.html"
         },
         {
           name: "Flat Assemblerl",
@@ -499,12 +790,26 @@
           link: "mspaint.html"
         },        
        {
+          name: "Program Manager",
+          image: "box/progman.png",
+          description: "Program Manager is a graphical shell for managing applications and program groups in WineBOX. It allows users to organize, launch, and customize software shortcuts within a windowed interface.",
+          category: "apps",
+          link: "progman.html"
+        },        
+       {
           name: "Open Office",
           image: "box/soffice.jpg",
           description: "The Apache OpenOffice project announces the official release of version 4.1.15. In the Release Notes you can read about all new bugfixes, improvements.",
           category: "apps",
           link: "soffice.html"
-        },        
+        },
+       {
+          name: "Shell",
+          image: "box/shell.png",
+          description: "Command Prompt is a WineBOX command-line interpreter that allows users to execute commands, automate tasks, and manage system functions through text-based input.",
+          category: "utilities",
+          link: "shell.html"
+        },   
        {
           name: "Sumatra PDF",
           image: "box/sumatra.jpg",
@@ -518,7 +823,21 @@
           description: "A simple (La)TeX editor and PDF previewer that is available on all major desktop operating systems.",
           category: "apps",
           link: "texworks.html"
-        },        
+        },   
+       {
+          name: "ToDO",
+          image: "box/todo.png",
+          description: "To Do is a task management application that helps users create, organize, and track tasks with reminders, lists, and cloud synchronization.",
+          category: "utilities",
+          link: "todo.html"
+        },   
+       {
+          name: "TurboC",
+          image: "box/turboc.png",
+          description: "Turbo C 2.01, a C compiler for MS-DOS.",
+          category: "utilities",
+          link: "turboc.html"
+        },            
        {
           name: "TuxPaint",
           image: "box/tuxpaint.png",
@@ -539,6 +858,20 @@
           description: "VirtualDub is a video capture/processing utility for 32-bit and 64-bit Windows platforms (98/ME/NT4/2000/XP/Vista/7), licensed under the GNU General Public.",
           category: "utilities",
           link: "virtualdub.html"
+        },
+       {
+          name: "Winecfg",
+          image: "box/winecfg.png",
+          description: "Wine Settings for the Windows Emulation.",
+          category: "utilities",
+          link: "winecfg.html"
+        },
+       {
+          name: "WineZIP",
+          image: "box/winezip.png",
+          description: "WineZip is an application that creates ZIP packages for installing Windows programs within WineBOX. It simplifies software deployment by packaging executable files and dependencies for seamless installation and execution.",
+          category: "utilities",
+          link: "winezip.html"
         },
        {
           name: "WinAMP",
@@ -702,6 +1035,13 @@
           link: "commandconquer.html"
         },
         {
+          name: "Rise of the triad",
+          image: "box/rise.webp",
+          description: "Rise of the Triad: Dark War is a famous and most played DOS game that now is available to play in browser. With virtual mobile controls you also can play in Rise of the Triad: Dark War on mobile. On DOS.Zone Rise of the Triad: Dark War available to play for free without registration.",
+          category: "rts",
+          link: "rise.html"
+        },
+        {
           name: "Sim City",
           image: "box/simcity.jpg",
           description: "SimCity is an open-ended city-building video game franchise originally designed by Will Wright.",
@@ -729,15 +1069,95 @@
           category: "rts",
           link: "masteroforion.html"
         }
-      ];
 
-      function displayApps(apps) {
-        const appGrid = document.getElementById('appGrid');
-        appGrid.innerHTML = '';
+      ];
+      //////////////////////////////////////////////////////////////////
+
+      // Variables para control de navegación
+      const MAX_RECENT_APPS = 16;
+      let currentSelectedIndex = -1;
+      let currentApps = [];
+      let isModalOpen = false;
+      let joystickConnected = false;
+      let recentApps = JSON.parse(localStorage.getItem('recentApps')) || [];
+      let currentFocusArea = 'recent';
+      let currentCategoryIndex = 0;
+      let currentRecentIndex = -1;
+      let isScrolling = false;
+
+      // Elementos del DOM
+      const appGrid = document.getElementById('appGrid');
+      const recentAppsContainer = document.getElementById('recentApps');
+      const selectedAppInfo = document.getElementById('selectedAppInfo');
+      const joystickButton = document.getElementById('joystickButton');
+      const categoryButtons = document.querySelectorAll('.category-button');
+      const navSound = document.getElementById('navSound');
+      const scrollIndicator = document.getElementById('scrollIndicator');
+      const recentAppsEl = document.getElementById('recentApps');
+      const joystickDialog = document.getElementById('joystickDialog');
+      const joystickStatusText = document.getElementById('joystickStatusText');
+      const connectJoystickBtn = document.getElementById('connectJoystickBtn');
+      const joystickTypes = document.getElementById('joystickTypes');
+      const joystickPreview = document.getElementById('joystickPreview');
+      const joystickClose = document.querySelector('.joystick-close');
+
+      // Función para mostrar aplicaciones recientes
+      function displayRecentApps() {
+        recentAppsContainer.innerHTML = '';
         
-        apps.forEach(app => {
+        if (recentApps.length === 0) {
+          recentAppsContainer.innerHTML = '<p style="color: #666; padding: 10px;">No recent apps</p>';
+          return;
+        }
+        
+        recentApps.forEach((app, index) => {
+          const appInData = appData.find(a => a.name === app.name) || app;
+          const appWrapper = document.createElement('div');
+          appWrapper.style.position = 'relative';
+          appWrapper.style.display = 'inline-block';
+          
+          const img = document.createElement('img');
+          img.src = appInData.image || 'box/default.png';
+          img.className = 'recent-app';
+          img.title = appInData.name;
+          img.dataset.index = index;
+          img.dataset.appName = appInData.name;
+          
+          const infoDiv = document.createElement('div');
+          infoDiv.className = 'selected-app-info';
+          infoDiv.textContent = appInData.name;
+          
+          img.addEventListener('click', () => launchRecentApp(appInData));
+          
+          appWrapper.appendChild(img);
+          appWrapper.appendChild(infoDiv);
+          recentAppsContainer.appendChild(appWrapper);
+        });
+
+        if (recentApps.length > 0 && currentFocusArea === 'recent') {
+          currentRecentIndex = 0;
+          updateSelection();
+        }
+        
+        setTimeout(updateScrollIndicator, 100);
+      }
+
+      // Función para mostrar aplicaciones
+      function displayApps(apps) {
+        appGrid.innerHTML = '';
+        currentApps = apps;
+        
+        if (apps.length === 0) {
+          appGrid.innerHTML = '<p style="color: #666; grid-column: 1/-1; text-align: center;">No apps found</p>';
+          return;
+        }
+        
+        apps.forEach((app, index) => {
           const appCard = document.createElement('div');
           appCard.classList.add('app-card');
+          if (index === currentSelectedIndex && currentFocusArea === 'apps') {
+            appCard.classList.add('selected');
+          }
           
           appCard.innerHTML = `
             <img src="${app.image}" alt="${app.name}" class="app-thumbnail">
@@ -747,13 +1167,77 @@
             </div>
           `;
           
-          appCard.addEventListener('click', () => openAppModal(app));
+          appCard.addEventListener('click', () => {
+            openAppModal(app);
+            addToRecentApps(app);
+          });
           
           appGrid.appendChild(appCard);
         });
+
+        if (currentApps.length > 0 && currentSelectedIndex === -1 && currentFocusArea === 'apps') {
+          currentSelectedIndex = 0;
+          updateSelection();
+        }
       }
 
+      // Función para actualizar selección
+      function updateSelection() {
+        const recentAppElements = document.querySelectorAll('.recent-app');
+        
+        recentAppElements.forEach((element, index) => {
+          if (index === currentRecentIndex && currentFocusArea === 'recent') {
+            element.classList.add('selected');
+            const appName = element.dataset.appName;
+            selectedAppInfo.textContent = appName;
+            selectedAppInfo.style.left = `${element.offsetLeft}px`;
+            selectedAppInfo.style.width = `${element.offsetWidth}px`;
+            element.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+          } else {
+            element.classList.remove('selected');
+          }
+        });
+
+        categoryButtons.forEach((button, index) => {
+          if (index === currentCategoryIndex && currentFocusArea === 'categories') {
+            button.classList.add('selected');
+            button.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          } else {
+            button.classList.remove('selected');
+          }
+        });
+
+        const appCards = document.querySelectorAll('.app-card');
+        appCards.forEach((card, index) => {
+          if (index === currentSelectedIndex && currentFocusArea === 'apps') {
+            card.classList.add('selected');
+            card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          } else {
+            card.classList.remove('selected');
+          }
+        });
+      }
+
+      // Función para agregar a recientes
+      function addToRecentApps(app) {
+        recentApps = recentApps.filter(a => a.name !== app.name);
+        recentApps.unshift({
+          name: app.name,
+          image: app.image,
+          link: app.link
+        });
+        
+        if (recentApps.length > MAX_RECENT_APPS) {
+          recentApps = recentApps.slice(0, MAX_RECENT_APPS);
+        }
+        
+        localStorage.setItem('recentApps', JSON.stringify(recentApps));
+        displayRecentApps();
+      }
+
+      // Función para abrir modal de aplicación
       function openAppModal(app) {
+        isModalOpen = true;
         const appDetails = document.getElementById('appDetails');
         const modal = document.getElementById('appModal');
 
@@ -765,37 +1249,343 @@
         `;
 
         const launchButton = document.getElementById('launchButton');
-        launchButton.onclick = () => location.href=app.link;
+        launchButton.onclick = () => {
+          location.href = app.link;
+          addToRecentApps(app);
+        };
 
         modal.style.display = 'block';
+        currentSelectedIndex = -1;
       }
 
-      const categoryButtons = document.querySelectorAll('.category-button');
-      categoryButtons.forEach(button => {
+      // Función para cerrar modal
+      function closeModal() {
+        isModalOpen = false;
+        document.getElementById('appModal').style.display = 'none';
+        if (currentApps.length > 0 && currentFocusArea === 'apps') {
+          currentSelectedIndex = Math.min(currentSelectedIndex, currentApps.length - 1);
+          updateSelection();
+        }
+      }
+
+      // Funciones de navegación con teclado
+      function handleUpArrow() {
+        if (currentFocusArea === 'apps' && currentApps.length > 0) {
+          const columns = Math.floor(appGrid.offsetWidth / (200 + 20));
+          if (currentSelectedIndex >= columns) {
+            currentSelectedIndex -= columns;
+            updateSelection();
+          } else {
+            currentFocusArea = 'categories';
+            currentCategoryIndex = Math.min(currentCategoryIndex, categoryButtons.length - 1);
+            updateSelection();
+          }
+        } else if (currentFocusArea === 'categories') {
+          currentFocusArea = 'recent';
+          if (recentApps.length > 0) {
+            currentRecentIndex = 0;
+            updateSelection();
+          }
+        }
+      }
+
+      function handleDownArrow() {
+        if (currentFocusArea === 'recent') {
+          currentFocusArea = 'categories';
+          currentCategoryIndex = Math.min(currentCategoryIndex, categoryButtons.length - 1);
+          updateSelection();
+        } else if (currentFocusArea === 'categories') {
+          currentFocusArea = 'apps';
+          currentSelectedIndex = Math.min(currentSelectedIndex, currentApps.length - 1);
+          if (currentSelectedIndex === -1 && currentApps.length > 0) {
+            currentSelectedIndex = 0;
+          }
+          updateSelection();
+        } else if (currentFocusArea === 'apps' && currentApps.length > 0) {
+          const columns = Math.floor(appGrid.offsetWidth / (200 + 20));
+          if (currentSelectedIndex + columns < currentApps.length) {
+            currentSelectedIndex += columns;
+            updateSelection();
+          }
+        }
+      }
+
+      function handleLeftArrow() {
+        if (currentFocusArea === 'recent' && recentApps.length > 0) {
+          if (currentRecentIndex > 0) {
+            currentRecentIndex--;
+            updateSelection();
+          }
+        } else if (currentFocusArea === 'categories') {
+          if (currentCategoryIndex > 0) {
+            currentCategoryIndex--;
+            updateSelection();
+          }
+        } else if (currentFocusArea === 'apps' && currentApps.length > 0) {
+          if (currentSelectedIndex > 0) {
+            currentSelectedIndex--;
+            updateSelection();
+          }
+        }
+      }
+
+      function handleRightArrow() {
+        if (currentFocusArea === 'recent' && recentApps.length > 0) {
+          if (currentRecentIndex < recentApps.length - 1) {
+            currentRecentIndex++;
+            updateSelection();
+          }
+        } else if (currentFocusArea === 'categories') {
+          if (currentCategoryIndex < categoryButtons.length - 1) {
+            currentCategoryIndex++;
+            updateSelection();
+          }
+        } else if (currentFocusArea === 'apps' && currentApps.length > 0) {
+          if (currentSelectedIndex < currentApps.length - 1) {
+            currentSelectedIndex++;
+            updateSelection();
+          }
+        }
+      }
+
+      function handleEnter() {
+        if (currentFocusArea === 'recent' && currentRecentIndex >= 0 && currentRecentIndex < recentApps.length) {
+          const recentApp = recentApps[currentRecentIndex];
+          const fullAppData = appData.find(a => a.name === recentApp.name) || recentApp;
+          launchRecentApp(fullAppData);
+        } else if (currentFocusArea === 'categories' && currentCategoryIndex >= 0 && currentCategoryIndex < categoryButtons.length) {
+          categoryButtons[currentCategoryIndex].click();
+          currentFocusArea = 'apps';
+          currentSelectedIndex = 0;
+          updateSelection();
+        } else if (currentFocusArea === 'apps' && currentSelectedIndex >= 0 && currentSelectedIndex < currentApps.length) {
+          openAppModal(currentApps[currentSelectedIndex]);
+        }
+      }
+
+      function toggleFocusArea() {
+        if (currentFocusArea === 'recent') {
+          currentFocusArea = 'categories';
+          currentCategoryIndex = Math.min(currentCategoryIndex, categoryButtons.length - 1);
+        } else if (currentFocusArea === 'categories') {
+          currentFocusArea = 'apps';
+          if (currentApps.length > 0) {
+            currentSelectedIndex = 0;
+          }
+        } else if (currentFocusArea === 'apps') {
+          currentFocusArea = 'recent';
+          if (recentApps.length > 0) {
+            currentRecentIndex = 0;
+          }
+        }
+        updateSelection();
+      }
+
+      // Función para lanzar aplicación reciente
+      function launchRecentApp(app) {
+        location.href = app.link;
+        addToRecentApps(app);
+      }
+
+      // Función para actualizar visibilidad del indicador de scroll
+      function updateScrollIndicator() {
+        const isAtEnd = recentAppsEl.scrollWidth <= recentAppsEl.scrollLeft + recentAppsEl.clientWidth + 1;
+        scrollIndicator.style.display = isAtEnd ? 'none' : 'flex';
+      }
+
+      // Función para reproducir sonido de navegación
+      function playNavSound() {
+        if (navSound) {
+          navSound.currentTime = 0;
+          navSound.play().catch(e => console.log("Audio play failed:", e));
+        }
+      }
+
+      // Función para actualizar estado del joystick
+      function updateJoystickStatus() {
+        const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+        const isConnected = gamepads.some(g => g && g.connected);
+        
+        if (isConnected) {
+          joystickStatusText.textContent = 'Control detectado y conectado.';
+          connectJoystickBtn.style.display = 'none';
+          joystickTypes.style.display = 'none';
+        } else {
+          joystickStatusText.textContent = 'No se detectó ningún control conectado.';
+          connectJoystickBtn.style.display = 'block';
+        }
+      }
+
+      // Función para escanear joystick
+      function scanJoystick() {
+        if (!joystickConnected || isModalOpen) return;
+        
+        const gamepad = navigator.getGamepads()[0];
+        if (!gamepad) return;
+
+        const now = Date.now();
+        if (now - lastJoystickMove < joystickMoveDelay) return;
+
+        const axisX = gamepad.axes[0];
+        const axisY = gamepad.axes[1];
+        const threshold = 0.5;
+
+        if (axisX < -threshold) {
+          lastJoystickMove = now;
+          playNavSound();
+          handleLeftArrow();
+        } else if (axisX > threshold) {
+          lastJoystickMove = now;
+          playNavSound();
+          handleRightArrow();
+        } else if (axisY < -threshold) {
+          lastJoystickMove = now;
+          playNavSound();
+          handleUpArrow();
+        } else if (axisY > threshold) {
+          lastJoystickMove = now;
+          playNavSound();
+          handleDownArrow();
+        }
+
+        if (gamepad.buttons[0].pressed) {
+          playNavSound();
+          handleEnter();
+        }
+
+        if (gamepad.buttons[1].pressed) {
+          playNavSound();
+          if (isModalOpen) {
+            closeModal();
+          } else if (currentFocusArea === 'apps' && currentSelectedIndex >= 0) {
+            currentSelectedIndex = -1;
+            currentFocusArea = 'categories';
+            updateSelection();
+          } else if (currentFocusArea === 'categories') {
+            currentFocusArea = 'recent';
+            if (recentApps.length > 0) {
+              currentRecentIndex = 0;
+            }
+            updateSelection();
+          }
+        }
+      }
+
+      // Eventos
+      document.addEventListener('keydown', (e) => {
+        if (isModalOpen) {
+          if (e.key === 'Escape') {
+            closeModal();
+          } else if (e.key === 'Enter') {
+            document.getElementById('launchButton').click();
+          }
+          return;
+        }
+
+        switch(e.key) {
+          case 'ArrowUp':
+            e.preventDefault();
+            playNavSound();
+            handleUpArrow();
+            break;
+          case 'ArrowDown':
+            e.preventDefault();
+            playNavSound();
+            handleDownArrow();
+            break;
+          case 'ArrowLeft':
+            e.preventDefault();
+            playNavSound();
+            handleLeftArrow();
+            break;
+          case 'ArrowRight':
+            e.preventDefault();
+            playNavSound();
+            handleRightArrow();
+            break;
+          case 'Enter':
+            e.preventDefault();
+            playNavSound();
+            handleEnter();
+            break;
+          case 'Tab':
+            e.preventDefault();
+            playNavSound();
+            toggleFocusArea();
+            break;
+        }
+      });
+
+      scrollIndicator.addEventListener('click', () => {
+        recentAppsEl.scrollBy({
+          left: 200,
+          behavior: 'smooth'
+        });
+        setTimeout(updateScrollIndicator, 300);
+      });
+
+      recentAppsEl.addEventListener('scroll', () => {
+        if (!isScrolling) {
+          isScrolling = true;
+          setTimeout(() => {
+            updateScrollIndicator();
+            isScrolling = false;
+          }, 100);
+        }
+      });
+
+      joystickButton.addEventListener('click', () => {
+        updateJoystickStatus();
+        joystickDialog.style.display = 'block';
+      });
+
+      joystickClose.addEventListener('click', () => {
+        joystickDialog.style.display = 'none';
+      });
+
+      connectJoystickBtn.addEventListener('click', () => {
+        joystickTypes.style.display = 'block';
+        connectJoystickBtn.style.display = 'none';
+      });
+
+      document.querySelectorAll('.joystick-type-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const type = this.dataset.type;
+          joystickPreview.innerHTML = `
+            <div style="height:300px;display:flex;align-items:center;justify-content:center;color:#aaa;">
+              Vista previa del control ${type.charAt(0).toUpperCase() + type.slice(1)}
+            </div>`;
+          joystickPreview.style.display = 'block';
+        });
+      });
+
+      categoryButtons.forEach((button, index) => {
         button.addEventListener('click', () => {
           categoryButtons.forEach(btn => btn.classList.remove('active'));
           button.classList.add('active');
           const category = button.dataset.category;
           const filteredApps = category === 'all' ? appData : appData.filter(app => app.category === category);
           displayApps(filteredApps);
+          currentSelectedIndex = 0;
+          currentFocusArea = 'apps';
+          updateSelection();
         });
       });
 
       const searchInput = document.querySelector('.search-input');
       const searchButton = document.querySelector('.search-button');
 
-      function searchApps(query) {
-        const filteredApps = appData.filter(app => 
-          app.name.toLowerCase().includes(query.toLowerCase()) || 
-          app.description.toLowerCase().includes(query.toLowerCase())
-        );
-        displayApps(filteredApps);
-      }
-
       searchButton.addEventListener('click', () => {
         const query = searchInput.value.trim();
         if (query) {
-          searchApps(query);
+          const filteredApps = appData.filter(app => 
+            app.name.toLowerCase().includes(query.toLowerCase()) || 
+            app.description.toLowerCase().includes(query.toLowerCase())
+          );
+          displayApps(filteredApps);
+          currentSelectedIndex = 0;
+          currentFocusArea = 'apps';
+          updateSelection();
         }
       });
 
@@ -803,7 +1593,14 @@
         if (e.key === 'Enter') {
           const query = searchInput.value.trim();
           if (query) {
-            searchApps(query);
+            const filteredApps = appData.filter(app => 
+              app.name.toLowerCase().includes(query.toLowerCase()) || 
+              app.description.toLowerCase().includes(query.toLowerCase())
+            );
+            displayApps(filteredApps);
+            currentSelectedIndex = 0;
+            currentFocusArea = 'apps';
+            updateSelection();
           }
         }
       });
@@ -811,17 +1608,16 @@
       const closeBtn = document.querySelector('.close');
       const modal = document.getElementById('appModal');
 
-      closeBtn.onclick = function() {
-        modal.style.display = 'none';
-      }
+      closeBtn.onclick = closeModal;
 
       window.onclick = function(event) {
         if (event.target == modal) {
-          modal.style.display = 'none';
+          closeModal();
+        }
+        if (event.target == joystickDialog) {
+          joystickDialog.style.display = 'none';
         }
       }
-
-      displayApps(appData);
 
       const sidebarIcons = document.querySelectorAll('.sidebar-icon');
       sidebarIcons.forEach((icon, index) => {
@@ -840,8 +1636,64 @@
               displayApps(appData.filter(app => app.category === 'arcade'));
               break;
           }
+          currentSelectedIndex = 0;
+          currentFocusArea = 'apps';
+          updateSelection();
         });
       });
+
+      // Detección de joystick
+      function checkJoystick() {
+        const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+        const wasConnected = joystickConnected;
+        joystickConnected = false;
+        
+        for (let i = 0; i < gamepads.length; i++) {
+          if (gamepads[i] && gamepads[i].connected) {
+            joystickConnected = true;
+            break;
+          }
+        }
+        
+        if (joystickConnected !== wasConnected) {
+          joystickButton.className = joystickConnected ? 
+            'joystick-button connected' : 
+            'joystick-button';
+          
+          if (joystickDialog.style.display === 'block') {
+            updateJoystickStatus();
+          }
+        }
+      }
+
+      let joystickInterval;
+      let lastJoystickMove = 0;
+      const joystickMoveDelay = 300;
+
+      window.addEventListener('gamepadconnected', (e) => {
+        joystickConnected = true;
+        joystickButton.className = 'joystick-button connected';
+        clearInterval(joystickInterval);
+        joystickInterval = setInterval(scanJoystick, 50);
+      });
+
+      window.addEventListener('gamepaddisconnected', (e) => {
+        joystickConnected = false;
+        joystickButton.className = 'joystick-button';
+        clearInterval(joystickInterval);
+      });
+
+      // Inicialización
+      setInterval(checkJoystick, 1000);
+      checkJoystick();
+
+      displayApps(appData);
+      displayRecentApps();
+      
+      if (recentApps.length > 0) {
+        currentRecentIndex = 0;
+        updateSelection();
+      }
     });
   </script>
 </body>
