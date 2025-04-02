@@ -1,0 +1,242 @@
+:root {
+    --switch-bg: #2b2b2b;
+    --app-bg: rgba(68, 68, 68, 0.8);
+    --text: #ffffff;
+    --header-height: 60px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--switch-bg);
+    font-family: system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    box-sizing: border-box;
+    color: var(--text);
+}
+
+.game-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    filter: blur(10px);
+    opacity: 0.3;
+    transition: background-image 0.5s ease;
+    z-index: -1;
+}
+
+.header {
+    height: var(--header-height);
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--app-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-button {
+    background: none;
+    border: none;
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 15px;
+    border-radius: 20px;
+    transition: background-color 0.2s;
+}
+
+.nav-button:hover {
+    background: var(--app-bg);
+}
+
+.main-content {
+    margin-top: var(--header-height);
+    padding: 20px;
+}
+
+.section-title {
+    font-size: 1.5em;
+    margin: 20px 0;
+    padding: 0 20px;
+}
+
+.switch-interface {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.recent-apps {
+    display: contents;
+}
+
+.app-tile {
+    position: relative;
+    background: var(--app-bg);
+    border-radius: 10px;
+    aspect-ratio: 1;
+    cursor: pointer;
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text);
+    text-decoration: none;
+    backdrop-filter: blur(10px);
+}
+
+.app-tile:hover {
+    transform: scale(1.05);
+}
+
+.app-tile:hover .delete-app {
+    display: block;
+}
+
+.app-tile img {
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+}
+
+.app-tile .app-name {
+    margin-top: 10px;
+    font-size: 0.9em;
+    text-align: center;
+}
+
+.delete-app {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(255, 0, 0, 0.7);
+    border: none;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    font-size: 18px;
+    line-height: 1;
+}
+
+.add-app {
+    display: contents;
+}
+
+.add-button {
+    background: var(--app-bg);
+    border-radius: 10px;
+    aspect-ratio: 1;
+    cursor: pointer;
+    transition: transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text);
+    text-decoration: none;
+}
+
+.add-button:hover {
+    transform: scale(1.05);
+}
+
+.add-button svg {
+    width: 40%;
+    height: 40%;
+}
+
+dialog {
+    background: var(--switch-bg);
+    color: var(--text);
+    border: 1px solid var(--app-bg);
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 400px;
+    margin: auto;
+}
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.settings-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group input {
+    background: var(--app-bg);
+    border: none;
+    padding: 8px;
+    border-radius: 5px;
+    color: var(--text);
+}
+
+.settings-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.settings-button {
+    background: var(--app-bg);
+    border: none;
+    color: var(--text);
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.settings-button:hover {
+    opacity: 0.8;
+}
+
+.settings-button.danger {
+    background: #ff4444;
+}
