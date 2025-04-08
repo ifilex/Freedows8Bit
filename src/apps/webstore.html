@@ -1,0 +1,1560 @@
+<html>
+<head>
+<title>WineBOX Store</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #141414;
+    color: #ffffff;
+  }
+  .header {
+    background-color: #000000;
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-content {
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  .logo-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #a0a0a0;
+  }
+  .menu-button {
+    background-color: #333;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .menu-button:hover {
+    background-color: #666;
+  }
+  .menu-button svg {
+    width: 20px;
+    height: 20px;
+    fill: white;
+  }
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+  }
+  .search-input {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    width: 300px;
+    background-color: #333;
+    color: white;
+  }
+  .search-button {
+    background-color: #4a4a4a;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .categories {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .category-button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .category-button:hover, 
+  .category-button.active,
+  .category-button.selected {
+    background-color: #666666;
+  }
+  .app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+  }
+  .app-card {
+    background-color: #2f2f2f;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    position: relative;
+  }
+  .app-card:hover {
+    transform: scale(1.05);
+  }
+  .app-card.selected {
+    outline: 3px solid #4a4a4a;
+    transform: scale(1.05);
+  }
+  .app-thumbnail {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  .app-info {
+    padding: 15px;
+  }
+  .app-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  .app-category {
+    color: #ccc;
+    margin-bottom: 5px;
+    font-size: 12px;
+  }
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.9);
+  }
+  .modal-content {
+    background-color: #181818;
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 800px;
+    width: 90%;
+  }
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .close:hover,
+  .close:focus {
+    color: #fff;
+  }
+  .app-details {
+    margin-top: 20px;
+  }
+  .action-button {
+    background-color: #4a4a4a;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+  }
+  .action-button:hover {
+    background-color: #666666;
+  }
+  .action-button.install {
+    background-color: #4CAF50;
+  }
+  .action-button.uninstall {
+    background-color: #f44336;
+    display: none;
+  }
+  .action-button.uninstall.available {
+    display: inline-block;
+  }
+  
+  /* Estilos para el menú lateral */
+  .side-menu {
+    position: fixed;
+    left: -300px;
+    top: 0;
+    width: 250px;
+    height: 100vh;
+    background-color: #000;
+    z-index: 999;
+    transition: left 0.3s ease;
+    padding: 20px 0;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+  }
+  .side-menu.open {
+    left: 0;
+  }
+  .menu-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .menu-item:hover {
+    background-color: #333;
+  }
+  .menu-item.selected {
+    background-color: #444;
+  }
+  .menu-item svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 15px;
+    fill: currentColor;
+  }
+  .menu-item span {
+    font-size: 14px;
+  }
+  .menu-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 998;
+  }
+  .menu-overlay.open {
+    display: block;
+  }
+</style>
+</head>
+<body>
+  <!-- Menú lateral -->
+  <div class="side-menu" id="sideMenu">
+    <div class="menu-item" data-category="all">
+      <svg viewBox="0 0 24 24">
+        <path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z" />
+      </svg>
+      <span>Home</span>
+    </div>
+    <div class="menu-item" data-category="apps">
+      <svg viewBox="0 0 24 24">
+        <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" />
+      </svg>
+      <span>Applications</span>
+    </div>
+    <div class="menu-item" data-category="games">
+      <svg viewBox="0 0 24 24">
+        <path d="M21,6H3A2,2 0 0,0 1,8V16A2,2 0 0,0 3,18H21A2,2 0 0,0 23,16V8A2,2 0 0,0 21,6M21,16H3V8H21M6,15H8V13H10V11H8V9H6V11H4V13H6M14.5,12A1.5,1.5 0 0,1 16,13.5A1.5,1.5 0 0,1 14.5,15A1.5,1.5 0 0,1 13,13.5A1.5,1.5 0 0,1 14.5,12M18.5,9A1.5,1.5 0 0,1 20,10.5A1.5,1.5 0 0,1 18.5,12A1.5,1.5 0 0,1 17,10.5A1.5,1.5 0 0,1 18.5,9Z" />
+      </svg>
+      <span>Games</span>
+    </div>
+    <div class="menu-item" data-category="arcade">
+      <svg viewBox="0 0 24 24">
+        <path d="M21,16V4H3V16H21M21,2A2,2 0 0,1 23,4V16A2,2 0 0,1 21,18H14V20H16V22H8V20H10V18H3C1.89,18 1,17.1 1,16V4C1,2.89 1.89,2 3,2H21M5,6H14V11H5V6M15,6H19V8H15V6M19,9V14H15V9H19M5,12H9V14H5V12Z" />
+      </svg>
+      <span>Arcade</span>
+    </div>
+    <div class="menu-item" data-category="multimedia">
+      <svg viewBox="0 0 24 24">
+        <path d="M4,6H20V16H4M20,18A2,2 0 0,0 22,16V6C22,4.89 21.1,4 20,4H4C2.89,4 2,4.89 2,6V16A2,2 0 0,0 4,18H0V20H24V18H20Z" />
+      </svg>
+      <span>Multimedia</span>
+    </div>
+    <div class="menu-item" data-category="utilities">
+      <svg viewBox="0 0 24 24">
+        <path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" />
+      </svg>
+      <span>Utilities</span>
+    </div>
+    <div class="menu-item" data-category="rts">
+      <svg viewBox="0 0 24 24">
+        <path d="M12,2L1,21H23M12,6L19.53,19H4.47M11,10V14H13V10M11,16V18H13V16" />
+      </svg>
+      <span>Strategy</span>
+    </div>
+  </div>
+  <div class="menu-overlay" id="menuOverlay"></div>
+
+  <header class="header">
+    <div class="header-content">
+      <div class="logo-container">
+        <button id="menuButton" class="menu-button">
+          <svg viewBox="0 0 24 24">
+            <path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
+          </svg>
+        </button>
+        <div class="logo">WineBOX Store</div>
+      </div>
+      <div class="search-bar">
+        <input type="text" class="search-input" placeholder="Find apps...">
+        <button class="search-button">Find</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="categories" id="categories">
+      <button class="category-button active" data-category="all">All</button>
+      <button class="category-button" data-category="apps">Apps</button>
+      <button class="category-button" data-category="games">Games</button>
+      <button class="category-button" data-category="multimedia">Multimedia</button>
+      <button class="category-button" data-category="utilities">Utilities</button>
+      <button class="category-button" data-category="arcade">Arcade</button>
+      <button class="category-button" data-category="rts">Strategy</button>
+    </div>
+    <div class="app-grid" id="appGrid"></div>
+  </div>
+
+  <div id="appModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div class="app-details" id="appDetails"></div>
+      <div class="app-actions">
+        <button id="installButton" class="action-button install">Install</button>
+        <button id="uninstallButton" class="action-button uninstall">Uninstall</button>
+      </div>
+    </div>
+  </div>
+
+  <audio id="navSound" preload="auto">
+    <source src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-jump-coin-216.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // Polyfills para Chromium 41
+    if (!Array.prototype.forEach) {
+      Array.prototype.forEach = function(callback, thisArg) {
+        var T, k;
+        if (this == null) {
+          throw new TypeError(' this is null or not defined');
+        }
+        var O = Object(this);
+        var len = O.length >>> 0;
+        if (typeof callback !== 'function') {
+          throw new TypeError(callback + ' is not a function');
+        }
+        if (arguments.length > 1) {
+          T = thisArg;
+        }
+        k = 0;
+        while (k < len) {
+          var kValue;
+          if (k in O) {
+            kValue = O[k];
+            callback.call(T, kValue, k, O);
+          }
+          k++;
+        }
+      };
+    }
+
+    if (!NodeList.prototype.forEach) {
+      NodeList.prototype.forEach = Array.prototype.forEach;
+    }
+    
+    if (!String.prototype.includes) {
+      String.prototype.includes = function(search, start) {
+        if (typeof start !== 'number') {
+          start = 0;
+        }
+        if (start + search.length > this.length) {
+          return false;
+        } else {
+          return this.indexOf(search, start) !== -1;
+        }
+      };
+    }
+
+    // Función de espera para DOMContentLoaded más compatible
+    function ready(fn) {
+      if (document.readyState != 'loading') {
+        fn();
+      } else if (document.addEventListener) {
+        document.addEventListener('DOMContentLoaded', fn);
+      } else {
+        document.attachEvent('onreadystatechange', function() {
+          if (document.readyState != 'loading')
+            fn();
+        });
+      }
+    }
+
+    ready(function() {
+      // Base de datos de aplicaciones de ejemplo
+      var appData = [
+     {
+          name: "Blood",
+          image: "box/blood.jpg",
+          description: "Blood is a 3D first-person shooter video game developed by Monolith Productions and published by GT Interactive.",
+          category: "games",
+          link: "blood.html"
+        },
+        {
+          name: "Diablo",
+          image: "box/diablo.jpg",
+          description: "Diablo is an action role-playing dungeon crawler video game series developed by Blizzard North and continued by Blizzard Entertainment after the North studio shut down in 2005.",
+          category: "games",
+          link: "diablo.html"
+        },
+        {
+          name: "Doom",
+          image: "box/doom.jpg",
+          description: "*Doom* is a first-person shooter game released in 1993, developed by id Software. Players take on the role of a space marine battling hordes of demons and hellish creatures in a Martian base. It's renowned for its fast-paced action, groundbreaking graphics for its time, and for being one of the pioneers of the FPS genre.",
+          category: "games",
+          link: "doom.html"
+        },
+        {
+          name: "Doom II",
+          image: "box/doom2.jpg",
+          description: "*Doom* is a first-person shooter game released in 1993, developed by id Software. Players take on the role of a space marine battling hordes of demons and hellish creatures in a Martian base. It's renowned for its fast-paced action, groundbreaking graphics for its time, and for being one of the pioneers of the FPS genre.",
+          category: "games",
+          link: "doom2.html"
+        },
+        {
+          name: "Duke Nukem 3D",
+          image: "box/duke3d.webp",
+          description: "Duke Nukem 3D is a first-person shooter video game developed by 3D Realms.",
+          category: "games",
+          link: "duke3d.html"
+        },
+        {
+          name: "Dune 2000",
+          image: "box/dune2000.jpg",
+          description: "This is recreation of the classic strategy game Dune 2000.",
+          category: "rts",
+          link: "dune2000.html"
+        },
+        {
+          name: "Dune II",
+          image: "box/dune2.jpg",
+          description: "This is recreation of the classic strategy game Dune 2.",
+          category: "rts",
+          link: "dune2.html"
+        },
+        {
+          name: "Final DOOM",
+          image: "box/finaldoom.jpg",
+          description: "Final Doom is a first-person shooter video game developed by TeamTNT, and Dario and Milo Casali, and was released by id Software.",
+          category: "games",
+          link: "finaldoom.html"
+        },
+        {
+          name: "Grand Theft Auto",
+          image: "box/gta.jpg",
+          description: "Grand Theft Auto is a famous and most played DOS game that now is available to play in browser.",
+          category: "games",
+          link: "gta.html"
+        },
+        {
+          name: "Heretic",
+          image: "box/heretic.jpg",
+          description: "Heretic: Shadow of the Serpent Riders is a dark fantasy, spellcasting, first-person shooter developed by Raven Software and published by id Software in 1994.",
+          category: "games",
+          link: "heretic.html"
+        },
+        {
+          name: "Indianapolis 500: The Simulation",
+          image: "box/indi.jpg",
+          description: "Indianapolis 500: The Simulation is a 1989 computer game for MS-DOS. It was hailed as the first step of differentiating racing games from the arcade realm and into racing simulation.",
+          category: "rts",
+          link: "indi.html"
+        },
+        {
+          name: "Media IPTV",
+          image: "box/media.png",
+          description: "An IPTV media player is an application that streams live TV, video-on-demand, and online channels via IPTV protocols, offering playlist support, EPG integration, and customizable viewing options.",
+          category: "multimedia",
+          link: "multimedia.html"
+        },
+        {
+          name: "Mortal Kombat",
+          image: "box/mk.jpg",
+          description: "Mortal Kombat is a fighting game in which players battle opponents in one-on-one matches. The player that depletes the opponent's health bar first wins",
+          category: "games",
+          link: "mk.html"
+        },
+        {
+          name: "Open TTD",
+          image: "box/openttd.jpg",
+          description: "OpenTTD is a business simulation game in which players try to earn money by transporting passengers, minerals and goods via road, rail, water and air. It is an open-source remake and expansion of the 1995 Chris Sawyer video game Transport Tycoon Deluxe.",
+          category: "rts",
+          link: "openttd.html"
+        },
+        {
+          name: "Quake",
+          image: "box/quake.jpg",
+          description: "Play legendary Quake game in browser without registration and ads. You can play orginal game as well as Scourge of Armagon and Dissolution of Eternity",
+          category: "games",
+          link: "quake.html"
+        },
+        {
+          name: "Quarantine",
+          image: "box/qua.jpg",
+          description: "Quarantine is a 1994 racing/first-person shooter video game for MS-DOS and 3DO, created by Imagexcel and published by GameTek.",
+          category: "games",
+          link: "quarantine.html"
+        },
+        {
+          name: "Space Quest: Chapter I - The Sarien Encounter",
+          image: "box/spaceq.jpg",
+          description: "Space Quest: Chapter I – The Sarien Encounter is a graphic adventure game, created by Scott Murphy and Mark Crowe.",
+          category: "games",
+          link: "spaceq.html"
+        },
+        {
+          name: "Test Drive",
+          image: "box/testdrive.jpg",
+          description: "Test Drive is a series of racing video games that were originally published by Accolade until they were bought by Infogrames, which later turned into Atari. ",
+          category: "games",
+          link: "testdrive.html"
+        },
+        {
+          name: "The Need for Speed",
+          image: "box/nfs.jpg",
+          description: "The Need for Speed is a 1994 racing game developed by EA Canada, originally known as Pioneer Productions, and published by Electronic Arts for 3DO. ",
+          category: "games",
+          link: "nfs.html"
+        },
+        {
+          name: "Tomb Rider",
+          image: "https://dos.zone/images/containers/assets/backgrounds/lhazhk.8_12f0b6d8a9.png/d44c441b8ff939af74625c8375f4c8c1.webp",
+          description: "Tomb Raider, released in 1996, is a groundbreaking action-adventure game that introduced players to the iconic character Lara Croft.",
+          category: "games",
+          link: "tombrider.html"
+        },
+        {
+          name: "Ultimate DOOM",
+          image: "box/ultimate.jpg",
+          description: "This is an updated release of the original DOOM called THE ULTIMATE DOOM. THE ULTIMATE DOOM was released in late 1993 which is months before DOOM II came out.",
+          category: "games",
+          link: "ultimatedoom.html"
+        },
+        {
+          name: "Wolfenstein 3D",
+          image: "box/wolf3d.jpg",
+          description: "Wolfenstein 3D is a first-person shooter video game developed by id Software and published by Apogee Software and FormGen. ",
+          category: "games",
+          link: "wolf3d.html"
+        },
+        {
+          name: "WolfenDOOM",
+          image: "box/wolfdoom.jpg",
+          description: "Wolfenstein 3D under the DOOM world. ",
+          category: "games",
+          link: "wolfdoom.html"
+        },
+        {
+          name: "Wing Commander",
+          image: "box/wing.jpg",
+          description: "Wing Commander is a space flight simulation game, with the player piloting a ship, completing missions, and engaging enemy ships of various capabilities.",
+          category: "games",
+          link: "wing.html"
+        },
+        {
+          name: "Youtube",
+          image: "box/youtube.png",
+          description: "YouTube is an online video platform that allows users to watch, upload, share, and stream content, including videos, live broadcasts, and playlists across various categories.",
+          category: "multimedia",
+          link: "http://www.youtube.com"
+        },
+        {
+          name: "Youtube Music",
+          image: "box/youtubemusic.png",
+          description: "YouTube Music is a streaming service that offers music playback, personalized playlists, offline listening, and music video integration from YouTube’s extensive catalog.",
+          category: "multimedia",
+          link: "http://music.youtube.com"
+        },
+        {
+          name: "Arachne Browser",
+          image: "box/arachne.jpg",
+          description: "Web Browser for MS-DOS.",
+          category: "apps",
+          link: "arachne.html"
+        },
+        {
+          name: "AbiWord",
+          image: "box/abiword.png",
+          description: "Procesador de texto profesional.",
+          category: "apps",
+          link: "abiword.html"
+        },
+        {
+          name: "Desktop",
+          image: "box/dock.png",
+          description: "The desktop is a graphical workspace in WineBOX that allows users to organize icons, access files, and launch applications. It serves as the main interface for managing windows, shortcuts, and system functions.",
+          category: "apps",
+          link: "dock.html"
+        },
+        {
+          name: "DosBOX",
+          image: "box/dosbox.png",
+          description: "Run, test and install MS-DOS programs and game, packet in zip format.",
+          category: "apps",
+          link: "dosbox.html"
+        },
+        {
+          name: "Explorer++",
+          image: "box/explorer.jpg",
+          description: "Gestor de archivos para Windows.",
+          category: "utilities",
+          link: "explorer.html"
+        },
+        {
+          name: "7Zip",
+          image: "box/7zip.jpg",
+          description: "7-Zip is a file archiver with a high compression ratio. Download 7-Zip 24.08 (2024-08-11) for Windows x64 (64-bit).",
+          category: "utilities",
+          link: "zip.html"
+        },
+        {
+          name: "Audacity",
+          image: "box/audacity.jpg",
+          description: "Audacity is the world's most popular audio editing and recording app. Edit, mix, and enhance your audio tracks with the power of Audacity.",
+          category: "apps",
+          link: "audacity.html"
+        },
+        {
+          name: "Calc",
+          image: "box/calc.png",
+          description: "Calculator is a built-in WineBOX application that provides basic and advanced mathematical functions, including standard, scientific, programmer, and date calculations.",
+          category: "utilities",
+          link: "calc.html"
+        },
+        {
+          name: "Calendar",
+          image: "box/calendar.png",
+          description: "Calendar is a WineBOX application that helps users manage schedules, create events, set reminders, and sync with online calendars for seamless planning.",
+          category: "utilities",
+          link: "calendar.html"
+        },
+        {
+          name: "Clock",
+          image: "box/clock.png",
+          description: "Clock is a Windows application that provides alarms, timers, a stopwatch, and world time features to help users manage time efficiently.",
+          category: "utilities",
+          link: "clock.html"
+        },
+        {
+          name: "Control",
+          image: "box/control.png",
+          description: "The Windows Control Panel is a tool that allows users to adjust system settings and customize hardware and software options.",
+          category: "utilities",
+          link: "control.html"
+        },
+        {
+          name: "DOSShell",
+          image: "box/dosshell.png",
+          description: "A filemanager for MS-DOS.",
+          category: "utilities",
+          link: "dosshell.html"
+        },
+        {
+          name: "Flat Assemblerl",
+          image: "box/fasm.jpg",
+          description: "Flat assembler is a free, multi-pass assembler with Intel-style syntax for the IA-32 and x86-64 architectures.",
+          category: "apps",
+          link: "fasm.html"
+        },
+        {
+          name: "JPEGView",
+          image: "box/jpegview.jpg",
+          description: "JPEGView is a lean, fast and highly configurable viewer/editor for JPEG, BMP, PNG, WEBP, TGA, GIF and TIFF images with a minimal GUI.",
+          category: "utilities",
+          link: "jpegview.html"
+        },        
+       {
+          name: "Media Player Classic",
+          image: "box/mpc.png",
+          description: "MPC-HC is an extremely light-weight, open source media player for Windows®. It supports all common video and audio file formats available for playback.",
+          category: "apps",
+          link: "mpc.html"
+        },        
+       {
+          name: "Netsurf",
+          image: "box/netsurf.jpg",
+          description: "NetSurf is a multi-platform web browser for RISC OS, UNIX-like platforms (including Linux), Mac OS X, and more.",
+          category: "apps",
+          link: "netsurf.html"
+        },     
+       {
+          name: "Notepad",
+          image: "box/notepad.png",
+          description: "MPC-HC is an extremely light-weight, open source media player for Windows®. It supports all common video and audio file formats available for playback.",
+          category: "apps",
+          link: "note.html"
+        },        
+       {
+          name: "Notepad++",
+          image: "box/npp.jpg",
+          description: "Notepad++ is a free (as in “free speech” and also as in “free beer”) source code editor and Notepad replacement that supports several languages.",
+          category: "apps",
+          link: "npp.html"
+        },       
+       {
+          name: "Paint",
+          image: "box/paint.jpg",
+          description: "Paint is a versatile and user-friendly graphics editing app in Windows for you to create, edit, and manipulate images and drawings.",
+          category: "apps",
+          link: "mspaint.html"
+        },        
+       {
+          name: "Program Manager",
+          image: "box/progman.png",
+          description: "Program Manager is a graphical shell for managing applications and program groups in WineBOX. It allows users to organize, launch, and customize software shortcuts within a windowed interface.",
+          category: "apps",
+          link: "progman.html"
+        },
+       {
+          name: "QBasic 4.5",
+          image: "https://dos.zone/images/http/original/qbasic1.jpg/6a0c2580c730845b21f6f2d3b7505b50.webp",
+          description: "Program Manager is a graphical shell for managing applications and program groups in WineBOX. It allows users to organize, launch, and customize software shortcuts within a windowed interface.",
+          category: "apps",
+          link: "qbasic.html"
+        },                
+       {
+          name: "Open Office",
+          image: "box/soffice.jpg",
+          description: "The Apache OpenOffice project announces the official release of version 4.1.15. In the Release Notes you can read about all new bugfixes, improvements.",
+          category: "apps",
+          link: "soffice.html"
+        },
+       {
+          name: "Shell",
+          image: "box/shell.png",
+          description: "Command Prompt is a WineBOX command-line interpreter that allows users to execute commands, automate tasks, and manage system functions through text-based input.",
+          category: "utilities",
+          link: "winefile.html"
+        },   
+       {
+          name: "Sumatra PDF",
+          image: "box/sumatra.jpg",
+          description: "Sumatra PDF PDF, eBook (epub, mobi), comic book (cbz/cbr), DjVu, XPS, CHM, image viewer for Windows. Fast, small, packed with features, customizable, free.",
+          category: "utilities",
+          link: "sumatrapdf.html"
+        },        
+       {
+          name: "TexWorks",
+          image: "box/texworks.jpg",
+          description: "A simple (La)TeX editor and PDF previewer that is available on all major desktop operating systems.",
+          category: "apps",
+          link: "texworks.html"
+        },   
+       {
+          name: "ToDO",
+          image: "box/todo.png",
+          description: "To Do is a task management application that helps users create, organize, and track tasks with reminders, lists, and cloud synchronization.",
+          category: "utilities",
+          link: "todo.html"
+        },   
+       {
+          name: "TurboC",
+          image: "box/turboc.png",
+          description: "Turbo C 2.01, a C compiler for MS-DOS.",
+          category: "utilities",
+          link: "turboc.html"
+        },            
+       {
+          name: "TuxPaint",
+          image: "box/tuxpaint.png",
+          description: "Tux Paint is a free, award-winning drawing program for children ages 3 to 12 (for example, preschool and K-6).",
+          category: "apps",
+          link: "tuxpaint.html"
+        },        
+       {
+          name: "UltraISO",
+          image: "box/ultraiso.jpg",
+          description: "Bootable CD/DVD creation is quick and simple with UltraISO - make a bootable CD or DVD and adapt it in any way you want.",
+          category: "utilities",
+          link: "ultraiso.html"
+        },
+       {
+          name: "VirtualDUB",
+          image: "box/virtualdub.jpg",
+          description: "VirtualDub is a video capture/processing utility for 32-bit and 64-bit Windows platforms (98/ME/NT4/2000/XP/Vista/7), licensed under the GNU General Public.",
+          category: "utilities",
+          link: "virtualdub.html"
+        },
+       {
+          name: "Winecfg",
+          image: "box/winecfg.png",
+          description: "Wine Settings for the Windows Emulation.",
+          category: "utilities",
+          link: "winecfg.html"
+        },
+       {
+          name: "WineZIP",
+          image: "box/winezip.png",
+          description: "WineZip is an application that creates ZIP packages for installing Windows programs within WineBOX. It simplifies software deployment by packaging executable files and dependencies for seamless installation and execution.",
+          category: "utilities",
+          link: "winezip.html"
+        },
+       {
+          name: "WinAMP",
+          image: "box/winamp.jpg",
+          description: "Winamp builds the tools that empower artists to manage their music and revenue while delivering a player that offers the perfect listening experience.",
+          category: "apps",
+          link: "winamp.html"
+        },
+       {
+          name: "Wordpad",
+          image: "box/wordpad.jpg",
+          description: "WordPad is a word processor included with Windows 95 and later. Similarly to its predecessor Microsoft Write, it is a basic word processor.",
+          category: "apps",
+          link: "wordpad.html"
+        },
+        {
+          name: "Arkanoid",
+          image: "box/arkanoid.png",
+          description: "Arkanoid is a block breaker video game. Its plot involves the starship Arkanoid being attacked by a mysterious entity from space named DOH. ",
+          category: "arcade",
+          link: "arkanoid.html"
+        },
+        {
+          name: "Baby Type",
+          image: "box/baby.jpg",
+          description: "BabyType is a multi-language educational game aimed at teaching fast touch typing skills. ",
+          category: "arcade",
+          link: "babytype.html"
+        },
+        {
+          name: "Baryon",
+          image: "box/baryon.jpg",
+          description: "Baryon is a straightforward vertical shooter which features a smooth graphical engine, a short digital sound track and various types of enemies.",
+          category: "arcade",
+          link: "baryon.html"
+        },
+        {
+          name: "CD-MAN",
+          image: "box/cdman.jpg",
+          description: "CD-Man features 5 different worlds to pass each having nicely-drawn graphics in high-res EGA mode and therefore a new character.",
+          category: "arcade",
+          link: "cdman.html"
+        },
+        {
+          name: "Dave",
+          image: "box/dave.jpg",
+          description: "Dangerous Dave in the Haunted Mansion is a famous and most played DOS game that now is available to play in browser. With virtual mobile controls you also can play in Dangerous Dave in the Haunted Mansion on mobile.",
+          category: "arcade",
+          link: "dave.html"
+        },
+        {
+          name: "Disney Aladdin",
+          image: "box/aladdin.jpg",
+          description: "Disney's Aladdin is a famous and most played DOS game that now is available to play in browser. With virtual mobile controls you also can play in Disney's Aladdin on mobile.",
+          category: "arcade",
+          link: "aladdin.html"
+        },
+        {
+          name: "Ecstatica",
+          image: "https://dos.zone/images/containers/assets/backgrounds/izdxbg.%D0%A1%D0%BA%D1%80%D0%B8%D0%BD%D1%88%D0%BE%D1%82%2015-03-2025%20162449.jpg/f91eb9124a83f19e4987a1a77f7a69cf.webp",
+          description: "Ecstatica is an action-adventure computer game released by Psygnosis in 1994 for MS-DOS.",
+          category: "arcade",
+          link: "ecstatica.html"
+        },
+        {
+          name: "Earthworm Jim",
+          image: "box/jim.jpg",
+          description: "Earthworm Jim is a famous and most played DOS game that now is available to play in browser. With virtual mobile controls you also can play in Earthworm Jim on mobile.",
+          category: "arcade",
+          link: "earthworm.html"
+        },
+        {
+          name: "Golden Axe",
+          image: "box/axe.jpg",
+          description: "  Golden Axe is a side-scrolling, beat 'em up, hack and slash arcade video game released in 1989 by Sega for the System 16-B arcade hardware.",
+          category: "arcade",
+          link: "goldenaxe.html"
+        },
+        {
+          name: "Max Mechanized Assault",
+          image: "https://dos.zone/images/containers/assets/backgrounds/vvwawa.497_4a54b79a2ba3e.jpg/4d120df40fcf9efe1111c3b030510769.webp",
+          description: "M.A.X.: Mechanized Assault & Exploration is a real-time strategy game set in a futuristic world. Players build bases, gather resources, and command customizable mechs to conquer opponents and explore new territories.",
+          category: "rts",
+          link: "max.html"
+        },
+        {
+          name: "Out this world",
+          image: "box/out.jpg",
+          description: "Out of This World is a famous and most played DOS game that now is available to play in browser. With virtual mobile controls you also can play in Out of This World on mobile.",
+          category: "arcade",
+          link: "out.html"
+        },
+        {
+          name: "Prince of persia",
+          image: "box/pre1.jpg",
+          description: "Prince of Persia is a 1989 cinematic platform game developed and published by Broderbund for the Apple II. It was designed and implemented by Jordan Mechner.",
+          category: "arcade",
+          link: "princeofpersia.html"
+        },
+        {
+          name: "Prince of persia 2",
+          image: "box/prince2.jpg",
+          description: "Prince of Persia 2: The Shadow and the Flame is a platform game released by Brøderbund in 1993.",
+          category: "arcade",
+          link: "princeofpersia2.html"
+        },
+        {
+          name: "Prehistorik",
+          image: "box/spaceinvaders.png",
+          description: "Prehistorik is a platform game developed by Titus Interactive for the Amiga, Atari ST, Amstrad CPC and DOS.",
+          category: "arcade",
+          link: "prehistorik.html"
+        },
+        {
+          name: "Prehistorik 2",
+          image: "box/pre2.jpg",
+          description: "Prehistorik 2 is a platform game developed by Titus Interactive for the Amiga, Atari ST, Amstrad CPC and DOS.",
+          category: "arcade",
+          link: "prehistorik2.html"
+        },
+        {
+          name: "Space Invaders",
+          image: "box/spaceinvaders.png",
+          description: "Icónico juego arcade de disparos espaciales.",
+          category: "arcade",
+          link: "spaceinvaders.html"
+        },
+        {
+          name: "The Lost Vikings",
+          image: "box/vikings.jpg",
+          description: "In the game, the three Vikings get kidnapped by Tomator, emperor of the alien Croutonian empire, for an inter-galactic zoo and become lost in various periods.",
+          category: "arcade",
+          link: "vikings.html"
+        },
+        {
+          name: "XBill",
+          image: "box/xbill.webp",
+          description: "XBill is an arcade style game for the X Window System. The game features a bespectacled character known as Bill.",
+          category: "arcade",
+          link: "xbill.html"
+        },
+        {
+          name: "Oregon Trail Delux",
+          image: "box/oregon.jpg",
+          description: "You get to play the role of a wagon leader and guide your group of chosen settlers from Independence, Missouri, to the Willamette Valley in Oregon.",
+          category: "rts",
+          link: "oregon.html"
+        },
+        {
+          name: "Heroes of Might and Magic II",
+          image: "box/heroes2.jpg",
+          description: "The canonical ending of Heroes I results in Lord Morglin Ironfist’s victory. In the following years, he has successfully unified the continent of Enroth and secured his rule as king.",
+          category: "rts",
+          link: "heroes.html"
+        },
+        {
+          name: "Heroes of Might and Magic III",
+          image: "https://dos.zone/images/containers/assets/backgrounds/homm3-vcmi.jpg/6205b73e460ebc5de314ac35e1ed3abc.webp",
+          description: "The canonical ending of Heroes I results in Lord Morglin Ironfist’s victory. In the following years, he has successfully unified the continent of Enroth and secured his rule as king.",
+          category: "rts",
+          link: "https://sec.dos.zone/vcmi/launcher/"
+        },
+        {
+          name: "Command & Conquer",
+          image: "box/command.jpg",
+          description: "Wage real-time war in more ways than ever with a modern and near-future arsenal. Command the powerful US forces.",
+          category: "rts",
+          link: "commandconquer.html"
+        },
+        {
+          name: "Rise of the triad",
+          image: "box/rise.webp",
+          description: "Rise of the Triad: Dark War is a famous and most played DOS game that now is available to play in browser. With virtual mobile controls you also can play in Rise of the Triad: Dark War on mobile. On DOS.Zone Rise of the Triad: Dark War available to play for free without registration.",
+          category: "rts",
+          link: "rise.html"
+        },
+        {
+          name: "Sim City",
+          image: "box/simcity.jpg",
+          description: "SimCity is an open-ended city-building video game franchise originally designed by Will Wright.",
+          category: "rts",
+          link: "simcity.html"
+        },
+        {
+          name: "Sim City 2000",
+          image: "box/sim2000.jpg",
+          description: "SimCity 2000 marked a major shift in gameplay from the original SimCity, the basic structure set forth in this seminal version has defined subsequent releases.",
+          category: "rts",
+          link: "simcity2000.html"
+        },
+        {
+          name: "Warcraft",
+          image: "box/war1.jpg",
+          description: "Warcraft: Orcs & Humans is a real-time strategy game (RTS) developed and published by Blizzard Entertainment, and published by Interplay Productions in Europe.",
+          category: "rts",
+          link: "warcraft.html"
+        },
+        {
+          name: "Warcraft II",
+          image: "box/war2.jpg",
+          description: "WarCraft II: Tides of Darkness is a sequel to WarCraft: Orcs & Humans strategy game for DOS.",
+          category: "rts",
+          link: "warcraft2.html"
+        },
+        {
+          name: "X-COM: UFO Defense",
+          image: "box/xcom.jpg",
+          description: "Shooting down UFOs is just the beginning: you must then lead a squad of heavily-armed soldiers across different terrains as they investigate the UFO crash site.",
+          category: "rts",
+          link: "xcom.html"
+        },
+        {
+          name: "ZED",
+          image: "https://dos.zone/images/containers/assets/backgrounds/rofzsx.203_5b03ef03913fe.png/1418a024ed1903d472446d6aebc8ce6c.webp",
+          description: "Z (ZED) is a real-time strategy game featuring fast-paced, action-packed gameplay. Players command robotic armies, capture territories, and engage in tactical battles across diverse landscapes to achieve victory.",
+          category: "rts",
+          link: "z.html"
+        },
+        {
+          name: "Master of Orion II",
+          image: "box/master.jpg",
+          description: "Forge an empire in a universe where population growth is stripping away planetary resources. Colonize unknown planets and trade.",
+          category: "rts",
+          link: "masteroforion.html"
+        }
+      ];
+
+      // Variables para control de navegación
+      var currentSelectedIndex = -1;
+      var currentApps = [];
+      var isModalOpen = false;
+      var currentFocusArea = 'categories';
+      var currentCategoryIndex = 0;
+      var isMenuOpen = false;
+      var currentMenuItemIndex = -1;
+      var deferredPrompt = null;
+
+      // Elementos del DOM
+      var appGrid = document.getElementById('appGrid');
+      var categoryButtons = document.querySelectorAll('.category-button');
+      var navSound = document.getElementById('navSound');
+      var menuButton = document.getElementById('menuButton');
+      var sideMenu = document.getElementById('sideMenu');
+      var menuOverlay = document.getElementById('menuOverlay');
+      var menuItems = document.querySelectorAll('.menu-item');
+      var installButton = document.getElementById('installButton');
+      var uninstallButton = document.getElementById('uninstallButton');
+
+      // Función para mostrar aplicaciones
+      function displayApps(apps) {
+        appGrid.innerHTML = '';
+        currentApps = apps;
+        
+        if (apps.length === 0) {
+          appGrid.innerHTML = '<p style="color: #666; grid-column: 1/-1; text-align: center;">No apps found</p>';
+          return;
+        }
+        
+        for (var i = 0; i < apps.length; i++) {
+          var app = apps[i];
+          var appCard = document.createElement('div');
+          appCard.className = 'app-card';
+          
+          if (i === currentSelectedIndex && currentFocusArea === 'apps') {
+            appCard.className += ' selected';
+          }
+          
+          appCard.innerHTML = 
+            '<img src="' + app.image + '" alt="' + app.name + '" class="app-thumbnail">' +
+            '<div class="app-info">' +
+              '<div class="app-title">' + app.name + '</div>' +
+              '<div class="app-category">' + app.category + '</div>' +
+            '</div>';
+          
+          appCard.addEventListener('click', function() {
+            openAppModal(app);
+          });
+          
+          appGrid.appendChild(appCard);
+        }
+
+        if (currentApps.length > 0 && currentSelectedIndex === -1 && currentFocusArea === 'apps') {
+          currentSelectedIndex = 0;
+          updateSelection();
+        }
+      }
+
+      // Función para abrir modal de aplicación
+      function openAppModal(app) {
+        isModalOpen = true;
+        var appDetails = document.getElementById('appDetails');
+        var modal = document.getElementById('appModal');
+
+        appDetails.innerHTML = 
+          '<h2>' + app.name + '</h2>' +
+          '<img src="' + app.image + '" alt="' + app.name + '" style="max-width: 200px;">' +
+          '<p><strong>Category:</strong> ' + app.category + '</p>' +
+          '<p><strong>Description:</strong> ' + app.description + '</p>';
+
+        installButton.onclick = function() {
+          installApp();
+        };
+        
+        uninstallButton.onclick = function() {
+          uninstallApp();
+        };
+
+        // Actualizar estado del botón de desinstalar
+        updateUninstallButton();
+
+        modal.style.display = 'block';
+        currentSelectedIndex = -1;
+      }
+
+      // Función para instalar la aplicación
+      function installApp() {
+        // Verificar si el navegador soporta la instalación de PWAs
+        if (deferredPrompt) {
+          try {
+            // Mostrar el prompt de instalación
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then(function(choiceResult) {
+              if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the install prompt');
+                updateUninstallButton();
+              }
+              deferredPrompt = null;
+            });
+          } catch(e) {
+            console.error('Error during installation:', e);
+            alert('Installation is not supported in this browser.');
+          }
+        } else {
+          alert('Installation is not supported in this browser.');
+        }
+      }
+
+      // Función para desinstalar la aplicación
+      function uninstallApp() {
+        // Esto solo funciona en algunos navegadores modernos
+        if ('getInstalledRelatedApps' in window.navigator) {
+          navigator.getInstalledRelatedApps().then(function(installedApps) {
+            // Lógica de desinstalación (limitada por permisos del navegador)
+            alert('To uninstall, please remove the application from your operating system.');
+          }).catch(function(error) {
+            console.error('Error checking installed apps:', error);
+          });
+        } else {
+          alert('Uninstallation is not supported in this browser.');
+        }
+      }
+
+      // Función para actualizar el estado del botón de desinstalar
+      function updateUninstallButton() {
+        // En navegadores antiguos, siempre ocultar el botón
+        if (!('getInstalledRelatedApps' in window.navigator)) {
+          uninstallButton.className = 'action-button uninstall';
+          return;
+        }
+
+        // En navegadores modernos, verificar si la app está instalada
+        navigator.getInstalledRelatedApps().then(function(installedApps) {
+          if (installedApps && installedApps.length > 0) {
+            uninstallButton.className = 'action-button uninstall available';
+          } else {
+            uninstallButton.className = 'action-button uninstall';
+          }
+        }).catch(function(error) {
+          console.error('Error checking installed apps:', error);
+          uninstallButton.className = 'action-button uninstall';
+        });
+      }
+
+      // Función para cerrar modal
+      function closeModal() {
+        isModalOpen = false;
+        document.getElementById('appModal').style.display = 'none';
+        if (currentApps.length > 0 && currentFocusArea === 'apps') {
+          currentSelectedIndex = Math.min(currentSelectedIndex, currentApps.length - 1);
+          updateSelection();
+        }
+      }
+
+      // Función para alternar el menú
+      function toggleMenu() {
+        isMenuOpen = !isMenuOpen;
+        if (isMenuOpen) {
+          sideMenu.className += ' open';
+          menuOverlay.className += ' open';
+          currentFocusArea = 'menu';
+          currentMenuItemIndex = 0;
+        } else {
+          sideMenu.className = 'side-menu';
+          menuOverlay.className = 'menu-overlay';
+          currentFocusArea = 'categories';
+          currentMenuItemIndex = -1;
+        }
+        updateSelection();
+      }
+
+      // Funciones de navegación con teclado
+      function handleUpArrow() {
+        if (isMenuOpen) {
+          if (currentMenuItemIndex > 0) {
+            currentMenuItemIndex--;
+            updateSelection();
+          }
+          return;
+        }
+
+        if (currentFocusArea === 'apps' && currentApps.length > 0) {
+          var columns = Math.floor(appGrid.offsetWidth / (240 + 25));
+          if (currentSelectedIndex >= columns) {
+            currentSelectedIndex -= columns;
+            updateSelection();
+          } else {
+            currentFocusArea = 'categories';
+            currentCategoryIndex = Math.min(currentCategoryIndex, categoryButtons.length - 1);
+            updateSelection();
+          }
+        }
+      }
+
+      function handleDownArrow() {
+        if (isMenuOpen) {
+          if (currentMenuItemIndex < menuItems.length - 1) {
+            currentMenuItemIndex++;
+            updateSelection();
+          }
+          return;
+        }
+
+        if (currentFocusArea === 'categories') {
+          currentFocusArea = 'apps';
+          currentSelectedIndex = Math.min(currentSelectedIndex, currentApps.length - 1);
+          if (currentSelectedIndex === -1 && currentApps.length > 0) {
+            currentSelectedIndex = 0;
+          }
+          updateSelection();
+        } else if (currentFocusArea === 'apps' && currentApps.length > 0) {
+          var columns = Math.floor(appGrid.offsetWidth / (240 + 25));
+          if (currentSelectedIndex + columns < currentApps.length) {
+            currentSelectedIndex += columns;
+            updateSelection();
+          }
+        }
+      }
+
+      function handleLeftArrow() {
+        if (isMenuOpen) return;
+
+        if (currentFocusArea === 'categories') {
+          if (currentCategoryIndex > 0) {
+            currentCategoryIndex--;
+            updateSelection();
+          }
+        } else if (currentFocusArea === 'apps' && currentApps.length > 0) {
+          if (currentSelectedIndex > 0) {
+            currentSelectedIndex--;
+            updateSelection();
+          }
+        }
+      }
+
+      function handleRightArrow() {
+        if (isMenuOpen) return;
+
+        if (currentFocusArea === 'categories') {
+          if (currentCategoryIndex < categoryButtons.length - 1) {
+            currentCategoryIndex++;
+            updateSelection();
+          }
+        } else if (currentFocusArea === 'apps' && currentApps.length > 0) {
+          if (currentSelectedIndex < currentApps.length - 1) {
+            currentSelectedIndex++;
+            updateSelection();
+          }
+        }
+      }
+
+      function handleEnter() {
+        if (isMenuOpen && currentMenuItemIndex >= 0 && currentMenuItemIndex < menuItems.length) {
+          menuItems[currentMenuItemIndex].click();
+          return;
+        }
+
+        if (currentFocusArea === 'categories' && currentCategoryIndex >= 0 && currentCategoryIndex < categoryButtons.length) {
+          categoryButtons[currentCategoryIndex].click();
+          currentFocusArea = 'apps';
+          currentSelectedIndex = 0;
+          updateSelection();
+        } else if (currentFocusArea === 'apps' && currentSelectedIndex >= 0 && currentSelectedIndex < currentApps.length) {
+          openAppModal(currentApps[currentSelectedIndex]);
+        }
+      }
+
+      function toggleFocusArea() {
+        if (isMenuOpen) {
+          toggleMenu();
+          return;
+        }
+
+        if (currentFocusArea === 'categories') {
+          currentFocusArea = 'apps';
+          if (currentApps.length > 0) {
+            currentSelectedIndex = 0;
+          }
+        } else if (currentFocusArea === 'apps') {
+          currentFocusArea = 'categories';
+        }
+        updateSelection();
+      }
+
+      // Función para actualizar selección
+      function updateSelection() {
+        for (var i = 0; i < categoryButtons.length; i++) {
+          var button = categoryButtons[i];
+          if (i === currentCategoryIndex && currentFocusArea === 'categories') {
+            button.className += ' selected';
+            button.scrollIntoViewIfNeeded ? button.scrollIntoViewIfNeeded() : button.scrollIntoView();
+          } else {
+            button.className = 'category-button';
+          }
+        }
+
+        var appCards = document.querySelectorAll('.app-card');
+        for (var i = 0; i < appCards.length; i++) {
+          var card = appCards[i];
+          if (i === currentSelectedIndex && currentFocusArea === 'apps') {
+            card.className += ' selected';
+            card.scrollIntoViewIfNeeded ? card.scrollIntoViewIfNeeded() : card.scrollIntoView();
+          } else {
+            card.className = 'app-card';
+          }
+        }
+
+        // Actualizar selección en el menú
+        for (var i = 0; i < menuItems.length; i++) {
+          var item = menuItems[i];
+          if (i === currentMenuItemIndex && currentFocusArea === 'menu') {
+            item.className += ' selected';
+          } else {
+            item.className = 'menu-item';
+          }
+        }
+      }
+
+      // Función para reproducir sonido de navegación
+      function playNavSound() {
+        if (navSound) {
+          navSound.currentTime = 0;
+          try {
+            navSound.play();
+          } catch(e) {
+            console.log("Audio play failed:", e);
+          }
+        }
+      }
+
+      // Eventos
+      document.addEventListener('keydown', function(e) {
+        if (isModalOpen) {
+          if (e.key === 'Escape') {
+            closeModal();
+          } else if (e.key === 'Enter') {
+            document.getElementById('installButton').click();
+          }
+          return;
+        }
+
+        switch(e.key) {
+          case 'ArrowUp':
+            e.preventDefault();
+            playNavSound();
+            handleUpArrow();
+            break;
+          case 'ArrowDown':
+            e.preventDefault();
+            playNavSound();
+            handleDownArrow();
+            break;
+          case 'ArrowLeft':
+            e.preventDefault();
+            playNavSound();
+            handleLeftArrow();
+            break;
+          case 'ArrowRight':
+            e.preventDefault();
+            playNavSound();
+            handleRightArrow();
+            break;
+          case 'Enter':
+            e.preventDefault();
+            playNavSound();
+            handleEnter();
+            break;
+          case 'Tab':
+            e.preventDefault();
+            playNavSound();
+            toggleFocusArea();
+            break;
+          case 'Escape':
+            if (isMenuOpen) {
+              e.preventDefault();
+              playNavSound();
+              toggleMenu();
+            }
+            break;
+        }
+      });
+
+      menuButton.addEventListener('click', function() {
+        playNavSound();
+        toggleMenu();
+      });
+
+      menuOverlay.addEventListener('click', function() {
+        playNavSound();
+        toggleMenu();
+      });
+
+      for (var i = 0; i < menuItems.length; i++) {
+        (function(index) {
+          menuItems[index].addEventListener('click', function() {
+            var category = this.getAttribute('data-category');
+            var filteredApps = [];
+            
+            if (category === 'all') {
+              filteredApps = appData;
+            } else {
+              for (var k = 0; k < appData.length; k++) {
+                if (appData[k].category === category) {
+                  filteredApps.push(appData[k]);
+                }
+              }
+            }
+            
+            displayApps(filteredApps);
+            currentSelectedIndex = 0;
+            currentFocusArea = 'apps';
+            updateSelection();
+            toggleMenu();
+          });
+        })(i);
+      }
+
+      for (var i = 0; i < categoryButtons.length; i++) {
+        (function(index) {
+          categoryButtons[index].addEventListener('click', function() {
+            for (var j = 0; j < categoryButtons.length; j++) {
+              categoryButtons[j].className = 'category-button';
+            }
+            this.className += ' active';
+            var category = this.getAttribute('data-category');
+            var filteredApps = [];
+            
+            if (category === 'all') {
+              filteredApps = appData;
+            } else {
+              for (var k = 0; k < appData.length; k++) {
+                if (appData[k].category === category) {
+                  filteredApps.push(appData[k]);
+                }
+              }
+            }
+            
+            displayApps(filteredApps);
+            currentSelectedIndex = 0;
+            currentFocusArea = 'apps';
+            updateSelection();
+          });
+        })(i);
+      }
+
+      var searchInput = document.querySelector('.search-input');
+      var searchButton = document.querySelector('.search-button');
+
+      searchButton.addEventListener('click', function() {
+        var query = searchInput.value.trim();
+        if (query) {
+          var filteredApps = [];
+          for (var i = 0; i < appData.length; i++) {
+            var app = appData[i];
+            if (app.name.toLowerCase().indexOf(query.toLowerCase()) !== -1 || 
+                app.description.toLowerCase().indexOf(query.toLowerCase()) !== -1) {
+              filteredApps.push(app);
+            }
+          }
+          displayApps(filteredApps);
+          currentSelectedIndex = 0;
+          currentFocusArea = 'apps';
+          updateSelection();
+        }
+      });
+
+      searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          var query = searchInput.value.trim();
+          if (query) {
+            var filteredApps = [];
+            for (var i = 0; i < appData.length; i++) {
+              var app = appData[i];
+              if (app.name.toLowerCase().indexOf(query.toLowerCase()) !== -1 || 
+                  app.description.toLowerCase().indexOf(query.toLowerCase()) !== -1) {
+                filteredApps.push(app);
+              }
+            }
+            displayApps(filteredApps);
+            currentSelectedIndex = 0;
+            currentFocusArea = 'apps';
+            updateSelection();
+          }
+        }
+      });
+
+      var closeBtn = document.querySelector('.close');
+      var modal = document.getElementById('appModal');
+
+      closeBtn.onclick = closeModal;
+
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          closeModal();
+        }
+      }
+
+      // Evento para capturar el prompt de instalación
+      window.addEventListener('beforeinstallprompt', function(e) {
+        // Prevenir que el mini-infobar aparezca en mobile
+        e.preventDefault();
+        // Guardar el evento para que pueda ser activado más tarde
+        deferredPrompt = e;
+        console.log('beforeinstallprompt event fired');
+      });
+
+      window.addEventListener('appinstalled', function() {
+        // Limpiar el prompt guardado
+        deferredPrompt = null;
+        console.log('PWA was installed');
+        updateUninstallButton();
+      });
+
+      // Inicialización
+      displayApps(appData);
+      updateUninstallButton();
+    });
+  </script>
+</body>
+</html>
