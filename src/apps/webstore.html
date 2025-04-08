@@ -187,13 +187,6 @@
   .action-button.install {
     background-color: #4CAF50;
   }
-  .action-button.uninstall {
-    background-color: #f44336;
-    display: none;
-  }
-  .action-button.uninstall.available {
-    display: inline-block;
-  }
   
   /* Estilos para el menú lateral */
   .side-menu {
@@ -333,7 +326,6 @@
       <div class="app-details" id="appDetails"></div>
       <div class="app-actions">
         <button id="installButton" class="action-button install">Install</button>
-        <button id="uninstallButton" class="action-button uninstall">Uninstall</button>
       </div>
     </div>
   </div>
@@ -343,67 +335,9 @@
   </audio>
 
   <script>
-    // Polyfills para Chromium 41
-    if (!Array.prototype.forEach) {
-      Array.prototype.forEach = function(callback, thisArg) {
-        var T, k;
-        if (this == null) {
-          throw new TypeError(' this is null or not defined');
-        }
-        var O = Object(this);
-        var len = O.length >>> 0;
-        if (typeof callback !== 'function') {
-          throw new TypeError(callback + ' is not a function');
-        }
-        if (arguments.length > 1) {
-          T = thisArg;
-        }
-        k = 0;
-        while (k < len) {
-          var kValue;
-          if (k in O) {
-            kValue = O[k];
-            callback.call(T, kValue, k, O);
-          }
-          k++;
-        }
-      };
-    }
 
-    if (!NodeList.prototype.forEach) {
-      NodeList.prototype.forEach = Array.prototype.forEach;
-    }
-    
-    if (!String.prototype.includes) {
-      String.prototype.includes = function(search, start) {
-        if (typeof start !== 'number') {
-          start = 0;
-        }
-        if (start + search.length > this.length) {
-          return false;
-        } else {
-          return this.indexOf(search, start) !== -1;
-        }
-      };
-    }
+var appData = [
 
-    // Función de espera para DOMContentLoaded más compatible
-    function ready(fn) {
-      if (document.readyState != 'loading') {
-        fn();
-      } else if (document.addEventListener) {
-        document.addEventListener('DOMContentLoaded', fn);
-      } else {
-        document.attachEvent('onreadystatechange', function() {
-          if (document.readyState != 'loading')
-            fn();
-        });
-      }
-    }
-
-    ready(function() {
-      // Base de datos de aplicaciones de ejemplo
-      var appData = [
      {
           name: "Blood",
           image: "box/blood.jpg",
@@ -1034,390 +968,306 @@
           category: "rts",
           link: "masteroforion.html"
         }
-      ];
 
-      // Variables para control de navegación
-      var currentSelectedIndex = -1;
-      var currentApps = [];
-      var isModalOpen = false;
-      var currentFocusArea = 'categories';
-      var currentCategoryIndex = 0;
-      var isMenuOpen = false;
-      var currentMenuItemIndex = -1;
-      var deferredPrompt = null;
+];
 
-      // Elementos del DOM
-      var appGrid = document.getElementById('appGrid');
-      var categoryButtons = document.querySelectorAll('.category-button');
-      var navSound = document.getElementById('navSound');
-      var menuButton = document.getElementById('menuButton');
-      var sideMenu = document.getElementById('sideMenu');
-      var menuOverlay = document.getElementById('menuOverlay');
-      var menuItems = document.querySelectorAll('.menu-item');
-      var installButton = document.getElementById('installButton');
-      var uninstallButton = document.getElementById('uninstallButton');
+    // Variables globales
+    var currentSelectedIndex = -1;
+    var currentApps = [];
+    var isModalOpen = false;
+    var currentFocusArea = 'categories';
+    var currentCategoryIndex = 0;
+    var isMenuOpen = false;
+    var currentMenuItemIndex = -1;
+    var deferredPrompt = null;
 
-      // Función para mostrar aplicaciones
-      function displayApps(apps) {
-        appGrid.innerHTML = '';
-        currentApps = apps;
-        
-        if (apps.length === 0) {
-          appGrid.innerHTML = '<p style="color: #666; grid-column: 1/-1; text-align: center;">No apps found</p>';
-          return;
+    // Elementos del DOM
+    var appGrid = document.getElementById('appGrid');
+    var categoryButtons = document.querySelectorAll('.category-button');
+    var navSound = document.getElementById('navSound');
+    var menuButton = document.getElementById('menuButton');
+    var sideMenu = document.getElementById('sideMenu');
+    var menuOverlay = document.getElementById('menuOverlay');
+    var menuItems = document.querySelectorAll('.menu-item');
+    var installButton = document.getElementById('installButton');
+    var searchInput = document.querySelector('.search-input');
+    var searchButton = document.querySelector('.search-button');
+    var closeBtn = document.querySelector('.close');
+    var modal = document.getElementById('appModal');
+
+    // Función para crear acceso directo
+    function createShortcut(url, title) {
+      // Método 1: Para IE/Chromium antiguo
+      if (window.external && 'AddFavorite' in window.external) {
+        try {
+          window.external.AddFavorite(url, title);
+          return true;
+        } catch(e) {
+          console.log("AddFavorite failed, trying other methods");
         }
-        
-        for (var i = 0; i < apps.length; i++) {
-          var app = apps[i];
-          var appCard = document.createElement('div');
-          appCard.className = 'app-card';
-          
-          if (i === currentSelectedIndex && currentFocusArea === 'apps') {
-            appCard.className += ' selected';
+      }
+      
+      // Método 2: API de instalación PWA
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(function(choiceResult) {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('User accepted the install prompt');
           }
-          
-          appCard.innerHTML = 
-            '<img src="' + app.image + '" alt="' + app.name + '" class="app-thumbnail">' +
-            '<div class="app-info">' +
-              '<div class="app-title">' + app.name + '</div>' +
-              '<div class="app-category">' + app.category + '</div>' +
-            '</div>';
-          
-          appCard.addEventListener('click', function() {
-            openAppModal(app);
-          });
-          
-          appGrid.appendChild(appCard);
-        }
-
-        if (currentApps.length > 0 && currentSelectedIndex === -1 && currentFocusArea === 'apps') {
-          currentSelectedIndex = 0;
-          updateSelection();
-        }
-      }
-
-      // Función para abrir modal de aplicación
-      function openAppModal(app) {
-        isModalOpen = true;
-        var appDetails = document.getElementById('appDetails');
-        var modal = document.getElementById('appModal');
-
-        appDetails.innerHTML = 
-          '<h2>' + app.name + '</h2>' +
-          '<img src="' + app.image + '" alt="' + app.name + '" style="max-width: 200px;">' +
-          '<p><strong>Category:</strong> ' + app.category + '</p>' +
-          '<p><strong>Description:</strong> ' + app.description + '</p>';
-
-        installButton.onclick = function() {
-          installApp();
-        };
-        
-        uninstallButton.onclick = function() {
-          uninstallApp();
-        };
-
-        // Actualizar estado del botón de desinstalar
-        updateUninstallButton();
-
-        modal.style.display = 'block';
-        currentSelectedIndex = -1;
-      }
-
-      // Función para instalar la aplicación
-      function installApp() {
-        // Verificar si el navegador soporta la instalación de PWAs
-        if (deferredPrompt) {
-          try {
-            // Mostrar el prompt de instalación
-            deferredPrompt.prompt();
-            deferredPrompt.userChoice.then(function(choiceResult) {
-              if (choiceResult.outcome === 'accepted') {
-                console.log('User accepted the install prompt');
-                updateUninstallButton();
-              }
-              deferredPrompt = null;
-            });
-          } catch(e) {
-            console.error('Error during installation:', e);
-            alert('Installation is not supported in this browser.');
-          }
-        } else {
-          alert('Installation is not supported in this browser.');
-        }
-      }
-
-      // Función para desinstalar la aplicación
-      function uninstallApp() {
-        // Esto solo funciona en algunos navegadores modernos
-        if ('getInstalledRelatedApps' in window.navigator) {
-          navigator.getInstalledRelatedApps().then(function(installedApps) {
-            // Lógica de desinstalación (limitada por permisos del navegador)
-            alert('To uninstall, please remove the application from your operating system.');
-          }).catch(function(error) {
-            console.error('Error checking installed apps:', error);
-          });
-        } else {
-          alert('Uninstallation is not supported in this browser.');
-        }
-      }
-
-      // Función para actualizar el estado del botón de desinstalar
-      function updateUninstallButton() {
-        // En navegadores antiguos, siempre ocultar el botón
-        if (!('getInstalledRelatedApps' in window.navigator)) {
-          uninstallButton.className = 'action-button uninstall';
-          return;
-        }
-
-        // En navegadores modernos, verificar si la app está instalada
-        navigator.getInstalledRelatedApps().then(function(installedApps) {
-          if (installedApps && installedApps.length > 0) {
-            uninstallButton.className = 'action-button uninstall available';
-          } else {
-            uninstallButton.className = 'action-button uninstall';
-          }
-        }).catch(function(error) {
-          console.error('Error checking installed apps:', error);
-          uninstallButton.className = 'action-button uninstall';
+          deferredPrompt = null;
         });
+        return true;
       }
+      
+      // Método 3: Descarga de archivo .url
+      try {
+        var blob = new Blob(
+          ['[InternetShortcut]\nURL=' + url + '\n'], 
+          {type: 'application/octet-stream'}
+        );
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = (title.replace(/[^a-z0-9]/gi, '_') + '.url').toLowerCase();
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function() {
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(a.href);
+        }, 100);
+        return true;
+      } catch(e) {
+        console.error("Error creating .url file:", e);
+      }
+      
+      // Método 4: Instrucciones manuales
+      alert('Para crear un acceso directo:\n\n1. Haz clic derecho en esta página\n2. Selecciona "Crear acceso directo"\n3. Confirma la creación');
+      return false;
+    }
 
-      // Función para cerrar modal
-      function closeModal() {
-        isModalOpen = false;
-        document.getElementById('appModal').style.display = 'none';
-        if (currentApps.length > 0 && currentFocusArea === 'apps') {
-          currentSelectedIndex = Math.min(currentSelectedIndex, currentApps.length - 1);
-          updateSelection();
+    // Función para mostrar aplicaciones
+    function displayApps(apps) {
+      appGrid.innerHTML = '';
+      currentApps = apps;
+      
+      if (apps.length === 0) {
+        appGrid.innerHTML = '<p style="color: #666; grid-column: 1/-1; text-align: center;">No apps found</p>';
+        return;
+      }
+      
+      apps.forEach(function(app, i) {
+        var appCard = document.createElement('div');
+        appCard.className = 'app-card';
+        
+        if (i === currentSelectedIndex && currentFocusArea === 'apps') {
+          appCard.className += ' selected';
         }
-      }
+        
+        appCard.innerHTML = `
+          <img src="${app.image}" alt="${app.name}" class="app-thumbnail">
+          <div class="app-info">
+            <div class="app-title">${app.name}</div>
+            <div class="app-category">${app.category}</div>
+          </div>`;
+        
+        appCard.addEventListener('click', function() {
+          openAppModal(app);
+        });
+        
+        appGrid.appendChild(appCard);
+      });
 
-      // Función para alternar el menú
-      function toggleMenu() {
-        isMenuOpen = !isMenuOpen;
-        if (isMenuOpen) {
-          sideMenu.className += ' open';
-          menuOverlay.className += ' open';
-          currentFocusArea = 'menu';
-          currentMenuItemIndex = 0;
+      if (currentApps.length > 0 && currentSelectedIndex === -1 && currentFocusArea === 'apps') {
+        currentSelectedIndex = 0;
+        updateSelection();
+      }
+    }
+
+    // Función para abrir modal de aplicación
+    function openAppModal(app) {
+      isModalOpen = true;
+      document.getElementById('appDetails').innerHTML = `
+        <h2>${app.name}</h2>
+        <img src="${app.image}" alt="${app.name}" style="max-width:200px;">
+        <p><strong>Category:</strong> ${app.category}</p>
+        <p><strong>Description:</strong> ${app.description}</p>`;
+
+      installButton.onclick = function() {
+        createShortcut(app.link, app.name);
+      };
+
+      modal.style.display = 'block';
+      currentSelectedIndex = -1;
+    }
+
+    // Función para cerrar modal
+    function closeModal() {
+      isModalOpen = false;
+      modal.style.display = 'none';
+      if (currentApps.length > 0 && currentFocusArea === 'apps') {
+        currentSelectedIndex = Math.min(currentSelectedIndex, currentApps.length - 1);
+        updateSelection();
+      }
+    }
+
+    // Función para alternar el menú
+    function toggleMenu() {
+      isMenuOpen = !isMenuOpen;
+      if (isMenuOpen) {
+        sideMenu.classList.add('open');
+        menuOverlay.classList.add('open');
+        currentFocusArea = 'menu';
+        currentMenuItemIndex = 0;
+      } else {
+        sideMenu.classList.remove('open');
+        menuOverlay.classList.remove('open');
+        currentFocusArea = 'categories';
+        currentMenuItemIndex = -1;
+      }
+      updateSelection();
+    }
+
+    // Función para actualizar selección
+    function updateSelection() {
+      // Actualizar categorías
+      categoryButtons.forEach(function(button, i) {
+        if (i === currentCategoryIndex && currentFocusArea === 'categories') {
+          button.classList.add('selected');
+          button.scrollIntoView({behavior: 'smooth', block: 'nearest'});
         } else {
-          sideMenu.className = 'side-menu';
-          menuOverlay.className = 'menu-overlay';
-          currentFocusArea = 'categories';
-          currentMenuItemIndex = -1;
+          button.classList.remove('selected');
         }
-        updateSelection();
-      }
+      });
 
-      // Funciones de navegación con teclado
-      function handleUpArrow() {
-        if (isMenuOpen) {
-          if (currentMenuItemIndex > 0) {
-            currentMenuItemIndex--;
-            updateSelection();
-          }
-          return;
+      // Actualizar aplicaciones
+      var appCards = document.querySelectorAll('.app-card');
+      appCards.forEach(function(card, i) {
+        if (i === currentSelectedIndex && currentFocusArea === 'apps') {
+          card.classList.add('selected');
+          card.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+        } else {
+          card.classList.remove('selected');
         }
+      });
 
-        if (currentFocusArea === 'apps' && currentApps.length > 0) {
-          var columns = Math.floor(appGrid.offsetWidth / (240 + 25));
-          if (currentSelectedIndex >= columns) {
-            currentSelectedIndex -= columns;
-            updateSelection();
-          } else {
-            currentFocusArea = 'categories';
-            currentCategoryIndex = Math.min(currentCategoryIndex, categoryButtons.length - 1);
-            updateSelection();
-          }
+      // Actualizar menú
+      menuItems.forEach(function(item, i) {
+        if (i === currentMenuItemIndex && currentFocusArea === 'menu') {
+          item.classList.add('selected');
+        } else {
+          item.classList.remove('selected');
         }
-      }
+      });
+    }
 
-      function handleDownArrow() {
-        if (isMenuOpen) {
-          if (currentMenuItemIndex < menuItems.length - 1) {
-            currentMenuItemIndex++;
-            updateSelection();
-          }
-          return;
-        }
-
-        if (currentFocusArea === 'categories') {
-          currentFocusArea = 'apps';
-          currentSelectedIndex = Math.min(currentSelectedIndex, currentApps.length - 1);
-          if (currentSelectedIndex === -1 && currentApps.length > 0) {
-            currentSelectedIndex = 0;
-          }
-          updateSelection();
-        } else if (currentFocusArea === 'apps' && currentApps.length > 0) {
-          var columns = Math.floor(appGrid.offsetWidth / (240 + 25));
-          if (currentSelectedIndex + columns < currentApps.length) {
-            currentSelectedIndex += columns;
-            updateSelection();
-          }
+    // Función para reproducir sonido de navegación
+    function playNavSound() {
+      if (navSound) {
+        navSound.currentTime = 0;
+        try {
+          navSound.play();
+        } catch(e) {
+          console.log("Audio play failed:", e);
         }
       }
+    }
 
-      function handleLeftArrow() {
-        if (isMenuOpen) return;
-
-        if (currentFocusArea === 'categories') {
-          if (currentCategoryIndex > 0) {
-            currentCategoryIndex--;
-            updateSelection();
-          }
-        } else if (currentFocusArea === 'apps' && currentApps.length > 0) {
-          if (currentSelectedIndex > 0) {
-            currentSelectedIndex--;
-            updateSelection();
-          }
-        }
+    // Manejo de eventos de teclado
+    function handleKeyDown(e) {
+      if (isModalOpen) {
+        if (e.key === 'Escape') closeModal();
+        if (e.key === 'Enter') installButton.click();
+        return;
       }
 
-      function handleRightArrow() {
-        if (isMenuOpen) return;
-
-        if (currentFocusArea === 'categories') {
-          if (currentCategoryIndex < categoryButtons.length - 1) {
-            currentCategoryIndex++;
-            updateSelection();
-          }
-        } else if (currentFocusArea === 'apps' && currentApps.length > 0) {
-          if (currentSelectedIndex < currentApps.length - 1) {
-            currentSelectedIndex++;
-            updateSelection();
-          }
-        }
+      switch(e.key) {
+        case 'ArrowUp': handleUpArrow(); break;
+        case 'ArrowDown': handleDownArrow(); break;
+        case 'ArrowLeft': handleLeftArrow(); break;
+        case 'ArrowRight': handleRightArrow(); break;
+        case 'Enter': handleEnter(); break;
+        case 'Tab': toggleFocusArea(); break;
+        case 'Escape': if (isMenuOpen) toggleMenu(); break;
       }
+    }
 
-      function handleEnter() {
-        if (isMenuOpen && currentMenuItemIndex >= 0 && currentMenuItemIndex < menuItems.length) {
-          menuItems[currentMenuItemIndex].click();
-          return;
-        }
+    function handleUpArrow() {
+      if (isMenuOpen) {
+        if (currentMenuItemIndex > 0) currentMenuItemIndex--;
+      } else if (currentFocusArea === 'apps' && currentApps.length > 0) {
+        var columns = Math.floor(appGrid.offsetWidth / 265);
+        if (currentSelectedIndex >= columns) currentSelectedIndex -= columns;
+        else currentFocusArea = 'categories';
+      } else if (currentFocusArea === 'categories') {
+        currentFocusArea = 'apps';
+      }
+      updateSelection();
+    }
 
-        if (currentFocusArea === 'categories' && currentCategoryIndex >= 0 && currentCategoryIndex < categoryButtons.length) {
-          categoryButtons[currentCategoryIndex].click();
-          currentFocusArea = 'apps';
+    function handleDownArrow() {
+      if (isMenuOpen) {
+        if (currentMenuItemIndex < menuItems.length - 1) currentMenuItemIndex++;
+      } else if (currentFocusArea === 'categories') {
+        currentFocusArea = 'apps';
+        if (currentSelectedIndex === -1 && currentApps.length > 0) {
           currentSelectedIndex = 0;
-          updateSelection();
-        } else if (currentFocusArea === 'apps' && currentSelectedIndex >= 0 && currentSelectedIndex < currentApps.length) {
-          openAppModal(currentApps[currentSelectedIndex]);
+        }
+      } else if (currentFocusArea === 'apps' && currentApps.length > 0) {
+        var columns = Math.floor(appGrid.offsetWidth / 265);
+        if (currentSelectedIndex + columns < currentApps.length) {
+          currentSelectedIndex += columns;
         }
       }
+      updateSelection();
+    }
 
-      function toggleFocusArea() {
-        if (isMenuOpen) {
-          toggleMenu();
-          return;
-        }
-
-        if (currentFocusArea === 'categories') {
-          currentFocusArea = 'apps';
-          if (currentApps.length > 0) {
-            currentSelectedIndex = 0;
-          }
-        } else if (currentFocusArea === 'apps') {
-          currentFocusArea = 'categories';
-        }
-        updateSelection();
+    function handleLeftArrow() {
+      if (isMenuOpen) return;
+      if (currentFocusArea === 'categories' && currentCategoryIndex > 0) {
+        currentCategoryIndex--;
+      } else if (currentFocusArea === 'apps' && currentSelectedIndex > 0) {
+        currentSelectedIndex--;
       }
+      updateSelection();
+    }
 
-      // Función para actualizar selección
-      function updateSelection() {
-        for (var i = 0; i < categoryButtons.length; i++) {
-          var button = categoryButtons[i];
-          if (i === currentCategoryIndex && currentFocusArea === 'categories') {
-            button.className += ' selected';
-            button.scrollIntoViewIfNeeded ? button.scrollIntoViewIfNeeded() : button.scrollIntoView();
-          } else {
-            button.className = 'category-button';
-          }
-        }
-
-        var appCards = document.querySelectorAll('.app-card');
-        for (var i = 0; i < appCards.length; i++) {
-          var card = appCards[i];
-          if (i === currentSelectedIndex && currentFocusArea === 'apps') {
-            card.className += ' selected';
-            card.scrollIntoViewIfNeeded ? card.scrollIntoViewIfNeeded() : card.scrollIntoView();
-          } else {
-            card.className = 'app-card';
-          }
-        }
-
-        // Actualizar selección en el menú
-        for (var i = 0; i < menuItems.length; i++) {
-          var item = menuItems[i];
-          if (i === currentMenuItemIndex && currentFocusArea === 'menu') {
-            item.className += ' selected';
-          } else {
-            item.className = 'menu-item';
-          }
-        }
+    function handleRightArrow() {
+      if (isMenuOpen) return;
+      if (currentFocusArea === 'categories' && currentCategoryIndex < categoryButtons.length - 1) {
+        currentCategoryIndex++;
+      } else if (currentFocusArea === 'apps' && currentSelectedIndex < currentApps.length - 1) {
+        currentSelectedIndex++;
       }
+      updateSelection();
+    }
 
-      // Función para reproducir sonido de navegación
-      function playNavSound() {
-        if (navSound) {
-          navSound.currentTime = 0;
-          try {
-            navSound.play();
-          } catch(e) {
-            console.log("Audio play failed:", e);
-          }
-        }
+    function handleEnter() {
+      if (isMenuOpen && currentMenuItemIndex >= 0) {
+        menuItems[currentMenuItemIndex].click();
+      } else if (currentFocusArea === 'categories') {
+        categoryButtons[currentCategoryIndex].click();
+        currentFocusArea = 'apps';
+        currentSelectedIndex = 0;
+      } else if (currentFocusArea === 'apps') {
+        openAppModal(currentApps[currentSelectedIndex]);
       }
+      updateSelection();
+    }
 
-      // Eventos
+    function toggleFocusArea() {
+      if (isMenuOpen) {
+        toggleMenu();
+        return;
+      }
+      currentFocusArea = currentFocusArea === 'categories' ? 'apps' : 'categories';
+      updateSelection();
+    }
+
+    // Inicialización de eventos
+    function initEventListeners() {
       document.addEventListener('keydown', function(e) {
-        if (isModalOpen) {
-          if (e.key === 'Escape') {
-            closeModal();
-          } else if (e.key === 'Enter') {
-            document.getElementById('installButton').click();
-          }
-          return;
-        }
-
-        switch(e.key) {
-          case 'ArrowUp':
-            e.preventDefault();
-            playNavSound();
-            handleUpArrow();
-            break;
-          case 'ArrowDown':
-            e.preventDefault();
-            playNavSound();
-            handleDownArrow();
-            break;
-          case 'ArrowLeft':
-            e.preventDefault();
-            playNavSound();
-            handleLeftArrow();
-            break;
-          case 'ArrowRight':
-            e.preventDefault();
-            playNavSound();
-            handleRightArrow();
-            break;
-          case 'Enter':
-            e.preventDefault();
-            playNavSound();
-            handleEnter();
-            break;
-          case 'Tab':
-            e.preventDefault();
-            playNavSound();
-            toggleFocusArea();
-            break;
-          case 'Escape':
-            if (isMenuOpen) {
-              e.preventDefault();
-              playNavSound();
-              toggleMenu();
-            }
-            break;
-        }
+        e.preventDefault();
+        playNavSound();
+        handleKeyDown(e);
       });
 
       menuButton.addEventListener('click', function() {
@@ -1430,131 +1280,76 @@
         toggleMenu();
       });
 
-      for (var i = 0; i < menuItems.length; i++) {
-        (function(index) {
-          menuItems[index].addEventListener('click', function() {
-            var category = this.getAttribute('data-category');
-            var filteredApps = [];
-            
-            if (category === 'all') {
-              filteredApps = appData;
-            } else {
-              for (var k = 0; k < appData.length; k++) {
-                if (appData[k].category === category) {
-                  filteredApps.push(appData[k]);
-                }
-              }
-            }
-            
-            displayApps(filteredApps);
-            currentSelectedIndex = 0;
-            currentFocusArea = 'apps';
-            updateSelection();
-            toggleMenu();
-          });
-        })(i);
-      }
-
-      for (var i = 0; i < categoryButtons.length; i++) {
-        (function(index) {
-          categoryButtons[index].addEventListener('click', function() {
-            for (var j = 0; j < categoryButtons.length; j++) {
-              categoryButtons[j].className = 'category-button';
-            }
-            this.className += ' active';
-            var category = this.getAttribute('data-category');
-            var filteredApps = [];
-            
-            if (category === 'all') {
-              filteredApps = appData;
-            } else {
-              for (var k = 0; k < appData.length; k++) {
-                if (appData[k].category === category) {
-                  filteredApps.push(appData[k]);
-                }
-              }
-            }
-            
-            displayApps(filteredApps);
-            currentSelectedIndex = 0;
-            currentFocusArea = 'apps';
-            updateSelection();
-          });
-        })(i);
-      }
-
-      var searchInput = document.querySelector('.search-input');
-      var searchButton = document.querySelector('.search-button');
-
-      searchButton.addEventListener('click', function() {
-        var query = searchInput.value.trim();
-        if (query) {
-          var filteredApps = [];
-          for (var i = 0; i < appData.length; i++) {
-            var app = appData[i];
-            if (app.name.toLowerCase().indexOf(query.toLowerCase()) !== -1 || 
-                app.description.toLowerCase().indexOf(query.toLowerCase()) !== -1) {
-              filteredApps.push(app);
-            }
-          }
+      menuItems.forEach(function(item, index) {
+        item.addEventListener('click', function() {
+          var category = this.getAttribute('data-category');
+          var filteredApps = category === 'all' ? appData : 
+            appData.filter(function(app) { return app.category === category; });
           displayApps(filteredApps);
           currentSelectedIndex = 0;
           currentFocusArea = 'apps';
           updateSelection();
-        }
+          toggleMenu();
+        });
       });
 
+      categoryButtons.forEach(function(button, index) {
+        button.addEventListener('click', function() {
+          categoryButtons.forEach(function(btn) { btn.classList.remove('active'); });
+          this.classList.add('active');
+          var category = this.getAttribute('data-category');
+          var filteredApps = category === 'all' ? appData : 
+            appData.filter(function(app) { return app.category === category; });
+          displayApps(filteredApps);
+          currentSelectedIndex = 0;
+          currentFocusArea = 'apps';
+          updateSelection();
+        });
+      });
+
+      searchButton.addEventListener('click', searchApps);
       searchInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-          var query = searchInput.value.trim();
-          if (query) {
-            var filteredApps = [];
-            for (var i = 0; i < appData.length; i++) {
-              var app = appData[i];
-              if (app.name.toLowerCase().indexOf(query.toLowerCase()) !== -1 || 
-                  app.description.toLowerCase().indexOf(query.toLowerCase()) !== -1) {
-                filteredApps.push(app);
-              }
-            }
-            displayApps(filteredApps);
-            currentSelectedIndex = 0;
-            currentFocusArea = 'apps';
-            updateSelection();
-          }
-        }
+        if (e.key === 'Enter') searchApps();
       });
 
-      var closeBtn = document.querySelector('.close');
-      var modal = document.getElementById('appModal');
+      closeBtn.addEventListener('click', closeModal);
+      window.addEventListener('click', function(event) {
+        if (event.target === modal) closeModal();
+      });
 
-      closeBtn.onclick = closeModal;
-
-      window.onclick = function(event) {
-        if (event.target == modal) {
-          closeModal();
-        }
-      }
-
-      // Evento para capturar el prompt de instalación
       window.addEventListener('beforeinstallprompt', function(e) {
-        // Prevenir que el mini-infobar aparezca en mobile
         e.preventDefault();
-        // Guardar el evento para que pueda ser activado más tarde
         deferredPrompt = e;
-        console.log('beforeinstallprompt event fired');
       });
+    }
 
-      window.addEventListener('appinstalled', function() {
-        // Limpiar el prompt guardado
-        deferredPrompt = null;
-        console.log('PWA was installed');
-        updateUninstallButton();
+    function searchApps() {
+      var query = searchInput.value.trim().toLowerCase();
+      if (!query) return;
+      
+      var filteredApps = appData.filter(function(app) {
+        return app.name.toLowerCase().includes(query) || 
+               app.description.toLowerCase().includes(query);
       });
+      
+      displayApps(filteredApps);
+      currentSelectedIndex = 0;
+      currentFocusArea = 'apps';
+      updateSelection();
+    }
 
-      // Inicialización
-      displayApps(appData);
-      updateUninstallButton();
-    });
+    // Inicialización
+    function init() {
+      initEventListeners();
+      displayApps(appData); // appData debe ser definido en tu código
+    }
+
+    // Iniciar cuando el DOM esté listo
+    if (document.readyState !== 'loading') {
+      init();
+    } else {
+      document.addEventListener('DOMContentLoaded', init);
+    }
   </script>
 </body>
 </html>
