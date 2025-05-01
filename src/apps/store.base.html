@@ -3,67 +3,83 @@
 <title>WineBOX Store</title>
 <style>
   body {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #141414;
     color: #ffffff;
+    display: flex;
+  }
+  .sidebar {
+    width: 100px;
+    background-color: #000000;
+    height: 100vh;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+  }
+  .sidebar-icon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  .sidebar-icon {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 5px;
+    opacity: 0.8;
+    transition: transform 0.3s ease;
+  }
+  .sidebar-icon:hover {
+    transform: scale(1.1);
+  }
+  .sidebar-label {
+    font-size: 10px;
+    color: #ffffff;
+    text-align: center;
+  }
+  .main-content {
+    margin-left: 100px;
+    width: calc(100% - 100px);
+  }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
   }
   .header {
     background-color: #000000;
-    padding: 15px 0;
+    padding: 20px 0;
     position: sticky;
     top: 0;
     z-index: 100;
   }
   .header-content {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    max-width: 100%;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
-  }
-  .logo-container {
-    display: flex;
-    align-items: center;
-    gap: 15px;
   }
   .logo {
     font-size: 24px;
     font-weight: bold;
     color: #a0a0a0;
   }
-  .menu-button {
-    background-color: #333;
-    color: white;
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  .menu-button:hover {
-    background-color: #666;
-  }
-  .menu-button svg {
-    width: 20px;
-    height: 20px;
-    fill: white;
-  }
   .search-bar {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-left: auto;
   }
   .search-input {
     padding: 10px;
     border: none;
     border-radius: 4px;
     width: 300px;
-    background-color: #333;
-    color: white;
   }
   .search-button {
     background-color: #4a4a4a;
@@ -73,10 +89,21 @@
     border-radius: 4px;
     cursor: pointer;
   }
-  .container {
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 20px;
+  .joystick-button {
+    background-color: #333;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .joystick-button.connected {
+    background-color: #666;
   }
   .recent-section {
     position: relative;
@@ -91,7 +118,7 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    background: #4a4a4a;
+    background: linear-gradient(to right, rgba(74, 74, 74, 0.8), rgba(42, 42, 42, 0.8));
     color: white;
     padding: 8px 15px;
     border-radius: 4px;
@@ -109,8 +136,10 @@
     display: flex;
     gap: 15px;
     overflow-x: auto;
+    scroll-behavior: smooth;
     padding-bottom: 10px;
-    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
   .recent-apps::-webkit-scrollbar {
     display: none;
@@ -177,24 +206,26 @@
   }
   .app-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 25px;
-    margin-top: 30px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
   }
   .app-card {
     background-color: #2f2f2f;
     border-radius: 8px;
     overflow: hidden;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
     position: relative;
   }
   .app-card:hover {
     transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
   }
   .app-card.selected {
     outline: 3px solid #4a4a4a;
     transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
   }
   .app-thumbnail {
     width: 100%;
@@ -212,7 +243,6 @@
   .app-category {
     color: #ccc;
     margin-bottom: 5px;
-    font-size: 12px;
   }
   .modal {
     display: none;
@@ -257,158 +287,189 @@
     transition: background-color 0.3s ease;
     margin-right: 10px;
   }
-  .action-button:hover {
+  .action-button:hover, 
+  .action-button.selected {
     background-color: #666666;
   }
-  
-  /* Estilos para el menú lateral */
-  .side-menu {
-    position: fixed;
-    left: -300px;
-    top: 0;
-    width: 250px;
-    height: 100vh;
-    background-color: #000;
-    z-index: 999;
-    transition: left 0.3s ease;
-    padding: 20px 0;
-    box-shadow: 2px 0 10px rgba(0,0,0,0.5);
-  }
-  .side-menu.open {
-    left: 0;
-  }
-  .menu-item {
-    display: flex;
-    align-items: center;
-    padding: 12px 20px;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  .menu-item:hover {
-    background-color: #333;
-  }
-  .menu-item.selected {
-    background-color: #444;
-  }
-  .menu-item svg {
-    width: 20px;
-    height: 20px;
-    margin-right: 15px;
-    fill: currentColor;
-  }
-  .menu-item span {
-    font-size: 14px;
-  }
-  .menu-overlay {
+  .joystick-dialog {
     display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0,0,0,0.5);
-    z-index: 998;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #2f2f2f;
+    border-radius: 8px;
+    padding: 20px;
+    width: 80%;
+    max-width: 600px;
+    z-index: 2000;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
   }
-  .menu-overlay.open {
-    display: block;
+  .joystick-dialog h2 {
+    margin-top: 0;
+    color: #a0a0a0;
+  }
+  .joystick-status {
+    margin: 15px 0;
+    font-size: 16px;
+  }
+  .joystick-connect-btn {
+    background-color: #4a4a4a;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+  }
+  .joystick-connect-btn:hover {
+    background-color: #666666;
+  }
+  .joystick-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #aaa;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .joystick-close:hover {
+    color: #fff;
+  }
+  .joystick-types {
+    display: none;
+    margin-top: 20px;
+  }
+  .joystick-types h3 {
+    color: #a0a0a0;
+    margin-bottom: 15px;
+  }
+  .joystick-type-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 40%;
+    float: left;
+  }
+  .joystick-type-btn {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.3s;
+  }
+  .joystick-type-btn:hover {
+    background-color: #666;
+  }
+  .joystick-preview {
+    width: 55%;
+    float: right;
+    text-align: center;
+    display: none;
+  }
+  .joystick-preview img {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 8px;
+  }
+  .clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
   }
 </style>
 </head>
 <body>
-  <!-- Menú lateral -->
-  <div class="side-menu" id="sideMenu">
-    <div class="menu-item" data-category="all">
-      <svg viewBox="0 0 24 24">
+  <div class="sidebar">
+    <div class="sidebar-icon-container">
+      <svg class="sidebar-icon" viewBox="0 0 24 24" fill="white">
         <path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z" />
       </svg>
-      <span>Home</span>
     </div>
-    <div class="menu-item" data-category="apps">
-      <svg viewBox="0 0 24 24">
+    <div class="sidebar-icon-container">
+      <svg class="sidebar-icon" viewBox="0 0 24 24" fill="white">
         <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" />
       </svg>
-      <span>Applications</span>
+      <span class="sidebar-label">Aplicaciones</span>
     </div>
-    <div class="menu-item" data-category="games">
-      <svg viewBox="0 0 24 24">
+    <div class="sidebar-icon-container">
+      <svg class="sidebar-icon" viewBox="0 0 24 24" fill="white">
         <path d="M21,6H3A2,2 0 0,0 1,8V16A2,2 0 0,0 3,18H21A2,2 0 0,0 23,16V8A2,2 0 0,0 21,6M21,16H3V8H21M6,15H8V13H10V11H8V9H6V11H4V13H6M14.5,12A1.5,1.5 0 0,1 16,13.5A1.5,1.5 0 0,1 14.5,15A1.5,1.5 0 0,1 13,13.5A1.5,1.5 0 0,1 14.5,12M18.5,9A1.5,1.5 0 0,1 20,10.5A1.5,1.5 0 0,1 18.5,12A1.5,1.5 0 0,1 17,10.5A1.5,1.5 0 0,1 18.5,9Z" />
       </svg>
-      <span>Games</span>
+      <span class="sidebar-label">Juegos</span>
     </div>
-    <div class="menu-item" data-category="arcade">
-      <svg viewBox="0 0 24 24">
-        <path d="M21,16V4H3V16H21M21,2A2,2 0 0,1 23,4V16A2,2 0 0,1 21,18H14V20H16V22H8V20H10V18H3C1.89,18 1,17.1 1,16V4C1,2.89 1.89,2 3,2H21M5,6H14V11H5V6M15,6H19V8H15V6M19,9V14H15V9H19M5,12H9V14H5V12Z" />
+    <div class="sidebar-icon-container">
+      <svg class="sidebar-icon" viewBox="0 0 24 24" fill="white">
+        <path d="M21,16V4H3V16H21M21,2A2,2 0 0,1 23,4V16A2,2 0 0,1 21,18H14V20H16V22H8V20H10V18H3C1.89,18 1,17.1 1,16V4C1,2.89 1.89,2 3,2H21M5,6H14V11H5V6M15,6H19V8H15V6M19,9V14H15V9H19M5,12H9V14H5V12M10,12H14V14H10V12Z" />
       </svg>
-      <span>Arcade</span>
-    </div>
-    <div class="menu-item" data-category="multimedia">
-      <svg viewBox="0 0 24 24">
-        <path d="M4,6H20V16H4M20,18A2,2 0 0,0 22,16V6C22,4.89 21.1,4 20,4H4C2.89,4 2,4.89 2,6V16A2,2 0 0,0 4,18H0V20H24V18H20Z" />
-      </svg>
-      <span>Multimedia</span>
-    </div>
-    <div class="menu-item" data-category="utilities">
-      <svg viewBox="0 0 24 24">
-        <path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" />
-      </svg>
-      <span>Utilities</span>
-    </div>
-    <div class="menu-item" data-category="rts">
-      <svg viewBox="0 0 24 24">
-        <path d="M12,2L1,21H23M12,6L19.53,19H4.47M11,10V14H13V10M11,16V18H13V16" />
-      </svg>
-      <span>Strategy</span>
+      <span class="sidebar-label">Arcade</span>
     </div>
   </div>
-  <div class="menu-overlay" id="menuOverlay"></div>
 
-  <header class="header">
-    <div class="header-content">
-      <div class="logo-container">
-        <button id="menuButton" class="menu-button">
-          <svg viewBox="0 0 24 24">
-            <path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
-          </svg>
-        </button>
+  <div class="main-content">
+    <header class="header">
+      <div class="header-content">
         <div class="logo">WineBOX Store</div>
+        <div class="search-bar">
+          <input type="text" class="search-input" placeholder="Find apps...">
+          <button class="search-button">Find</button>
+          <button id="joystickButton" class="joystick-button" title="Joystick status">🎮</button>
+        </div>
       </div>
-      <div class="search-bar">
-        <input type="text" class="search-input" placeholder="Find apps...">
-        <button class="search-button">Find</button>
-      </div>
-    </div>
-  </header>
+    </header>
 
-  <div class="container">
-    <div class="recent-section">
-      <div class="recent-title">Recently Used</div>
-      <div class="recent-apps-container">
-        <div class="recent-apps" id="recentApps"></div>
-        <div class="scroll-indicator" id="scrollIndicator">></div>
-        <div class="selected-app-info" id="selectedAppInfo"></div>
+    <div class="container">
+      <div class="recent-section">
+        <div class="recent-title">Recently Used</div>
+        <div class="recent-apps-container">
+          <div class="recent-apps" id="recentApps"></div>
+          <div class="scroll-indicator" id="scrollIndicator">></div>
+          <div class="selected-app-info" id="selectedAppInfo"></div>
+        </div>
       </div>
+
+      <div class="categories" id="categories">
+        <button class="category-button active" data-category="all">Alls</button>
+        <button class="category-button" data-category="apps">Apps</button>
+        <button class="category-button" data-category="games">Games</button>
+        <button class="category-button" data-category="multimedia">Multimedia</button>
+        <button class="category-button" data-category="utilities">Utilities</button>
+        <button class="category-button" data-category="arcade">Arcade</button>
+        <button class="category-button" data-category="rts">Strategy</button>
+      </div>
+      <div class="app-grid" id="appGrid"></div>
     </div>
 
-    <div class="categories" id="categories">
-      <button class="category-button active" data-category="all">All</button>
-      <button class="category-button" data-category="apps">Apps</button>
-      <button class="category-button" data-category="games">Games</button>
-      <button class="category-button" data-category="multimedia">Multimedia</button>
-      <button class="category-button" data-category="utilities">Utilities</button>
-      <button class="category-button" data-category="arcade">Arcade</button>
-      <button class="category-button" data-category="rts">Strategy</button>
+    <div id="appModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="app-details" id="appDetails"></div>
+        <div class="app-actions">
+          <button id="launchButton" class="action-button">Run</button>
+        </div>
+      </div>
     </div>
-    <div class="app-grid" id="appGrid"></div>
   </div>
 
-  <div id="appModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <div class="app-details" id="appDetails"></div>
-      <div class="app-actions">
-        <button id="launchButton" class="action-button">Run</button>
+  <div id="joystickDialog" class="joystick-dialog">
+    <span class="joystick-close">&times;</span>
+    <h2>Estado del Control</h2>
+    <div class="joystick-status" id="joystickStatusText">No se detectó ningún control conectado.</div>
+    <button id="connectJoystickBtn" class="joystick-connect-btn">CONECTAR MI CONTROL</button>
+    <div id="joystickTypes" class="joystick-types clearfix">
+      <h3>Elige tu control:</h3>
+      <div class="joystick-type-buttons">
+        <button class="joystick-type-btn" data-type="xbox">Xbox</button>
+        <button class="joystick-type-btn" data-type="playstation">PlayStation</button>
+        <button class="joystick-type-btn" data-type="amazon">Amazon</button>
+        <button class="joystick-type-btn" data-type="generic">Genérico</button>
       </div>
+      <div class="joystick-preview" id="joystickPreview"></div>
     </div>
   </div>
 
@@ -417,33 +478,7 @@
   </audio>
 
   <script>
-    // Polyfills para Chromium 41
-    if (!Array.prototype.forEach) {
-      Array.prototype.forEach = function(callback, thisArg) {
-        var T, k;
-        if (this == null) {
-          throw new TypeError(' this is null or not defined');
-        }
-        var O = Object(this);
-        var len = O.length >>> 0;
-        if (typeof callback !== 'function') {
-          throw new TypeError(callback + ' is not a function');
-        }
-        if (arguments.length > 1) {
-          T = thisArg;
-        }
-        k = 0;
-        while (k < len) {
-          var kValue;
-          if (k in O) {
-            kValue = O[k];
-            callback.call(T, kValue, k, O);
-          }
-          k++;
-        }
-      };
-    }
-
+    // Polyfill para funciones modernas que podrían faltar en Chrome 82
     if (!NodeList.prototype.forEach) {
       NodeList.prototype.forEach = Array.prototype.forEach;
     }
@@ -465,20 +500,17 @@
     function ready(fn) {
       if (document.readyState != 'loading') {
         fn();
-      } else if (document.addEventListener) {
-        document.addEventListener('DOMContentLoaded', fn);
       } else {
-        document.attachEvent('onreadystatechange', function() {
-          if (document.readyState != 'loading')
-            fn();
-        });
+        document.addEventListener('DOMContentLoaded', fn);
       }
     }
 
     ready(function() {
       // Base de datos de aplicaciones de ejemplo
       var appData = [
-// aqui va la base de datos
+
+// base de datos va aqui
+  
       ];
 
       // Variables para control de navegación
@@ -486,26 +518,28 @@
       var currentSelectedIndex = -1;
       var currentApps = [];
       var isModalOpen = false;
+      var joystickConnected = false;
       var recentApps = JSON.parse(localStorage.getItem('recentApps')) || [];
       var currentFocusArea = 'recent';
       var currentCategoryIndex = 0;
       var currentRecentIndex = -1;
       var isScrolling = false;
-      var isMenuOpen = false;
-      var currentMenuItemIndex = -1;
 
       // Elementos del DOM
       var appGrid = document.getElementById('appGrid');
       var recentAppsContainer = document.getElementById('recentApps');
       var selectedAppInfo = document.getElementById('selectedAppInfo');
+      var joystickButton = document.getElementById('joystickButton');
       var categoryButtons = document.querySelectorAll('.category-button');
       var navSound = document.getElementById('navSound');
       var scrollIndicator = document.getElementById('scrollIndicator');
       var recentAppsEl = document.getElementById('recentApps');
-      var menuButton = document.getElementById('menuButton');
-      var sideMenu = document.getElementById('sideMenu');
-      var menuOverlay = document.getElementById('menuOverlay');
-      var menuItems = document.querySelectorAll('.menu-item');
+      var joystickDialog = document.getElementById('joystickDialog');
+      var joystickStatusText = document.getElementById('joystickStatusText');
+      var connectJoystickBtn = document.getElementById('connectJoystickBtn');
+      var joystickTypes = document.getElementById('joystickTypes');
+      var joystickPreview = document.getElementById('joystickPreview');
+      var joystickClose = document.querySelector('.joystick-close');
 
       // Función para mostrar aplicaciones recientes
       function displayRecentApps() {
@@ -631,8 +665,12 @@
             selectedAppInfo.style.left = element.offsetLeft + 'px';
             selectedAppInfo.style.width = element.offsetWidth + 'px';
             
-            // ScrollIntoView para Chromium 41
-            element.scrollIntoViewIfNeeded ? element.scrollIntoViewIfNeeded() : element.scrollIntoView();
+            // ScrollIntoView con polyfill para opciones antiguas
+            element.scrollIntoView({
+              behavior: 'smooth',
+              block: 'nearest',
+              inline: 'center'
+            });
           } else {
             element.className = 'recent-app';
           }
@@ -642,7 +680,10 @@
           var button = categoryButtons[i];
           if (i === currentCategoryIndex && currentFocusArea === 'categories') {
             button.className += ' selected';
-            button.scrollIntoViewIfNeeded ? button.scrollIntoViewIfNeeded() : button.scrollIntoView();
+            button.scrollIntoView({
+              behavior: 'smooth',
+              block: 'nearest'
+            });
           } else {
             button.className = 'category-button';
           }
@@ -653,19 +694,12 @@
           var card = appCards[i];
           if (i === currentSelectedIndex && currentFocusArea === 'apps') {
             card.className += ' selected';
-            card.scrollIntoViewIfNeeded ? card.scrollIntoViewIfNeeded() : card.scrollIntoView();
+            card.scrollIntoView({
+              behavior: 'smooth',
+              block: 'nearest'
+            });
           } else {
             card.className = 'app-card';
-          }
-        }
-
-        // Actualizar selección en el menú
-        for (var i = 0; i < menuItems.length; i++) {
-          var item = menuItems[i];
-          if (i === currentMenuItemIndex && currentFocusArea === 'menu') {
-            item.className += ' selected';
-          } else {
-            item.className = 'menu-item';
           }
         }
       }
@@ -704,8 +738,8 @@
         appDetails.innerHTML = 
           '<h2>' + app.name + '</h2>' +
           '<img src="' + app.image + '" alt="' + app.name + '" style="max-width: 200px;">' +
-          '<p><strong>Category:</strong> ' + app.category + '</p>' +
-          '<p><strong>Description:</strong> ' + app.description + '</p>';
+          '<p><strong>Categoría:</strong> ' + app.category + '</p>' +
+          '<p><strong>Descripción:</strong> ' + app.description + '</p>';
 
         var launchButton = document.getElementById('launchButton');
         launchButton.onclick = function() {
@@ -727,35 +761,10 @@
         }
       }
 
-      // Función para alternar el menú
-      function toggleMenu() {
-        isMenuOpen = !isMenuOpen;
-        if (isMenuOpen) {
-          sideMenu.className += ' open';
-          menuOverlay.className += ' open';
-          currentFocusArea = 'menu';
-          currentMenuItemIndex = 0;
-        } else {
-          sideMenu.className = 'side-menu';
-          menuOverlay.className = 'menu-overlay';
-          currentFocusArea = 'recent';
-          currentMenuItemIndex = -1;
-        }
-        updateSelection();
-      }
-
       // Funciones de navegación con teclado
       function handleUpArrow() {
-        if (isMenuOpen) {
-          if (currentMenuItemIndex > 0) {
-            currentMenuItemIndex--;
-            updateSelection();
-          }
-          return;
-        }
-
         if (currentFocusArea === 'apps' && currentApps.length > 0) {
-          var columns = Math.floor(appGrid.offsetWidth / (240 + 25));
+          var columns = Math.floor(appGrid.offsetWidth / (200 + 20));
           if (currentSelectedIndex >= columns) {
             currentSelectedIndex -= columns;
             updateSelection();
@@ -774,14 +783,6 @@
       }
 
       function handleDownArrow() {
-        if (isMenuOpen) {
-          if (currentMenuItemIndex < menuItems.length - 1) {
-            currentMenuItemIndex++;
-            updateSelection();
-          }
-          return;
-        }
-
         if (currentFocusArea === 'recent') {
           currentFocusArea = 'categories';
           currentCategoryIndex = Math.min(currentCategoryIndex, categoryButtons.length - 1);
@@ -794,7 +795,7 @@
           }
           updateSelection();
         } else if (currentFocusArea === 'apps' && currentApps.length > 0) {
-          var columns = Math.floor(appGrid.offsetWidth / (240 + 25));
+          var columns = Math.floor(appGrid.offsetWidth / (200 + 20));
           if (currentSelectedIndex + columns < currentApps.length) {
             currentSelectedIndex += columns;
             updateSelection();
@@ -803,8 +804,6 @@
       }
 
       function handleLeftArrow() {
-        if (isMenuOpen) return;
-
         if (currentFocusArea === 'recent' && recentApps.length > 0) {
           if (currentRecentIndex > 0) {
             currentRecentIndex--;
@@ -824,8 +823,6 @@
       }
 
       function handleRightArrow() {
-        if (isMenuOpen) return;
-
         if (currentFocusArea === 'recent' && recentApps.length > 0) {
           if (currentRecentIndex < recentApps.length - 1) {
             currentRecentIndex++;
@@ -845,11 +842,6 @@
       }
 
       function handleEnter() {
-        if (isMenuOpen && currentMenuItemIndex >= 0 && currentMenuItemIndex < menuItems.length) {
-          menuItems[currentMenuItemIndex].click();
-          return;
-        }
-
         if (currentFocusArea === 'recent' && currentRecentIndex >= 0 && currentRecentIndex < recentApps.length) {
           var recentApp = recentApps[currentRecentIndex];
           var fullAppData = null;
@@ -874,11 +866,6 @@
       }
 
       function toggleFocusArea() {
-        if (isMenuOpen) {
-          toggleMenu();
-          return;
-        }
-
         if (currentFocusArea === 'recent') {
           currentFocusArea = 'categories';
           currentCategoryIndex = Math.min(currentCategoryIndex, categoryButtons.length - 1);
@@ -916,6 +903,83 @@
             navSound.play();
           } catch(e) {
             console.log("Audio play failed:", e);
+          }
+        }
+      }
+
+      // Función para actualizar estado del joystick
+      function updateJoystickStatus() {
+        var gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+        var isConnected = false;
+        
+        for (var i = 0; i < gamepads.length; i++) {
+          if (gamepads[i] && gamepads[i].connected) {
+            isConnected = true;
+            break;
+          }
+        }
+        
+        if (isConnected) {
+          joystickStatusText.textContent = 'Control detectado y conectado.';
+          connectJoystickBtn.style.display = 'none';
+          joystickTypes.style.display = 'none';
+        } else {
+          joystickStatusText.textContent = 'No se detectó ningún control conectado.';
+          connectJoystickBtn.style.display = 'block';
+        }
+      }
+
+      // Función para escanear joystick
+      function scanJoystick() {
+        if (!joystickConnected || isModalOpen) return;
+        
+        var gamepad = navigator.getGamepads()[0];
+        if (!gamepad) return;
+
+        var now = Date.now();
+        if (now - lastJoystickMove < joystickMoveDelay) return;
+
+        var axisX = gamepad.axes[0];
+        var axisY = gamepad.axes[1];
+        var threshold = 0.5;
+
+        if (axisX < -threshold) {
+          lastJoystickMove = now;
+          playNavSound();
+          handleLeftArrow();
+        } else if (axisX > threshold) {
+          lastJoystickMove = now;
+          playNavSound();
+          handleRightArrow();
+        } else if (axisY < -threshold) {
+          lastJoystickMove = now;
+          playNavSound();
+          handleUpArrow();
+        } else if (axisY > threshold) {
+          lastJoystickMove = now;
+          playNavSound();
+          handleDownArrow();
+        }
+
+        if (gamepad.buttons[0].pressed) {
+          playNavSound();
+          handleEnter();
+        }
+
+        if (gamepad.buttons[1].pressed) {
+          playNavSound();
+          if (isModalOpen) {
+            closeModal();
+          } else if (currentFocusArea === 'apps' && currentSelectedIndex >= 0) {
+            currentSelectedIndex = -1;
+            currentFocusArea = 'categories';
+            updateSelection();
+          } else if (currentFocusArea === 'categories') {
+            currentFocusArea = 'recent';
+            if (recentApps.length > 0) {
+              currentRecentIndex = 0;
+            }
+            updateSelection();
           }
         }
       }
@@ -962,13 +1026,6 @@
             playNavSound();
             toggleFocusArea();
             break;
-          case 'Escape':
-            if (isMenuOpen) {
-              e.preventDefault();
-              playNavSound();
-              toggleMenu();
-            }
-            break;
         }
       });
 
@@ -987,39 +1044,30 @@
         }
       });
 
-      menuButton.addEventListener('click', function() {
-        playNavSound();
-        toggleMenu();
+      joystickButton.addEventListener('click', function() {
+        updateJoystickStatus();
+        joystickDialog.style.display = 'block';
       });
 
-      menuOverlay.addEventListener('click', function() {
-        playNavSound();
-        toggleMenu();
+      joystickClose.addEventListener('click', function() {
+        joystickDialog.style.display = 'none';
       });
 
-      for (var i = 0; i < menuItems.length; i++) {
-        (function(index) {
-          menuItems[index].addEventListener('click', function() {
-            var category = this.getAttribute('data-category');
-            var filteredApps = [];
-            
-            if (category === 'all') {
-              filteredApps = appData;
-            } else {
-              for (var k = 0; k < appData.length; k++) {
-                if (appData[k].category === category) {
-                  filteredApps.push(appData[k]);
-                }
-              }
-            }
-            
-            displayApps(filteredApps);
-            currentSelectedIndex = 0;
-            currentFocusArea = 'apps';
-            updateSelection();
-            toggleMenu();
-          });
-        })(i);
+      connectJoystickBtn.addEventListener('click', function() {
+        joystickTypes.style.display = 'block';
+        connectJoystickBtn.style.display = 'none';
+      });
+
+      var joystickTypeBtns = document.querySelectorAll('.joystick-type-btn');
+      for (var i = 0; i < joystickTypeBtns.length; i++) {
+        joystickTypeBtns[i].addEventListener('click', function() {
+          var type = this.getAttribute('data-type');
+          joystickPreview.innerHTML = 
+            '<div style="height:300px;display:flex;align-items:center;justify-content:center;color:#aaa;">' +
+              'Vista previa del control ' + type.charAt(0).toUpperCase() + type.slice(1) +
+            '</div>';
+          joystickPreview.style.display = 'block';
+        });
       }
 
       for (var i = 0; i < categoryButtons.length; i++) {
@@ -1100,9 +1148,104 @@
         if (event.target == modal) {
           closeModal();
         }
+        if (event.target == joystickDialog) {
+          joystickDialog.style.display = 'none';
+        }
       }
 
+      var sidebarIcons = document.querySelectorAll('.sidebar-icon');
+      for (var i = 0; i < sidebarIcons.length; i++) {
+        (function(index) {
+          sidebarIcons[index].addEventListener('click', function() {
+            switch(index) {
+              case 0:
+                displayApps(appData);
+                break;
+              case 1:
+                var apps = [];
+                for (var j = 0; j < appData.length; j++) {
+                  if (appData[j].category === 'apps') {
+                    apps.push(appData[j]);
+                  }
+                }
+                displayApps(apps);
+                break;
+              case 2:
+                var games = [];
+                for (var j = 0; j < appData.length; j++) {
+                  if (appData[j].category === 'games') {
+                    games.push(appData[j]);
+                  }
+                }
+                displayApps(games);
+                break;
+              case 3:
+                var arcade = [];
+                for (var j = 0; j < appData.length; j++) {
+                  if (appData[j].category === 'arcade') {
+                    arcade.push(appData[j]);
+                  }
+                }
+                displayApps(arcade);
+                break;
+            }
+            currentSelectedIndex = 0;
+            currentFocusArea = 'apps';
+            updateSelection();
+          });
+        })(i);
+      }
+
+      // Detección de joystick
+      function checkJoystick() {
+        var gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+        var wasConnected = joystickConnected;
+        joystickConnected = false;
+        
+        for (var i = 0; i < gamepads.length; i++) {
+          if (gamepads[i] && gamepads[i].connected) {
+            joystickConnected = true;
+            break;
+          }
+        }
+        
+        if (joystickConnected !== wasConnected) {
+          joystickButton.className = joystickConnected ? 
+            'joystick-button connected' : 
+            'joystick-button';
+          
+          if (joystickDialog.style.display === 'block') {
+            updateJoystickStatus();
+          }
+        }
+      }
+
+      var joystickInterval;
+      var lastJoystickMove = 0;
+      var joystickMoveDelay = 300;
+
+      // Polyfill para eventos gamepad si no existen
+      if (!window.GamepadEvent) {
+        window.GamepadEvent = function() {};
+      }
+
+      window.addEventListener('gamepadconnected', function(e) {
+        joystickConnected = true;
+        joystickButton.className = 'joystick-button connected';
+        clearInterval(joystickInterval);
+        joystickInterval = setInterval(scanJoystick, 50);
+      });
+
+      window.addEventListener('gamepaddisconnected', function(e) {
+        joystickConnected = false;
+        joystickButton.className = 'joystick-button';
+        clearInterval(joystickInterval);
+      });
+
       // Inicialización
+      setInterval(checkJoystick, 1000);
+      checkJoystick();
+
       displayApps(appData);
       displayRecentApps();
       

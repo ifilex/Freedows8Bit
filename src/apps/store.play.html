@@ -3,7 +3,7 @@
 <title>WineBOX Store</title>
 <style>
   body {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #141414;
@@ -40,6 +40,9 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     transition: all 0.3s ease;
   }
@@ -73,6 +76,22 @@
     border-radius: 4px;
     cursor: pointer;
   }
+  .joystick-button {
+    background-color: #333;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .joystick-button.connected {
+    background-color: #666;
+  }
   .container {
     max-width: 100%;
     margin: 0 auto;
@@ -91,7 +110,7 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    background: #4a4a4a;
+    background: linear-gradient(to right, rgba(74, 74, 74, 0.8), rgba(42, 42, 42, 0.8));
     color: white;
     padding: 8px 15px;
     border-radius: 4px;
@@ -109,8 +128,10 @@
     display: flex;
     gap: 15px;
     overflow-x: auto;
+    scroll-behavior: smooth;
     padding-bottom: 10px;
-    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
   .recent-apps::-webkit-scrollbar {
     display: none;
@@ -185,16 +206,18 @@
     background-color: #2f2f2f;
     border-radius: 8px;
     overflow: hidden;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
     position: relative;
   }
   .app-card:hover {
     transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
   }
   .app-card.selected {
     outline: 3px solid #4a4a4a;
     transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
   }
   .app-thumbnail {
     width: 100%;
@@ -257,8 +280,56 @@
     transition: background-color 0.3s ease;
     margin-right: 10px;
   }
-  .action-button:hover {
+  .action-button:hover, 
+  .action-button.selected {
     background-color: #666666;
+  }
+  .joystick-dialog {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #2f2f2f;
+    border-radius: 8px;
+    padding: 20px;
+    width: 80%;
+    max-width: 600px;
+    z-index: 2000;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+  }
+  .joystick-dialog h2 {
+    margin-top: 0;
+    color: #a0a0a0;
+  }
+  .joystick-status {
+    margin: 15px 0;
+    font-size: 16px;
+  }
+  .joystick-connect-btn {
+    background-color: #4a4a4a;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+  }
+  .joystick-connect-btn:hover {
+    background-color: #666666;
+  }
+  .joystick-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #aaa;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .joystick-close:hover {
+    color: #fff;
   }
   
   /* Estilos para el menú lateral */
@@ -376,6 +447,7 @@
       <div class="search-bar">
         <input type="text" class="search-input" placeholder="Find apps...">
         <button class="search-button">Find</button>
+        <button id="joystickButton" class="joystick-button" title="Joystick status">🎮</button>
       </div>
     </div>
   </header>
@@ -412,40 +484,26 @@
     </div>
   </div>
 
+  <div id="joystickDialog" class="joystick-dialog">
+    <span class="joystick-close">&times;</span>
+    <h2>Joystick Status</h2>
+    <div class="joystick-status" id="joystickStatusText">No joystick detected.</div>
+    <button id="connectJoystickBtn" class="joystick-connect-btn">CONNECT MY JOYSTICK</button>
+  </div>
+
   <audio id="navSound" preload="auto">
     <source src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-jump-coin-216.mp3" type="audio/mpeg">
   </audio>
 
   <script>
-    // Polyfills para Chromium 41
-    if (!Array.prototype.forEach) {
-      Array.prototype.forEach = function(callback, thisArg) {
-        var T, k;
-        if (this == null) {
-          throw new TypeError(' this is null or not defined');
-        }
-        var O = Object(this);
-        var len = O.length >>> 0;
-        if (typeof callback !== 'function') {
-          throw new TypeError(callback + ' is not a function');
-        }
-        if (arguments.length > 1) {
-          T = thisArg;
-        }
-        k = 0;
-        while (k < len) {
-          var kValue;
-          if (k in O) {
-            kValue = O[k];
-            callback.call(T, kValue, k, O);
-          }
-          k++;
+    // Polyfill para funciones modernas que podrían faltar en Chrome 82
+    if (!NodeList.prototype.forEach) {
+      NodeList.prototype.forEach = function(callback, thisArg) {
+        thisArg = thisArg || window;
+        for (var i = 0; i < this.length; i++) {
+          callback.call(thisArg, this[i], i, this);
         }
       };
-    }
-
-    if (!NodeList.prototype.forEach) {
-      NodeList.prototype.forEach = Array.prototype.forEach;
     }
     
     if (!String.prototype.includes) {
@@ -465,13 +523,8 @@
     function ready(fn) {
       if (document.readyState != 'loading') {
         fn();
-      } else if (document.addEventListener) {
-        document.addEventListener('DOMContentLoaded', fn);
       } else {
-        document.attachEvent('onreadystatechange', function() {
-          if (document.readyState != 'loading')
-            fn();
-        });
+        document.addEventListener('DOMContentLoaded', fn);
       }
     }
 
@@ -871,6 +924,13 @@
           link: "virtualdub.html"
         },
        {
+          name: "Winecfg",
+          image: "box/winecfg.png",
+          description: "Wine Settings for the Windows Emulation.",
+          category: "utilities",
+          link: "winecfg.html"
+        },
+       {
           name: "WineZIP",
           image: "box/winezip.png",
           description: "WineZip is an application that creates ZIP packages for installing Windows programs within WineBOX. It simplifies software deployment by packaging executable files and dependencies for seamless installation and execution.",
@@ -1108,6 +1168,7 @@
       var currentSelectedIndex = -1;
       var currentApps = [];
       var isModalOpen = false;
+      var joystickConnected = false;
       var recentApps = JSON.parse(localStorage.getItem('recentApps')) || [];
       var currentFocusArea = 'recent';
       var currentCategoryIndex = 0;
@@ -1120,10 +1181,14 @@
       var appGrid = document.getElementById('appGrid');
       var recentAppsContainer = document.getElementById('recentApps');
       var selectedAppInfo = document.getElementById('selectedAppInfo');
+      var joystickButton = document.getElementById('joystickButton');
       var categoryButtons = document.querySelectorAll('.category-button');
       var navSound = document.getElementById('navSound');
       var scrollIndicator = document.getElementById('scrollIndicator');
       var recentAppsEl = document.getElementById('recentApps');
+      var joystickDialog = document.getElementById('joystickDialog');
+      var joystickStatusText = document.getElementById('joystickStatusText');
+      var connectJoystickBtn = document.getElementById('connectJoystickBtn');
       var menuButton = document.getElementById('menuButton');
       var sideMenu = document.getElementById('sideMenu');
       var menuOverlay = document.getElementById('menuOverlay');
@@ -1253,8 +1318,16 @@
             selectedAppInfo.style.left = element.offsetLeft + 'px';
             selectedAppInfo.style.width = element.offsetWidth + 'px';
             
-            // ScrollIntoView para Chromium 41
-            element.scrollIntoViewIfNeeded ? element.scrollIntoViewIfNeeded() : element.scrollIntoView();
+            // ScrollIntoView con polyfill para opciones antiguas
+            if (element.scrollIntoViewIfNeeded) {
+              element.scrollIntoViewIfNeeded();
+            } else {
+              element.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+                inline: 'center'
+              });
+            }
           } else {
             element.className = 'recent-app';
           }
@@ -1264,7 +1337,14 @@
           var button = categoryButtons[i];
           if (i === currentCategoryIndex && currentFocusArea === 'categories') {
             button.className += ' selected';
-            button.scrollIntoViewIfNeeded ? button.scrollIntoViewIfNeeded() : button.scrollIntoView();
+            if (button.scrollIntoViewIfNeeded) {
+              button.scrollIntoViewIfNeeded();
+            } else {
+              button.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest'
+              });
+            }
           } else {
             button.className = 'category-button';
           }
@@ -1275,7 +1355,14 @@
           var card = appCards[i];
           if (i === currentSelectedIndex && currentFocusArea === 'apps') {
             card.className += ' selected';
-            card.scrollIntoViewIfNeeded ? card.scrollIntoViewIfNeeded() : card.scrollIntoView();
+            if (card.scrollIntoViewIfNeeded) {
+              card.scrollIntoViewIfNeeded();
+            } else {
+              card.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest'
+              });
+            }
           } else {
             card.className = 'app-card';
           }
@@ -1542,6 +1629,84 @@
         }
       }
 
+      // Función para actualizar estado del joystick
+      function updateJoystickStatus() {
+        var gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+        var isConnected = false;
+        
+        for (var i = 0; i < gamepads.length; i++) {
+          if (gamepads[i] && gamepads[i].connected) {
+            isConnected = true;
+            break;
+          }
+        }
+        
+        if (isConnected) {
+          joystickStatusText.textContent = 'Joystick detected and connected.';
+          connectJoystickBtn.style.display = 'none';
+        } else {
+          joystickStatusText.textContent = 'No joystick detected.';
+          connectJoystickBtn.style.display = 'block';
+        }
+      }
+
+      // Función para escanear joystick
+      function scanJoystick() {
+        if (!joystickConnected || isModalOpen) return;
+        
+        var gamepad = navigator.getGamepads()[0];
+        if (!gamepad) return;
+
+        var now = Date.now();
+        if (now - lastJoystickMove < joystickMoveDelay) return;
+
+        var axisX = gamepad.axes[0];
+        var axisY = gamepad.axes[1];
+        var threshold = 0.5;
+
+        if (axisX < -threshold) {
+          lastJoystickMove = now;
+          playNavSound();
+          handleLeftArrow();
+        } else if (axisX > threshold) {
+          lastJoystickMove = now;
+          playNavSound();
+          handleRightArrow();
+        } else if (axisY < -threshold) {
+          lastJoystickMove = now;
+          playNavSound();
+          handleUpArrow();
+        } else if (axisY > threshold) {
+          lastJoystickMove = now;
+          playNavSound();
+          handleDownArrow();
+        }
+
+        if (gamepad.buttons[0].pressed) {
+          playNavSound();
+          handleEnter();
+        }
+
+        if (gamepad.buttons[1].pressed) {
+          playNavSound();
+          if (isModalOpen) {
+            closeModal();
+          } else if (currentFocusArea === 'apps' && currentSelectedIndex >= 0) {
+            currentSelectedIndex = -1;
+            currentFocusArea = 'categories';
+            updateSelection();
+          } else if (currentFocusArea === 'categories') {
+            currentFocusArea = 'recent';
+            if (recentApps.length > 0) {
+              currentRecentIndex = 0;
+            }
+            updateSelection();
+          } else if (isMenuOpen) {
+            toggleMenu();
+          }
+        }
+      }
+
       // Eventos
       document.addEventListener('keydown', function(e) {
         if (isModalOpen) {
@@ -1607,6 +1772,22 @@
             isScrolling = false;
           }, 100);
         }
+      });
+
+      joystickButton.addEventListener('click', function() {
+        updateJoystickStatus();
+        joystickDialog.style.display = 'block';
+      });
+
+      document.querySelector('.joystick-close').addEventListener('click', function() {
+        joystickDialog.style.display = 'none';
+      });
+
+      connectJoystickBtn.addEventListener('click', function() {
+        joystickStatusText.textContent = 'Press any button on your joystick to connect...';
+        setTimeout(function() {
+          updateJoystickStatus();
+        }, 3000);
       });
 
       menuButton.addEventListener('click', function() {
@@ -1722,9 +1903,61 @@
         if (event.target == modal) {
           closeModal();
         }
+        if (event.target == joystickDialog) {
+          joystickDialog.style.display = 'none';
+        }
       }
 
+      // Detección de joystick
+      function checkJoystick() {
+        var gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+        var wasConnected = joystickConnected;
+        joystickConnected = false;
+        
+        for (var i = 0; i < gamepads.length; i++) {
+          if (gamepads[i] && gamepads[i].connected) {
+            joystickConnected = true;
+            break;
+          }
+        }
+        
+        if (joystickConnected !== wasConnected) {
+          joystickButton.className = joystickConnected ? 
+            'joystick-button connected' : 
+            'joystick-button';
+          
+          if (joystickDialog.style.display === 'block') {
+            updateJoystickStatus();
+          }
+        }
+      }
+
+      var joystickInterval;
+      var lastJoystickMove = 0;
+      var joystickMoveDelay = 300;
+
+      // Polyfill para eventos gamepad si no existen
+      if (!window.GamepadEvent) {
+        window.GamepadEvent = function() {};
+      }
+
+      window.addEventListener('gamepadconnected', function(e) {
+        joystickConnected = true;
+        joystickButton.className = 'joystick-button connected';
+        clearInterval(joystickInterval);
+        joystickInterval = setInterval(scanJoystick, 50);
+      });
+
+      window.addEventListener('gamepaddisconnected', function(e) {
+        joystickConnected = false;
+        joystickButton.className = 'joystick-button';
+        clearInterval(joystickInterval);
+      });
+
       // Inicialización
+      setInterval(checkJoystick, 1000);
+      checkJoystick();
+
       displayApps(appData);
       displayRecentApps();
       

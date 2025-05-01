@@ -1,0 +1,632 @@
+[
+    {
+          name: "Blood",
+          image: "box/blood.jpg",
+          description: "Blood is a 3D first-person shooter video game developed by Monolith Productions and published by GT Interactive.",
+          category: "games",
+          link: "blood.html"
+        },
+        {
+          name: "Diablo",
+          image: "box/diablo.jpg",
+          description: "Diablo is an action role-playing dungeon crawler video game series developed by Blizzard North and continued by Blizzard Entertainment after the North studio shut down in 2005.",
+          category: "games",
+          link: "diablo.html"
+        },
+        {
+          name: "Doom",
+          image: "box/doom.jpg",
+          description: "*Doom* is a first-person shooter game released in 1993, developed by id Software. Players take on the role of a space marine battling hordes of demons and hellish creatures in a Martian base. It's renowned for its fast-paced action, groundbreaking graphics for its time, and for being one of the pioneers of the FPS genre.",
+          category: "games",
+          link: "doom.html"
+        },
+        {
+          name: "Doom II",
+          image: "box/doom2.jpg",
+          description: "*Doom* is a first-person shooter game released in 1993, developed by id Software. Players take on the role of a space marine battling hordes of demons and hellish creatures in a Martian base. It's renowned for its fast-paced action, groundbreaking graphics for its time, and for being one of the pioneers of the FPS genre.",
+          category: "games",
+          link: "doom2.html"
+        },
+        {
+          name: "Duke Nukem 3D",
+          image: "box/duke3d.webp",
+          description: "Duke Nukem 3D is a first-person shooter video game developed by 3D Realms.",
+          category: "games",
+          link: "duke3d.html"
+        },
+        {
+          name: "Dune 2000",
+          image: "box/dune2000.jpg",
+          description: "This is recreation of the classic strategy game Dune 2000.",
+          category: "rts",
+          link: "dune2000.html"
+        },
+        {
+          name: "Dune II",
+          image: "box/dune2.jpg",
+          description: "This is recreation of the classic strategy game Dune 2.",
+          category: "rts",
+          link: "dune2.html"
+        },
+        {
+          name: "Final DOOM",
+          image: "box/finaldoom.jpg",
+          description: "Final Doom is a first-person shooter video game developed by TeamTNT, and Dario and Milo Casali, and was released by id Software.",
+          category: "games",
+          link: "finaldoom.html"
+        },
+        {
+          name: "Grand Theft Auto",
+          image: "box/gta.jpg",
+          description: "Grand Theft Auto is a famous and most played DOS game that now is available to play in browser.",
+          category: "games",
+          link: "gta.html"
+        },
+        {
+          name: "Heretic",
+          image: "box/heretic.jpg",
+          description: "Heretic: Shadow of the Serpent Riders is a dark fantasy, spellcasting, first-person shooter developed by Raven Software and published by id Software in 1994.",
+          category: "games",
+          link: "heretic.html"
+        },
+        {
+          name: "Indianapolis 500: The Simulation",
+          image: "box/indi.jpg",
+          description: "Indianapolis 500: The Simulation is a 1989 computer game for MS-DOS. It was hailed as the first step of differentiating racing games from the arcade realm and into racing simulation.",
+          category: "rts",
+          link: "indi.html"
+        },
+        {
+          name: "Media IPTV",
+          image: "box/media.png",
+          description: "An IPTV media player is an application that streams live TV, video-on-demand, and online channels via IPTV protocols, offering playlist support, EPG integration, and customizable viewing options.",
+          category: "multimedia",
+          link: "multimedia.html"
+        },
+        {
+          name: "Mortal Kombat",
+          image: "box/mk.jpg",
+          description: "Mortal Kombat is a fighting game in which players battle opponents in one-on-one matches. The player that depletes the opponent's health bar first wins",
+          category: "games",
+          link: "mk.html"
+        },
+        {
+          name: "Open TTD",
+          image: "box/openttd.jpg",
+          description: "OpenTTD is a business simulation game in which players try to earn money by transporting passengers, minerals and goods via road, rail, water and air. It is an open-source remake and expansion of the 1995 Chris Sawyer video game Transport Tycoon Deluxe.",
+          category: "rts",
+          link: "openttd.html"
+        },
+        {
+          name: "Quake",
+          image: "box/quake.jpg",
+          description: "Play legendary Quake game in browser without registration and ads. You can play orginal game as well as Scourge of Armagon and Dissolution of Eternity",
+          category: "games",
+          link: "quake.html"
+        },
+        {
+          name: "Quarantine",
+          image: "box/qua.jpg",
+          description: "Quarantine is a 1994 racing/first-person shooter video game for MS-DOS and 3DO, created by Imagexcel and published by GameTek.",
+          category: "games",
+          link: "quarantine.html"
+        },
+        {
+          name: "Space Quest: Chapter I - The Sarien Encounter",
+          image: "box/spaceq.jpg",
+          description: "Space Quest: Chapter I – The Sarien Encounter is a graphic adventure game, created by Scott Murphy and Mark Crowe.",
+          category: "games",
+          link: "spaceq.html"
+        },
+        {
+          name: "Test Drive",
+          image: "box/testdrive.jpg",
+          description: "Test Drive is a series of racing video games that were originally published by Accolade until they were bought by Infogrames, which later turned into Atari. ",
+          category: "games",
+          link: "testdrive.html"
+        },
+        {
+          name: "The Need for Speed",
+          image: "box/nfs.jpg",
+          description: "The Need for Speed is a 1994 racing game developed by EA Canada, originally known as Pioneer Productions, and published by Electronic Arts for 3DO. ",
+          category: "games",
+          link: "nfs.html"
+        },
+        {
+          name: "Tomb Rider",
+          image: "https://dos.zone/images/containers/assets/backgrounds/lhazhk.8_12f0b6d8a9.png/d44c441b8ff939af74625c8375f4c8c1.webp",
+          description: "Tomb Raider, released in 1996, is a groundbreaking action-adventure game that introduced players to the iconic character Lara Croft.",
+          category: "games",
+          link: "tombrider.html"
+        },
+        {
+          name: "Ultimate DOOM",
+          image: "box/ultimate.jpg",
+          description: "This is an updated release of the original DOOM called THE ULTIMATE DOOM. THE ULTIMATE DOOM was released in late 1993 which is months before DOOM II came out.",
+          category: "games",
+          link: "ultimatedoom.html"
+        },
+        {
+          name: "Wolfenstein 3D",
+          image: "box/wolf3d.jpg",
+          description: "Wolfenstein 3D is a first-person shooter video game developed by id Software and published by Apogee Software and FormGen. ",
+          category: "games",
+          link: "wolf3d.html"
+        },
+        {
+          name: "WolfenDOOM",
+          image: "box/wolfdoom.jpg",
+          description: "Wolfenstein 3D under the DOOM world. ",
+          category: "games",
+          link: "wolfdoom.html"
+        },
+        {
+          name: "Wing Commander",
+          image: "box/wing.jpg",
+          description: "Wing Commander is a space flight simulation game, with the player piloting a ship, completing missions, and engaging enemy ships of various capabilities.",
+          category: "games",
+          link: "wing.html"
+        },
+        {
+          name: "Youtube",
+          image: "box/youtube.png",
+          description: "YouTube is an online video platform that allows users to watch, upload, share, and stream content, including videos, live broadcasts, and playlists across various categories.",
+          category: "multimedia",
+          link: "http://www.youtube.com"
+        },
+        {
+          name: "Youtube Music",
+          image: "box/youtubemusic.png",
+          description: "YouTube Music is a streaming service that offers music playback, personalized playlists, offline listening, and music video integration from YouTube’s extensive catalog.",
+          category: "multimedia",
+          link: "http://music.youtube.com"
+        },
+        {
+          name: "Arachne Browser",
+          image: "box/arachne.jpg",
+          description: "Web Browser for MS-DOS.",
+          category: "apps",
+          link: "arachne.html"
+        },
+        {
+          name: "AbiWord",
+          image: "box/abiword.png",
+          description: "Procesador de texto profesional.",
+          category: "apps",
+          link: "abiword.html"
+        },
+        {
+          name: "Desktop",
+          image: "box/dock.png",
+          description: "The desktop is a graphical workspace in WineBOX that allows users to organize icons, access files, and launch applications. It serves as the main interface for managing windows, shortcuts, and system functions.",
+          category: "apps",
+          link: "dock.html"
+        },
+        {
+          name: "DosBOX",
+          image: "box/dosbox.png",
+          description: "Run, test and install MS-DOS programs and game, packet in zip format.",
+          category: "apps",
+          link: "dosbox.html"
+        },
+        {
+          name: "Explorer++",
+          image: "box/explorer.jpg",
+          description: "Gestor de archivos para Windows.",
+          category: "utilities",
+          link: "explorer.html"
+        },
+        {
+          name: "7Zip",
+          image: "box/7zip.jpg",
+          description: "7-Zip is a file archiver with a high compression ratio. Download 7-Zip 24.08 (2024-08-11) for Windows x64 (64-bit).",
+          category: "utilities",
+          link: "zip.html"
+        },
+        {
+          name: "Audacity",
+          image: "box/audacity.jpg",
+          description: "Audacity is the world's most popular audio editing and recording app. Edit, mix, and enhance your audio tracks with the power of Audacity.",
+          category: "apps",
+          link: "audacity.html"
+        },
+        {
+          name: "Calc",
+          image: "box/calc.png",
+          description: "Calculator is a built-in WineBOX application that provides basic and advanced mathematical functions, including standard, scientific, programmer, and date calculations.",
+          category: "utilities",
+          link: "calc.html"
+        },
+        {
+          name: "Calendar",
+          image: "box/calendar.png",
+          description: "Calendar is a WineBOX application that helps users manage schedules, create events, set reminders, and sync with online calendars for seamless planning.",
+          category: "utilities",
+          link: "calendar.html"
+        },
+        {
+          name: "Clock",
+          image: "box/clock.png",
+          description: "Clock is a Windows application that provides alarms, timers, a stopwatch, and world time features to help users manage time efficiently.",
+          category: "utilities",
+          link: "clock.html"
+        },
+        {
+          name: "Control",
+          image: "box/control.png",
+          description: "The Windows Control Panel is a tool that allows users to adjust system settings and customize hardware and software options.",
+          category: "utilities",
+          link: "control.html"
+        },
+        {
+          name: "DOSShell",
+          image: "box/dosshell.png",
+          description: "A filemanager for MS-DOS.",
+          category: "utilities",
+          link: "dosshell.html"
+        },
+        {
+          name: "Flat Assemblerl",
+          image: "box/fasm.jpg",
+          description: "Flat assembler is a free, multi-pass assembler with Intel-style syntax for the IA-32 and x86-64 architectures.",
+          category: "apps",
+          link: "fasm.html"
+        },
+        {
+          name: "JPEGView",
+          image: "box/jpegview.jpg",
+          description: "JPEGView is a lean, fast and highly configurable viewer/editor for JPEG, BMP, PNG, WEBP, TGA, GIF and TIFF images with a minimal GUI.",
+          category: "utilities",
+          link: "jpegview.html"
+        },        
+       {
+          name: "Media Player Classic",
+          image: "box/mpc.png",
+          description: "MPC-HC is an extremely light-weight, open source media player for Windows®. It supports all common video and audio file formats available for playback.",
+          category: "apps",
+          link: "mpc.html"
+        },        
+       {
+          name: "Netsurf",
+          image: "box/netsurf.jpg",
+          description: "NetSurf is a multi-platform web browser for RISC OS, UNIX-like platforms (including Linux), Mac OS X, and more.",
+          category: "apps",
+          link: "netsurf.html"
+        },     
+       {
+          name: "Notepad",
+          image: "box/notepad.png",
+          description: "MPC-HC is an extremely light-weight, open source media player for Windows®. It supports all common video and audio file formats available for playback.",
+          category: "apps",
+          link: "note.html"
+        },        
+       {
+          name: "Notepad++",
+          image: "box/npp.jpg",
+          description: "Notepad++ is a free (as in “free speech” and also as in “free beer”) source code editor and Notepad replacement that supports several languages.",
+          category: "apps",
+          link: "npp.html"
+        },       
+       {
+          name: "Paint",
+          image: "box/paint.jpg",
+          description: "Paint is a versatile and user-friendly graphics editing app in Windows for you to create, edit, and manipulate images and drawings.",
+          category: "apps",
+          link: "mspaint.html"
+        },        
+       {
+          name: "Program Manager",
+          image: "box/progman.png",
+          description: "Program Manager is a graphical shell for managing applications and program groups in WineBOX. It allows users to organize, launch, and customize software shortcuts within a windowed interface.",
+          category: "apps",
+          link: "progman.html"
+        },
+       {
+          name: "QBasic 4.5",
+          image: "https://dos.zone/images/http/original/qbasic1.jpg/6a0c2580c730845b21f6f2d3b7505b50.webp",
+          description: "Program Manager is a graphical shell for managing applications and program groups in WineBOX. It allows users to organize, launch, and customize software shortcuts within a windowed interface.",
+          category: "apps",
+          link: "qbasic.html"
+        },                
+       {
+          name: "Open Office",
+          image: "box/soffice.jpg",
+          description: "The Apache OpenOffice project announces the official release of version 4.1.15. In the Release Notes you can read about all new bugfixes, improvements.",
+          category: "apps",
+          link: "soffice.html"
+        },
+       {
+          name: "Shell",
+          image: "box/shell.png",
+          description: "Command Prompt is a WineBOX command-line interpreter that allows users to execute commands, automate tasks, and manage system functions through text-based input.",
+          category: "utilities",
+          link: "winefile.html"
+        },   
+       {
+          name: "Sumatra PDF",
+          image: "box/sumatra.jpg",
+          description: "Sumatra PDF PDF, eBook (epub, mobi), comic book (cbz/cbr), DjVu, XPS, CHM, image viewer for Windows. Fast, small, packed with features, customizable, free.",
+          category: "utilities",
+          link: "sumatrapdf.html"
+        },        
+       {
+          name: "TexWorks",
+          image: "box/texworks.jpg",
+          description: "A simple (La)TeX editor and PDF previewer that is available on all major desktop operating systems.",
+          category: "apps",
+          link: "texworks.html"
+        },   
+       {
+          name: "ToDO",
+          image: "box/todo.png",
+          description: "To Do is a task management application that helps users create, organize, and track tasks with reminders, lists, and cloud synchronization.",
+          category: "utilities",
+          link: "todo.html"
+        },   
+       {
+          name: "TurboC",
+          image: "box/turboc.png",
+          description: "Turbo C 2.01, a C compiler for MS-DOS.",
+          category: "utilities",
+          link: "turboc.html"
+        },            
+       {
+          name: "TuxPaint",
+          image: "box/tuxpaint.png",
+          description: "Tux Paint is a free, award-winning drawing program for children ages 3 to 12 (for example, preschool and K-6).",
+          category: "apps",
+          link: "tuxpaint.html"
+        },        
+       {
+          name: "UltraISO",
+          image: "box/ultraiso.jpg",
+          description: "Bootable CD/DVD creation is quick and simple with UltraISO - make a bootable CD or DVD and adapt it in any way you want.",
+          category: "utilities",
+          link: "ultraiso.html"
+        },
+       {
+          name: "VirtualDUB",
+          image: "box/virtualdub.jpg",
+          description: "VirtualDub is a video capture/processing utility for 32-bit and 64-bit Windows platforms (98/ME/NT4/2000/XP/Vista/7), licensed under the GNU General Public.",
+          category: "utilities",
+          link: "virtualdub.html"
+        },
+       {
+          name: "Winecfg",
+          image: "box/winecfg.png",
+          description: "Wine Settings for the Windows Emulation.",
+          category: "utilities",
+          link: "winecfg.html"
+        },
+       {
+          name: "WineZIP",
+          image: "box/winezip.png",
+          description: "WineZip is an application that creates ZIP packages for installing Windows programs within WineBOX. It simplifies software deployment by packaging executable files and dependencies for seamless installation and execution.",
+          category: "utilities",
+          link: "winezip.html"
+        },
+       {
+          name: "WinAMP",
+          image: "box/winamp.jpg",
+          description: "Winamp builds the tools that empower artists to manage their music and revenue while delivering a player that offers the perfect listening experience.",
+          category: "apps",
+          link: "winamp.html"
+        },
+       {
+          name: "Wordpad",
+          image: "box/wordpad.jpg",
+          description: "WordPad is a word processor included with Windows 95 and later. Similarly to its predecessor Microsoft Write, it is a basic word processor.",
+          category: "apps",
+          link: "wordpad.html"
+        },
+        {
+          name: "Arkanoid",
+          image: "box/arkanoid.png",
+          description: "Arkanoid is a block breaker video game. Its plot involves the starship Arkanoid being attacked by a mysterious entity from space named DOH. ",
+          category: "arcade",
+          link: "arkanoid.html"
+        },
+        {
+          name: "Baby Type",
+          image: "box/baby.jpg",
+          description: "BabyType is a multi-language educational game aimed at teaching fast touch typing skills. ",
+          category: "arcade",
+          link: "babytype.html"
+        },
+        {
+          name: "Baryon",
+          image: "box/baryon.jpg",
+          description: "Baryon is a straightforward vertical shooter which features a smooth graphical engine, a short digital sound track and various types of enemies.",
+          category: "arcade",
+          link: "baryon.html"
+        },
+        {
+          name: "CD-MAN",
+          image: "box/cdman.jpg",
+          description: "CD-Man features 5 different worlds to pass each having nicely-drawn graphics in high-res EGA mode and therefore a new character.",
+          category: "arcade",
+          link: "cdman.html"
+        },
+        {
+          name: "Dave",
+          image: "box/dave.jpg",
+          description: "Dangerous Dave in the Haunted Mansion is a famous and most played DOS game that now is available to play in browser. With virtual mobile controls you also can play in Dangerous Dave in the Haunted Mansion on mobile.",
+          category: "arcade",
+          link: "dave.html"
+        },
+        {
+          name: "Disney Aladdin",
+          image: "box/aladdin.jpg",
+          description: "Disney's Aladdin is a famous and most played DOS game that now is available to play in browser. With virtual mobile controls you also can play in Disney's Aladdin on mobile.",
+          category: "arcade",
+          link: "aladdin.html"
+        },
+        {
+          name: "Ecstatica",
+          image: "https://dos.zone/images/containers/assets/backgrounds/izdxbg.%D0%A1%D0%BA%D1%80%D0%B8%D0%BD%D1%88%D0%BE%D1%82%2015-03-2025%20162449.jpg/f91eb9124a83f19e4987a1a77f7a69cf.webp",
+          description: "Ecstatica is an action-adventure computer game released by Psygnosis in 1994 for MS-DOS.",
+          category: "arcade",
+          link: "ecstatica.html"
+        },
+        {
+          name: "Earthworm Jim",
+          image: "box/jim.jpg",
+          description: "Earthworm Jim is a famous and most played DOS game that now is available to play in browser. With virtual mobile controls you also can play in Earthworm Jim on mobile.",
+          category: "arcade",
+          link: "earthworm.html"
+        },
+        {
+          name: "Golden Axe",
+          image: "box/axe.jpg",
+          description: "  Golden Axe is a side-scrolling, beat 'em up, hack and slash arcade video game released in 1989 by Sega for the System 16-B arcade hardware.",
+          category: "arcade",
+          link: "goldenaxe.html"
+        },
+        {
+          name: "Max Mechanized Assault",
+          image: "https://dos.zone/images/containers/assets/backgrounds/vvwawa.497_4a54b79a2ba3e.jpg/4d120df40fcf9efe1111c3b030510769.webp",
+          description: "M.A.X.: Mechanized Assault & Exploration is a real-time strategy game set in a futuristic world. Players build bases, gather resources, and command customizable mechs to conquer opponents and explore new territories.",
+          category: "rts",
+          link: "max.html"
+        },
+        {
+          name: "Out this world",
+          image: "box/out.jpg",
+          description: "Out of This World is a famous and most played DOS game that now is available to play in browser. With virtual mobile controls you also can play in Out of This World on mobile.",
+          category: "arcade",
+          link: "out.html"
+        },
+        {
+          name: "Prince of persia",
+          image: "box/pre1.jpg",
+          description: "Prince of Persia is a 1989 cinematic platform game developed and published by Broderbund for the Apple II. It was designed and implemented by Jordan Mechner.",
+          category: "arcade",
+          link: "princeofpersia.html"
+        },
+        {
+          name: "Prince of persia 2",
+          image: "box/prince2.jpg",
+          description: "Prince of Persia 2: The Shadow and the Flame is a platform game released by Brøderbund in 1993.",
+          category: "arcade",
+          link: "princeofpersia2.html"
+        },
+        {
+          name: "Prehistorik",
+          image: "box/spaceinvaders.png",
+          description: "Prehistorik is a platform game developed by Titus Interactive for the Amiga, Atari ST, Amstrad CPC and DOS.",
+          category: "arcade",
+          link: "prehistorik.html"
+        },
+        {
+          name: "Prehistorik 2",
+          image: "box/pre2.jpg",
+          description: "Prehistorik 2 is a platform game developed by Titus Interactive for the Amiga, Atari ST, Amstrad CPC and DOS.",
+          category: "arcade",
+          link: "prehistorik2.html"
+        },
+        {
+          name: "Space Invaders",
+          image: "box/spaceinvaders.png",
+          description: "Icónico juego arcade de disparos espaciales.",
+          category: "arcade",
+          link: "spaceinvaders.html"
+        },
+        {
+          name: "The Lost Vikings",
+          image: "box/vikings.jpg",
+          description: "In the game, the three Vikings get kidnapped by Tomator, emperor of the alien Croutonian empire, for an inter-galactic zoo and become lost in various periods.",
+          category: "arcade",
+          link: "vikings.html"
+        },
+        {
+          name: "XBill",
+          image: "box/xbill.webp",
+          description: "XBill is an arcade style game for the X Window System. The game features a bespectacled character known as Bill.",
+          category: "arcade",
+          link: "xbill.html"
+        },
+        {
+          name: "Oregon Trail Delux",
+          image: "box/oregon.jpg",
+          description: "You get to play the role of a wagon leader and guide your group of chosen settlers from Independence, Missouri, to the Willamette Valley in Oregon.",
+          category: "rts",
+          link: "oregon.html"
+        },
+        {
+          name: "Heroes of Might and Magic II",
+          image: "box/heroes2.jpg",
+          description: "The canonical ending of Heroes I results in Lord Morglin Ironfist’s victory. In the following years, he has successfully unified the continent of Enroth and secured his rule as king.",
+          category: "rts",
+          link: "heroes.html"
+        },
+        {
+          name: "Heroes of Might and Magic III",
+          image: "https://dos.zone/images/containers/assets/backgrounds/homm3-vcmi.jpg/6205b73e460ebc5de314ac35e1ed3abc.webp",
+          description: "The canonical ending of Heroes I results in Lord Morglin Ironfist’s victory. In the following years, he has successfully unified the continent of Enroth and secured his rule as king.",
+          category: "rts",
+          link: "https://sec.dos.zone/vcmi/launcher/"
+        },
+        {
+          name: "Command & Conquer",
+          image: "box/command.jpg",
+          description: "Wage real-time war in more ways than ever with a modern and near-future arsenal. Command the powerful US forces.",
+          category: "rts",
+          link: "commandconquer.html"
+        },
+        {
+          name: "Rise of the triad",
+          image: "box/rise.webp",
+          description: "Rise of the Triad: Dark War is a famous and most played DOS game that now is available to play in browser. With virtual mobile controls you also can play in Rise of the Triad: Dark War on mobile. On DOS.Zone Rise of the Triad: Dark War available to play for free without registration.",
+          category: "rts",
+          link: "rise.html"
+        },
+        {
+          name: "Sim City",
+          image: "box/simcity.jpg",
+          description: "SimCity is an open-ended city-building video game franchise originally designed by Will Wright.",
+          category: "rts",
+          link: "simcity.html"
+        },
+        {
+          name: "Sim City 2000",
+          image: "box/sim2000.jpg",
+          description: "SimCity 2000 marked a major shift in gameplay from the original SimCity, the basic structure set forth in this seminal version has defined subsequent releases.",
+          category: "rts",
+          link: "simcity2000.html"
+        },
+        {
+          name: "Warcraft",
+          image: "box/war1.jpg",
+          description: "Warcraft: Orcs & Humans is a real-time strategy game (RTS) developed and published by Blizzard Entertainment, and published by Interplay Productions in Europe.",
+          category: "rts",
+          link: "warcraft.html"
+        },
+        {
+          name: "Warcraft II",
+          image: "box/war2.jpg",
+          description: "WarCraft II: Tides of Darkness is a sequel to WarCraft: Orcs & Humans strategy game for DOS.",
+          category: "rts",
+          link: "warcraft2.html"
+        },
+        {
+          name: "X-COM: UFO Defense",
+          image: "box/xcom.jpg",
+          description: "Shooting down UFOs is just the beginning: you must then lead a squad of heavily-armed soldiers across different terrains as they investigate the UFO crash site.",
+          category: "rts",
+          link: "xcom.html"
+        },
+        {
+          name: "ZED",
+          image: "https://dos.zone/images/containers/assets/backgrounds/rofzsx.203_5b03ef03913fe.png/1418a024ed1903d472446d6aebc8ce6c.webp",
+          description: "Z (ZED) is a real-time strategy game featuring fast-paced, action-packed gameplay. Players command robotic armies, capture territories, and engage in tactical battles across diverse landscapes to achieve victory.",
+          category: "rts",
+          link: "z.html"
+        },
+        {
+          name: "Master of Orion II",
+          image: "box/master.jpg",
+          description: "Forge an empire in a universe where population growth is stripping away planetary resources. Colonize unknown planets and trade.",
+          category: "rts",
+          link: "masteroforion.html"
+        }
+]
