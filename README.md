@@ -12,7 +12,16 @@ Experience the capabilities of Freedows8Bit through our live demo:
 
 Join us on this exciting journey to redefine accessibility in computing!
 
-## Installation instructions for Android:
+## Install Wine-Proton APK on Android Tablets (Recommended for MediaTek Devices)
+Full Gaming Support with Wine 9.0 + Proton Libraries
+
+This installation method allows you to run Windows applications and video games directly on Android tablets, especially recommended for devices with MediaTek processors due to their efficient GPU-CPU integration. The APK leverages Wine 9.0 as its core compatibility layer and integrates Proton libraries — a set of tools originally developed by Valve to improve game compatibility on Linux via Steam Play.
+
+Thanks to this combination, many DirectX-based Windows games can now run more smoothly on Android through Wine, with better controller, audio, and graphics support. While performance may vary, tablets with MediaTek chipsets (such as the Helio or Dimensity series) have shown excellent compatibility and are ideal for this setup.
+
+⚠️ Note: Termux is not required for APK-based installation — simply sideload the APK and run your games with near-native performance.
+
+## Installation instructions for Android (via Termux):
 
 1. Install [Termux](https://github.com/ifilex/Freedows8Bit/releases/download/apks/termux.apk) and [Termux-x11](https://github.com/ifilex/Freedows8Bit/releases/download/apks/termux-x11.apk).
 2. Start Termux,and  run the WineBOX install command:
