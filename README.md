@@ -12,14 +12,19 @@ Experience the capabilities of Freedows8Bit through our live demo:
 
 Join us on this exciting journey to redefine accessibility in computing!
 
-## Install Wine-Proton APK on Android Tablets (Recommended for MediaTek Devices)
-Full Gaming Support with Wine 9.0 + Proton Libraries
+## Install Wine-Proton APK on Android Tablets (Recommended for MediaTek Devices):
+## Full Gaming Support with Wine 9.0 + Proton Libraries
 
-This installation method allows you to run Windows applications and video games directly on Android tablets, especially recommended for devices with MediaTek processors due to their efficient GPU-CPU integration. The APK leverages Wine 9.0 as its core compatibility layer and integrates Proton libraries — a set of tools originally developed by Valve to improve game compatibility on Linux via Steam Play.
+This installation method allows you to run Windows applications and video games directly on Android tablets, especially recommended for devices with MediaTek processors due to their efficient GPU-CPU integration. The APK uses Wine 9.0 as its compatibility base and integrates Proton libraries, originally developed by Valve to enable Windows games on Linux via Steam Play.
 
-Thanks to this combination, many DirectX-based Windows games can now run more smoothly on Android through Wine, with better controller, audio, and graphics support. While performance may vary, tablets with MediaTek chipsets (such as the Helio or Dimensity series) have shown excellent compatibility and are ideal for this setup.
+Thanks to this combination, many DirectX-based Windows games can now run more smoothly on Android through Wine, with better support for controllers, audio, and GPU acceleration. While performance may vary, tablets using MediaTek chipsets (like Helio or Dimensity series) have shown excellent compatibility and are ideal for this setup.
 
-⚠️ Note: Termux is not required for APK-based installation — simply sideload the APK and run your games with near-native performance.
+⚠️ Termux is not required for this APK installation — simply sideload it and start running Windows games and apps with near-native performance.
+
+📦 Download the APK directly
+🔗 Download [wine64-3D-1.0.apk](https://github.com/ifilex/Freedows8Bit/releases/download/binary/wine64-3D-1.0.apk)
+This file is hosted in the GitHub repository: github.com/ifilex/Freedows8Bit
+
 
 ## Installation instructions for Android (via Termux):
 
