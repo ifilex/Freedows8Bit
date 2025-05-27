@@ -13,7 +13,6 @@ Experience the capabilities of Freedows8Bit through our live demo:
 Join us on this exciting journey to redefine accessibility in computing!
 
 ## Install Wine-Proton APK on Android Tablets (Recommended for MediaTek Devices):
-## Full Gaming Support with Wine 9.0 + Proton Libraries
 
 This installation method allows you to run Windows applications and video games directly on Android tablets, especially recommended for devices with MediaTek processors due to their efficient GPU-CPU integration. The APK uses Wine 9.0 as its compatibility base and integrates Proton libraries, originally developed by Valve to enable Windows games on Linux via Steam Play.
 
