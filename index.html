@@ -23,9 +23,6 @@
             });
         }
     </script>
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
-    <!-- <link rel="stylesheet" href="src/css/jquery-ui.min.css"> -->
-    <!-- For Boot Screen -->
     <style>
         * {
             margin: 0;
@@ -49,30 +46,151 @@
             filter: brightness(1.34) contrast(1.06);
             background-color: white;
         }
+
+        /* Configuración Panel */
+        .settings-panel {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 700px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 10001;
+            overflow: hidden;
+        }
+
+        .settings-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f5f5f5;
+        }
+
+        .settings-content { display: flex; height: calc(100% - 60px); }
+        .settings-sidebar { width: 180px; background: #f8f9fa; padding: 15px 0; }
+        .settings-main { flex: 1; padding: 20px; overflow-y: auto; }
+
+        .settings-option {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+            font-size: 14px;
+        }
+
+        .settings-option.active {
+            background: #e3f2fd;
+            border-left-color: #0078d4;
+            color: #0078d4;
+        }
+
+        .wallpaper-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .wallpaper-item {
+            aspect-ratio: 16/9;
+            border-radius: 6px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .wallpaper-item.active {
+            border-color: #0078d4;
+        }
+
+        .wallpaper-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .app-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .app-item {
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .app-item.active {
+            background: #e3f2fd;
+            border-color: #0078d4;
+        }
+
+        .app-item img {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Menú Contextual Mejorado */
+        #context-menu {
+            position: fixed;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 6px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            padding: 6px 0;
+            min-width: 180px;
+            z-index: 10000;
+            display: none;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        #context-menu.visible { display: block; }
+        
+        #context-menu .item {
+            padding: 8px 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        #context-menu .item:hover { background: #e3f2fd; }
+        #context-menu .separator {
+            height: 1px;
+            background: #e0e0e0;
+            margin: 4px 0;
+        }
+
+        .desktopIcons figure.selected {
+            background: rgba(32, 126, 220, 0.2);
+            border-radius: 4px;
+        }
     </style>
     <link rel="stylesheet" href="src/css/style.css">
-
 </head>
 
 <body>
-    <!-- Use this for custom cursor -->
-    <!--<img src="http://www.rw-designer.com/cursor-extern.php?id=139827" id="mouse" style="position: absolute;transition:none;pointer-events: none;z-index: 10000;" height=35>
-    <script>
-        document.body.onmousemove = e => {
-            document.querySelector("#mouse").style.setProperty("top", e.clientY + 'px');
-            document.querySelector("#mouse").style.setProperty("left", e.clientX + 'px');
-        }
-    </script>
-
-<!-- Lock Screen Box -->
+    <!-- Lock Screen Box -->
     <div id="lockScreen">
         <div id="timeBox">
-          
-            <span class="date">Version 3.00</span>
+            <span class="date">Version 3.10</span>
         </div>
     </div>
 
-    <!-- making a power on div and make user click a button so that we can autoplay videos -->
+    <!-- Power On Button -->
     <div class="powerOnBox">
         <div class="power-switch" id="powerOnBtn">
             <input type="checkbox" />
@@ -97,6 +215,7 @@
             </symbol>
         </svg>
     </div>
+
     <!-- Boot Elements -->
     <div class="boot">
         <img src="src/others/windowsLogo.svg" alt="Windows Logo" width="70" />
@@ -106,134 +225,53 @@
         </picture>
     </div>
     <div class="boot-animation">
-        <!-- does not work in google chrome if the video is not muted.
-        works in firefox if autoplay permission for the site is granted.
-    works even on chrome with certain criteria fulfilled:
-    For more details: 
-    https://developers.google.com/web/updates/2017/09/autoplay-policy-changes -->
         <audio preload="auto" width="150" height="150" id="startupAudio">
             <source src="src/sounds/Windows Startup.webm" type="audio/webm">
             <source src="src/sounds/Windows Startup.mp3" type="audio/mp3">
         </audio>
     </div>
 
-    <!-- EDGE BROWSER -->
-    <!--
-    <div id = "browser" class="resizableWindow resizable">
-        <div class="tittleWindow">
-            <p>Edge</p>
+    <!-- Panel de Configuración -->
+    <div class="settings-panel" id="settingsPanel">
+        <div class="settings-header">
+            <h3>Configuration</h3>
+            <img src="src/icons/cross.svg" alt="Close" onclick="closeSettings()" style="cursor: pointer; width: 16px; height: 16px;">
         </div>
-        <iframe class="frameresizableWindow" src="https://www.bing.com/"></iframe>
-    </div>
-    -->
-    <!-- EDGE BROWSER -->
-    <div class="desktop">
-        <div class="desktopIcons">
-            <!-- desktop icon 1 -->
-            <figure id="deskcomp" onclick="executeProgram('progman')">
-                <img src="src/icons/Computer.png" alt="Wine This PC icon">
-                <figcaption class="iconName">This PC</figcaption>
-            </figure>
-            <!-- desktop icon 2 -->
-            <figure id="deskvscode" onclick="executeProgram('fasm')">
-                <img src="src/icons/vscode.png" alt="EXE to APK dev Icon">
-                <figcaption class="iconName">Flat Assembler</figcaption>
-            </figure>
-            <!-- desktop icon 3 -->
-            <figure id="deskbrowser" onclick="executeProgram('msedge')">
-                <!-- <button onclick = "OCBROWSER()" id = "browserbtn" class = "Iconshell"> -->
-                <img src="src/icons/edge.svg" alt="Edge Icon">
-                <figcaption class="iconName">Internet Explorer</figcaption>
-                <!-- </button> -->
-            </figure>
+        <div class="settings-content">
+            <div class="settings-sidebar">
+                <div class="settings-option active" onclick="showSettingsSection('personalization')">Personalization</div>
+                <div class="settings-option" onclick="showSettingsSection('apps')">Applications</div>
+            </div>
+            <div class="settings-main">
+                <div id="personalization" class="settings-section">
+                    <h4>Wallpaper</h4>
+                    <div class="wallpaper-grid" id="wallpaperGrid"></div>
+                </div>
+                <div id="apps" class="settings-section" style="display: none;">
+                    <h4>Start Menu Applications</h4>
+                    <p>Select which apps appear in the Start Menu:</p>
+                    <div class="app-list" id="appList"></div>
+                </div>
+            </div>
         </div>
     </div>
 
+    <!-- Desktop -->
+    <div class="desktop">
+        <div class="desktopIcons" id="desktopIconsContainer">
+            <!-- Los iconos se cargan dinámicamente -->
+        </div>
+    </div>
+
+    <!-- Start Menu -->
     <div class="start">
         <div class="pinned">
             <div class="start-top-elements">
                 <span>Start</span>
-                <button class="openAll" id="allapps">All apps <img src="src/icons/right.svg" alt="open all apps"
-                        class="smallRight"></button>
+                <button class="openAll" id="allapps">All apps <img src="src/icons/right.svg" alt="open all apps" class="smallRight"></button>
             </div>
-            <div class="start-icons">
-                <figure id="startWordpad" onclick="executeProgram('fileExplorer')" >
-                    <img src="src/icons/fileExplorer.png" alt="Explorer icon">
-                    <figcaption>Yours Apps</figcaption>
-                </figure>
-                <figure id="startEdge" onclick="executeProgram('msedge')">
-                    <img src="src/icons/edge.svg" alt="Edge icon">
-                    <figcaption>Internet</figcaption>
-                </figure>
-
-                <figure id="startOffice" onclick="executeProgram('soffice')">
-                    <img src="src/icons/office.svg" alt="Open Office icon">
-                    <figcaption>Office</figcaption>
-                </figure>
-                <figure id="startWallet" onclick="executeProgram('wallet')">
-                    <img src="src/icons/wallet.png" alt="Wallet icon">
-                    <figcaption>Wallet</figcaption>
-                </figure>
-                <figure id="startNotepad"
-onclick="executeProgram('notepad')">
-                    <img src="src/icons/notepad.png" alt="Notepad icon">
-                    <figcaption>Notepad</figcaption>
-                </figure>
-                <figure id="startCalendar" onclick="executeProgram('calendar')">
-                    <img src="src/icons/calender.svg" alt="Calender icon">
-                    <figcaption>Calender</figcaption>
-                </figure>
-                <figure id="startDOS" onclick="executeProgram('dosbox')">
-                    <img src="src/icons/dosbox.png" alt="FreeDOS Store icon">
-                    <figcaption>DOSBox</figcaption>
-                </figure>
-                <figure id="startPaint" onclick="executeProgram('paint')">
-                    <img src="src/icons/photos.svg" alt="Windows Paint icon">
-                    <figcaption>Paint</figcaption>
-                </figure>
-                <figure id="startNoteplus" onclick="executeProgram('npp')">
-                    <img src="src/icons/oneNote.svg" alt="OneNote icon">
-                    <figcaption>Note</figcaption>
-                </figure>
-                <figure id="startDevel" onclick="executeProgram('winehelp')">
-                    <img src="src/icons/yourPhone.svg" alt="Windows and linux for your Phone icon">
-                    <figcaption>EXE2APK</figcaption>
-                </figure>
-                <figure id="startToDo" onclick="executeProgram('todo')">
-                    <img src="src/icons/toDo.svg" alt="To DO icon">
-                    <figcaption>To Do</figcaption>
-                </figure>
-                <figure id="startRec"
-onclick="executeProgram('rec')">
-                    <img src="src/icons/movies.svg" alt="Sound Rec icon">
-                    <figcaption>Rec</figcaption>
-                </figure>
-                <figure id="startwinezip" onclick="executeProgram('winezip')">
-                    <img src="src/icons/icons8-winrar.svg" alt="Winezip icon">
-                    <figcaption>WineZIP</figcaption>
-                </figure>
-                <figure id="startCalci" onclick="executeProgram('calc')">
-                    <img src="src/icons/calculator.svg" alt="Windows Calculator icon">
-                    <figcaption>Calc</figcaption>
-                </figure>
-                <figure id="startSol"
-onclick="executeProgram('sol')">
-                    <img src="src/icons/sol.png" alt="Sol icon">
-                    <figcaption>Sol</figcaption>
-                </figure>
-                <figure id="startWinemine"
-onclick="executeProgram('winemine')">
-                    <img src="src/icons/winemine.png" alt="Winemine">
-                    <figcaption>Winemine</figcaption>
-                </figure>
-                <figure id="startMovies" onclick="executeProgram('multimedia')">
-                    <img src="src/icons/movies.svg" alt="Windows Movies & TV icon">
-                    <figcaption>Media</figcaption>
-                </figure>
-                <figure id="startClock" onclick="executeProgram('clock')">
-                    <img src="src/icons/clock.svg" alt="Wine Clock icon">
-                    <figcaption>Clock</figcaption>
-                </figure>
+            <div class="start-icons" id="startIconsContainer">
+                <!-- Las apps se cargan dinámicamente según configuración -->
             </div>
         </div>
         <div class="others">
@@ -244,17 +282,20 @@ onclick="executeProgram('winemine')">
             <a href="src/redirects/shutdown/logoff.html"><img src="src/icons/shutdown.svg" alt="Shutdown icon" id="shutdown"></a>
         </div>
     </div>
+
+    <!-- Taskbar -->
     <div class="taskbar">
         <div class="center">
-            <img src="src/icons/startButton.png" alt="Start icon" id="starticon">
+            <img src="src/icons/startButton.png" alt="Start icon" id="starticon" onclick="toggleStartMenu()">
             <img src="src/icons/taskView.svg" alt="Dock Store" onclick="executeProgram('dock')" id="dock">
-		<img src="src/icons/fileExplorer.png" alt="Fileamanger icon" onclick="executeProgram('fileExplorer')" id="neticon">
+            <img src="src/icons/fileExplorer.png" alt="Fileamanger icon" onclick="executeProgram('fileExplorer')" id="neticon">
             <img src="src/icons/edge.svg" alt="Internet Explorer icon" onclick="executeProgram('msedge')" id="neticon">
-            <img src="src/icons/store.png" alt="FreeDOS Store icon"  onclick="executeProgram('store')" id="freedostore">
+            <img src="src/icons/store.png" alt="FreeDOS Store icon" onclick="executeProgram('store')" id="freedostore">
+            <img src="src/icons/settings.svg" alt="Settings icon" onclick="openSettings()" id="settingsIcon">
         </div>
         <div class="right">
-            <img src="src/icons/up.svg" alt="Up arrow">
-            <img src="src/icons/keyboard.svg" alt="Keyboard Meta Keys" id="keyboardOpener">
+            <!-- img src="src/icons/up.svg" alt="Up arrow" -->
+            <!-- img src="src/icons/keyboard.svg" alt="Keyboard Meta Keys" id="keyboardOpener" onclick="toggleKeyboard()" -->
             <div class="time-date">
                 <span></span>
                 <span></span>
@@ -262,6 +303,29 @@ onclick="executeProgram('winemine')">
             </div>
         </div>
     </div>
+
+    <!-- Menú Contextual Mejorado -->
+    <div id="context-menu">
+        <div class="item" onclick="openDesktopProperties()">
+            <img src="src/icons/properties.png" alt="Properties" width="14" height="14"> 
+            Properties
+        </div>
+        <div class="item" onclick="openSettings()">
+            <img src="src/icons/settings.svg" alt="Configure" width="14" height="14">
+            Configure Desktop
+        </div>
+        <div class="separator"></div>
+        <div class="item" onclick="renameDesktopIcon()">
+            <img src="src/icons/rename.png" alt="Rename" width="14" height="14">
+            Rename
+        </div>
+        <div class="item" onclick="deleteDesktopIcon()">
+            <img src="src/icons/delete.png" alt="Delete" width="14" height="14">
+            Delete
+        </div>
+    </div>
+
+    <!-- Resto del código original -->
     <link rel="stylesheet" href="src/css/actionCenter.css">
     <div class="notification-center">
         <div class="notifications">
@@ -273,10 +337,7 @@ onclick="executeProgram('winemine')">
             </div>
         </div>
     </div>
-    <div id="context-menu">
-        <div class="item"><img src="src/icons/terminal.png" alt="Terminal" onclick="executeProgram('shell')" id="starticon"> Open in Windows Terminal</div>
-    </div>
-    <!-- making run dialog -->
+
     <div class="runDialog window">
         <div class="runHeader"> <img src="src/icons/runicon.png" alt="run icon" class="runIconSmall"> <span>Run</span>
             <div class="optionsWrapper"><img src="src/icons/cross.svg" alt="close" class="windowOptions windowCrosser"></div>
@@ -291,23 +352,326 @@ onclick="executeProgram('winemine')">
             <button>Browse...</button>
         </div>
     </div>
+
     <div class="brightness-overlay"></div>
-    <div id="keyboard">
-        <div class="keys" id="keyboardHider">
-            <img src="src/icons/right.svg" alt="Hide the keyboard" style="transform: rotate(90deg);">
-        </div>
-        <div class="keys" data-value="Win" id="winkey">
-            <img src="src/icons/winkey.svg" alt="" style="filter: invert(1);width: 70%;">
-        </div>
-        <div class="keys" data-value="Alt" id="altKey">Alt</div>
-        <div class="keys" data-value="Ctrl" id="ctrlKey">Ctrl</div>
-    </div>
+
     <div class="imagesToBePreloaded" style="display: none;"></div>
-    <!--
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script src="src/js/jquery-ui.min.js"></script>
-    <script src="src/js/iframes-apps.js"></script>
-    -->
+
+    <!-- JavaScript Mejorado -->
+    <script>
+        // Sistema de configuración persistente
+        const systemConfig = {
+            wallpaper: 18,
+            desktopIcons: [
+                { id: 'deskcomp', name: 'This PC', icon: 'src/icons/Computer.png', program: 'progman' },
+                { id: 'deskvscode', name: 'Flat Assembler', icon: 'src/icons/vscode.png', program: 'fasm' },
+                { id: 'deskbrowser', name: 'Internet Explorer', icon: 'src/icons/edge.svg', program: 'msedge' }
+            ],
+            startMenuApps: [
+                'fileExplorer', 'msedge', 'soffice', 'wallet', 'notepad', 'calendar',
+                'dosbox', 'paint', 'npp', 'winehelp', 'todo', 'rec', 'winezip',
+                'calc', 'sol', 'winemine', 'multimedia', 'clock'
+            ],
+            availableApps: {
+                'fileExplorer': { name: 'Your Apps', icon: 'src/icons/fileExplorer.png' },
+                'msedge': { name: 'Internet', icon: 'src/icons/edge.svg' },
+                'soffice': { name: 'Office', icon: 'src/icons/office.svg' },
+                'wallet': { name: 'Wallet', icon: 'src/icons/wallet.png' },
+                'notepad': { name: 'Notepad', icon: 'src/icons/notepad.png' },
+                'calendar': { name: 'Calendar', icon: 'src/icons/calender.svg' },
+                'dosbox': { name: 'DOSBox', icon: 'src/icons/dosbox.png' },
+                'paint': { name: 'Paint', icon: 'src/icons/photos.svg' },
+                'npp': { name: 'Note', icon: 'src/icons/oneNote.svg' },
+                'winehelp': { name: 'EXE2APK', icon: 'src/icons/yourPhone.svg' },
+                'todo': { name: 'To Do', icon: 'src/icons/toDo.svg' },
+                'rec': { name: 'Rec', icon: 'src/icons/movies.svg' },
+                'winezip': { name: 'WineZIP', icon: 'src/icons/icons8-winrar.svg' },
+                'calc': { name: 'Calc', icon: 'src/icons/calculator.svg' },
+                'sol': { name: 'Sol', icon: 'src/icons/sol.png' },
+                'winemine': { name: 'Winemine', icon: 'src/icons/winemine.png' },
+                'multimedia': { name: 'Media', icon: 'src/icons/movies.svg' },
+                'clock': { name: 'Clock', icon: 'src/icons/clock.svg' }
+            }
+        };
+
+        // Variables globales
+        let selectedDesktopIcon = null;
+        let activeInputElement = null;
+        let isShiftActive = false;
+        let isCapsActive = false;
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSystemConfig();
+            initializeDesktop();
+            initializeStartMenu();
+            initializeKeyboard();
+            setupEventListeners();
+        });
+
+        // Cargar configuración del sistema
+        function loadSystemConfig() {
+            const savedConfig = localStorage.getItem('wineboxConfig');
+            if (savedConfig) {
+                const parsedConfig = JSON.parse(savedConfig);
+                Object.assign(systemConfig, parsedConfig);
+            }
+            applySystemConfig();
+        }
+
+        // Guardar configuración del sistema
+        function saveSystemConfig() {
+            localStorage.setItem('wineboxConfig', JSON.stringify(systemConfig));
+        }
+
+        // Aplicar configuración del sistema
+        function applySystemConfig() {
+            // Aplicar fondo de pantalla
+            document.body.style.backgroundImage = `url(src/wallpaper/img${systemConfig.wallpaper}.webp)`;
+            
+            // Cargar iconos del escritorio
+            loadDesktopIcons();
+            
+            // Cargar menú inicio
+            loadStartMenu();
+        }
+
+        // Inicializar escritorio
+        function initializeDesktop() {
+            const desktop = document.querySelector('.desktopIcons');
+            
+            // Evento para menú contextual
+            desktop.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                const icon = e.target.closest('figure');
+                if (icon) {
+                    showContextMenu(e, icon);
+                }
+            });
+
+            // Cerrar menú contextual al hacer click fuera
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('#context-menu')) {
+                    hideContextMenu();
+                }
+            });
+        }
+
+        // Cargar iconos del escritorio
+        function loadDesktopIcons() {
+            const container = document.getElementById('desktopIconsContainer');
+            container.innerHTML = systemConfig.desktopIcons.map(icon => `
+                <figure id="${icon.id}" data-name="${icon.name}" data-program="${icon.program}">
+                    <img src="${icon.icon}" alt="${icon.name}">
+                    <figcaption class="iconName">${icon.name}</figcaption>
+                </figure>
+            `).join('');
+
+            // Configurar eventos de los iconos
+            systemConfig.desktopIcons.forEach(icon => {
+                const iconElement = document.getElementById(icon.id);
+                if (iconElement) {
+                    iconElement.addEventListener('click', function(e) {
+                        if (e.detail === 2) {
+                            executeProgram(icon.program);
+                        } else {
+                            selectDesktopIcon(this);
+                        }
+                    });
+
+                    // Click largo para menú contextual
+                    let longPressTimer;
+                    iconElement.addEventListener('mousedown', function(e) {
+                        longPressTimer = setTimeout(() => {
+                            showContextMenu(e, this);
+                        }, 500);
+                    });
+
+                    iconElement.addEventListener('mouseup', function() {
+                        clearTimeout(longPressTimer);
+                    });
+
+                    iconElement.addEventListener('mouseleave', function() {
+                        clearTimeout(longPressTimer);
+                    });
+                }
+            });
+        }
+
+        // Cargar menú inicio
+        function loadStartMenu() {
+            const container = document.getElementById('startIconsContainer');
+            const enabledApps = systemConfig.startMenuApps.filter(appId => 
+                systemConfig.availableApps[appId]
+            );
+
+            container.innerHTML = enabledApps.map(appId => {
+                const app = systemConfig.availableApps[appId];
+                return `
+                    <figure id="start${appId.charAt(0).toUpperCase() + appId.slice(1)}" onclick="executeProgram('${appId}')">
+                        <img src="${app.icon}" alt="${app.name} icon">
+                        <figcaption>${app.name}</figcaption>
+                    </figure>
+                `;
+            }).join('');
+        }
+
+        // Configurar event listeners
+        function setupEventListeners() {
+            // Botón de configuración
+            document.getElementById('settingsIcon').addEventListener('click', openSettings);
+        }
+
+        // Funciones del sistema
+        function selectDesktopIcon(icon) {
+            document.querySelectorAll('.desktopIcons figure').forEach(i => {
+                i.classList.remove('selected');
+            });
+            icon.classList.add('selected');
+            selectedDesktopIcon = icon;
+        }
+
+        function showContextMenu(e, icon) {
+            selectedDesktopIcon = icon;
+            const contextMenu = document.getElementById('context-menu');
+            contextMenu.style.left = e.pageX + 'px';
+            contextMenu.style.top = e.pageY + 'px';
+            contextMenu.classList.add('visible');
+        }
+
+        function hideContextMenu() {
+            document.getElementById('context-menu').classList.remove('visible');
+        }
+
+        // Funciones de configuración
+        function openSettings() {
+            document.getElementById('settingsPanel').style.display = 'block';
+            loadSettingsContent();
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsPanel').style.display = 'none';
+        }
+
+        function showSettingsSection(section) {
+            // Ocultar todas las secciones
+            document.querySelectorAll('.settings-section').forEach(sec => {
+                sec.style.display = 'none';
+            });
+            // Quitar active de todas las opciones
+            document.querySelectorAll('.settings-option').forEach(opt => {
+                opt.classList.remove('active');
+            });
+            // Mostrar sección seleccionada
+            document.getElementById(section).style.display = 'block';
+            // Activar opción seleccionada
+            event.target.classList.add('active');
+        }
+
+        function loadSettingsContent() {
+            // Cargar fondos de pantalla
+            const wallpapers = [18, 28, 29, 30, 31, 32, 33, 34, 35];
+            document.getElementById('wallpaperGrid').innerHTML = wallpapers.map(wp => `
+                <div class="wallpaper-item ${wp === systemConfig.wallpaper ? 'active' : ''}">
+                    <img src="src/wallpaper/img${wp}.webp" onclick="selectWallpaper(${wp})">
+                </div>
+            `).join('');
+
+            // Cargar lista de aplicaciones
+            const appList = document.getElementById('appList');
+            appList.innerHTML = Object.keys(systemConfig.availableApps).map(appId => {
+                const app = systemConfig.availableApps[appId];
+                const isEnabled = systemConfig.startMenuApps.includes(appId);
+                return `
+                    <div class="app-item ${isEnabled ? 'active' : ''}" onclick="toggleStartMenuApp('${appId}')">
+                        <img src="${app.icon}" alt="${app.name}">
+                        <span>${app.name}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function selectWallpaper(wallpaperId) {
+            systemConfig.wallpaper = wallpaperId;
+            document.body.style.backgroundImage = `url(src/wallpaper/img${wallpaperId}.webp)`;
+            saveSystemConfig();
+            // Actualizar vista
+            loadSettingsContent();
+        }
+
+        function toggleStartMenuApp(appId) {
+            const index = systemConfig.startMenuApps.indexOf(appId);
+            if (index > -1) {
+                systemConfig.startMenuApps.splice(index, 1);
+            } else {
+                systemConfig.startMenuApps.push(appId);
+            }
+            saveSystemConfig();
+            loadStartMenu();
+            loadSettingsContent();
+        }
+
+        // Funciones del menú contextual del escritorio
+        function openDesktopProperties() {
+            if (selectedDesktopIcon) {
+                // Aquí podrías mostrar un diálogo de propiedades
+                console.log('Properties of:', selectedDesktopIcon.dataset.name);
+            }
+            hideContextMenu();
+        }
+
+        function renameDesktopIcon() {
+            if (selectedDesktopIcon) {
+                const newName = prompt('Enter new name:', selectedDesktopIcon.dataset.name);
+                if (newName) {
+                    selectedDesktopIcon.dataset.name = newName;
+                    selectedDesktopIcon.querySelector('.iconName').textContent = newName;
+                    
+                    // Actualizar en configuración
+                    const iconId = selectedDesktopIcon.id;
+                    const iconConfig = systemConfig.desktopIcons.find(icon => icon.id === iconId);
+                    if (iconConfig) {
+                        iconConfig.name = newName;
+                        saveSystemConfig();
+                    }
+                }
+            }
+            hideContextMenu();
+        }
+
+        function deleteDesktopIcon() {
+            if (selectedDesktopIcon && confirm('Delete this icon?')) {
+                const iconId = selectedDesktopIcon.id;
+                
+                // Remover de la configuración
+                systemConfig.desktopIcons = systemConfig.desktopIcons.filter(icon => icon.id !== iconId);
+                saveSystemConfig();
+                
+                // Remover del DOM
+                selectedDesktopIcon.remove();
+                selectedDesktopIcon = null;
+            }
+            hideContextMenu();
+        }
+
+        // Función executeProgram existente (se mantiene igual)
+        function executeProgram(program) {
+            // Tu lógica existente para ejecutar programas
+            console.log('Executing program:', program);
+        }
+
+        // Función toggleStartMenu existente
+        function toggleStartMenu() {
+            // Tu lógica existente para el menú inicio
+        }
+
+        // Mantener funciones originales para compatibilidad
+        function OCBROWSER() {
+            // Tu función original
+        }
+    </script>
+
+    <!-- Scripts originales -->
     <script src="src/js/boot.js"></script>
     <script src="src/js/start.js"></script>
     <script src="src/js/desktop.js"></script>
@@ -323,7 +687,5 @@ onclick="executeProgram('winemine')">
     <script src="https://unpkg.com/tippy.js@6"></script>
     <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css">
     <script src="src/js/tooltip.js"></script>
-
 </body>
-
 </html>
