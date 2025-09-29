@@ -136,7 +136,7 @@
         "icon": "src/icons/terminal.png"
     },
     "store": {
-        "name": "WineBOX Store",
+        "name": "AppServer",
         "src": "src/apps/store.html",
         "icon": "src/icons/store.png"
     },
