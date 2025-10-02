@@ -50,11 +50,11 @@
         /* Configuración Panel */
         .settings-panel {
             position: fixed;
-            top: 50%;
-            left: 50%;
+            top: 65%;
+            left: 80%;
             transform: translate(-50%, -50%);
-            width: 700px;
-            height: 500px;
+            width: 500px;
+            height: 400px;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             border-radius: 8px;
@@ -142,6 +142,49 @@
             height: 24px;
         }
 
+        /* Estilos para opciones de clic */
+        .click-options {
+            margin-top: 20px;
+        }
+
+        .click-option {
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .click-option.active {
+            background: #e3f2fd;
+            border-color: #0078d4;
+        }
+
+        .click-option .radio {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .click-option.active .radio {
+            border-color: #0078d4;
+        }
+
+        .click-option.active .radio::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #0078d4;
+        }
+
         /* Menú Contextual Mejorado */
         #context-menu {
             position: fixed;
@@ -178,17 +221,89 @@
             background: rgba(32, 126, 220, 0.2);
             border-radius: 4px;
         }
+
+        /* Ventanas de diálogo internas */
+        .dialog-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 20000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dialog-overlay.active {
+            display: flex;
+        }
+
+        .dialog-window {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            width: 400px;
+            max-width: 90%;
+            overflow: hidden;
+        }
+
+        .dialog-header {
+            padding: 15px 20px;
+            background: #f5f5f5;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dialog-body {
+            padding: 20px;
+        }
+
+        .dialog-footer {
+            padding: 15px 20px;
+            background: #f9f9f9;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .dialog-button {
+            padding: 8px 16px;
+            border: 1px solid #ccc;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .dialog-button.primary {
+            background: #0078d4;
+            color: white;
+            border-color: #0078d4;
+        }
+
+        .dialog-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .dialog-message {
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
     </style>
     <link rel="stylesheet" href="src/css/style.css">
 </head>
 
 <body>
-    <!-- Lock Screen Box -->
-    <div id="lockScreen">
-        <div id="timeBox">
-            <span class="date">Version 3.10</span>
-        </div>
-    </div>
 
     <!-- Power On Button -->
     <div class="powerOnBox">
@@ -241,6 +356,7 @@
             <div class="settings-sidebar">
                 <div class="settings-option active" onclick="showSettingsSection('personalization')">Personalization</div>
                 <div class="settings-option" onclick="showSettingsSection('apps')">Applications</div>
+                <div class="settings-option" onclick="showSettingsSection('desktop')">Desktop</div>
             </div>
             <div class="settings-main">
                 <div id="personalization" class="settings-section">
@@ -251,6 +367,30 @@
                     <h4>Start Menu Applications</h4>
                     <p>Select which apps appear in the Start Menu:</p>
                     <div class="app-list" id="appList"></div>
+                </div>
+                <div id="desktop" class="settings-section" style="display: none;">
+                    <h4>Desktop Behavior</h4>
+                    <p>Choose how icons open on the desktop:</p>
+                    <div class="click-options">
+                        <div class="click-option active" onclick="selectClickOption('single')">
+                            <div class="radio"></div>
+                            <div>
+                                <strong>Single-click to open an item</strong>
+                                <div style="font-size: 12px; color: #666; margin-top: 4px;">
+                                    Point to an item to select it
+                                </div>
+                            </div>
+                        </div>
+                        <div class="click-option" onclick="selectClickOption('double')">
+                            <div class="radio"></div>
+                            <div>
+                                <strong>Double-click to open an item</strong>
+                                <div style="font-size: 12px; color: #666; margin-top: 4px;">
+                                    Single-click to select an item
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -289,12 +429,12 @@
             <img src="src/icons/startButton.png" alt="Start icon" id="starticon" onclick="toggleStartMenu()">
             <img src="src/icons/taskView.svg" alt="Dock Store" onclick="executeProgram('dock')" id="dock">
             <img src="src/icons/fileExplorer.png" alt="Fileamanger icon" onclick="executeProgram('fileExplorer')" id="neticon">
-            <img src="src/icons/edge.svg" alt="Internet Explorer icon" onclick="executeProgram('msedge')" id="neticon">
-            <img src="src/icons/store.png" alt="FreeDOS Store icon" onclick="executeProgram('store')" id="freedostore">
+            <img src="src/icons/edge.svg" alt="Internet Explorer icon" onclick="executeProgram('msedge')" id="neticon">  
+            <img src="src/icons/store.png" alt="Winebox icon" onclick="executeProgram('store')" id="freedostore">
             <img src="src/icons/settings.svg" alt="Settings icon" onclick="openSettings()" id="settingsIcon">
         </div>
         <div class="right">
-            <!-- img src="src/icons/up.svg" alt="Up arrow" -->
+            <img src="src/icons/up.svg" alt="Up arrow" onclick="openSettings()">
             <!-- img src="src/icons/keyboard.svg" alt="Keyboard Meta Keys" id="keyboardOpener" onclick="toggleKeyboard()" -->
             <div class="time-date">
                 <span></span>
@@ -306,22 +446,34 @@
 
     <!-- Menú Contextual Mejorado -->
     <div id="context-menu">
-        <div class="item" onclick="openDesktopProperties()">
-            <img src="src/icons/properties.png" alt="Properties" width="14" height="14"> 
-            Properties
-        </div>
         <div class="item" onclick="openSettings()">
             <img src="src/icons/settings.svg" alt="Configure" width="14" height="14">
             Configure Desktop
         </div>
         <div class="separator"></div>
-        <div class="item" onclick="renameDesktopIcon()">
+        <div class="item" onclick="showRenameDialog()">
             <img src="src/icons/rename.png" alt="Rename" width="14" height="14">
             Rename
         </div>
-        <div class="item" onclick="deleteDesktopIcon()">
+        <div class="item" onclick="showDeleteDialog()">
             <img src="src/icons/delete.png" alt="Delete" width="14" height="14">
             Delete
+        </div>
+    </div>
+
+    <!-- Ventanas de diálogo internas -->
+    <div class="dialog-overlay" id="dialogOverlay">
+        <div class="dialog-window" id="dialogWindow">
+            <div class="dialog-header">
+                <h3 id="dialogTitle">Dialog</h3>
+                <img src="src/icons/cross.svg" alt="Close" onclick="closeDialog()" style="cursor: pointer; width: 16px; height: 16px;">
+            </div>
+            <div class="dialog-body" id="dialogBody">
+                <!-- Contenido dinámico -->
+            </div>
+            <div class="dialog-footer" id="dialogFooter">
+                <!-- Botones dinámicos -->
+            </div>
         </div>
     </div>
 
@@ -391,7 +543,8 @@
                 'winemine': { name: 'Winemine', icon: 'src/icons/winemine.png' },
                 'multimedia': { name: 'Media', icon: 'src/icons/movies.svg' },
                 'clock': { name: 'Clock', icon: 'src/icons/clock.svg' }
-            }
+            },
+            desktopClickMode: 'single' // 'single' or 'double'
         };
 
         // Variables globales
@@ -467,17 +620,26 @@
                 </figure>
             `).join('');
 
-            // Configurar eventos de los iconos
+            // Configurar eventos de los iconos según el modo de clic
             systemConfig.desktopIcons.forEach(icon => {
                 const iconElement = document.getElementById(icon.id);
                 if (iconElement) {
-                    iconElement.addEventListener('click', function(e) {
-                        if (e.detail === 2) {
+                    if (systemConfig.desktopClickMode === 'single') {
+                        // Modo clic simple: un clic para abrir
+                        iconElement.addEventListener('click', function(e) {
                             executeProgram(icon.program);
-                        } else {
                             selectDesktopIcon(this);
-                        }
-                    });
+                        });
+                    } else {
+                        // Modo doble clic: un clic para seleccionar, doble clic para abrir
+                        iconElement.addEventListener('click', function(e) {
+                            selectDesktopIcon(this);
+                        });
+                        
+                        iconElement.addEventListener('dblclick', function(e) {
+                            executeProgram(icon.program);
+                        });
+                    }
 
                     // Click largo para menú contextual
                     let longPressTimer;
@@ -589,6 +751,33 @@
                     </div>
                 `;
             }).join('');
+
+            // Cargar opciones de clic del escritorio
+            loadDesktopClickOptions();
+        }
+
+        function loadDesktopClickOptions() {
+            const singleClickOption = document.querySelector('#desktop .click-options .click-option:nth-child(1)');
+            const doubleClickOption = document.querySelector('#desktop .click-options .click-option:nth-child(2)');
+            
+            // Remover clases active
+            singleClickOption.classList.remove('active');
+            doubleClickOption.classList.remove('active');
+            
+            // Aplicar active según configuración
+            if (systemConfig.desktopClickMode === 'single') {
+                singleClickOption.classList.add('active');
+            } else {
+                doubleClickOption.classList.add('active');
+            }
+        }
+
+        function selectClickOption(mode) {
+            systemConfig.desktopClickMode = mode;
+            saveSystemConfig();
+            loadDesktopClickOptions();
+            // Recargar iconos del escritorio para aplicar el nuevo comportamiento
+            loadDesktopIcons();
         }
 
         function selectWallpaper(wallpaperId) {
@@ -620,27 +809,121 @@
             hideContextMenu();
         }
 
-        function renameDesktopIcon() {
-            if (selectedDesktopIcon) {
-                const newName = prompt('Enter new name:', selectedDesktopIcon.dataset.name);
-                if (newName) {
-                    selectedDesktopIcon.dataset.name = newName;
-                    selectedDesktopIcon.querySelector('.iconName').textContent = newName;
-                    
-                    // Actualizar en configuración
-                    const iconId = selectedDesktopIcon.id;
-                    const iconConfig = systemConfig.desktopIcons.find(icon => icon.id === iconId);
-                    if (iconConfig) {
-                        iconConfig.name = newName;
-                        saveSystemConfig();
+        // Sistema de diálogos internos
+        function showDialog(title, bodyHTML, buttons) {
+            const overlay = document.getElementById('dialogOverlay');
+            const dialogTitle = document.getElementById('dialogTitle');
+            const dialogBody = document.getElementById('dialogBody');
+            const dialogFooter = document.getElementById('dialogFooter');
+            
+            dialogTitle.textContent = title;
+            dialogBody.innerHTML = bodyHTML;
+            
+            // Configurar botones
+            dialogFooter.innerHTML = '';
+            buttons.forEach(button => {
+                const btn = document.createElement('button');
+                btn.textContent = button.text;
+                btn.className = button.primary ? 'dialog-button primary' : 'dialog-button';
+                btn.onclick = button.action;
+                dialogFooter.appendChild(btn);
+            });
+            
+            overlay.classList.add('active');
+        }
+
+        function closeDialog() {
+            document.getElementById('dialogOverlay').classList.remove('active');
+        }
+
+        function showRenameDialog() {
+            if (!selectedDesktopIcon) return;
+            
+            const currentName = selectedDesktopIcon.dataset.name;
+            const bodyHTML = `
+                <div class="dialog-message">Enter new name for this icon:</div>
+                <input type="text" class="dialog-input" id="renameInput" value="${currentName}" autofocus>
+            `;
+            
+            const buttons = [
+                {
+                    text: 'Cancel',
+                    action: function() {
+                        closeDialog();
+                        hideContextMenu();
+                    }
+                },
+                {
+                    text: 'OK',
+                    primary: true,
+                    action: function() {
+                        const newName = document.getElementById('renameInput').value.trim();
+                        if (newName) {
+                            renameDesktopIcon(newName);
+                        }
+                        closeDialog();
+                        hideContextMenu();
                     }
                 }
+            ];
+            
+            showDialog('Rename Icon', bodyHTML, buttons);
+            
+            // Enfocar y seleccionar texto
+            setTimeout(() => {
+                const input = document.getElementById('renameInput');
+                input.focus();
+                input.select();
+            }, 100);
+        }
+
+        function showDeleteDialog() {
+            if (!selectedDesktopIcon) return;
+            
+            const iconName = selectedDesktopIcon.dataset.name;
+            const bodyHTML = `
+                <div class="dialog-message">Are you sure you want to delete "${iconName}"?</div>
+            `;
+            
+            const buttons = [
+                {
+                    text: 'Cancel',
+                    action: function() {
+                        closeDialog();
+                        hideContextMenu();
+                    }
+                },
+                {
+                    text: 'Delete',
+                    primary: true,
+                    action: function() {
+                        deleteDesktopIcon();
+                        closeDialog();
+                        hideContextMenu();
+                    }
+                }
+            ];
+            
+            showDialog('Delete Icon', bodyHTML, buttons);
+        }
+
+        function renameDesktopIcon(newName) {
+            if (selectedDesktopIcon) {
+                selectedDesktopIcon.dataset.name = newName;
+                selectedDesktopIcon.querySelector('.iconName').textContent = newName;
+                
+                // Actualizar en configuración
+                const iconId = selectedDesktopIcon.id;
+                const iconConfig = systemConfig.desktopIcons.find(icon => icon.id === iconId);
+                if (iconConfig) {
+                    iconConfig.name = newName;
+                    saveSystemConfig();
+                }
             }
-            hideContextMenu();
         }
 
         function deleteDesktopIcon() {
-            if (selectedDesktopIcon && confirm('Delete this icon?')) {
+            if (selectedDesktopIcon) {
                 const iconId = selectedDesktopIcon.id;
                 
                 // Remover de la configuración
@@ -651,7 +934,6 @@
                 selectedDesktopIcon.remove();
                 selectedDesktopIcon = null;
             }
-            hideContextMenu();
         }
 
         // Función executeProgram existente (se mantiene igual)
@@ -686,6 +968,9 @@
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
     <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css">
-    <script src="src/js/tooltip.js"></script>
+    <script src="src/js/tippy.js"></script>
+    <script src="src/js/offline.js"></script>
+    <script src="src/js/power.js"></script>
 </body>
+
 </html>
