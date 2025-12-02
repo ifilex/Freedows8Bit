@@ -2,7 +2,7 @@ window.appData = [
     {
         name: "Alien Cabal",
         image: "https://ifilex.github.io/WineBOX-Store/box/aliencabal.jpg",
-        description: "Alien Cabal is a 1997 first-person shooter published by QASoft and consisting of ten levels. Its distribution package also contains the \"vedit\" level editor.",
+        description: "Alien Cabal is a 1997 first-person shooter published by QASoft and consisting of ten levels. Its distribution package also contains the vedit level editor.",
         category: "games",
         link: "https://ifilex.github.io/WineBOX-Store/aliencabal.html"
     },
@@ -33,6 +33,13 @@ window.appData = [
         description: "Blood is a 3D first-person shooter video game developed by Monolith Productions and published by GT Interactive.",
         category: "games",
         link: "https://ifilex.github.io/WineBOX-Store/blood.html"
+    },
+    {
+        name: "Chex Quest",
+        image: "https://upload.wikimedia.org/wikipedia/en/1/12/Chex_Quest-front_cover.png",
+        description: "Chex Quest is an English-language, MS-DOS first-person shooter game released in 1996, where players fight cereal-themed aliens called Flemoids",
+        category: "games",
+        link: "https://ifilex.github.io/WineBOX-Store/chexquest.html"
     },
     {
         name: "Corridor 7: Alien Invasion",
@@ -158,7 +165,6 @@ window.appData = [
         image: "https://ifilex.github.io/WineBOX-Store/box/openttd.jpg",
         description: "OpenTTD is a business simulation game in which players try to earn money by transporting passengers, minerals and goods via road, rail, water and air. It is an open-source remake and expansion of the 1995 Chris Sawyer video game Transport Tycoon Deluxe.",
         category: "rts",
-        // link: "https://ake.neocities.org/games/openttd/"
         link: "https://pelya.github.io/openttd-touch-webapp/openttd.html"
     },
     {
@@ -167,6 +173,13 @@ window.appData = [
         description: "OpenJKDF2 is a function-by-function reimplementation of DF2 in C, with 64-bit ports to Windows 7+, macOS 10.15+, and Linux.",
        category: "games",
         link: "https://maxthomas.dev/openjkdf2/"
+    },
+    {
+        name: "Out of this World",
+        image: "https://www.classicdosgames.com/images/screenshots/tandy09/Out_of_This_World.png",
+        description: "Out of this world game most commonly refers to the 1991 cinematic platformer video game, which was also known as Another World. ",
+        category: "games",
+        link: "https://ifilex.github.io/WineBOX-Store/out.html"
     },
     {
         name: "Quake",
@@ -386,55 +399,6 @@ window.appData = [
         link: "https://ifilex.github.io/WineBOX-Store/clock.html"
     },
     {
-        name: "Console Living Room: Atari 2600",
-        image: "https://ia600200.us.archive.org/3/items/atari_2600_library/atari_2600_library_itemimage.jpg",
-        description: "The Atari 2600 is a video game console released in September 1977 by Atari, Inc. It is credited with popularizing the use of microprocessor-based hardware and ROM cartridges containing game code, a format first used with the Fairchild Channel F, instead of having non-microprocessor dedicated hardware with all games built in.",
-        category: "utilities",
-        link: "https://archive.org/details/atari_2600_library"
-    },
-    {
-        name: "Console Living Room: Atari 7800",
-        image: "https://ia802809.us.archive.org/25/items/atari_7800_library/atari_7800_library_itemimage.jpg",
-        description: "A victim of unfortunate timing, the 7800 was released shortly before the great video game crash of 1983. Re-launched by Atari in 1986 as a competitor to the Nintendo Entertainment System and Sega Master System, the Atari 7800 was backwards compatible with original Atari 2600 titles.",
-        category: "utilities",
-        link: "https://archive.org/details/atari_7800_library"
-    },
-    {
-        name: "Console Living Room: Emerson Arcadia",
-        image: "https://ia801309.us.archive.org/1/items/emerson_arcadia_library/emerson_arcadia_library_itemimage.jpg",
-        description: "The Emerson Arcadia 2001 is a second-generation 8-bit console released by Emerson Radio Corp in 1982 following the release of ColecoVision. It was discontinued only 18 months later, with a total of 35 games having been released. Emerson licensed the Arcadia 2001 to Bandai which released it in Japan, and over 30 Arcadia clones exist.",
-        category: "utilities",
-        link: "https://archive.org/details/emerson_arcadia_library"
-    },
-    {
-        name: "Console Living Room: Sega Game Gear",
-        image: "https://ia800906.us.archive.org/30/items/gamegear_library/gamegear_library_itemimage.jpg",
-        description: "The Sega Game Gear is a handheld video game console developed by Sega and released in late 1990 as a response to Nintendo's Game Boy handheld .",
-        category: "utilities",
-        link: "https://archive.org/details/gamegear_library"
-    },
-    {
-        name: "Console Living Room: Sega Genesis/32X",
-        image: "https://ia800308.us.archive.org/25/items/softwarelibrary_amiga_applications/softwarelibrary_amiga_applications_itemimage.jpg",
-        description: "The Sega Genesis, known as Mega Drive in most regions outside North America, is a 16-bit video game console which was developed and sold by Sega Enterprises, Ltd. The Genesis is Sega's third console and the successor to the Master System",
-        category: "utilities",
-        link: "https://archive.org/details/sega_genesis_library"
-    },
-    {
-        name: "Console Living Room: Socrates",
-        image: "https://ia800908.us.archive.org/10/items/socrates_library/socrates_library_itemimage.jpg",
-        description: "The VTech Socrates was an educational video game console released in 1988 by VTech. The console featured a robot character Socrates, named after the philosopher. The character is visually similar to Johnny Five from the Short Circuit movies. ",
-        category: "utilities",
-        link: "https://archive.org/details/socrates_library"
-    },
-    {
-        name: "Console Living Room: Playstation (PSX)",
-        image: "https://ia803106.us.archive.org/12/items/psxgames/psxgames_itemimage.jpg",
-        description: "PlayStation is a gaming brand that consists of four home video game consoles, as well as a media center, an online service, a line of controllers, two handhelds and a phone, as well as multiple magazines. It is created and owned by Sony Interactive Entertainment since December 3, 1994, with the launch of the original PlayStation in Japan. ",
-        category: "utilities",
-        link: "https://archive.org/details/psxgames"
-    },
-    {
         name: "Control",
         image: "https://ifilex.github.io/WineBOX-Store/box/control.png",
         description: "The Windows Control Panel is a tool that allows users to adjust system settings and customize hardware and software options.",
@@ -496,13 +460,6 @@ window.appData = [
         description: "Haiku, originally OpenBeOS, is a free and open-source operating system for personal computers. It is a community-driven continuation of BeOS and aims to be binary-compatible with it, but is largely a reimplementation with the exception of certain components like the Deskbar",
         category: "apps",
         link: "https://copy.sh/v86/?profile=haiku"
-    },
-    {
-        name: "Hyper Card",
-        image: "https://archive.org/download/H2G2_HyperCard/H2G2_001_.jpg",
-        description: "HyperCard \"expanded book\" version of the Hitchhiker's Guide To The Galaxy Trilogy of Four (released before Mostly Harmless was written). Published by The Voyager Company in December 1991. See attached image files for scans of packaging.",
-        category: "utilities",
-        link: "https://archive.org/embed/H2G2_HyperCard"
     },
     {
         name: "Icaros Desktop",
@@ -729,27 +686,6 @@ window.appData = [
         link: "https://ifilex.github.io/WineBOX-Store/texworks.html"
     },
     {
-        name: "The Software Library: Atari Computer",
-        image: "https://ia600101.us.archive.org/9/items/softwarelibrary_atari/softwarelibrary_atari_itemimage.jpg",
-        description: "The Atari 8-bit family is a series of 8-bit home computers introduced by Atari, Inc. in 1979 and manufactured until 1992. All are based on the MOS Technology 6502 CPU running at 1.79 MHz, roughly twice that of similar designs, and were the first home computers designed with custom co-processor chips.",
-        category: "utilities",
-        link: "https://archive.org/details/softwarelibrary_atari"
-    },
-    {
-        name: "The Software Library: Atari ST Games",
-        image: "https://ia801406.us.archive.org/24/items/softwarelibrary_atari_st_games/__ia_thumb.jpg",
-        description: "Games for the Atari ST.",
-        category: "utilities",
-        link: "https://archive.org/details/softwarelibrary_atari_st_games"
-    },
-    {
-        name: "The Software Library: MS-DOS",
-        image: "https://ia801606.us.archive.org/32/items/softwarelibrary_msdos/softwarelibrary_msdos_itemimage.jpg",
-        description: "MS-DOS is an operating system for x86-based personal computers mostly developed by Microsoft. It was the most commonly used member of the DOS family of operating systems, and was the main operating system for IBM PC compatible personal computers during the 1980s to the mid-1990s.",
-        category: "utilities",
-        link: "https://archive.org/details/softwarelibrary_msdos"
-    },
-    {
         name: "Tilck",
         image: "https://camo.githubusercontent.com/9ceb81a59418eca9af9c945aa5acdf9685799b57340fafeb0641c38dd40055da/687474703a2f2f7676616c74636865762e6769746875622e696f2f74696c636b5f696d67732f76322f74696c636b2d6c6f676f2d76352e706e67",
         description: "Tiny Linux-Compatible Kernel.",
@@ -855,11 +791,18 @@ window.appData = [
         link: "https://ifilex.github.io/WineBOX-Store/5daysdos.html"
     },
     {
-        name: "Arkanoid",
+        name: "Agi Tetris",
         image: "https://ifilex.github.io/WineBOX-Store/box/arkanoid.png",
-        description: "Arkanoid is a block breaker video game. Its plot involves the starship Arkanoid being attacked by a mysterious entity from space named DOH.",
+        description: "AGI Tetris is a version of Tetris released as part of the 0 MS-DOS Classic Games collection.",   
         category: "arcade",
         link: "https://ifilex.github.io/WineBOX-Store/arkanoid.html"
+    },
+    {
+        name: "Arkanoid",
+        image: "https://data.classicgames.me/msdos/msdos-play/msdos_AGI_Tetris_2004/agi_tetris_2004.png",
+        description: "Arkanoid is a block breaker video game. Its plot involves the starship Arkanoid being attacked by a mysterious entity from space named DOH.",
+        category: "arcade",
+        link: "https://ifilex.github.io/WineBOX-Store/tetris.html"
     },
     {
         name: "Apotris",
@@ -937,6 +880,13 @@ window.appData = [
         description: "Disney's Aladdin is a famous and most played DOS game that now is available to play in browser. With virtual mobile controls you also can play in Disney's Aladdin on mobile.",
         category: "arcade",
         link: "https://ifilex.github.io/WineBOX-Store/aladdin.html"
+    },
+    {
+        name: "Dyna Blaster",
+        image: "https://upload.wikimedia.org/wikipedia/en/3/31/Bomberman_%28TurboGrafx-16%29_boxart.jpg",
+        description: "Refers to the European title for certain games in the Bomberman franchise, such as the TurboGrafx-16/PC Engine version",
+        category: "arcade",
+        link: "https://ifilex.github.io/WineBOX-Store/dyna.html"
     },
     {
         name: "Ecstatica",
@@ -1028,6 +978,13 @@ window.appData = [
         description: "Remake of the original Pacman game. ... This Pac-Lite is not designed to run on your device. Add it to a collection to play later, or you can try to run it ...",
         category: "arcade",
         link: "https://fosiper.com/games/pacman-lite/"
+    },
+    {
+        name: "Prince of persia",
+        image: "https://ifilex.github.io/WineBOX-Store/box/prince.jpg",
+        description: "Prince of Persia: Is a clasic platform game.",
+        category: "arcade",
+        link: "https://ifilex.github.io/WineBOX-Store/princeofpersia.html"
     },
     {
         name: "Prince of persia 2",

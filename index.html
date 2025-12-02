@@ -1038,30 +1038,37 @@
      user-select: none;
  }
 
- /* Flechas de navegación mejoradas */
+ /* ========== FLECHAS DE NAVEGACIÓN MEJORADAS (PARA BOTONES) ========== */
  .scroll-arrow {
      position: absolute;
      top: 50%;
      transform: translateY(-50%);
-     background-color: rgba(0, 0, 0, 0.7);
+     background-color: rgba(0, 0, 0, 0.8); /* Más visible */
      color: white;
-     width: 40px;
-     height: 40px;
+     width: 50px; /* Más grande */
+     height: 50px; /* Más grande */
      border-radius: 50%;
      display: flex;
      align-items: center;
      justify-content: center;
      cursor: pointer;
      z-index: 100;
-     border: 2px solid rgba(255, 255, 255, 0.3);
+     border: 2px solid rgba(255, 255, 255, 0.5); /* Borde más visible */
      transition: all 0.3s ease;
-     font-size: 18px;
+     font-size: 24px; /* Texto más grande */
      font-weight: bold;
+     opacity: 0.7; /* Inicialmente semi-transparente */
  }
 
  .scroll-arrow:hover {
-     background-color: rgba(0, 0, 0, 0.9);
+     background-color: rgba(0, 120, 212, 0.9); /* Color azul al hover */
      transform: translateY(-50%) scale(1.1);
+     opacity: 1;
+     border-color: #0078d4;
+ }
+
+ .scroll-arrow:active {
+     transform: translateY(-50%) scale(0.95);
  }
 
  .scroll-arrow.left {
@@ -1072,9 +1079,36 @@
      right: 10px;
  }
 
+ /* Mostrar flechas siempre que haya scroll posible */
+ .scroll-arrow:not(.hidden) {
+     display: flex !important;
+ }
+
+ /* Solo ocultar cuando realmente no hay scroll posible */
  .scroll-arrow.hidden {
+     display: none !important;
      opacity: 0;
      pointer-events: none;
+ }
+
+ /* Mostrar flechas cuando el contenedor está siendo hover */
+ .recent-apps-container:hover .scroll-arrow {
+     opacity: 1;
+ }
+
+ /* Mejorar visibilidad para dispositivos táctiles */
+ @media (hover: none) and (pointer: coarse) {
+     .scroll-arrow {
+         width: 60px; /* Más grande para touch */
+         height: 60px;
+         opacity: 0.8; /* Más visible por defecto */
+         background-color: rgba(0, 0, 0, 0.9);
+     }
+     
+     .scroll-arrow:active {
+         background-color: rgba(0, 120, 212, 0.8);
+         transform: translateY(-50%) scale(0.9);
+     }
  }
 
  /* Indicador de scroll para sección de apps */
@@ -1946,10 +1980,10 @@ input:checked + .toggle-slider:before {
     
     /* Flechas de navegación más grandes */
     .scroll-arrow {
-        width: 50px;
-        height: 50px;
+        width: 60px;
+        height: 60px;
         font-size: 24px;
-        background-color: rgba(0, 0, 0, 0.8);
+        background-color: rgba(0, 0, 0, 0.9);
         border-width: 3px;
     }
 }
@@ -1982,6 +2016,82 @@ input:checked + .toggle-slider:before {
 
 .recent-apps-container.grabbing .recent-app {
     pointer-events: none; /* Deshabilitar clicks durante el arrastre */
+}
+
+/* ========== MEJORAS ESPECÍFICAS PARA SCROLL TÁCTIL ========== */
+.recent-apps-container {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.recent-apps-container::-webkit-scrollbar {
+    display: none;
+}
+
+.recent-apps {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+}
+
+/* Mejorar la respuesta táctil */
+.recent-app {
+    -webkit-tap-highlight-color: rgba(0, 120, 212, 0.3);
+    tap-highlight-color: rgba(0, 120, 212, 0.3);
+    touch-action: manipulation;
+}
+
+/* Indicador visual durante el arrastre */
+.recent-apps-container.grabbing .recent-app {
+    cursor: grabbing;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Optimizar para dispositivos táctiles */
+@media (hover: none) and (pointer: coarse) {
+    .recent-apps-container {
+        cursor: grab;
+    }
+    
+    .recent-apps-container.grabbing {
+        cursor: grabbing;
+    }
+    
+    .recent-app:active {
+        transform: scale(0.98);
+        transition: transform 0.1s ease;
+    }
+    
+    /* Flechas de navegación más grandes para touch */
+    .scroll-arrow {
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+        background-color: rgba(0, 0, 0, 0.9);
+        border-width: 3px;
+    }
+    
+    .scroll-arrow.left {
+        left: 5px;
+    }
+    
+    .scroll-arrow.right {
+        right: 5px;
+    }
+}
+
+/* Prevenir el efecto de rebote en iOS */
+@supports (-webkit-touch-callout: none) {
+    .recent-apps-container {
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .recent-apps {
+        -webkit-overflow-scrolling: touch;
+    }
 }
 </style>
 </head>
@@ -2019,7 +2129,7 @@ input:checked + .toggle-slider:before {
         <span>Multimedia</span>
     </div>
     <div class="menu-item" data-category="utilities">
-        <svg viewBox="0 0 24 24"><path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" /></svg>
+        <svg viewBox="0 0 24 24"><path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L2.34,18.73C2.46,18.95 2.73,19.03 2.95,18.95L5.44,17.94C5.96,18.34 6.5,18.68 7.13,18.93L7.5,21.58C7.54,21.82 7.75,22 8,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" /></svg>
         <span>Utilities</span>
     </div>
     <div class="menu-item" data-category="rts">
@@ -2031,7 +2141,7 @@ input:checked + .toggle-slider:before {
         <span>Uninstall</span>
     </div>
     <div class="menu-item" data-category="settings">
-        <svg viewBox="0 0 24 24"><path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" /></svg>
+        <svg viewBox="0 0 24 24"><path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L2.34,18.73C2.46,18.95 2.73,19.03 2.95,18.95L5.44,17.94C5.96,18.34 6.5,18.68 7.13,18.93L7.5,21.58C7.54,21.82 7.75,22 8,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" /></svg>
         <span>Settings</span>
     </div>
     <div class="menu-item" data-category="shutdown">
@@ -3357,263 +3467,172 @@ function updateCategoryScrollThumb() {
     categoryScrollThumb.style.top = thumbTop + 'px';
 }
 
-// ========== CORRECCIÓN COMPLETA DEL SISTEMA DE SCROLL TÁCTIL ==========
-function initTouchScroll() {
-    const recentAppsContainer = document.getElementById('recentAppsContainer');
-    const recentAppsEl = document.getElementById('recentApps');
+// ========== SISTEMA HÍBRIDO DE SCROLL (TÁCTIL + BOTONES) ==========
+
+// ========== FUNCIONES PARA DESPLAZAR CON BOTONES ==========
+function initScrollButtons() {
     const scrollLeftBtn = document.getElementById('scrollLeft');
     const scrollRightBtn = document.getElementById('scrollRight');
+    const recentAppsEl = document.getElementById('recentApps');
+    const recentAppsContainer = document.getElementById('recentAppsContainer');
+    
+    if (!scrollLeftBtn || !scrollRightBtn || !recentAppsEl) {
+        console.warn('❌ Elementos de botones de scroll no encontrados');
+        return;
+    }
+    
+    // Configurar desplazamiento con flecha izquierda
+    scrollLeftBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevenir eventos del padre
+        scrollRecentApps(-1);
+    });
+    
+    // Configurar desplazamiento con flecha derecha
+    scrollRightBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevenir eventos del padre
+        scrollRecentApps(1);
+    });
+    
+    // También permitir navegación con teclado en las flechas
+    scrollLeftBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            scrollRecentApps(-1);
+        }
+    });
+    
+    scrollRightBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            scrollRecentApps(1);
+        }
+    });
+    
+    // Hacer las flechas enfocables para accesibilidad
+    scrollLeftBtn.tabIndex = 0;
+    scrollRightBtn.tabIndex = 0;
+    
+    console.log('✅ Botones de desplazamiento inicializados');
+}
+
+function scrollRecentApps(direction) {
+    const recentAppsEl = document.getElementById('recentApps');
+    if (!recentAppsEl) return;
+    
+    const scrollAmount = 300; // Cantidad de desplazamiento en píxeles
+    const targetScroll = recentAppsEl.scrollLeft + (scrollAmount * direction);
+    
+    // Desplazamiento suave
+    recentAppsEl.scrollTo({
+        left: targetScroll,
+        behavior: 'smooth'
+    });
+    
+    // Actualizar flechas después de un breve retraso
+    setTimeout(updateScrollArrows, 300);
+    
+    playNavSound(); // Sonido de navegación
+}
+
+// ========== SCROLL TÁCTIL SIMPLIFICADO (MANTENIENDO FUNCIONALIDAD EXISTENTE) ==========
+function initTouchScrollSimple() {
+    const recentAppsContainer = document.getElementById('recentAppsContainer');
+    const recentAppsEl = document.getElementById('recentApps');
     
     if (!recentAppsContainer || !recentAppsEl) return;
     
-    // Variables para control táctil
-    let touchStartX = 0;
-    let touchStartY = 0;
-    let touchStartScrollLeft = 0;
-    let touchStartScrollTop = 0;
-    let isTouchDragging = false;
-    let touchVelocity = 0;
-    let lastTouchTime = 0;
+    let isDragging = false;
+    let startX;
+    let scrollLeft;
     
-    // Eventos para mouse (mantener compatibilidad)
-    recentAppsContainer.addEventListener('mousedown', startDrag);
-    recentAppsContainer.addEventListener('mousemove', duringDrag);
-    recentAppsContainer.addEventListener('mouseup', endDrag);
-    recentAppsContainer.addEventListener('mouseleave', endDrag);
-    
-    // Eventos para touch - MEJORADOS
-    recentAppsContainer.addEventListener('touchstart', handleTouchStart, { passive: true });
-    recentAppsContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
-    recentAppsContainer.addEventListener('touchend', handleTouchEnd);
-    recentAppsContainer.addEventListener('touchcancel', handleTouchEnd);
-    
-    // Eventos para las flechas
-    if (scrollLeftBtn) {
-        scrollLeftBtn.addEventListener('click', scrollLeftHandler);
-        scrollLeftBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            scrollLeftHandler();
-        }, { passive: false });
-    }
-    if (scrollRightBtn) {
-        scrollRightBtn.addEventListener('click', scrollRightHandler);
-        scrollRightBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            scrollRightHandler();
-        }, { passive: false });
-    }
-    
-    // Habilitar scroll táctil en los elementos de apps recientes
-    const recentAppElements = recentAppsEl.querySelectorAll('.recent-app');
-    recentAppElements.forEach(app => {
-        app.style.touchAction = 'pan-y'; // Permitir scroll vertical si es necesario
-        app.addEventListener('touchstart', (e) => {
-            // Solo prevenir el default si es un toque simple (no scroll)
-            if (e.touches.length === 1) {
-                const touch = e.touches[0];
-                const rect = app.getBoundingClientRect();
-                
-                // Verificar si el toque está dentro del elemento
-                if (touch.clientX >= rect.left && touch.clientX <= rect.right &&
-                    touch.clientY >= rect.top && touch.clientY <= rect.bottom) {
-                    // Programar el click para después del posible scroll
-                    setTimeout(() => {
-                        if (!isTouchDragging) {
-                            const index = parseInt(app.getAttribute('data-index'));
-                            if (!isNaN(index)) {
-                                launchRecentApp(index);
-                            }
-                        }
-                    }, 150);
-                }
-            }
-        }, { passive: true });
+    // Mouse events
+    recentAppsContainer.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startX = e.pageX - recentAppsContainer.offsetLeft;
+        scrollLeft = recentAppsEl.scrollLeft;
+        recentAppsContainer.style.cursor = 'grabbing';
     });
     
-    // Actualizar visibilidad de flechas
-    updateScrollArrows();
+    recentAppsContainer.addEventListener('mouseleave', () => {
+        isDragging = false;
+        recentAppsContainer.style.cursor = 'grab';
+    });
     
-    // Observar cambios en el scroll
-    recentAppsEl.addEventListener('scroll', updateScrollArrows);
+    recentAppsContainer.addEventListener('mouseup', () => {
+        isDragging = false;
+        recentAppsContainer.style.cursor = 'grab';
+    });
     
-    // FUNCIONES DE TOUCH MEJORADAS
-    function handleTouchStart(e) {
-        if (e.touches.length !== 1) return;
-        
-        const touch = e.touches[0];
-        touchStartX = touch.clientX;
-        touchStartY = touch.clientY;
-        touchStartScrollLeft = recentAppsEl.scrollLeft;
-        touchStartScrollTop = recentAppsEl.scrollTop;
-        isTouchDragging = false;
-        lastTouchTime = Date.now();
-        
-        recentAppsContainer.classList.add('grabbing');
-    }
+    recentAppsContainer.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const x = e.pageX - recentAppsContainer.offsetLeft;
+        const walk = (x - startX) * 2; // Multiplicador para velocidad
+        recentAppsEl.scrollLeft = scrollLeft - walk;
+    });
     
-    function handleTouchMove(e) {
-        if (e.touches.length !== 1) return;
-        
-        const touch = e.touches[0];
-        const deltaX = touch.clientX - touchStartX;
-        const deltaY = touch.clientY - touchStartY;
-        
-        // Determinar si es scroll horizontal (principal) o vertical
-        if (!isTouchDragging) {
-            // Si el movimiento es predominantemente horizontal, es scroll
-            if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 5) {
-                isTouchDragging = true;
-                e.preventDefault(); // Solo prevenir cuando es scroll horizontal
-            }
-        }
-        
-        if (isTouchDragging) {
-            e.preventDefault();
-            const walk = deltaX * 1.5; // Sensibilidad ajustada para touch
-            const newScrollLeft = touchStartScrollLeft - walk;
-            
-            recentAppsEl.scrollLeft = newScrollLeft;
-            
-            // Calcular velocidad para scroll inercial
-            const currentTime = Date.now();
-            const timeDiff = currentTime - lastTouchTime;
-            if (timeDiff > 0) {
-                touchVelocity = (newScrollLeft - touchStartScrollLeft) / timeDiff;
-                lastTouchTime = currentTime;
-            }
-        }
-    }
+    // Touch events (para dispositivos móviles)
+    recentAppsContainer.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        startX = e.touches[0].pageX - recentAppsContainer.offsetLeft;
+        scrollLeft = recentAppsEl.scrollLeft;
+        recentAppsContainer.style.cursor = 'grabbing';
+    }, { passive: true });
     
-    function handleTouchEnd(e) {
-        isTouchDragging = false;
-        recentAppsContainer.classList.remove('grabbing');
-        
-        // Aplicar scroll inercial si había velocidad
-        if (Math.abs(touchVelocity) > 0.1) {
-            applyInertialScrollTouch(touchVelocity);
-        }
-        
-        touchVelocity = 0;
+    recentAppsContainer.addEventListener('touchend', () => {
+        isDragging = false;
+        recentAppsContainer.style.cursor = 'grab';
+    }, { passive: true });
+    
+    recentAppsContainer.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        const x = e.touches[0].pageX - recentAppsContainer.offsetLeft;
+        const walk = (x - startX) * 2;
+        recentAppsEl.scrollLeft = scrollLeft - walk;
+    }, { passive: true });
+    
+    // Configurar cursor inicial
+    recentAppsContainer.style.cursor = 'grab';
+    
+    // Permitir scroll con rueda del mouse horizontalmente
+    recentAppsContainer.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        recentAppsEl.scrollLeft += e.deltaY;
+    }, { passive: false });
+    
+    console.log('✅ Scroll táctil inicializado');
+}
+
+// ========== SISTEMA INTEGRADO DE SCROLL ==========
+function initIntegratedScroll() {
+    const recentAppsContainer = document.getElementById('recentAppsContainer');
+    const recentAppsEl = document.getElementById('recentApps');
+    
+    if (!recentAppsContainer || !recentAppsEl) return;
+    
+    // Inicializar botones de desplazamiento
+    initScrollButtons();
+    
+    // Inicializar scroll táctil
+    initTouchScrollSimple();
+    
+    // Actualizar flechas cuando se hace scroll
+    recentAppsEl.addEventListener('scroll', () => {
         updateScrollArrows();
-    }
+    });
     
-    function applyInertialScrollTouch(initialVelocity) {
-        const inertia = 0.92; // Factor de amortiguación para touch
-        const maxDuration = 1500; // Duración máxima en ms
-        
-        let startTime = Date.now();
-        let currentVelocity = initialVelocity;
-        
-        function animateScroll() {
-            const currentTime = Date.now();
-            const elapsed = currentTime - startTime;
-            
-            if (elapsed > maxDuration || Math.abs(currentVelocity) < 0.1) {
-                updateScrollArrows();
-                return;
-            }
-            
-            recentAppsEl.scrollLeft += currentVelocity * 16;
-            currentVelocity *= inertia;
-            
-            requestAnimationFrame(animateScroll);
-        }
-        
-        requestAnimationFrame(animateScroll);
-    }
+    // Actualizar flechas cuando cambia el tamaño de la ventana
+    window.addEventListener('resize', () => {
+        setTimeout(updateScrollArrows, 100);
+    });
+    
+    // Actualizar flechas inicialmente
+    setTimeout(updateScrollArrows, 500);
+    
+    console.log('✅ Sistema de desplazamiento integrado inicializado');
 }
 
-// Funciones originales de mouse para scroll
-function startDrag(e) {
-    const recentAppsContainer = document.getElementById('recentAppsContainer');
-    const recentAppsEl = document.getElementById('recentApps');
-    
-    isDragging = true;
-    recentAppsContainer.classList.add('grabbing');
-    startX = e.pageX - recentAppsContainer.offsetLeft;
-    scrollLeft = recentAppsEl.scrollLeft;
-    currentScrollPosition = scrollLeft;
-    lastScrollTime = Date.now();
-}
-
-function duringDrag(e) {
-    if (!isDragging) return;
-    
-    const recentAppsContainer = document.getElementById('recentAppsContainer');
-    const recentAppsEl = document.getElementById('recentApps');
-    
-    e.preventDefault();
-    const x = e.pageX - recentAppsContainer.offsetLeft;
-    const walk = (x - startX) * 2; // Multiplicador para mayor sensibilidad
-    const newScrollLeft = scrollLeft - walk;
-    
-    recentAppsEl.scrollLeft = newScrollLeft;
-    
-    // Calcular velocidad para scroll inercial
-    const currentTime = Date.now();
-    const timeDiff = currentTime - lastScrollTime;
-    if (timeDiff > 0) {
-        scrollVelocity = (newScrollLeft - currentScrollPosition) / timeDiff;
-        currentScrollPosition = newScrollLeft;
-        lastScrollTime = currentTime;
-    }
-}
-
-function endDrag() {
-    isDragging = false;
-    const recentAppsContainer = document.getElementById('recentAppsContainer');
-    if (recentAppsContainer) {
-        recentAppsContainer.classList.remove('grabbing');
-    }
-    
-    // Aplicar scroll inercial
-    applyInertialScroll();
-}
-
-function scrollLeftHandler() {
-    const recentAppsEl = document.getElementById('recentApps');
-    if (recentAppsEl) {
-        recentAppsEl.scrollBy({ left: -300, behavior: 'smooth' });
-        setTimeout(updateScrollArrows, 300);
-    }
-}
-
-function scrollRightHandler() {
-    const recentAppsEl = document.getElementById('recentApps');
-    if (recentAppsEl) {
-        recentAppsEl.scrollBy({ left: 300, behavior: 'smooth' });
-        setTimeout(updateScrollArrows, 300);
-    }
-}
-
-function applyInertialScroll() {
-    const recentAppsEl = document.getElementById('recentApps');
-    if (!recentAppsEl || Math.abs(scrollVelocity) < 0.1) return;
-    
-    const inertia = 0.95; // Factor de amortiguación
-    const maxDuration = 1000; // Duración máxima en ms
-    
-    let startTime = Date.now();
-    
-    function animateScroll() {
-        const currentTime = Date.now();
-        const elapsed = currentTime - startTime;
-        
-        if (elapsed > maxDuration || Math.abs(scrollVelocity) < 0.1) {
-            scrollVelocity = 0;
-            updateScrollArrows();
-            return;
-        }
-        
-        recentAppsEl.scrollLeft += scrollVelocity * 16; // Aproximadamente 60fps
-        scrollVelocity *= inertia;
-        
-        requestAnimationFrame(animateScroll);
-    }
-    
-    requestAnimationFrame(animateScroll);
-}
-
+// ========== MEJORAR LA FUNCIÓN updateScrollArrows() ==========
 function updateScrollArrows() {
     const recentAppsEl = document.getElementById('recentApps');
     const scrollLeftBtn = document.getElementById('scrollLeft');
@@ -3623,19 +3642,33 @@ function updateScrollArrows() {
     
     const scrollLeft = recentAppsEl.scrollLeft;
     const maxScrollLeft = recentAppsEl.scrollWidth - recentAppsEl.clientWidth;
+    const threshold = 10; // Umbral para considerar que se llegó al final
     
-    // Mostrar/ocultar flecha izquierda
-    if (scrollLeft <= 10) {
+    // Siempre mostrar flechas cuando hay contenido para desplazar
+    if (maxScrollLeft <= 0) {
+        // No hay scroll posible - ocultar ambas flechas
         scrollLeftBtn.classList.add('hidden');
-    } else {
-        scrollLeftBtn.classList.remove('hidden');
-    }
-    
-    // Mostrar/ocultar flecha derecha
-    if (scrollLeft >= maxScrollLeft - 10) {
         scrollRightBtn.classList.add('hidden');
     } else {
-        scrollRightBtn.classList.remove('hidden');
+        // Mostrar u ocultar según la posición
+        if (scrollLeft <= threshold) {
+            scrollLeftBtn.classList.add('hidden');
+        } else {
+            scrollLeftBtn.classList.remove('hidden');
+        }
+        
+        if (scrollLeft >= maxScrollLeft - threshold) {
+            scrollRightBtn.classList.add('hidden');
+        } else {
+            scrollRightBtn.classList.remove('hidden');
+        }
+    }
+    
+    // Forzar que las flechas sean visibles si hay hover
+    const container = recentAppsEl.parentElement;
+    if (container && container.matches(':hover')) {
+        scrollLeftBtn.style.opacity = scrollLeftBtn.classList.contains('hidden') ? '0' : '0.7';
+        scrollRightBtn.style.opacity = scrollRightBtn.classList.contains('hidden') ? '0' : '0.7';
     }
 }
 
@@ -3666,6 +3699,176 @@ function handleAppGridWheel(e) {
         top: e.deltaY * 2,
         behavior: 'smooth'
     });
+}
+
+// ========== AGREGAR SOPORTE PARA TECLADO EN LAS FLECHAS ==========
+function handleRightArrow() {
+    if (!keyboardEnabled || isModalOpen) return;
+    
+    // NUEVO: Si estamos en apps recientes y presionamos flecha derecha
+    // mientras la última app está seleccionada, usar la flecha de scroll
+    if (currentFocusArea === 'recent' && recentApps.length > 0) {
+        if (currentRecentIndex === recentApps.length - 1) {
+            const scrollRightBtn = document.getElementById('scrollRight');
+            if (scrollRightBtn && !scrollRightBtn.classList.contains('hidden')) {
+                scrollRecentApps(1);
+                return;
+            }
+        }
+    }
+    
+    if (isMenuOpen) {
+        if (currentMenuItemIndex < menuItems.length - 1) {
+            currentMenuItemIndex++;
+            updateSelection();
+        }
+        return;
+    }
+    
+    if (currentFocusArea === 'header') {
+        if (currentHeaderIndex < 2) { // Cambiado de 1 a 2 para incluir el botón de pantalla completa
+            currentHeaderIndex++;
+            updateSelection();
+        }
+    }
+    else if (currentFocusArea === 'recent' && recentApps.length > 0) {
+        if (currentRecentIndex < recentApps.length - 1) {
+            currentRecentIndex++;
+            updateSelection();
+        } else {
+            currentRecentIndex = 0;
+            updateSelection();
+        }
+    }
+    else if (currentFocusArea === 'categories') {
+        if (currentCategoryIndex < categoryButtons.length - 1) {
+            currentCategoryIndex++;
+            updateSelection();
+        } else {
+            currentCategoryIndex = 0;
+            updateSelection();
+        }
+    }
+    else if (currentFocusArea === 'apps' && currentApps.length > 0) {
+        if (currentSelectedIndex < currentApps.length - 1) {
+            currentSelectedIndex++;
+            updateSelection();
+        } else {
+            currentSelectedIndex = 0;
+            updateSelection();
+        }
+    }
+}
+
+function handleLeftArrow() {
+    if (!keyboardEnabled || isModalOpen) return;
+    
+    // NUEVO: Si estamos en apps recientes y presionamos flecha izquierda
+    // mientras la primera app está seleccionada, usar la flecha de scroll
+    if (currentFocusArea === 'recent' && recentApps.length > 0) {
+        if (currentRecentIndex === 0) {
+            const scrollLeftBtn = document.getElementById('scrollLeft');
+            if (scrollLeftBtn && !scrollLeftBtn.classList.contains('hidden')) {
+                scrollRecentApps(-1);
+                return;
+            }
+        }
+    }
+    
+    if (isMenuOpen) {
+        if (currentMenuItemIndex > 0) {
+            currentMenuItemIndex--;
+            updateSelection();
+        }
+        return;
+    }
+    
+    if (currentFocusArea === 'header') {
+        if (currentHeaderIndex > 0) {
+            currentHeaderIndex--;
+            updateSelection();
+        }
+    }
+    else if (currentFocusArea === 'recent' && recentApps.length > 0) {
+        if (currentRecentIndex > 0) {
+            currentRecentIndex--;
+            updateSelection();
+        } else {
+            currentRecentIndex = recentApps.length - 1;
+            updateSelection();
+        }
+    }
+    else if (currentFocusArea === 'categories') {
+        if (currentCategoryIndex > 0) {
+            currentCategoryIndex--;
+            updateSelection();
+        } else {
+            currentCategoryIndex = categoryButtons.length - 1;
+            updateSelection();
+        }
+    }
+    else if (currentFocusArea === 'apps' && currentApps.length > 0) {
+        if (currentSelectedIndex > 0) {
+            currentSelectedIndex--;
+            updateSelection();
+        } else {
+            currentSelectedIndex = currentApps.length - 1;
+            updateSelection();
+        }
+    }
+}
+
+function handleEnter() {
+    if (!keyboardEnabled || isModalOpen) return;
+    
+    // NUEVO: Manejar flechas de scroll si están enfocadas
+    if (currentFocusArea === 'recent') {
+        const scrollLeftBtn = document.getElementById('scrollLeft');
+        const scrollRightBtn = document.getElementById('scrollRight');
+        
+        if (scrollLeftBtn && document.activeElement === scrollLeftBtn) {
+            scrollRecentApps(-1);
+            return;
+        }
+        
+        if (scrollRightBtn && document.activeElement === scrollRightBtn) {
+            scrollRecentApps(1);
+            return;
+        }
+    }
+    
+    if (isMenuOpen && currentMenuItemIndex >= 0 && currentMenuItemIndex < menuItems.length) {
+        // CORRECCIÓN: Minimizar ventanas antes de navegar
+        if (taskManager.openWindows.length > 0) {
+            taskManager.openWindows.forEach(window => {
+                minimizeWindow(window.id);
+            });
+        }
+        menuItems[currentMenuItemIndex].click();
+        return;
+    }
+    
+    if (currentFocusArea === 'header') {
+        if (currentHeaderIndex === 0) {
+            toggleMenu();
+        } else if (currentHeaderIndex === 1) {
+            toggleLauncher();
+        } else if (currentHeaderIndex === 2) {
+            // CORRECCIÓN: Solo activar pantalla completa si está explícitamente enfocado
+            if (document.activeElement === fullscreenToggle) {
+                toggleFullscreen();
+            }
+        }
+    }
+    else if (currentFocusArea === 'recent' && currentRecentIndex >= 0 && currentRecentIndex < recentApps.length) {
+        launchRecentApp(currentRecentIndex);
+    } 
+    else if (currentFocusArea === 'categories' && currentCategoryIndex >= 0 && currentCategoryIndex < categoryButtons.length) {
+        categoryButtons[currentCategoryIndex].click();
+    } 
+    else if (currentFocusArea === 'apps' && currentSelectedIndex >= 0 && currentSelectedIndex < currentApps.length) {
+        openAppModal(currentApps[currentSelectedIndex]);
+    }
 }
 
 // ========== FUNCIÓN BACK REPARADA ==========
@@ -3863,135 +4066,6 @@ function handleDownArrow() {
     updateSelection();
 }
 
-function handleLeftArrow() {
-    if (!keyboardEnabled || isModalOpen) return;
-    
-    if (isMenuOpen) {
-        if (currentMenuItemIndex > 0) {
-            currentMenuItemIndex--;
-            updateSelection();
-        }
-        return;
-    }
-    
-    if (currentFocusArea === 'header') {
-        if (currentHeaderIndex > 0) {
-            currentHeaderIndex--;
-            updateSelection();
-        }
-    }
-    else if (currentFocusArea === 'recent' && recentApps.length > 0) {
-        if (currentRecentIndex > 0) {
-            currentRecentIndex--;
-            updateSelection();
-        } else {
-            currentRecentIndex = recentApps.length - 1;
-            updateSelection();
-        }
-    }
-    else if (currentFocusArea === 'categories') {
-        if (currentCategoryIndex > 0) {
-            currentCategoryIndex--;
-            updateSelection();
-        } else {
-            currentCategoryIndex = categoryButtons.length - 1;
-            updateSelection();
-        }
-    }
-    else if (currentFocusArea === 'apps' && currentApps.length > 0) {
-        if (currentSelectedIndex > 0) {
-            currentSelectedIndex--;
-            updateSelection();
-        } else {
-            currentSelectedIndex = currentApps.length - 1;
-            updateSelection();
-        }
-    }
-}
-
-function handleRightArrow() {
-    if (!keyboardEnabled || isModalOpen) return;
-    
-    if (isMenuOpen) {
-        if (currentMenuItemIndex < menuItems.length - 1) {
-            currentMenuItemIndex++;
-            updateSelection();
-        }
-        return;
-    }
-    
-    if (currentFocusArea === 'header') {
-        if (currentHeaderIndex < 1) {
-            currentHeaderIndex++;
-            updateSelection();
-        }
-    }
-    else if (currentFocusArea === 'recent' && recentApps.length > 0) {
-        if (currentRecentIndex < recentApps.length - 1) {
-            currentRecentIndex++;
-            updateSelection();
-        } else {
-            currentRecentIndex = 0;
-            updateSelection();
-        }
-    }
-    else if (currentFocusArea === 'categories') {
-        if (currentCategoryIndex < categoryButtons.length - 1) {
-            currentCategoryIndex++;
-            updateSelection();
-        } else {
-            currentCategoryIndex = 0;
-            updateSelection();
-        }
-    }
-    else if (currentFocusArea === 'apps' && currentApps.length > 0) {
-        if (currentSelectedIndex < currentApps.length - 1) {
-            currentSelectedIndex++;
-            updateSelection();
-        } else {
-            currentSelectedIndex = 0;
-            updateSelection();
-        }
-    }
-}
-
-function handleEnter() {
-    if (!keyboardEnabled || isModalOpen) return;
-    
-    if (isMenuOpen && currentMenuItemIndex >= 0 && currentMenuItemIndex < menuItems.length) {
-        // CORRECCIÓN: Minimizar ventanas antes de navegar
-        if (taskManager.openWindows.length > 0) {
-            taskManager.openWindows.forEach(window => {
-                minimizeWindow(window.id);
-            });
-        }
-        menuItems[currentMenuItemIndex].click();
-        return;
-    }
-    
-    if (currentFocusArea === 'header') {
-        if (currentHeaderIndex === 0) {
-            toggleMenu();
-        } else if (currentHeaderIndex === 1) {
-            toggleLauncher();
-        } else if (currentHeaderIndex === 2) {
-            // CORRECCIÓN: Solo activar pantalla completa si está explícitamente enfocado
-            if (document.activeElement === fullscreenToggle) {
-                toggleFullscreen();
-            }
-        }
-    }
-    else if (currentFocusArea === 'recent' && currentRecentIndex >= 0 && currentRecentIndex < recentApps.length) {
-        launchRecentApp(currentRecentIndex);
-    } 
-    else if (currentFocusArea === 'categories' && currentCategoryIndex >= 0 && currentCategoryIndex < categoryButtons.length) {
-        categoryButtons[currentCategoryIndex].click();
-    } 
-    else if (currentFocusArea === 'apps' && currentSelectedIndex >= 0 && currentSelectedIndex < currentApps.length) {
-        openAppModal(currentApps[currentSelectedIndex]);
-    }
-}
-
 function handleEscape() {
     if (!keyboardEnabled) return;
     
@@ -4136,7 +4210,7 @@ function displayApps(apps) {
         
         appCard.innerHTML = `
             <img src="${app.image}" alt="${app.name}" class="app-thumbnail" 
-                 onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjMzMzMzMzIi8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+QXBwPC90ZXh0Pgo8L3N2Zz4K'">
+                 onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0CveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjMzMzMzMzIi8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+QXBwPC90ZXh0Pgo8L3N2Zz4K'">
             <div class="app-info">
                 <div class="app-title">${app.name}</div>
                 <div class="app-category">${app.category}</div>
@@ -4157,7 +4231,7 @@ function displayApps(apps) {
     setTimeout(updateCategoryScrollVisibility, 100);
 }
 
-// ========== MEJORA DE LA FUNCIÓN displayRecentApps() PARA TOUCH ==========
+// ========== FUNCIÓN DISPLAY RECENT APPS REPARADA ==========
 function displayRecentApps() {
     const recentAppsContainer = document.getElementById('recentApps');
     if (!recentAppsContainer) return;
@@ -4172,12 +4246,6 @@ function displayRecentApps() {
     recentApps.forEach((app, i) => {
         let appInData = appData.find(a => a.name === app.name) || app;
         
-        const appWrapper = document.createElement('div');
-        appWrapper.className = 'recent-app-wrapper';
-        appWrapper.style.position = 'relative';
-        appWrapper.style.display = 'inline-block';
-        appWrapper.style.touchAction = 'pan-y'; // Permitir gestos táctiles
-        
         const img = document.createElement('img');
         img.src = appInData.image || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYwIiBoZWlnaHQ9IjE2MCIgdmlld0JveD0iMCAwIDE2MCAxNjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNjAiIGhlaWdodD0iMTYwIiBmaWxsPSIjMzMzMzMzIiByeD0iOCIvPgo8dGV4dCB4PSI4MCIgeT0iODAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNiIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5BcHA8L3RleHQ+Cjwvc3ZnPgo=';
         img.onerror = function() {
@@ -4189,46 +4257,24 @@ function displayRecentApps() {
         img.setAttribute('data-index', i);
         img.setAttribute('data-app-name', appInData.name);
         img.tabIndex = 0;
-        img.style.touchAction = 'manipulation'; // Optimizar para touch
         
-        // Eventos de mouse (mantener compatibilidad)
-        img.addEventListener('click', () => launchRecentApp(i));
-        img.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') launchRecentApp(i);
+        // Evento de click simple (funciona tanto para mouse como para touch)
+        img.addEventListener('click', () => {
+            launchRecentApp(i);
         });
         
-        // Eventos táctiles MEJORADOS
-        let touchStartTime = 0;
-        let touchStartX = 0;
-        let touchStartY = 0;
-        
-        img.addEventListener('touchstart', (e) => {
-            if (e.touches.length === 1) {
-                touchStartTime = Date.now();
-                touchStartX = e.touches[0].clientX;
-                touchStartY = e.touches[0].clientY;
-                e.preventDefault(); // Solo prevenir para toques simples
+        // Evento de teclado para accesibilidad
+        img.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                launchRecentApp(i);
             }
-        }, { passive: false });
+        });
         
-        img.addEventListener('touchend', (e) => {
-            if (e.touches.length === 0 && e.changedTouches.length === 1) {
-                const touchEnd = e.changedTouches[0];
-                const touchDuration = Date.now() - touchStartTime;
-                const deltaX = Math.abs(touchEnd.clientX - touchStartX);
-                const deltaY = Math.abs(touchEnd.clientY - touchStartY);
-                
-                // Solo considerar como "click" si fue un toque rápido y sin movimiento significativo
-                if (touchDuration < 300 && deltaX < 10 && deltaY < 10) {
-                    e.preventDefault();
-                    launchRecentApp(i);
-                }
-            }
-        }, { passive: false });
-        
-        appWrapper.appendChild(img);
-        recentAppsContainer.appendChild(appWrapper);
+        recentAppsContainer.appendChild(img);
     });
+    
+    // Inicializar scroll integrado después de crear los elementos
+    initIntegratedScroll();
     
     if (currentFocusArea === 'recent' && recentApps.length > 0) {
         if (currentRecentIndex >= recentApps.length) {
@@ -4265,9 +4311,12 @@ function addToRecentApps(app) {
 }
 
 function launchRecentApp(index) {
+    if (index < 0 || index >= recentApps.length) return;
+    
     const recentApp = recentApps[index];
     let fullAppData = appData.find(app => app.name === recentApp.name) || recentApp;
     
+    // Mover a la primera posición si no está ya allí
     if (index > 0) {
         const movedApp = recentApps.splice(index, 1)[0];
         recentApps.unshift(movedApp);
@@ -4275,6 +4324,7 @@ function launchRecentApp(index) {
         displayRecentApps();
     }
     
+    // Lanzar la aplicación
     launchAppDirectly(fullAppData);
 }
 
@@ -5353,16 +5403,16 @@ ready(function() {
         initWindowsScroll();
         initSectionNavigation();
         initDockbarControls();
-        initTouchScroll(); // ← Inicializar scroll táctil MEJORADO
-        initAppGridScroll(); // ← Inicializar scroll de apps
-        initCategoryScroll(); // ← Inicializar scroll de categorías
+        // El sistema de scroll integrado se inicializa automáticamente en displayRecentApps()
+        initAppGridScroll();
+        initCategoryScroll();
         getBatteryInfo();
         updateHeaderTime();
         setInterval(updateHeaderTime, 60000);
 
-        // NUEVO: Inicializar taskbar y auto-start - CON ORDEN CORRECTO
-        initFixedProgramManager(); // ← Program Manager siempre fijo PRIMERO
-        autoStartProgramManager(); // ← Auto-start después (si está configurado)
+        // Inicializar taskbar y auto-start
+        initFixedProgramManager();
+        autoStartProgramManager();
 
         // Iniciar monitoreo del Program Manager
         setTimeout(monitorProgramManagerStatus, 3000);
@@ -5376,7 +5426,7 @@ ready(function() {
         updateSectionDisplay();
         updateSelection();
 
-        // ========== CORREGIR EVENT LISTENERS DEL MENÚ LATERAL ==========
+        // Event listeners del menú lateral
         menuItems.forEach((item, index) => {
             item.addEventListener('click', function() {
                 // CORRECCIÓN: Minimizar todas las ventanas activas
@@ -5396,17 +5446,15 @@ ready(function() {
             });
         });
 
-        // ========== CORREGIR EVENT LISTENERS DE CATEGORY BUTTONS ==========
+        // Event listeners de category buttons
         categoryButtons.forEach((button, index) => {
             button.addEventListener('click', function() {
                 const category = this.getAttribute('data-category');
-                
-                // CORRECCIÓN: Usar handleCategorySelection para consistencia
                 handleCategorySelection(category);
             });
         });
 
-        // ========== EVENT LISTENERS PARA SHUTDOWN ==========
+        // Event listeners para shutdown
         const confirmShutdown = document.getElementById('confirmShutdown');
         if (confirmShutdown) {
             confirmShutdown.addEventListener('click', executeShutdown);
@@ -5440,7 +5488,6 @@ ready(function() {
                 return;
             }
             
-            // NUEVO: Manejar teclas en diálogo de shutdown
             if (document.getElementById('shutdownConfirm').classList.contains('active')) {
                 handleShutdownKeydown(e);
                 return;
