@@ -88,7 +88,7 @@ window.appData = [
         image: "https://www.dosgames.com/screens/darkforces.gif",
         description: "A demo version of one of a simply great 3D shooting game that I missed playing when it was originally released. Also known as Star Wars: Dark Forces, this 3D shooting game does not use the DOOM engine, it uses LucasArts' own engine which includes a few features not seen in DOOM. ",
         category: "games",
-        link: "https://ifilex.github.io/WineBOX-Store/DARKFORCES.html"
+        link: "https://ifilex.github.io/WineBOX-Store/darkforces.html"
     },
     {
         name: "Diablo",
@@ -110,20 +110,6 @@ window.appData = [
         description: "*Doom* is a first-person shooter game released in 1993, developed by id Software. Players take on the role of a space marine battling hordes of demons and hellish creatures in a Martian base. It's renowned for its fast-paced action, groundbreaking graphics for its time, and for being one of the pioneers of the FPS genre.",
         category: "games",
         link: "https://ifilex.github.io/WineBOX-Store/doom.html"
-    },
-    {
-        name: "Doom II",
-        image: "https://ifilex.github.io/WineBOX-Store/box/doom2.jpg",
-        description: "*Doom* is a first-person shooter game released in 1993, developed by id Software. Players take on the role of a space marine battling hordes of demons and hellish creatures in a Martian base. It's renowned for its fast-paced action, groundbreaking graphics for its time, and for being one of the pioneers of the FPS genre.",
-        category: "games",
-        link: "https://ifilex.github.io/WineBOX-Store/doom2.html"
-    },
-    {
-        name: "Doom 3",
-        image: "https://www.continuation-labs.com/projects/d3wasm/img/SC1.jpg",
-        description: "*Doom* is a first-person shooter game released developed by id Software.", 
-       category: "games",
-        link: "http://wasm.continuation-labs.com/d3demo/"
     },
     {
         name: "Duke Nukem 3D",
@@ -718,7 +704,7 @@ window.appData = [
         image: "https://ifilex.github.io/WineBOX-Store/box/progman.png",
         description: "Program Manager is a graphical shell for managing applications and program groups in WineBOX. It allows users to organize, launch, and customize software shortcuts within a windowed interface.",
         category: "apps",
-        link: "progman.html"
+        link: "https://ifilex.github.io/WineBOX-Store/progman.html"
     },
     {
         name: "QBasic 4.5",
