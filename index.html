@@ -2386,6 +2386,194 @@ input:checked + .toggle-slider:before {
     flex-wrap: nowrap;
     white-space: nowrap;
 }
+
+/* ========== ESTILOS PARA EL DIÁLOGO EULA ========== */
+.eula-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.eula-modal.active {
+    display: flex;
+}
+
+.eula-content {
+    background: #181818;
+    border-radius: 12px;
+    max-width: 800px;
+    width: 100%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #0078d4;
+    box-shadow: 0 10px 40px rgba(0, 120, 212, 0.3);
+    overflow: hidden;
+}
+
+.eula-header {
+    background: #0078d4;
+    color: white;
+    padding: 20px 30px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.eula-header h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.eula-body {
+    flex: 1;
+    overflow: hidden;
+    padding: 0;
+}
+
+.eula-scroll {
+    padding: 30px;
+    max-height: 60vh;
+    overflow-y: auto;
+    color: #e0e0e0;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.eula-scroll::-webkit-scrollbar {
+    width: 8px;
+}
+
+.eula-scroll::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.eula-scroll::-webkit-scrollbar-thumb {
+    background: #0078d4;
+    border-radius: 4px;
+}
+
+.eula-scroll::-webkit-scrollbar-thumb:hover {
+    background: #106ebe;
+}
+
+.eula-scroll h3 {
+    color: #0078d4;
+    margin-top: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 10px;
+}
+
+.eula-scroll h4 {
+    color: #4CAF50;
+    margin: 20px 0 10px 0;
+}
+
+.eula-scroll ul {
+    margin: 10px 0 20px 20px;
+    padding: 0;
+}
+
+.eula-scroll li {
+    margin-bottom: 8px;
+}
+
+.eula-scroll strong {
+    color: #FF9800;
+}
+
+.eula-warning {
+    background: rgba(255, 152, 0, 0.1);
+    border-left: 4px solid #FF9800;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 4px;
+    color: #FF9800;
+    font-weight: bold;
+}
+
+.eula-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 30px;
+    background: rgba(0, 0, 0, 0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 20px;
+}
+
+.eula-button {
+    flex: 1;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 150px;
+}
+
+.eula-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.eula-button:active {
+    transform: translateY(0);
+}
+
+.eula-button.disagree {
+    background: #d32f2f;
+    color: white;
+}
+
+.eula-button.disagree:hover {
+    background: #b71c1c;
+}
+
+.eula-button.agree {
+    background: #4CAF50;
+    color: white;
+}
+
+.eula-button.agree:hover {
+    background: #388E3C;
+}
+
+/* Para pantallas pequeñas */
+@media (max-width: 768px) {
+    .eula-content {
+        max-height: 95vh;
+    }
+    
+    .eula-scroll {
+        padding: 20px;
+        font-size: 13px;
+    }
+    
+    .eula-header h2 {
+        font-size: 20px;
+    }
+    
+    .eula-footer {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .eula-button {
+        width: 100%;
+    }
+}
+
 </style>
 </head>
 <body>
@@ -2399,6 +2587,72 @@ input:checked + .toggle-slider:before {
         START
     </button>
 </div>
+
+<!-- Diálogo de Aviso Legal (EULA) -->
+<div class="eula-modal" id="eulaModal">
+    <div class="eula-content">
+        <div class="eula-header">
+            <h2>WineBOX End User License Agreement</h2>
+        </div>
+        <div class="eula-body">
+            <div class="eula-scroll">
+                <h3>IMPORTANT LEGAL NOTICE</h3>
+                <p>Please read this agreement carefully before using WineBOX. By clicking "I AGREE" below, you acknowledge that you have read, understood, and agree to be bound by the terms of this agreement.</p>
+                
+                <h4>1. Software Disclaimer</h4>
+                <p>WineBOX is an emulation platform that provides access to various software applications. WineBOX does NOT provide, distribute, or own any patented software. All software accessible through WineBOX falls under one of the following categories:</p>
+                <ul>
+                    <li><strong>Free Software/Open Source:</strong> Software distributed under licenses such as GPL, MIT, Apache, etc.</li>
+                    <li><strong>Shareware/Demo Software:</strong> Trial versions or limited functionality software provided by developers.</li>
+                    <li><strong>Abandonware:</strong> Software no longer maintained or supported by original developers.</li>
+                    <li><strong>Public Domain:</strong> Software with expired copyright or explicitly released to public domain.</li>
+                </ul>
+                
+                <h4>2. Third-Party Software</h4>
+                <p>WineBOX allows installation and execution of third-party software. You acknowledge that:</p>
+                <ul>
+                    <li>You are solely responsible for verifying the licensing status of any third-party software you install.</li>
+                    <li>You must ensure you have proper rights or licenses to use any third-party software.</li>
+                    <li>WineBOX is not responsible for software licensing compliance of third-party applications.</li>
+                </ul>
+                
+                <h4>3. User Responsibility</h4>
+                <p>As a user of WineBOX, you agree that:</p>
+                <ul>
+                    <li>You will use WineBOX only for lawful purposes.</li>
+                    <li>You are responsible for your actions while using WineBOX.</li>
+                    <li>You will not use WineBOX to violate copyright laws or intellectual property rights.</li>
+                    <li>You understand that some software may require separate licenses from original developers.</li>
+                </ul>
+                
+                <h4>4. Limitation of Liability</h4>
+                <p>WineBOX and its developers:</p>
+                <ul>
+                    <li>Provide the platform "AS IS" without any warranties.</li>
+                    <li>Are not liable for any damages resulting from software use through WineBOX.</li>
+                    <li>Do not guarantee compatibility, security, or performance of third-party software.</li>
+                    <li>Reserve the right to remove or block software that violates this agreement.</li>
+                </ul>
+                
+                <h4>5. Acceptance</h4>
+                <p>By clicking "I AGREE", you confirm that:</p>
+                <ul>
+                    <li>You understand WineBOX only provides access to free, shareware, demo, or public domain software.</li>
+                    <li>You take full responsibility for any third-party software you install.</li>
+                    <li>You will comply with all applicable laws and software licenses.</li>
+                    <li>You acknowledge that WineBOX does not distribute patented commercial software.</li>
+                </ul>
+                
+                <p class="eula-warning">⚠️ <strong>WARNING:</strong> If you do not agree to these terms, click "I DISAGREE" to exit WineBOX. You will not be able to use WineBOX without accepting this agreement.</p>
+            </div>
+        </div>
+        <div class="eula-footer">
+            <button class="eula-button disagree" id="eulaDisagree">I DISAGREE</button>
+            <button class="eula-button agree" id="eulaAgree">I AGREE</button>
+        </div>
+    </div>
+</div>
+
 
 <div class="side-menu" id="sideMenu">
     <div class="menu-item" data-category="all">
@@ -3078,6 +3332,189 @@ function initStartupScreen() {
     }
     
     // Detectar cambios en el estado de pantalla completa
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+    document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+}
+
+// ========== SISTEMA DE EULA (AVISO LEGAL) ==========
+function initEULA() {
+    // Verificar si el usuario ya aceptó el EULA
+    const eulaAccepted = localStorage.getItem('wineboxEulaAccepted');
+    
+    if (!eulaAccepted) {
+        // Configurar evento para el botón START
+        const startButton = document.getElementById('startButton');
+        const originalStartClick = startButton.onclick;
+        
+        startButton.onclick = function(e) {
+            e.preventDefault();
+            showEULAModal();
+        };
+    }
+}
+
+function showEULAModal() {
+    const eulaModal = document.getElementById('eulaModal');
+    const startupScreen = document.getElementById('startupScreen');
+    
+    if (!eulaModal) return;
+    
+    // Ocultar pantalla de inicio
+    if (startupScreen) {
+        startupScreen.style.display = 'none';
+    }
+    
+    // Mostrar modal EULA
+    eulaModal.classList.add('active');
+    
+    // Configurar botones
+    const agreeBtn = document.getElementById('eulaAgree');
+    const disagreeBtn = document.getElementById('eulaDisagree');
+    
+    if (agreeBtn) {
+        agreeBtn.addEventListener('click', acceptEULA);
+    }
+    
+    if (disagreeBtn) {
+        disagreeBtn.addEventListener('click', rejectEULA);
+    }
+    
+    // Configurar navegación por teclado
+    document.addEventListener('keydown', handleEULAKeydown);
+}
+
+function hideEULAModal() {
+    const eulaModal = document.getElementById('eulaModal');
+    if (eulaModal) {
+        eulaModal.classList.remove('active');
+        document.removeEventListener('keydown', handleEULAKeydown);
+    }
+}
+
+function acceptEULA() {
+    // Guardar aceptación en localStorage
+    localStorage.setItem('wineboxEulaAccepted', 'true');
+    
+    // Ocultar modal
+    hideEULAModal();
+    
+    // Continuar con el inicio normal
+    continueStartupProcess();
+    
+    showStatusMessage('EULA accepted. Welcome to WineBOX!', 'success');
+}
+
+function rejectEULA() {
+    // No guardar aceptación
+    hideEULAModal();
+    
+    // Mostrar mensaje y cerrar
+    const startupScreen = document.getElementById('startupScreen');
+    if (startupScreen) {
+        startupScreen.style.display = 'flex';
+        startupScreen.innerHTML = `
+            <div style="text-align: center; padding: 40px;">
+                <h2 style="color: #ff6b6b;">EULA Not Accepted</h2>
+                <p style="color: rgba(255, 255, 255, 0.7); margin: 20px 0;">
+                    WineBOX requires acceptance of the End User License Agreement to operate.
+                </p>
+                <p style="color: rgba(255, 255, 255, 0.5); font-size: 14px; margin: 20px 0;">
+                    The application will now close.
+                </p>
+                <button onclick="location.reload()" 
+                        style="margin-top: 20px; padding: 12px 30px; background: #0078d4; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px;">
+                    Restart WineBOX
+                </button>
+            </div>
+        `;
+    }
+    
+    console.log('❌ EULA rejected by user');
+}
+
+function continueStartupProcess() {
+    const startupScreen = document.getElementById('startupScreen');
+    
+    // Intentar entrar en pantalla completa
+    enterFullscreen();
+    
+    // Ocultar pantalla de inicio después de un breve retraso
+    setTimeout(function() {
+        if (startupScreen) {
+            startupScreen.classList.add('hidden');
+        }
+    }, 800);
+}
+
+function handleEULAKeydown(e) {
+    const eulaModal = document.getElementById('eulaModal');
+    if (!eulaModal || !eulaModal.classList.contains('active')) return;
+    
+    switch(e.key) {
+        case 'Escape':
+            e.preventDefault();
+            // No permitir cerrar con Escape, debe aceptar o rechazar
+            break;
+            
+        case 'ArrowLeft':
+        case 'ArrowRight':
+            e.preventDefault();
+            // Opcional: Navegación entre botones
+            const agreeBtn = document.getElementById('eulaAgree');
+            const disagreeBtn = document.getElementById('eulaDisagree');
+            
+            if (document.activeElement === agreeBtn) {
+                disagreeBtn.focus();
+            } else if (document.activeElement === disagreeBtn) {
+                agreeBtn.focus();
+            } else {
+                agreeBtn.focus();
+            }
+            break;
+            
+        case 'Enter':
+            e.preventDefault();
+            if (document.activeElement === document.getElementById('eulaAgree')) {
+                acceptEULA();
+            } else if (document.activeElement === document.getElementById('eulaDisagree')) {
+                rejectEULA();
+            }
+            break;
+    }
+}
+
+// Modificar la función initStartupScreen para verificar EULA
+function initStartupScreen() {
+    startupScreen = document.getElementById('startupScreen');
+    startButton = document.getElementById('startButton');
+    fullscreenToggle = document.getElementById('fullscreenToggle');
+    
+    // Verificar si el EULA ya fue aceptado
+    const eulaAccepted = localStorage.getItem('wineboxEulaAccepted');
+    
+    if (eulaAccepted && startButton) {
+        // Si ya aceptó, usar el comportamiento original
+        startButton.addEventListener('click', function() {
+            continueStartupProcess();
+        });
+    }
+    // Si no ha aceptado, initEULA() manejará el comportamiento
+    
+    if (fullscreenToggle) {
+        fullscreenToggle.addEventListener('click', toggleFullscreen);
+        
+        fullscreenToggle.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                if (document.activeElement === fullscreenToggle) {
+                    toggleFullscreen();
+                }
+            }
+        });
+    }
+    
     document.addEventListener('fullscreenchange', handleFullscreenChange);
     document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
     document.addEventListener('mozfullscreenchange', handleFullscreenChange);
@@ -5679,6 +6116,9 @@ ready(function() {
 
     // Inicializar pantalla de inicio y controles de pantalla completa
     initStartupScreen();
+
+    // Inicializar sistema de EULA
+    initEULA();
 
     // Inicializar settings
     initSettings();
