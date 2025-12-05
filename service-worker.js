@@ -13,7 +13,7 @@ self.addEventListener('install', (event) => {
     '/',
     '/index.html',
     '/manifest.json',
-    'https://ifilex.github.io/WineBOX-Store/progman.html'
+    'progman.html'
   ];
   
   event.waitUntil(
