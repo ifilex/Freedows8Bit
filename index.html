@@ -18,6 +18,248 @@
             });
         }
 </script>
+
+<script>
+    // PWA Installation Handler
+    let deferredPrompt;
+    let isPWAInstalled = false;
+
+    // Check if app is already installed
+    function isRunningAsPWA() {
+        return (window.matchMedia('(display-mode: standalone)').matches) || 
+               (window.navigator.standalone) || 
+               (document.referrer.includes('android-app://'));
+    }
+
+    // Handle beforeinstallprompt event
+    window.addEventListener('beforeinstallprompt', (e) => {
+        console.log('✅ beforeinstallprompt event fired');
+        e.preventDefault();
+        deferredPrompt = e;
+        showInstallButton();
+    });
+
+    // Check on page load
+    window.addEventListener('load', () => {
+        isPWAInstalled = isRunningAsPWA();
+        
+        if (isPWAInstalled) {
+            console.log('✅ App is running as PWA');
+            hideInstallButton();
+        } else {
+            console.log('ℹ️ App is not installed as PWA');
+            checkInstallability();
+        }
+    });
+
+    // Check if install is possible
+    function checkInstallability() {
+        if (deferredPrompt) {
+            showInstallButton();
+        } else {
+            // Check after a delay
+            setTimeout(() => {
+                if (deferredPrompt) {
+                    showInstallButton();
+                }
+            }, 3000);
+        }
+    }
+
+    // Show install button in header
+    function showInstallButton() {
+        // Create or get install button
+        let installBtn = document.getElementById('installPWA');
+        
+        if (!installBtn) {
+            const headerSystemInfo = document.querySelector('.header-system-info');
+            if (!headerSystemInfo) return;
+            
+            installBtn = document.createElement('button');
+            installBtn.id = 'installPWA';
+            installBtn.className = 'install-pwa-button';
+            installBtn.title = 'Install WineBOX as App';
+            installBtn.innerHTML = `
+                <svg viewBox="0 0 24 24" style="width: 20px; height: 20px; fill: currentColor;">
+                    <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"/>
+                </svg>
+                <span>Install</span>
+            `;
+            
+            // Insert before battery info
+            const batteryInfo = document.getElementById('batteryInfo');
+            if (batteryInfo) {
+                headerSystemInfo.insertBefore(installBtn, batteryInfo);
+            } else {
+                headerSystemInfo.appendChild(installBtn);
+            }
+            
+            // Add click event
+            installBtn.addEventListener('click', installPWA);
+        }
+        
+        installBtn.style.display = 'flex';
+        installBtn.style.alignItems = 'center';
+        installBtn.style.gap = '5px';
+        installBtn.style.padding = '8px 12px';
+        installBtn.style.background = '#0078d4';
+        installBtn.style.color = 'white';
+        installBtn.style.border = 'none';
+        installBtn.style.borderRadius = '4px';
+        installBtn.style.cursor = 'pointer';
+        installBtn.style.fontSize = '14px';
+        installBtn.style.transition = 'background 0.3s';
+        
+        installBtn.addEventListener('mouseenter', () => {
+            installBtn.style.background = '#106ebe';
+        });
+        
+        installBtn.addEventListener('mouseleave', () => {
+            installBtn.style.background = '#0078d4';
+        });
+    }
+
+    // Hide install button
+    function hideInstallButton() {
+        const installBtn = document.getElementById('installPWA');
+        if (installBtn) {
+            installBtn.style.display = 'none';
+        }
+    }
+
+    // Install PWA function
+    async function installPWA() {
+        console.log('🎯 installPWA called');
+        
+        if (!deferredPrompt) {
+            console.log('❌ No deferred prompt available');
+            showStatusMessage('Installation not available. Try using Chrome/Edge browser menu.', 'warning');
+            return;
+        }
+        
+        try {
+            // Show the install prompt
+            deferredPrompt.prompt();
+            
+            // Wait for the user to respond to the prompt
+            const choiceResult = await deferredPrompt.userChoice;
+            
+            if (choiceResult.outcome === 'accepted') {
+                console.log('✅ User accepted PWA installation');
+                showStatusMessage('WineBOX installed successfully!', 'success');
+                isPWAInstalled = true;
+                hideInstallButton();
+                
+                // Close any open modals or menus
+                if (isModalOpen) {
+                    const modal = document.getElementById('appModal');
+                    if (modal) modal.style.display = 'none';
+                    isModalOpen = false;
+                }
+                
+                if (isMenuOpen) {
+                    toggleMenu();
+                }
+            } else {
+                console.log('❌ User dismissed PWA installation');
+                showStatusMessage('Installation cancelled', 'warning');
+            }
+            
+            // Clear the deferredPrompt variable
+            deferredPrompt = null;
+            
+        } catch (error) {
+            console.error('❌ Error installing PWA:', error);
+            showStatusMessage('Installation failed. Please try manual installation.', 'error');
+        }
+    }
+
+    // Manual install instructions
+    function showManualInstallInstructions() {
+        const instructions = `
+            <div style="padding: 20px; max-width: 500px;">
+                <h3>Manual Installation</h3>
+                <p>To install WineBOX as an app:</p>
+                <ul style="text-align: left; padding-left: 20px;">
+                    <li><strong>Chrome/Edge:</strong> Click ⋮ (menu) → "Install WineBOX"</li>
+                    <li><strong>Firefox:</strong> Click ≡ (menu) → "Install WineBOX"</li>
+                    <li><strong>Safari:</strong> Click Share → "Add to Home Screen"</li>
+                    <li><strong>Android Chrome:</strong> ⋮ → "Add to Home screen"</li>
+                    <li><strong>iOS Safari:</strong> Share → "Add to Home Screen"</li>
+                </ul>
+                <button onclick="this.parentElement.parentElement.remove()" 
+                        style="margin-top: 15px; padding: 8px 16px; background: #0078d4; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                    Close
+                </button>
+            </div>
+        `;
+        
+        showStatusMessage('Check browser menu for install option', 'info');
+        
+        // Show more detailed instructions after delay
+        setTimeout(() => {
+            const existingModal = document.querySelector('.manual-install-modal');
+            if (existingModal) existingModal.remove();
+            
+            const modal = document.createElement('div');
+            modal.className = 'manual-install-modal';
+            modal.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: #181818;
+                color: white;
+                border-radius: 8px;
+                z-index: 10000;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+                border: 1px solid #333;
+            `;
+            modal.innerHTML = instructions;
+            
+            document.body.appendChild(modal);
+            
+            // Close when clicking outside
+            setTimeout(() => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.remove();
+                    }
+                });
+            }, 100);
+        }, 2000);
+    }
+
+    // Update showStatusMessage function if needed
+    function showStatusMessage(message, type = 'success') {
+        const statusMessage = document.getElementById('statusMessage');
+        if (!statusMessage) return;
+        
+        statusMessage.textContent = message;
+        statusMessage.className = 'status-message';
+        
+        if (type === 'warning') {
+            statusMessage.style.backgroundColor = '#ff9800';
+        } else if (type === 'error') {
+            statusMessage.style.backgroundColor = '#f44336';
+        } else if (type === 'info') {
+            statusMessage.style.backgroundColor = '#2196f3';
+        } else {
+            statusMessage.style.backgroundColor = '#0078d4';
+        }
+        
+        statusMessage.classList.add('show');
+        
+        setTimeout(() => {
+            statusMessage.classList.remove('show');
+        }, 3000);
+    }
+
+    // Add to window for global access
+    window.installPWA = installPWA;
+    window.showManualInstallInstructions = showManualInstallInstructions;
+</script>
+
 <style>
  /* ESTILOS PRINCIPALES (manteniendo los existentes) */
  body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #141414; color: #ffffff; }
@@ -2108,6 +2350,41 @@ input:checked + .toggle-slider:before {
     .recent-apps {
         -webkit-overflow-scrolling: touch;
     }
+}
+
+/* Estilos para el botón de instalación PWA */
+.install-pwa-button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 12px;
+    background: #0078d4;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+    margin-right: 10px;
+}
+
+.install-pwa-button:hover {
+    background: #106ebe;
+}
+
+.install-pwa-button svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+
+/* Mejorar el header system info para acomodar el botón */
+.header-system-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: nowrap;
+    white-space: nowrap;
 }
 </style>
 </head>
