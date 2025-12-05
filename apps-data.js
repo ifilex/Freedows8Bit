@@ -718,7 +718,7 @@ window.appData = [
         image: "https://ifilex.github.io/WineBOX-Store/box/progman.png",
         description: "Program Manager is a graphical shell for managing applications and program groups in WineBOX. It allows users to organize, launch, and customize software shortcuts within a windowed interface.",
         category: "apps",
-        link: "https://ifilex.github.io/WineBOX-Store/progman.html"
+        link: "progman.html"
     },
     {
         name: "QBasic 4.5",
