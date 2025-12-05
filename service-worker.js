@@ -13,7 +13,7 @@ self.addEventListener('install', (event) => {
     '/',
     '/index.html',
     '/manifest.json',
-    'progman.html'
+    '/progman.html'
   ];
   
   event.waitUntil(
@@ -74,4 +74,5 @@ workbox.routing.registerRoute(
     ],
   })
 );
+
 
