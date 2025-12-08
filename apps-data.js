@@ -413,13 +413,6 @@ window.appData = [
         link: "https://ifilex.github.io/WineBOX-Store/tombrider.html"
     },
     {
-        name: "WASM-4",
-        image: "https://wasm4.org/img/logo.png",
-        description: "Build retro games using WebAssembly for a fantasy console.",
-        category: "games",
-        link: "https://wasm4.org/play"
-    },
-    {
         name: "Wolfenstein 3D",
         image: "https://ifilex.github.io/WineBOX-Store/box/wolf3d.jpg",
         description: "Wolfenstein 3D is a first-person shooter video game developed by id Software and published by Apogee Software and FormGen.",
@@ -637,13 +630,6 @@ window.appData = [
         link: "https://copy.sh/v86/?profile=fiwix"
     },
     {
-        name: "Game Play Color",
-        image: "https://gameplaycolor.com/images/ss_colors.png",
-        description: "A fast Game Color Emulator",
-        category: "utilities",
-        link: "https://app.gameplaycolor.com/"
-    },
-    {
         name: "JPEGView",
         image: "https://ifilex.github.io/WineBOX-Store/box/jpegview.jpg",
         description: "JPEGView is a lean, fast and highly configurable viewer/editor for JPEG, BMP, PNG, WEBP, TGA, GIF and TIFF images with a minimal GUI.",
@@ -712,13 +698,6 @@ window.appData = [
         description: "NetBSD is a free and open-source Unix-like operating system based on the Berkeley Software Distribution (BSD). It was the first open-source BSD descendant officially released after 386BSD was forked. It continues to be actively developed and is available for many platforms, including servers, desktops, handheld devices, and embedded systems.",
         category: "apps",
         link: "https://copy.sh/v86/?profile=netbsd"
-    },
-    {
-        name: "N64 WASM",
-        image: "https://cdn.mos.cms.futurecdn.net/L92cEFyKLJtkGwt4x42kQn-970-80.jpg.webp",
-        description: "Nintendo 64 emulator in WASM format.",
-       category: "utilities",
-        link: "https://www.neilb.net/n64wasm/"
     },
     {
         name: "Neopaint",
@@ -950,20 +929,6 @@ window.appData = [
         description: "A very small and basic web Browser for WineBOX for see smalls webs",
         category: "apps",
         link: "https://ifilex.github.io/WineBOX-Store/edge.html"
-    },
-    {
-        name: "WebRcade",
-        image: "https://docs.webrcade.com/assets/images/platforms/ios/safari-full.png",
-        description: "WebЯcade consists of an intuitive web-based front end (the webЯcade player) that enables playing popular gaming content entirely within the context of the browser across a wide variety of platforms",
-        category: "utilities",
-        link: "https://play.webrcade.com/"
-    },
-    {
-        name: "WebRetro",
-        image: "https://images.icon-icons.com/1381/PNG/512/retroarch_93655.png",
-        description: "RetroArch ported to WebAssembly with emscripten.",
-        category: "utilities",
-        link: "https://binbashbanana.github.io/webretro/"
     },
     {
         name: "WineZIP",
