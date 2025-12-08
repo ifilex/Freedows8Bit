@@ -71,7 +71,7 @@ window.appData = [
     },
     {
         name: "Brutal: Paws of Fury",
-        image: "https://ifilex.github.io/WineBOX-Store/box/blood.jpg",
+        image: "https://www.myabandonware.com/media/screenshots/b/brutal-paws-of-fury-2qy/thumbs/brutal-paws-of-fury_1.png",
         description: "Brutal: Paws of Fury is a one-on-one fighting game in the style of Street Fighter and other similar fighting games from the 90's. ",
         category: "games",
         link: "https://ifilex.github.io/WineBOX-Store/brutal.html"
@@ -1377,7 +1377,7 @@ window.appData = [
         image: "https://www.dosgames.com/screens/lastexpress.png",
         description: "The Last Express is a unique graphical adventure / detective game where the goal is to prevent certain events from happening before reaching the next station.",
         category: "arcade",
-        link: "https://ifilex.github.io/WineBOX-Store/lexpress.html"
+        link: "https://ifilex.github.io/WineBOX-Store/express.html"
     },
     {
         name: "The Lion King",
