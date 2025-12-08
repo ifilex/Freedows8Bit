@@ -84,6 +84,13 @@ window.appData = [
         link: "https://ifilex.github.io/WineBOX-Store/chexquest.html"
     },
     {
+        name: "Cham: The Rift",
+        image: "https://www.dosgames.com/screens/chasm.png",
+        description: "This surprisingly good 3D shooting game (the demo is downloadable here) is, in terms of technical things like graphics, somewhere between DOOM and Quake.",
+        category: "games",
+        link: "https://ifilex.github.io/WineBOX-Store/cham.html"
+    },
+    {
         name: "Chub Gam 3D",
         image: "https://www.dosgames.com/screens/chubgam.gif",
         description: "While this game has supposedly won many awards (listed on the ChubGamSoft website) I m not a huge fan. It plays well enough and has some interesting graphic/gameplay elements (like an actual storyline, and cutscenes to tell it)",
@@ -117,6 +124,13 @@ window.appData = [
         description: "Diablo is an action role-playing dungeon crawler video game series developed by Blizzard North and continued by Blizzard Entertainment after the North studio shut down in 2005.",
         category: "games",
         link: "https://d07riv.github.io/diabloweb/"
+    },
+    {
+        name: "Death Rally",
+        image: "https://www.dosgames.com/screens/deathrally.gif",
+        description: "Top-down racing games are sort of a sub-genre of the larger racing genre, and Death Rally is a good example of how to do things right. Sort of like Super Sprint with more destruction.",
+        category: "games",
+        link: "https://ifilex.github.io/WineBOX-Store/rally.html"
     },
     {
         name: "Descent II",
@@ -187,6 +201,13 @@ window.appData = [
         description: "HexGL is a futuristic, fast-paced racing game built by Thibaut Despoulain using HTML5, Javascript and WebGL",
         category: "games",
         link: "https://attogram.github.io/HexGL-lite/"
+    },
+    {
+        name: "Hexen",
+        image: "https://www.dosgames.com/screens/hexen.gif",
+        description: "The sequel to the popular Heretic game, Hexen takes the Heretic engine and adds some notable improvements, like weather effects, breakable environments, roleplaying elements and less linear gameplay.", 
+        category: "games",
+        link: "https://ifilex.github.io/WineBOX-Store/hexen.html"
     },
     {
         name: "Hurl",
@@ -439,6 +460,13 @@ window.appData = [
         description: " this game certainly has the looks of a great game, but IMHO falls a bit short in the gameplay department.",
         category: "games",        
          link: "https://ifilex.github.io/WineBOX-Store/xeno.html"
+    },
+    {
+        name: "X-Men: Children of the Atom",
+        image: "https://www.dosgames.com/screens/xmen.png",
+        description: "X-Men: Children of the Atom is a port of the one-on-one Street Fighter 2-style fighting game featuring characters from Marvel's X-Men comics.",
+        category: "games",        
+         link: "https://ifilex.github.io/WineBOX-Store/xmen.html"
     },
     {
         name: "4D BOXING",
@@ -966,18 +994,18 @@ window.appData = [
         link: "https://copy.sh/v86/?profile=xcom"
     },
     {
-        name: "Xide",
-        image: "https://xide.nullprime.com/nullprime-logo.jpg",
-        description: "An online x86 assembly IDE, containing the Netwide Assembler (NASM), the Advanced Fullscreen Debugger (AFD) and em-dosbox (a WASM port of the DOSBox Emulator)",
-       category: "apps",
-        link: "https://xide.nullprime.com/"
-    },
-    {
         name: "5 Days a Stranger",
         image: "https://image.dosgamesarchive.com/screenshots/thumbnails/5days-1.png",
         description: "5 Days A Stranger is a horror-themed point-and-click adventure game using the Adventure Game Studio (AGS) development kit.",
         category: "arcade",
         link: "https://ifilex.github.io/WineBOX-Store/5daysdos.html"
+    },
+    {
+        name: "Abuse",
+        image: "https://www.dosgames.com/screens/abuse.gif",
+        description: "Abuse is a great side-scrolling action game that uses a unique system to control your character.",   
+        category: "arcade",
+        link: "https://ifilex.github.io/WineBOX-Store/abuse.html"
     },
     {
         name: "Agi Tetris",
@@ -1044,6 +1072,13 @@ window.appData = [
         link: "https://ifilex.github.io/WineBOX-Store/baryon.html"
     },
     {
+        name: "Beats Of Rage",
+        image: "https://www.dosgames.com/screens/beatsofrage.gif",
+        description: "If you've ever played Streets of Rage (in an arcade or for any of Sega's old home console systems) you'll know what to expect from Beats of Rage.",
+        category: "arcade",
+        link: "https://ifilex.github.io/WineBOX-Store/ber.html"
+    },
+    {
         name: "Breakout",
         image: "https://ifilex.github.io/WineBOX-Store/box/breakout.jpg",
         description: "Breakout is a classic arcade game where the player controls a paddle to bounce a ball and break all the bricks on the screen. The goal is to clear the bricks without letting the ball fall past the paddle.",
@@ -1058,11 +1093,25 @@ window.appData = [
         link: "https://ifilex.github.io/WineBOX-Store/brix.html"
     },
     {
+        name: "Bust a Move 2",
+        image: "https://www.dosgames.com/screens/bam2.png",
+        description: "Bust-a-Move (aka Puzzle Bobble) is an extremely popular series of bubble-matching games which combine a puzzle game's need for strategy with the quick-thinking and reflexes needed for success in an action game.",
+        category: "arcade",
+        link: "https://ifilex.github.io/WineBOX-Store/bam2.html"
+    },
+    {
         name: "CD-MAN",
         image: "https://ifilex.github.io/WineBOX-Store/box/cdman.jpg",
         description: "CD-Man features 5 different worlds to pass each having nicely-drawn graphics in high-res EGA mode and therefore a new character.",
         category: "arcade",
         link: "https://ifilex.github.io/WineBOX-Store/cdman.html"
+    },
+    {
+        name: "Chompsters",
+        image: "https://www.dosgames.com/screens/chompsters.gif",
+        description: "A very fun Pacman type game that expands on the original Pacman idea by adding different characters to play",
+        category: "arcade",
+        link: "https://ifilex.github.io/WineBOX-Store/chom.html"
     },
     {
         name: "Commander Keen",
@@ -1098,6 +1147,13 @@ window.appData = [
         description: "First of all, if you're looking for the real 3D DOOM game from id Software, the game on this page is not by id Software and certainly not endorsed by them!",
         category: "arcade",
         link: "https://ifilex.github.io/WineBOX-Store/doom2d.html"
+    },
+    {
+        name: "Duke Nukem 2",
+        image: "https://www.dosgames.com/screens/duke2.gif",
+        description: "Between the original, classic Duke and the kickass Duke Nukem 3D came the unheralded sequel, Duke II.",
+        category: "arcade",
+        link: "https://ifilex.github.io/WineBOX-Store/duke2.html"
     },
     {
         name: "Dyna Blaster",
@@ -1168,6 +1224,13 @@ window.appData = [
         description: "Nero 5 is a freeware chess programme, the fifth in a series of revisions by Finnish author Jari Huikari.",
         category: "arcade",
         link: "https://ifilex.github.io/WineBOX-Store/nero5.html"
+    },
+    {
+        name: "Ms Pacman PC",
+        image: "https://www.dosgames.com/screens/mspac.gif",
+        description: "It's just like Pac-Man, but it is MS Pac-Man! What's the difference? Well, there's a bow on her ...This game IS a lot the same as the classic Pac-Man game, but with some variations, like different maze layouts and smarter ghosts.",
+        category: "arcade",
+        link: "https://ifilex.github.io/WineBOX-Store/midemo.html"
     },
     {
         name: "Monkey Island",
@@ -1317,6 +1380,13 @@ window.appData = [
         link: "https://ifilex.github.io/WineBOX-Store/lexpress.html"
     },
     {
+        name: "The Lion King",
+        image: "https://www.dosgames.com/screens/lionking.gif",
+        description: "The Lion King represents one of the rare times that a movie-to-game conversion actually worked and granted us a pretty good game",
+        category: "arcade",
+        link: "https://ifilex.github.io/WineBOX-Store/lionking.html"
+    },
+    {
         name: "The Lost Vikings",
         image: "https://ifilex.github.io/WineBOX-Store/box/vikings.jpg",
         description: "In the game, the three Vikings get kidnapped by Tomator, emperor of the alien Croutonian empire, for an inter-galactic zoo and become lost in various periods.",
@@ -1329,6 +1399,13 @@ window.appData = [
         description: "It is an arcade in which our objective will be to build the tallest skyscraper in the city",
         category: "arcade",
         link: "https://fosiper.com/games/tower/"
+    },
+    {
+        name: "Wacky Wheels",
+        image: "https://www.dosgames.com/screens/wacky.gif",
+        description: "Seems like a rip-off of Super Mario Kart, with animals in place of the familiar Mario characters", 
+        category: "arcade",
+        link: "https://ifilex.github.io/WineBOX-Store/wacky.html"
     },
     {
         name: "Wizardry: Crusaders of the Dark Savant",
