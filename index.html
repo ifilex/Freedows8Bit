@@ -1,16 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>WineBOX</title>
-<meta name="description" content="A Windows emulator and compiler.">
+
+<title>WineBOX – Cognitive Stimulation System</title>
+
+<meta name="description" content="WineBOX is a global and free cognitive stimulation environment using retro games to improve attention, planning, and executive functions in neurodivergent users.">
+<meta name="keywords" content="cognitive stimulation, autism, ADHD, executive functions, neurodiversity, retro games, low visual fidelity, wine, dosbox, wasm">
+
+<meta property="og:title" content="WineBOX – Cognitive Stimulation System">
+<meta property="og:description" content="A free and accessible cognitive stimulation platform using legal retro games to improve attention and mental autonomy.">
+<meta property="og:image" content="http://winebox.cloud/logo.png">
+<meta property="og:url" content="https://winebox.cloud">
+<meta property="og:type" content="website">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="WineBOX – Cognitive Stimulation System">
+<meta name="twitter:image" content="http://winebox.cloud/logo.png">
+
+<link rel="alternate" href="https://winebox.cloud" hreflang="en" />
+<link rel="alternate" href="https://winebox.cloud?lang=es" hreflang="es" />
+<link rel="canonical" href="https://winebox.cloud"/>
+
 <link rel="shortcut icon" href="src/icons/favicon.png" sizes="152x152">
 <link rel="apple-touch-icon" href="src/icons/favicon.png">
+
 <meta name="theme-color" content="#000"/>
 <link rel="manifest" href="manifest.json" />
-<meta property="og:type" content="website">
-<meta property="og:title" content="WineBOX">
-<meta property="og:url" content="/">
-<meta property="og:description" content="A Windows emu within browser.">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "WineBOX",
+  "operatingSystem": "Web, Windows, macOS, Linux, Android, iOS",
+  "applicationCategory": "EducationalApplication",
+  "description": "Cognitive stimulation environment using legal retro games to train executive functions in neurodivergent users.",
+  "creator": {
+    "@type": "Organization",
+    "name": "WineBOX Project Team",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "email": "ifilex@gmail.com"
+    }
+  },
+  "url": "https://winebox.cloud",
+  "image": "http://winebox.cloud/logo.png",
+  "license": "CC BY-NC 4.0"
+}
+</script>
+
+
 <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
@@ -1546,7 +1585,7 @@
      background-color: #2a2a2a;
  }
 
- /* ========== NUEVOS ESTILOS PARA BOTÓN DE INICIO Y PANTALLA COMPLETA ========== */
+ /* ========== PANTALLA DE INICIO WINDOWS 11 STYLE ========== */
  .startup-screen {
      position: fixed;
      top: 0;
@@ -1555,11 +1594,11 @@
      height: 100%;
      background: linear-gradient(135deg, #141414 0%, #000000 100%);
      display: flex;
-     flex-direction: column;
      align-items: center;
      justify-content: center;
      z-index: 9999;
      transition: opacity 0.8s ease, visibility 0.8s ease;
+     overflow: hidden;
  }
 
  .startup-screen.hidden {
@@ -1568,50 +1607,71 @@
      pointer-events: none;
  }
 
+ .startup-content {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: center;
+     width: 100%;
+     height: 100%;
+     position: relative;
+ }
+
  .startup-logo {
-     margin-bottom: 30px;
+     margin-bottom: 50px;
      text-align: center;
+     animation: fadeIn 1s ease;
  }
 
  .startup-logo h1 {
-     font-size: 48px;
-     font-weight: bold;
+     font-size: 64px;
+     font-weight: 300;
      background: linear-gradient(45deg, #0078d4, #00b7c3);
      -webkit-background-clip: text;
      -webkit-text-fill-color: transparent;
-     margin-bottom: 10px;
+     margin-bottom: 15px;
+     letter-spacing: 1px;
  }
 
  .startup-logo p {
-     color: rgba(255, 255, 255, 0.7);
-     font-size: 16px;
+     color: rgba(255, 255, 255, 0.6);
+     font-size: 18px;
+     font-weight: 300;
+     letter-spacing: 0.5px;
  }
 
  .start-button {
-     width: 120px;
-     height: 120px;
+     width: 140px;
+     height: 140px;
      border-radius: 50%;
      background: linear-gradient(135deg, #0078d4, #00b7c3);
      border: none;
      color: white;
-     font-size: 18px;
-     font-weight: bold;
+     font-size: 20px;
+     font-weight: 500;
      cursor: pointer;
      position: relative;
      overflow: hidden;
      transition: all 0.3s ease;
-     box-shadow: 0 10px 30px rgba(0, 120, 212, 0.4);
+     box-shadow: 
+         0 10px 30px rgba(0, 120, 212, 0.3),
+         inset 0 1px 0 rgba(255, 255, 255, 0.2);
      animation: pulse 2s infinite;
+     letter-spacing: 1px;
  }
 
  .start-button:hover {
-     transform: scale(1.1);
-     box-shadow: 0 15px 40px rgba(0, 120, 212, 0.6);
+     transform: scale(1.08);
+     box-shadow: 
+         0 15px 40px rgba(0, 120, 212, 0.5),
+         inset 0 1px 0 rgba(255, 255, 255, 0.3);
  }
 
  .start-button:focus {
      outline: none;
-     box-shadow: 0 0 0 4px rgba(0, 120, 212, 0.5);
+     box-shadow: 
+         0 0 0 3px rgba(0, 120, 212, 0.3),
+         0 15px 40px rgba(0, 120, 212, 0.5);
  }
 
  .start-button::before {
@@ -1621,7 +1681,7 @@
      left: -50%;
      width: 200%;
      height: 200%;
-     background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 60%);
+     background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
      opacity: 0;
      transition: opacity 0.3s ease;
  }
@@ -1632,14 +1692,125 @@
 
  @keyframes pulse {
      0% {
-         box-shadow: 0 10px 30px rgba(0, 120, 212, 0.4);
+         box-shadow: 
+             0 10px 30px rgba(0, 120, 212, 0.3),
+             inset 0 1px 0 rgba(255, 255, 255, 0.2);
      }
      50% {
-         box-shadow: 0 15px 40px rgba(0, 120, 212, 0.7);
+         box-shadow: 
+             0 15px 40px rgba(0, 120, 212, 0.5),
+             inset 0 1px 0 rgba(255, 255, 255, 0.3);
      }
      100% {
-         box-shadow: 0 10px 30px rgba(0, 120, 212, 0.4);
+         box-shadow: 
+             0 10px 30px rgba(0, 120, 212, 0.3),
+             inset 0 1px 0 rgba(255, 255, 255, 0.2);
      }
+ }
+
+ @keyframes fadeIn {
+     from {
+         opacity: 0;
+         transform: translateY(-20px);
+     }
+     to {
+         opacity: 1;
+         transform: translateY(0);
+     }
+ }
+
+ /* ========== BOTÓN ABOUT US WINDOWS 11 STYLE ========== */
+ .startup-bottom-right {
+     position: absolute;
+     bottom: 40px;
+     right: 40px;
+     z-index: 10000;
+ }
+
+ .windows11-help-button {
+     display: flex;
+     align-items: center;
+     gap: 10px;
+     padding: 12px 20px;
+     background: rgba(255, 255, 255, 0.07);
+     backdrop-filter: blur(20px);
+     -webkit-backdrop-filter: blur(20px);
+     color: rgba(255, 255, 255, 0.9);
+     border: 1px solid rgba(255, 255, 255, 0.12);
+     border-radius: 8px;
+     font-size: 14px;
+     font-weight: 400;
+     cursor: pointer;
+     transition: all 0.3s ease;
+     min-width: 140px;
+     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+ }
+
+ .windows11-help-button:hover {
+     background: rgba(255, 255, 255, 0.12);
+     color: white;
+     border-color: rgba(255, 255, 255, 0.2);
+     transform: translateY(-2px);
+     box-shadow: 
+         0 6px 20px rgba(0, 0, 0, 0.15),
+         0 0 0 1px rgba(255, 255, 255, 0.05);
+ }
+
+ .windows11-help-button:active {
+     transform: translateY(0);
+     background: rgba(255, 255, 255, 0.09);
+ }
+
+ .windows11-help-button:focus {
+     outline: none;
+     box-shadow: 
+         0 0 0 2px rgba(0, 120, 212, 0.4),
+         0 6px 20px rgba(0, 0, 0, 0.15);
+ }
+
+ .windows11-help-button svg {
+     fill: currentColor;
+     opacity: 0.9;
+ }
+
+ /* Animación de entrada estilo Windows 11 */
+ .windows11-help-button {
+     animation: slideInRight 0.8s ease 0.3s both;
+ }
+
+ @keyframes slideInRight {
+     from {
+         opacity: 0;
+         transform: translateX(30px);
+     }
+     to {
+         opacity: 1;
+         transform: translateX(0);
+     }
+ }
+
+ /* Efecto de brillo al hover (estilo Windows 11) */
+ .windows11-help-button::after {
+     content: '';
+     position: absolute;
+     top: 0;
+     left: 0;
+     right: 0;
+     bottom: 0;
+     background: linear-gradient(
+         135deg,
+         rgba(255, 255, 255, 0.1) 0%,
+         transparent 50%,
+         rgba(255, 255, 255, 0.05) 100%
+     );
+     border-radius: 8px;
+     opacity: 0;
+     transition: opacity 0.3s ease;
+     pointer-events: none;
+ }
+
+ .windows11-help-button:hover::after {
+     opacity: 1;
  }
 
  /* ========== NUEVA POSICIÓN PARA EL BOTÓN DE PANTALLA COMPLETA ========== */
@@ -1720,66 +1891,18 @@
  }
 
  /* ========== MEJORA EN EL BOTÓN DE INICIO ========== */
- .startup-screen {
-     position: fixed;
+ .startup-screen::before {
+     content: '';
+     position: absolute;
      top: 0;
      left: 0;
-     width: 100%;
-     height: 100%;
-     background: linear-gradient(135deg, #141414 0%, #000000 100%);
-     display: flex;
-     flex-direction: column;
-     align-items: center;
-     justify-content: center;
-     z-index: 9999;
-     transition: opacity 0.8s ease, visibility 0.8s ease;
- }
-
- .startup-logo {
-     margin-bottom: 30px;
-     text-align: center;
- }
-
- .startup-logo h1 {
-     font-size: 48px;
-     font-weight: bold;
-     background: linear-gradient(45deg, #0078d4, #00b7c3);
-     -webkit-background-clip: text;
-     -webkit-text-fill-color: transparent;
-     margin-bottom: 10px;
- }
-
- .startup-logo p {
-     color: rgba(255, 255, 255, 0.7);
-     font-size: 16px;
-     margin-bottom: 20px;
- }
-
- .start-button {
-     width: 120px;
-     height: 120px;
-     border-radius: 50%;
-     background: linear-gradient(135deg, #0078d4, #00b7c3);
-     border: none;
-     color: white;
-     font-size: 18px;
-     font-weight: bold;
-     cursor: pointer;
-     position: relative;
-     overflow: hidden;
-     transition: all 0.3s ease;
-     box-shadow: 0 10px 30px rgba(0, 120, 212, 0.4);
-     animation: pulse 2s infinite;
- }
-
- .start-button:hover {
-     transform: scale(1.1);
-     box-shadow: 0 15px 40px rgba(0, 120, 212, 0.6);
- }
-
- .start-button:focus {
-     outline: none;
-     box-shadow: 0 0 0 4px rgba(0, 120, 212, 0.5);
+     right: 0;
+     bottom: 0;
+     background: 
+         radial-gradient(circle at 20% 80%, rgba(0, 120, 212, 0.05) 0%, transparent 50%),
+         radial-gradient(circle at 80% 20%, rgba(0, 183, 195, 0.05) 0%, transparent 50%),
+         radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+     pointer-events: none;
  }
 
  /* ========== ESTILOS PARA EL DIÁLOGO DE SHUTDOWN ========== */
@@ -2549,8 +2672,39 @@ input:checked + .toggle-slider:before {
     background: #388E3C;
 }
 
-/* Para pantallas pequeñas */
+/* ========== RESPONSIVE PANTALLA DE INICIO ========== */
 @media (max-width: 768px) {
+    .startup-logo h1 {
+        font-size: 48px;
+    }
+    
+    .startup-logo p {
+        font-size: 16px;
+    }
+    
+    .start-button {
+        width: 120px;
+        height: 120px;
+        font-size: 18px;
+    }
+    
+    .startup-bottom-right {
+        bottom: 30px;
+        right: 30px;
+    }
+    
+    .windows11-help-button {
+        padding: 10px 16px;
+        min-width: 120px;
+        font-size: 13px;
+        gap: 8px;
+    }
+    
+    .windows11-help-button svg {
+        width: 20px;
+        height: 20px;
+    }
+    
     .eula-content {
         max-height: 95vh;
     }
@@ -2574,18 +2728,74 @@ input:checked + .toggle-slider:before {
     }
 }
 
+@media (max-width: 480px) {
+    .startup-logo h1 {
+        font-size: 36px;
+    }
+    
+    .startup-logo p {
+        font-size: 14px;
+    }
+    
+    .start-button {
+        width: 100px;
+        height: 100px;
+        font-size: 16px;
+    }
+    
+    .startup-bottom-right {
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .windows11-help-button {
+        padding: 8px 12px;
+        min-width: auto;
+    }
+    
+    .windows11-help-button span {
+        display: none; /* Ocultar texto en móviles muy pequeños */
+    }
+    
+    .windows11-help-button {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        justify-content: center;
+        padding: 0;
+    }
+    
+    .windows11-help-button svg {
+        width: 22px;
+        height: 22px;
+    }
+}
+
 </style>
 </head>
 <body>
-<!-- Pantalla de inicio -->
+<!-- Pantalla de inicio estilo Windows 11 -->
 <div class="startup-screen" id="startupScreen">
-    <div class="startup-logo">
-        <h1>WineBOX</h1>
-        <p>Click to start WineBOX</p>
+    <div class="startup-content">
+        <div class="startup-logo">
+            <h1>WineBOX</h1>
+            <p>Click to start WineBOX</p>
+        </div>
+        
+        <button class="start-button" id="startButton" title="Click to start WineBOX">
+            START
+        </button>
+        
+        <!-- Botón About us en esquina inferior derecha (estilo Windows 11) -->
+        <div class="startup-bottom-right">
+            <button class="windows11-help-button" id="aboutStartupButton" title="About WineBOX">
+                <svg viewBox="0 0 24 24" width="24" height="24">
+                    <path d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"/>
+                </svg>
+                <span>About us</span>
+            </button>
+        </div>
     </div>
-    <button class="start-button" id="startButton" title="Click to start WineBOX">
-        START
-    </button>
 </div>
 
 <!-- Diálogo de Aviso Legal (EULA) -->
@@ -3293,6 +3503,7 @@ function initStartupScreen() {
     startupScreen = document.getElementById('startupScreen');
     startButton = document.getElementById('startButton');
     fullscreenToggle = document.getElementById('fullscreenToggle');
+    const aboutStartupButton = document.getElementById('aboutStartupButton');
     
     if (startButton) {
         startButton.addEventListener('click', function() {
@@ -3316,14 +3527,27 @@ function initStartupScreen() {
         });
     }
     
+    // ========== BOTÓN ABOUT US EN STARTUP ==========
+    if (aboutStartupButton) {
+        aboutStartupButton.addEventListener('click', function() {
+            // Redirigir a about.html
+            window.location.href = 'about.html';
+        });
+        
+        aboutStartupButton.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                window.location.href = 'about.html';
+            }
+        });
+    }
+    
     if (fullscreenToggle) {
         fullscreenToggle.addEventListener('click', toggleFullscreen);
         
-        // CORRECCIÓN: Evitar que Enter active/desactive pantalla completa automáticamente
         fullscreenToggle.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
-                // Solo activar si está enfocado explícitamente
                 if (document.activeElement === fullscreenToggle) {
                     toggleFullscreen();
                 }
@@ -3331,7 +3555,6 @@ function initStartupScreen() {
         });
     }
     
-    // Detectar cambios en el estado de pantalla completa
     document.addEventListener('fullscreenchange', handleFullscreenChange);
     document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
     document.addEventListener('mozfullscreenchange', handleFullscreenChange);
@@ -3485,42 +3708,6 @@ function handleEULAKeydown(e) {
     }
 }
 
-// Modificar la función initStartupScreen para verificar EULA
-function initStartupScreen() {
-    startupScreen = document.getElementById('startupScreen');
-    startButton = document.getElementById('startButton');
-    fullscreenToggle = document.getElementById('fullscreenToggle');
-    
-    // Verificar si el EULA ya fue aceptado
-    const eulaAccepted = localStorage.getItem('wineboxEulaAccepted');
-    
-    if (eulaAccepted && startButton) {
-        // Si ya aceptó, usar el comportamiento original
-        startButton.addEventListener('click', function() {
-            continueStartupProcess();
-        });
-    }
-    // Si no ha aceptado, initEULA() manejará el comportamiento
-    
-    if (fullscreenToggle) {
-        fullscreenToggle.addEventListener('click', toggleFullscreen);
-        
-        fullscreenToggle.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                if (document.activeElement === fullscreenToggle) {
-                    toggleFullscreen();
-                }
-            }
-        });
-    }
-    
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
-    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-    document.addEventListener('mozfullscreenchange', handleFullscreenChange);
-    document.addEventListener('MSFullscreenChange', handleFullscreenChange);
-}
-
 function enterFullscreen() {
     const element = document.documentElement;
     
@@ -3569,6 +3756,51 @@ function handleFullscreenChange() {
             fullscreenToggle.classList.remove('fullscreen-active');
             fullscreenToggle.setAttribute('title', 'Fullscreen');
         }
+    }
+}
+
+// ========== NAVEGACIÓN EN PANTALLA DE INICIO WINDOWS 11 ==========
+function handleWindows11StartupKeydown(e) {
+    const startupScreen = document.getElementById('startupScreen');
+    if (!startupScreen || startupScreen.classList.contains('hidden')) return;
+    
+    const eulaModal = document.getElementById('eulaModal');
+    if (eulaModal && eulaModal.classList.contains('active')) return;
+    
+    const startBtn = document.getElementById('startButton');
+    const aboutBtn = document.getElementById('aboutStartupButton');
+    
+    switch(e.key) {
+        case 'Tab':
+            e.preventDefault();
+            playNavSound();
+            if (document.activeElement === startBtn) {
+                aboutBtn.focus();
+            } else {
+                startBtn.focus();
+            }
+            break;
+            
+        case 'Enter':
+            if (document.activeElement === aboutBtn) {
+                e.preventDefault();
+                playNavSound();
+                window.location.href = 'about.html';
+            }
+            break;
+            
+        case ' ':
+            if (document.activeElement === aboutBtn) {
+                e.preventDefault();
+                playNavSound();
+                window.location.href = 'about.html';
+            }
+            break;
+            
+        case 'Escape':
+            // Opcional: Podrías agregar funcionalidad extra aquí
+            // Por ejemplo, mostrar un menú con más opciones
+            break;
     }
 }
 
@@ -5327,7 +5559,7 @@ function openAppModal(app) {
     
     const programManagerData = JSON.parse(localStorage.getItem('programManagerData')) || { shortcuts: [] };
     const isInstalled = programManagerData.shortcuts.some(shortcut => 
-        shortcut.name === app.name && shortcut.type === 'web'
+        shortcut.name === app.name && shortcut.type === 'web' && !shortcut.isDiscoLocal && !shortcut.isTrash
     );
 
     appDetails.innerHTML = `
@@ -6209,6 +6441,16 @@ ready(function() {
 
         // Configurar eventos del teclado principales
         document.addEventListener('keydown', function(e) {
+            const startupScreen = document.getElementById('startupScreen');
+            const eulaModal = document.getElementById('eulaModal');
+            
+            // PRIMERO verificar si estamos en pantalla de inicio (sin EULA activo)
+            if (startupScreen && !startupScreen.classList.contains('hidden') && 
+                (!eulaModal || !eulaModal.classList.contains('active'))) {
+                handleWindows11StartupKeydown(e);
+                return; // Salir temprano, no procesar otras teclas
+            }
+            
             if (isSettingsOpen) {
                 handleSettingsKeydown(e);
                 return;
@@ -6326,6 +6568,21 @@ ready(function() {
         const launcherSearch = document.getElementById('launcherSearch');
         if (launcherSearch) {
             launcherSearch.addEventListener('input', searchLauncher);
+        }
+
+        // ========== BOTÓN ABOUT US EN PANTALLA DE INICIO ==========
+        const aboutStartupButton = document.getElementById('aboutStartupButton');
+        if (aboutStartupButton) {
+            aboutStartupButton.addEventListener('click', function() {
+                window.location.href = 'about.html';
+            });
+            
+            aboutStartupButton.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    window.location.href = 'about.html';
+                }
+            });
         }
 
         const confirmUninstall = document.getElementById('confirmUninstall');
