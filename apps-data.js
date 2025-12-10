@@ -168,13 +168,6 @@ window.appData = [
         link: "https://ifilex.github.io/WineBOX-Store/escape.html"
     },
     {
-        name: "Grand Theft Auto",
-        image: "https://ifilex.github.io/WineBOX-Store/box/gta.jpg",
-        description: "Grand Theft Auto is a famous and most played DOS game that now is available to play in browser.",
-        category: "games",
-        link: "https://ifilex.github.io/WineBOX-Store/gta.html"
-    },
-    {
         name: "Gore Galore",
         image: "https://www.dosgames.com/screens/goregalore.png",
         description: "Due to the general clunkiness of that GCS, the gameplay here is kinda rough. It's obviously intended to be a Wolfenstein 3D clone, right down to the door-opening sound.",
@@ -220,7 +213,7 @@ window.appData = [
         name: "Indianapolis 500: The Simulation",
         image: "https://ifilex.github.io/WineBOX-Store/box/indi.jpg",
         description: "Indianapolis 500: The Simulation is a 1989 computer game for MS-DOS. It was hailed as the first step of differentiating racing games from the arcade realm and into racing simulation.",
-        category: "rts",
+        category: "games",
         link: "https://ifilex.github.io/WineBOX-Store/indi.html"
     },
     {
@@ -241,7 +234,7 @@ window.appData = [
         name: "Nightmare 3D",
         image: "https://ifilex.github.io/WineBOX-Store/box/nite3d.jpg",
         description: "Nightmare 3D is a horror-themed shooter where the player explores a spooky mansion filled with monsters, traps, and secret passages. You play as a man trying to rescue his girlfriend from an evil doctor. The game features maze-like levels, spooky music, and enemies like ghosts, skeletons, and robots, combining puzzle-solving with action. It uses raycasting graphics similar to Wolfenstein 3D.",
-        category: "rts",
+        category: "games",
         link: "https://ifilex.github.io/WineBOX-Store/nite3d.html"
     },
     {
