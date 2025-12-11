@@ -770,13 +770,6 @@ window.appData = [
         link: "https://copy.sh/v86/?profile=openbsd"
     },
     {
-        name: "Program Manager",
-        image: "https://ifilex.github.io/WineBOX-Store/box/progman.png",
-        description: "Program Manager is a graphical shell for managing applications and program groups in WineBOX. It allows users to organize, launch, and customize software shortcuts within a windowed interface.",
-        category: "apps",
-        link: "http://winebox.cloud/progman.html"
-    },
-    {
         name: "QBasic 4.5",
         image: "https://dos.zone/images/http/original/qbasic1.jpg/6a0c2580c730845b21f6f2d3b7505b50.webp",
         description: "Program Manager is a graphical shell for managing applications and program groups in WineBOX. It allows users to organize, launch, and customize software shortcuts within a windowed interface.",
