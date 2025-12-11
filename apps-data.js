@@ -158,7 +158,7 @@ window.appData = [
         image: "https://www.dosgames.com/screens/eradicator.png",
         description: "Eradicator is a unique FPS from Accolade, who are much better known for their Test Drive series and other non-FPS type games.",
         category: "games",
-        link: "https://ifilex.github.io/WineBOX-Store/duke3d.html"
+        link: "https://ifilex.github.io/WineBOX-Store/erad.html"
     },
     {
         name: "Escape from Dr. Colosso",
@@ -306,6 +306,13 @@ window.appData = [
         description: "Quarantine is a 1994 racing/first-person shooter video game for MS-DOS and 3DO, created by Imagexcel and published by GameTek.",
         category: "games",
         link: "https://ifilex.github.io/WineBOX-Store/quarantine.html"
+    },
+    {
+        name: "Rise of the triad",
+        image: "https://ifilex.github.io/WineBOX-Store/box/rise.webp",
+        description: "Rise of the Triad: Dark War is a famous and most played DOS game that now is available to play in browser. With virtual mobile controls you also can play in Rise of the Triad: Dark War on mobile. On DOS.Zone Rise of the Triad: Dark War available to play for free without registration.",
+        category: "games",
+        link: "https://ifilex.github.io/WineBOX-Store/rise.html"
     },
     {
         name: "Robod",
@@ -987,13 +994,6 @@ window.appData = [
         link: "https://ifilex.github.io/WineBOX-Store/amdemo.html"
     },
     {
-        name: "Apotris",
-        image: "https://akouzoukos.com/assets/ports.jpg",
-        description: "Apotris is a free multiplatform open-source block stacking game! What sets Apotris apart from other block stacking games is its extensive customization options, complemented by ultra-responsive controls that let you execute your moves with precision",
-        category: "arcade",
-        link: "https://akouzoukos.com/apotris/play/"
-    },
-    {
         name: "Adventure Fun-Pak ",
         image: "https://www.classicdosgames.com/images/screenshots/cga04/Adventure_Fun-Pak.png",
         description: "Scott Miller had a new idea and created Adventure Fun-Pak and Puzzle Fun-Pak out of the best games that had been submitted to Apogee by aspiring authors. The four games in the Adventure Fun-Pak make an interesting study of some surprising and sometimes questionable programming techniques. There are two ASCII and two graphical games, each of which uses a different CGA mode, although the ASCII games will fall back to Mode 7 for MDA/Hercules cards.",
@@ -1135,13 +1135,6 @@ window.appData = [
         link: "https://ifilex.github.io/WineBOX-Store/earthworm.html"
     },
     {
-        name: "Flappy Bird",
-        image: "https://upload.wikimedia.org/wikipedia/commons/9/93/Mario_pipe.png",
-        description: "🐦 🎮 A MelonJS port of the famous Flappy Bird Game",
-       category: "arcade",
-        link: "http://ellisonleao.github.io/clumsy-bird/"
-    },
-    {
         name: "Incredible Machine",
         image: "https://cdn.mobygames.com/4e049778-5a53-11ee-a0a7-02420a0001cf.webp*********",
         description: "The objective of the game is to create Rube Goldberg machines by arranging collections of objects in a complex fashion, so as to perform some simple task",
@@ -1178,7 +1171,7 @@ window.appData = [
     },
     {
         name: "Nero Chess",
-        image: "https://archive.org/download/msdos_MIDEMO_shareware/00_coverscreenshot.jpg",
+        image: "https://www.classicdosgames.com/images/screenshots/hercules/Psion_Chess.png"
         description: "Nero 5 is a freeware chess programme, the fifth in a series of revisions by Finnish author Jari Huikari.",
         category: "arcade",
         link: "https://ifilex.github.io/WineBOX-Store/nero5.html"
@@ -1188,11 +1181,11 @@ window.appData = [
         image: "https://www.dosgames.com/screens/mspac.gif",
         description: "It's just like Pac-Man, but it is MS Pac-Man! What's the difference? Well, there's a bow on her ...This game IS a lot the same as the classic Pac-Man game, but with some variations, like different maze layouts and smarter ghosts.",
         category: "arcade",
-        link: "https://ifilex.github.io/WineBOX-Store/midemo.html"
+        link: "https://ifilex.github.io/WineBOX-Store/msppc.html"
     },
     {
         name: "Monkey Island",
-        image: "https://ifilex.github.io/WineBOX-Store/box/axe.jpg",
+        image: "https://archive.org/download/msdos_MIDEMO_shareware/00_coverscreenshot.jpg",
         description: "Demo Version Of Lucasfilms Monkey Island.",
         category: "arcade",
         link: "https://ifilex.github.io/WineBOX-Store/midemo.html"
@@ -1279,7 +1272,7 @@ window.appData = [
         image: "https://www.dosgames.com/screens/snm.gif",
         description: "Sam & Max features a detective dog and hyperkinetic rabbit in a graphical adventure game.",
         category: "arcade",
-        link: "https://ifilex.github.io/WineBOX-Store/spaceinvaders.html"
+        link: "https://ifilex.github.io/WineBOX-Store/sm.html"
     },
     {
         name: "SDL Sopwith",
@@ -1293,7 +1286,7 @@ window.appData = [
         image: "https://www.dosgames.com/screens/simon.gif",
         description: "Simon the Sorcerer is a classic graphical adventure game, and one of the few well-known games of its type from its time that was not released by Sierra or Lucasarts.",
         category: "arcade",
-        link: "https://ifilex.github.io/WineBOX-Store/spaceinvaders.html"
+        link: "https://ifilex.github.io/WineBOX-Store/simon.html"
     },
     {
         name: "Space Invaders",
@@ -1310,25 +1303,11 @@ window.appData = [
         link: "https://ifilex.github.io/WineBOX-Store/stargunner.html"
     },
     {
-        name: "Super Mario War",
-        image: "https://wiki.retrobat.org/~gitbook/image?url=https%3A%2F%2Fraw.githubusercontent.com%2Ffabricecaruso%2Fes-theme-carbon%2F0ab5d8cd36c673c827b022c2ae53042a38df33da%2Fart%2Flogos%2Fsuperbroswar.svg&width=768&dpr=4&quality=100&sign=1805bc83&sv=2",
-        description: "Super Mario War is fan-made battle-based Mario platformer. The game has been ported to a number of platforms, including an unofficial port to the Nintendo Wii.",
-        category: "arcade",
-        link: "https://mmatyas.github.io/smw-js/"
-    },
-    {
         name: "Super Tux",
         image: "https://www.supertux.org/images/supertux_title.png",
         description: "SuperTux is an open-source classic 2D jump'n run sidescroller game in a style similar to the original Super Mario games.",
         category: "arcade",
         link: "https://supertux.semphris.com/play/"
-    },
-    {
-        name: "Talking Tom Cat 2",
-        image: "https://dn721909.ca.archive.org/0/items/talking-tom-cat-2-flash/00_coverscreenshot.png",
-        description: "Talking Tom is an animated grey tabby cat, popular as a virtual pet and character in a media franchise. He is known for repeating what users say in a funny voice and for reacting to physical interaction in the original games",
-        category: "arcade",
-        link: "boot.html?url=https://archive.org/embed/talking-tom-cat-2-flash?title=Talking Tom"
     },
     {
         name: "The Last Express",
@@ -1380,13 +1359,6 @@ window.appData = [
         link: "https://ifilex.github.io/WineBOX-Store/xbill.html"
     },
     {
-        name: "XRick",
-        image: "https://www.rickdangerous.co.uk/rdtitle.png",
-        description: "Xrick is an exact clone of Rick Dangerous, produced by carefully cracking and reverse-engineering the orignal IBM PC.",
-        category: "arcade",
-        link: "https://www.xrick.net/"
-    },
-    {
         name: "XOX",
         image: "https://archive.org/download/msdos_XOX_shareware/00_coverscreenshot.jpg",
         description: "Is a classic game of Tic-Tac-Toe in 3D.",
@@ -1422,32 +1394,11 @@ window.appData = [
         link: "https://ifilex.github.io/WineBOX-Store/oregon.html"
     },
     {
-        name: "Heroes of Might and Magic II",
-        image: "https://ifilex.github.io/WineBOX-Store/box/heroes2.jpg",
-        description: "The canonical ending of Heroes I results in Lord Morglin Ironfist's victory. In the following years, he has successfully unified the continent of Enroth and secured his rule as king.",
-        category: "rts",
-        link: "https://dos.zone/heroes-of-might-and-magic-ii/"
-    },
-    {
         name: "Master of Orion II",
         image: "https://ifilex.github.io/WineBOX-Store/box/master.jpg",
         description: "Forge an empire in a universe where population growth is stripping away planetary resources. Colonize unknown planets and trade.",
         category: "rts",
         link: "https://ifilex.github.io/WineBOX-Store/masteroforion.html"
-    },
-    {
-        name: "Heroes of Might and Magic III",
-        image: "https://dos.zone/images/containers/assets/backgrounds/homm3-vcmi.jpg/6205b73e460ebc5de314ac35e1ed3abc.webp",
-        description: "The canonical ending of Heroes I results in Lord Morglin Ironfist's victory. In the following years, he has successfully unified the continent of Enroth and secured his rule as king.",
-        category: "rts",
-        link: "https://sec.dos.zone/vcmi/launcher/"
-    },
-    {
-        name: "Rise of the triad",
-        image: "https://ifilex.github.io/WineBOX-Store/box/rise.webp",
-        description: "Rise of the Triad: Dark War is a famous and most played DOS game that now is available to play in browser. With virtual mobile controls you also can play in Rise of the Triad: Dark War on mobile. On DOS.Zone Rise of the Triad: Dark War available to play for free without registration.",
-        category: "rts",
-        link: "https://ifilex.github.io/WineBOX-Store/rise.html"
     },
     {
         name: "Sim City",
@@ -1475,7 +1426,7 @@ window.appData = [
         image: "https://www.dosgames.com/screens/themepark.gif",
         description: "Theme Park is a classic strategy game, and one of the earliest tycoon-style games. In this demo version, your ride selection is limited to just one ride type, and there are many other limits as well. ",
         category: "rts",
-        link: "https://ifilex.github.io/WineBOX-Store/themeparkdemo.html"
+        link: "https://ifilex.github.io/WineBOX-Store/themepark.html"
     },
     {
         name: "The Horde",
