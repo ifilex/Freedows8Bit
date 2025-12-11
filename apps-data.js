@@ -756,6 +756,13 @@ window.appData = [
         link: "https://ifilex.github.io/WineBOX-Store/paint.html"
     },
     {
+        name: "Program Manager",
+        image: "https://ifilex.github.io/WineBOX-Store/box/progman.png",
+        description: "Program Manager is a graphical shell for managing applications and program groups in WineBOX. It allows users to organize, launch, and customize software shortcuts within a windowed interface.",
+        category: "apps",
+        link: "progman.html"
+    },
+    {
         name: "QNX 4.05",
         image: "https://upload.wikimedia.org/wikipedia/en/e/e0/QNX_6.4.1_screenshot.png",
         description: "QNX is a commercial Unix-like real-time operating system, aimed primarily at the embedded systems market.",
