@@ -1171,7 +1171,7 @@ window.appData = [
     },
     {
         name: "Nero Chess",
-        image: "https://www.classicdosgames.com/images/screenshots/hercules/Psion_Chess.png"
+        image: "https://www.classicdosgames.com/images/screenshots/hercules/Psion_Chess.png",
         description: "Nero 5 is a freeware chess programme, the fifth in a series of revisions by Finnish author Jari Huikari.",
         category: "arcade",
         link: "https://ifilex.github.io/WineBOX-Store/nero5.html"
