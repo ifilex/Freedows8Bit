@@ -4,172 +4,285 @@
 ![Legacy](https://img.shields.io/badge/legacy-Termux%20Runtime-orange.svg)
 ![Tech](https://img.shields.io/badge/tech-Wine%2FProton%2FBox64-blueviolet.svg)
 
-🟪 WineBox / Freedows8Bit
-Legacy Windows Runtime + Next-Gen ARM Cognitive Therapeutic Environment
+<p align="center">🍷🧠 WineBOX – Cognitive Technology for Real Lives</p>
+<p align="center"> A next-generation cognitive stimulation system built for hospitals, therapists, and families. Designed for neurodiversity. Powered by human professionals. Rooted in real technology. </p> <p align="center"> <img src="/src/cap2.png" width="500"> </p>
+⭐ What is WineBOX?
 
-🌟 Overview
+WineBOX is a cognitive stimulation environment designed for children and adults with:
 
-WineBox (formerly Freedows8Bit) began as an experimental project aimed at running Windows applications on platforms where Windows was never meant to run:
+Autism (TEA)
 
-Android
+Attention difficulties
 
-Linux
+Cognitive delay
 
-Smart TVs & TV Boxes
+Memory deficits
 
-ARM boards
+Emotional dysregulation
 
-Web browsers
+Executive function challenges
 
-Even consoles
+Built by a team of neuro-pediatric specialists, neuropsychologists, and developers, WineBOX delivers:
 
-Through years of experimentation using Wine, Proton, Box64, DXVK, and custom rendering pipelines, the system became extremely optimized — achieving surprising speed even on low-resource hardware.
+✔ Cognitive tasks
+✔ Emotional regulation modules
+✔ Sensory-friendly interfaces
+✔ Therapist-customized exercises
+✔ Per-patient adaptive content
+✔ Professional oversight by humans (NO automated AI therapy)
 
-Today, this legacy technology is the foundation of a new purpose:
+WineBOX is currently undergoing expansion thanks to Kickstarter backers, enabling the creation of:
 
-🧠 WineBox ARM Cognitive Therapeutic System
+A full ARM Linux cognitive tablet
 
-A next-generation ARM Linux environment designed for:
+A dedicated APK
 
-Cognitive stimulation
+Custom treatment modules for institutions
 
-Neurodevelopmental therapy
+A neuro-focused desktop environment
 
-Autism (ASD/TEA) support
+A full-time interdisciplinary clinical team
 
-Executive function tasks
+🚀 Mission
 
-Hospital/clinic modules
+To bring structured, therapist-guided cognitive stimulation to families and institutions worldwide — at accessible cost, high quality, and with real human professional support.
 
-Therapist-guided interventions
+WineBOX exists because:
 
-This README documents both eras:
+Millions of families do not have access to continuous cognitive therapy.
+Hospitals lack modular digital tools.
+Therapists need adaptable, rapid-deployment modules tailored to each patient.
 
-🔵 The Legacy Emulator Era
+WineBOX bridges that gap — technologically, clinically, and humanly.
 
-🟣 The Next-Gen ARM Cognitive Era
+📚 Table of Contents
 
-Because one made the other possible.
+About WineBOX
 
-🟣 NEXT-GEN ERA — WineBox ARM Cognitive Therapeutic System
-The future of the project
+Modern WineBOX ARM System
 
-WineBox ARM is an advanced Linux-based therapeutic OS for cognitive applications, optimized for extremely low latency and modular expansion.
+Legacy WineBOX (Historical Emulation Build)
 
-✨ New Capabilities
+Termux Runtime — Historical Installation
 
-Dedicated ARM Linux environment
+Legacy Screenshots
 
-DEB package support for installing modules
+Architecture
 
-Fully redesigned therapeutic UI
+Roadmap
 
-Cognitive engine (sensory, attention, language, executive functions)
+Credits
 
-Secure sandbox for patient sessions
+🍷 About WineBOX
 
-Offline mode for hospitals and institutions
+WineBOX began as an experimental environment called Freedows 8-Bit, a fully functional Windows-compatible runtime running on Android without root, built using:
 
-Highly optimized rendering pipeline
+Termux
 
-Experimental compatibility with Windows RT (ARM)
+Proot
 
-Future APK with the new WineBox interface (not the legacy Wine-Proton UI)
+Box64
 
-This new system is the direct evolution of all the optimizations achieved during the emulator era.
+Termux-X11
 
-🔵 LEGACY ERA — Freedows8Bit / WineBOX Emulator
-The technology that made everything possible
+Wine / Proton
 
-This version allowed Windows apps to run on virtually any hardware, using a hybrid architecture combining Linux, Wine, Proton, Box64 and multiple graphics layers.
+Over time, something unexpected happened:
 
-🧩 Legacy Features
+👀 Clinical professionals noticed something important:
+Children interacting with the environment showed consistent engagement patterns, strengthening:
 
-Windows app execution (including some 3D)
+Visual-spatial attention
 
-32→64-bit translation without WOW64 or Box64
+Working memory
 
-Proton / Wine environment
+Sequential reasoning
 
-DXVK, D8VK, Turnip, VirGL renderer
+Emotional tolerance
 
-Keyboard, mouse, joystick and virtual controller support
+Task focus
 
-Early “EXE → APK” converter
+This transformed the project from a technical curiosity into an evidence-inspired cognitive stimulation platform.
 
-WebApp launcher
+Today WineBOX is a fully redefined system, evolving into an advanced ARM-based therapy companion for clinics and families.
 
-Offline mode
+🧠 Modern WineBOX ARM System
 
-Built-in developer console
+The new WineBOX is built on:
 
-📦 Legacy Binary (Preserved)
+ARM Linux OS (customized)
 
-Wine-Proton APK (wine64-3D-1.0.apk)
-→ Preserved as a legacy binary for historical reference.
-
-📱 Termux Runtime Layer (Historical Build)
-A key milestone in the evolution of WineBox
-
-This historical version allowed WineBox to run inside Android without root, using a full Linux userspace inside Termux.
-
-✔ Confirmed Architecture
-Android
-  → Termux
-      → proot (Debian/Ubuntu rootfs)
-          → Termux-X11
-              → Box64
-                  → Wine / Proton
-                      → DXVK / D8VK / Turnip
-
-✔ What it enabled
-
-Full Windows apps running on Android
-
-GPU-accelerated rendering on mobile drivers
-
-Portable, multi-layer runtime
-
-Extreme low-resource optimization
-
-Real-world performance testing
-
-The foundation for the modern ARM cognitive engine
-
-Although deprecated, the Termux build is preserved in this repository as an important piece of WineBox history.
-
-🧬 Modern Architecture (WineBox ARM Cognitive System)
-WineBox ARM OS
-   ├── Cognitive Engine
-   │      ├── Sensory Stimulation
-   │      ├── Executive Functions
-   │      ├── Language & Attention Tools
-   │      └── Adaptive Difficulty Layer
-   ├── Therapist Dashboard
-   ├── DEB Module Manager
-   ├── Secure Session Sandbox
-   ├── Next-Gen UI Engine
-   └── Optional Windows RT ARM Support
-
-🧱 Recommended Repository Structure
-/legacy/
-   /termux-runtime/
-   /wine-proton-apk/
-   /emulator-files/
-   README-legacy.md
-
-/arm/
-   /rootfs/
-   /modules/
-   /ui/
-   /debian/
-   /scripts/
-   README-arm.md
-
-/docs/
-   architecture.md
-   changelog.md
-   install-guide.md
-
-README.md
-LICENSE
+32-bit & 64-bit compatibility
+
+Direct DEB package installation
+
+Optimized memory footprint
+
+Real-time cognitive modules
+
+Cognitive dashboard for clinicians
+
+Secure cloud-linked data channels
+
+Therapist-customizable stimuli
+
+Unlike automated AI systems, WineBOX is supervised by:
+
+✔ Neuropsychologists
+✔ Neuro pediatricians
+✔ Psychiatrists
+✔ Cognitive researchers
+✔ Developers specialized in adaptative content
+
+Every module can be tailored per institution and per patient, like a digital “compounded treatment”.
+
+🕰️ Legacy WineBOX (Historical Build)
+
+(Preserved for educational and technical reference)
+
+The original WineBOX was a full desktop environment running entirely inside Android — without root, using only Termux and proot.
+
+This historical version is kept here to honor the origin of the system and demonstrate the evolution of the technology.
+
+🟧 Termux Runtime – Historical Installation
+1. Install Termux and Termux-X11
+
+(legacy builds used by the original WineBOX)
+
+Termux
+https://github.com/ifilex/Freedows8Bit/releases/download/apks/termux.apk
+
+Termux-X11
+https://github.com/ifilex/Freedows8Bit/releases/download/apks/termux-x11.apk
+
+2. Run the WineBOX installer
+
+Open Termux:
+
+curl -o install https://raw.githubusercontent.com/ifilex/Freedows8Bit/main/src/install.sh && chmod +x install && ./install
+
+3. Launch WineBOX
+winebox
+
+
+This starts Termux-X11 and shows the legacy desktop interface.
+
+Termux-X11 Recommended Settings
+
+Display resolution mode: Exact
+
+Resolution: 800x600
+
+Fullscreen: ON
+
+Force landscape: ON
+
+Prefer scancodes: ON
+
+Hide cutout: ON
+
+Support
+
+Android 10+ recommended
+
+ARM64 devices preferred
+
+No root required
+
+📸 Legacy Screenshots
+⭐ Quick Gallery
+<p align="center"> <img src="/src/cap1.png" width="280" /> <img src="/src/cap2.png" width="280" /> <img src="/src/cap3.png" width="280" /> </p> <p align="center"> <img src="/src/cap4.png" width="280" /> <img src="/src/cap5.png" width="280" /> <img src="/src/cap6.png" width="280" /> </p> <p align="center"> <img src="/src/cap7.png" width="280" /> <img src="/src/cap8.png" width="280" /> <img src="/src/cap9.png" width="280" /> </p>
+📘 Full Descriptions
+Boot Screen
+
+Desktop Interface
+
+Main Menu
+
+Settings
+
+Program Manager
+
+Multitasking
+
+Search
+
+Quick Tools
+
+Shutdown
+
+🏗️ Architecture
+Legacy Architecture
+Android (No Root)
+ └─ Termux
+     └─ Proot Linux (Ubuntu)
+         ├─ Termux-X11
+         ├─ Box64
+         └─ Wine / Proton
+
+Modern Architecture (Current WineBOX ARM)
+WineBOX ARM OS (Custom Linux)
+ ├─ Cognitive Engine
+ ├─ Therapist Module Builder
+ ├─ Clinical Dashboard
+ ├─ Patient Profiles
+ ├─ Secure Cloud Sync
+ └─ Adaptive Cognitive Tasks
+
+🛣️ Roadmap
+✔ Phase 1 (Completed)
+
+Legacy runtime
+
+Technical validation
+
+Emulation proof
+
+Early engagement results
+
+🚧 Phase 2 (In Progress)
+
+WineBOX ARM system
+
+Dedicated APK
+
+Therapist dashboard
+
+Clinical modules
+
+🚀 Phase 3 (2025)
+
+Cognitive tablet hardware
+
+Deployment into hospitals and clinics
+
+Continuous clinical validation
+
+International distribution
+
+👥 Credits
+
+WineBOX is developed by a collaborative team of:
+
+Neuro pediatricians
+
+Psychologists
+
+Neuropsychologists
+
+Psychiatrists
+
+Software engineers
+
+Cognitive researchers
+
+Your support directly funds clinical professionals, development, and the creation of adaptive modules for real patients.
+
+❤️ Support the Project
+
+WineBOX is currently raising funds on Kickstarter to scale into a full clinical-grade cognitive system.
+
+👉 https://www.kickstarter.com/projects/winebox
+
+If you want to help families, hospitals, centers, and therapists worldwide access a real cognitive tool —
+your support means everything.
