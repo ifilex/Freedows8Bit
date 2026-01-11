@@ -5537,7 +5537,7 @@ function openAppModal(app) {
     
     const programManagerData = JSON.parse(localStorage.getItem('programManagerData')) || { shortcuts: [] };
     const isInstalled = programManagerData.shortcuts.some(shortcut => 
-        shortcut.name === app.name && shortcut.type === 'web' && !shortcut.isDiscoLocal && !shortcut.isTrash
+        shortcut.name === app.name && shortcut.type === 'web' && !shortcut.isTrash
     );
 
     appDetails.innerHTML = `
@@ -5735,7 +5735,7 @@ function getInstalledApps() {
     if (!programManagerData) return [];
     
     const installedApps = programManagerData.shortcuts.filter(shortcut => 
-        shortcut.type === 'web' && !shortcut.isDiscoLocal && !shortcut.isTrash
+        shortcut.type === 'web' && !shortcut.isTrash
     );
     
     return installedApps.map(shortcut => {
@@ -5770,7 +5770,7 @@ function uninstallApp(app) {
     
     const initialLength = programManagerData.shortcuts.length;
     programManagerData.shortcuts = programManagerData.shortcuts.filter(shortcut => 
-        !(shortcut.name === app.name && shortcut.type === 'web' && !shortcut.isDiscoLocal && !shortcut.isTrash)
+        !(shortcut.name === app.name && shortcut.type === 'web' && !shortcut.isTrash)
     );
     
     if (programManagerData.shortcuts.length < initialLength) {

@@ -2205,12 +2205,6 @@ function openDesktopConfig() {
                         </div>
                         <div class="control-group">
                             <label>
-                                <input type="checkbox" id="show-disco-local" ${systemConfig.desktop.showDiscoLocal ? 'checked' : ''}>
-                                Show Disco Local shortcut
-                            </label>
-                        </div>
-                        <div class="control-group">
-                            <label>
                                 <input type="checkbox" id="show-trash" ${systemConfig.desktop.showTrash ? 'checked' : ''}>
                                 Show Trash shortcut
                             </label>
@@ -3885,14 +3879,6 @@ function initializeDefaultData() {
         shortcuts: [
             {
                 id: generateId(),
-                name: "Disco local",
-                icon: 'data:image/svg+xml;base64,' + btoa(discoLocalIcon),
-                isDiscoLocal: true,
-                created: new Date().toISOString(),
-                location: 'desktop'
-            },
-            {
-                id: generateId(),
                 name: "Papelera",
                 icon: 'data:image/svg+xml;base64,' + btoa(trashEmptyIcon),
                 isTrash: true,
@@ -3921,7 +3907,7 @@ function renderShortcuts() {
     
     // Mostrar shortcuts del sistema (Disco local y Papelera)
     const systemShortcuts = appData.shortcuts.filter(shortcut => 
-        shortcut.isDiscoLocal || shortcut.isTrash
+        shortcut.isTrash
     );
     
     systemShortcuts.forEach(shortcut => {
@@ -4554,7 +4540,7 @@ function populateUninstallSelect() {
     const select = document.getElementById('uninstall-select');
     select.innerHTML = '';
     appData.shortcuts.forEach((shortcut) => {
-        if (shortcut.name !== "Disco local" && !shortcut.isFolder && !shortcut.isTrash && !isInTrash(shortcut.id)) {
+        if (shortcut.name !== !shortcut.isFolder && !shortcut.isTrash && !isInTrash(shortcut.id)) {
             const option = document.createElement('option');
             option.value = shortcut.id;
             option.textContent = shortcut.name;
@@ -4727,23 +4713,13 @@ function executeConfirmedAction() {
     closeModal('confirm-modal');
 }
 
-function openDiscoLocal() {
-    const appWindow = {
-        name: "Disco Local",
-        type: 'web'
-    };
-    
-    const contentUrl = "http://winebox.cloud/accesories/wine.html?app=files&p=dock.exe";
-    createAppWindow(appWindow, contentUrl, 'web');
-}
-
 function openFrame(appName) {
     const appWindow = {
         name: appName,
         type: 'zip'
     };
     
-    const contentUrl = `http://winebox.cloud/accesories/wine.html?app=${appName}&p=${appName}.exe`;
+    const contentUrl = `https://ifilex.github.io/WineBOX-Store/win32/wine.html?app=${appName}&p=${appName}.exe`;
     createAppWindow(appWindow, contentUrl, 'zip');
 }
 
