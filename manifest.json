@@ -9,9 +9,18 @@
   "start_url": "/",
   "background_color": "#FFFFFF",
   "theme_color": "#000",
-  "description": "A open source Windows Console.",
+  "description": "Winebox is a digital platform focused on cognitive stimulation and guided learning, designed for use in educational and supportive environments. It provides interactive content and an experience optimized for Android devices.",
   "orientation": "landscape",
   "prefer_related_applications": false,
+  "categories" : [ "education" ]
+  "screenshots" : [
+  {
+    "src": "src/cap2.png",
+    "sizes": "1920x1080",
+    "type": "image/png",
+    "platform": "wide",
+  }
+]
   "icons": [
     {
       "src": "src/icons/favicon.png",
@@ -619,4 +628,5 @@
       "purpose": "maskable"
     }
   ]
+
 }
