@@ -12,7 +12,7 @@
   "description": "Winebox is a digital platform focused on cognitive stimulation and guided learning, designed for use in educational and supportive environments. It provides interactive content and an experience optimized for Android devices.",
   "orientation": "landscape",
   "prefer_related_applications": false,
-  "categories" : [ "education" ]
+  "categories" : [ "education" ],
   "screenshots" : [
   {
     "src": "src/cap2.png",
@@ -630,3 +630,4 @@
   ]
 
 }
+
