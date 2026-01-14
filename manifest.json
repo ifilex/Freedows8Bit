@@ -2,6 +2,7 @@
   "dir": "ltr",
   "lang": "en",
   "name": "WineBOX",
+  "id": "com.winebox.app",
   "short_name": "WineBOX",
   "scope": "/",
   "display": "fullscreen",
@@ -25,7 +26,7 @@
     {
       "src": "src/icons/favicon.png",
       "type": "image/png",
-      "sizes": "426x426"
+      "sizes": "512x512"
     },
     {
       "src": "src/pwa/windows10/SmallTile.scale-100.png",
@@ -630,6 +631,7 @@
   ]
 
 }
+
 
 
 
