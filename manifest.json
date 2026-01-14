@@ -20,7 +20,7 @@
     "type": "image/png",
     "platform": "wide",
   }
-]
+],
   "icons": [
     {
       "src": "src/icons/favicon.png",
@@ -630,4 +630,5 @@
   ]
 
 }
+
 
