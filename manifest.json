@@ -7,7 +7,7 @@
   "scope": "/",
   "display": "fullscreen",
   "display_override": ["standalone", "minimal-ui"],
-  "start_url": "/",
+  "start_url": "/index.html",
   "background_color": "#FFFFFF",
   "theme_color": "#000",
   "description": "Winebox is a digital platform focused on cognitive stimulation and guided learning, designed for use in educational and supportive environments. It provides interactive content and an experience optimized for Android devices.",
@@ -631,6 +631,7 @@
   ]
 
 }
+
 
 
 
