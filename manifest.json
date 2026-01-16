@@ -15,11 +15,62 @@
   "prefer_related_applications": false,
   "categories" : [ "education" ],
   "screenshots" : [
+[
   {
     "src": "src/cap2.png",
     "sizes": "1920x1080",
     "type": "image/png",
-    "platform": "wide"
+    "form_factor": "narrow",
+    "label": "Desktop view: Apps and Games library"
+  },
+  {
+    "src": "src/cap3.png",
+    "sizes": "1920x1080",
+    "type": "image/png",
+    "form_factor": "narrow",
+    "label": "Desktop main menu with system navigation"
+  },
+  {
+    "src": "src/cap4.png",
+    "sizes": "1920x1080",
+    "type": "image/png",
+    "form_factor": "narrow",
+    "label": "System Settings panel"
+  },
+  {
+    "src": "src/cap5.png",
+    "sizes": "1920x1080",
+    "type": "image/png",
+    "form_factor": "narrow",
+    "label": "Desktop search interface for apps and games"
+  },
+  {
+    "src": "src/cap6.png",
+    "sizes": "1920x1080",
+    "type": "image/png",
+    "form_factor": "narrow",
+    "label": "Desktop program manager / task view"
+  },
+  {
+    "src": "src/cap7.png",
+    "sizes": "1920x1080",
+    "type": "image/png",
+    "form_factor": "narrow",
+    "label": "Desktop multitasking with a game running"
+  },
+  {
+    "src": "src/cap8.png",
+    "sizes": "1920x1080",
+    "type": "image/png",
+    "form_factor": "narrow",
+    "label": "Desktop main menu overlaid on a running game"
+  },
+  {
+    "src": "src/cap9.png",
+    "sizes": "1920x1080",
+    "type": "image/png",
+    "form_factor": "narrow",
+    "label": "System shutdown / power options screen"
   }
 ],
   "icons": [
@@ -631,6 +682,7 @@
   ]
 
 }
+
 
 
 
