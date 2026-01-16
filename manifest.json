@@ -15,7 +15,6 @@
   "prefer_related_applications": false,
   "categories" : [ "education" ],
   "screenshots" : [
-[
   {
     "src": "src/cap2.png",
     "sizes": "1920x1080",
@@ -682,6 +681,7 @@
   ]
 
 }
+
 
 
 
