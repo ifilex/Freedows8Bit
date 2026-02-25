@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
@@ -12,189 +12,153 @@
   <meta name="twitter:card" content="summary_large_image">
 
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
 
   <style>
     :root{
       --max-w:1100px;
       --accent:#2E59A7;       /* azul tech */
+      --accent-light:#e1eaf8;  /* azul muy claro para hovers */
       --accent-2:#6A56E5;     /* violeta */
-      --muted:#6b6b6b;
+      --muted:#5e6f88;
       --bg:#f5f7fb;
       --card:#fff;
-      --radius:12px;
-      --shadow: 0 8px 20px rgba(18,24,44,0.06);
-      --glass: rgba(255,255,255,0.85);
+      --radius:14px;
+      --shadow: 0 10px 25px -8px rgba(18,24,44,0.1);
+      --border-light: #e2e7f0;
+      --neuro-primary: #1a3e60;
+      --neuro-secondary: #2a5a7a;
+      --neuro-accent: #3fa7a4;
+      --light-gray: #d3dee7;
+      --code-bg: #eef3f7;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%; margin:0; font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial; color:#111; background:var(--bg); -webkit-font-smoothing:antialiased;}
-    a{color:var(--accent); text-decoration:none}
+    *{box-sizing:border-box; margin:0; padding:0;}
+    html,body{height:100%; font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial; color:#1e293b; background:var(--bg); -webkit-font-smoothing:antialiased; scroll-behavior:smooth;}
+    a{color:var(--accent); text-decoration:none; transition: all 0.15s ease;}
     .wrap{max-width:var(--max-w); margin:28px auto; padding:24px; position:relative;}
-    /* Header */
-    header.site{display:flex; gap:18px; align-items:center; justify-content:space-between; padding:18px; background:linear-gradient(180deg, #ffffffaa, #ffffff00); border-radius:14px; box-shadow:var(--shadow); position:sticky; top:12px; z-index:10; backdrop-filter: blur(4px);}
-    .brand{display:flex; align-items:center; gap:14px;}
-    .logo img{width:56px; height:56px; border-radius:50%; object-fit:contain;}
-    .brand h1{margin:0;font-size:18px;line-height:1}
-    .brand p{margin:0;color:var(--muted); font-size:13px}
-    /* Nav */
-    nav.main{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
-    nav.main a{padding:8px 12px; border-radius:8px; font-weight:600; color:#0f1724}
-    .cta-primary{background:var(--accent); color:#fff; border:0; padding:10px 14px; border-radius:10px; font-weight:700; cursor:pointer}
+    
+    /* Header refinado */
+    header.site{display:flex; gap:18px; align-items:center; justify-content:space-between; padding:14px 20px; background:rgba(255,255,255,0.85); backdrop-filter: blur(8px); border-radius:80px; box-shadow:0 5px 20px rgba(0,0,0,0.03), 0 0 0 1px rgba(0,0,0,0.02); position:sticky; top:16px; z-index:100; border:1px solid rgba(255,255,255,0.7);}
+    .brand{display:flex; align-items:center; gap:12px;}
+    .logo img{width:44px; height:44px; border-radius:50%; object-fit:cover; border:2px solid white; box-shadow:0 4px 8px rgba(0,0,0,0.05);}
+    .brand h1{margin:0;font-size:18px;font-weight:600; letter-spacing:-0.3px;}
+    .brand p{margin:0;color:var(--muted); font-size:12px;font-weight:400;}
+    
+    /* NAV estilos coherentes */
+    nav.main{display:flex; gap:6px; align-items:center; flex-wrap:wrap}
+    nav.main a{padding:8px 14px; border-radius:40px; font-weight:500; font-size:14px; color:#1e2b3c; transition: all 0.15s;}
+    nav.main a:hover{background:var(--accent-light); color:var(--accent);}
+    nav.main a.active{background:var(--accent); color:white !important;}
+    
+    .cta-primary{background:var(--accent); color:#fff; border:0; padding:10px 20px; border-radius:40px; font-weight:600; font-size:14px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; transition:background 0.2s, transform 0.1s; border:1px solid rgba(255,255,255,0.2);}
+    .cta-primary:hover{background:#1d3f7c; color:white; transform:scale(1.02);}
+    .cta-primary:active{transform:scale(0.98);}
+    
     /* Hero */
     .hero{display:grid; grid-template-columns:1fr 360px; gap:22px; margin-top:18px; align-items:start}
-    .card{background:var(--card); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow)}
-    .eyebrow{display:inline-block; font-size:13px; color:var(--muted); margin-bottom:8px}
-    h2.hero-title{margin:0 0 8px; font-size:28px}
-    p.lead{margin:0 0 14px;color:#25304a; font-size:16px}
-    .kpis{display:flex; gap:12px; margin-top:14px; flex-wrap:wrap}
-    .kpi{background:linear-gradient(180deg, #fff, #fbfdff); padding:12px 14px; border-radius:10px; border:1px solid #eef2ff; min-width:130px; text-align:center}
-    .kpi strong{display:block; font-size:18px}
-    /* Sections */
-    section{margin-top:20px; scroll-margin-top: 100px;} /* Añadido para scroll suave */
-    .two-col{display:grid; grid-template-columns:1fr 360px; gap:20px}
-    @media (max-width:980px){ .hero, .two-col{grid-template-columns:1fr} .hero .right, .hero .left{width:100%}}
-    /* Gallery */
-    .gallery{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
-    .gallery img{width:100%; height:170px; object-fit:cover; border-radius:8px; cursor:pointer; border:1px solid #e6e9f2; transition: transform 0.3s ease;}
-    .gallery img:hover{transform: scale(1.02);}
-    @media (max-width:980px){ .gallery img{height:140px} .gallery{grid-template-columns:repeat(2,1fr)} }
-    /* SIMPLE LIGHTBOX - FIXED */
+    .card{background:var(--card); border-radius:24px; padding:24px; box-shadow:var(--shadow); border:1px solid var(--border-light); transition: box-shadow 0.2s;}
+    .eyebrow{display:inline-block; font-size:13px; font-weight:500; color:var(--accent); background:#e8effb; padding:4px 12px; border-radius:40px; margin-bottom:12px;}
+    h2.hero-title{margin:0 0 10px; font-size:32px; font-weight:700; letter-spacing:-0.5px; line-height:1.2;}
+    p.lead{margin:0 0 16px;color:#36485e; font-size:16px; line-height:1.6;}
+    .kpis{display:flex; gap:12px; margin-top:20px; flex-wrap:wrap}
+    .kpi{background:#ffffff; padding:14px 18px; border-radius:16px; border:1px solid #e2e9f2; min-width:130px; box-shadow:0 2px 6px rgba(0,0,0,0.02);}
+    .kpi strong{display:block; font-size:18px; font-weight:700; color:#1e293b;}
+    .kpi span{font-size:13px; color:var(--muted);}
+    
+    /* Gallery refinada */
+    .gallery{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+    .gallery img{width:100%; height:170px; object-fit:cover; border-radius:14px; cursor:pointer; border:1px solid #e6e9f2; transition: all 0.25s; box-shadow:0 5px 12px rgba(0,0,0,0.03);}
+    .gallery img:hover{transform: scale(1.02); box-shadow:0 15px 25px -8px rgba(46,89,167,0.2); border-color:var(--accent);}
+    
+    /* Lightbox mejorado */
     .lightbox-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.95);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 10000;
+      position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(10,20,30,0.95); display:none; justify-content:center; align-items:center; z-index:10000; backdrop-filter:blur(5px);
     }
+    .lightbox-overlay.active { display:flex; }
+    .lightbox-content { position:relative; max-width:90%; max-height:90%; text-align:center; }
+    .lightbox-img { max-width:100%; max-height:75vh; border-radius:16px; box-shadow:0 20px 40px rgba(0,0,0,0.5); border:3px solid white; }
+    .lightbox-caption { color:white; margin-top:16px; font-size:16px; background:rgba(0,0,0,0.4); padding:6px 18px; border-radius:40px; display:inline-block; }
+    .lightbox-close { position:absolute; top:-45px; right:-5px; background:white; border:none; border-radius:50%; width:42px; height:42px; font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 5px 15px black; transition:0.15s;}
+    .lightbox-close:hover{background:#f0f0f0; transform:rotate(90deg);}
+    .lightbox-nav { position:absolute; top:50%; width:100%; display:flex; justify-content:space-between; transform:translateY(-50%); padding:0 20px; }
+    .lightbox-nav button { background:rgba(255,255,255,0.9); border:none; border-radius:50%; width:50px; height:50px; font-size:28px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.15s; box-shadow:0 5px 15px black;}
+    .lightbox-nav button:hover { background:white; transform:scale(1.1);}
+    .lightbox-counter { position:absolute; top:-40px; left:0; color:white; font-size:15px; font-weight:500; background:rgba(0,0,0,0.3); padding:4px 15px; border-radius:40px;}
     
-    .lightbox-overlay.active {
-      display: flex;
+    /* Language toggle elegante */
+    .lang{display:flex; gap:5px; align-items:center; background:#f2f5fa; padding:4px; border-radius:40px; border:1px solid #dee6f0;}
+    .lang button{background:transparent;border:none;padding:6px 12px;border-radius:30px; cursor:pointer; font-weight:600; font-size:13px; color:#3d4e6b; transition:all 0.15s;}
+    .lang button.active{background:var(--accent); color:white; box-shadow:0 3px 8px rgba(46,89,167,0.3);}
+    .lang button:not(.active):hover{background:#d9e2f0;}
+    
+    .pill{background:var(--accent); color:#fff; padding:6px 16px; border-radius:40px; font-weight:600; font-size:13px; white-space:nowrap;}
+    
+    /* Estilos para doc y neuro */
+    .doc h3{font-size:1.8rem; font-weight:700; color:#1a2b40; margin:1.5rem 0 1rem;}
+    .doc h4{font-size:1.3rem; font-weight:600; border-left:4px solid var(--accent); padding-left:1rem; margin:1.5rem 0 0.8rem;}
+    .tech-panel{background:linear-gradient(180deg,#fbfdff,#f3f6ff); border-radius:16px; padding:18px; border:1px solid #e6ecff;}
+    .muted{color:var(--muted);}
+    
+    /* Neuroterapia estilos originales completos */
+    .paper-content-neuro {
+        background: white; padding: 0.5rem 0;
     }
-    
-    .lightbox-content {
-      position: relative;
-      max-width: 90%;
-      max-height: 90%;
-      text-align: center;
+    .paper-content-neuro h2 {
+        font-size: 2rem; color: var(--neuro-primary); margin-top: 2.5rem; margin-bottom: 1.5rem;
+        border-bottom: 3px solid var(--light-gray); padding-bottom: 0.5rem; font-weight:700;
     }
-    
-    .lightbox-img {
-      max-width: 100%;
-      max-height: 70vh;
-      border-radius: 8px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    }
-    
-    .lightbox-caption {
-      color: white;
-      margin-top: 15px;
-      font-size: 16px;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    
-    .lightbox-close {
-      position: absolute;
-      top: -40px;
-      right: 0;
-      background: white;
-      border: none;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      font-size: 20px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .lightbox-nav {
-      position: absolute;
-      top: 50%;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      transform: translateY(-50%);
-      padding: 0 20px;
-    }
-    
-    .lightbox-nav button {
-      background: rgba(255,255,255,0.9);
-      border: none;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      font-size: 24px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .lightbox-nav button:hover {
-      background: white;
-    }
-    
-    .lightbox-counter {
-      position: absolute;
-      top: -40px;
-      left: 0;
-      color: white;
-      font-size: 16px;
-      font-weight: 600;
-    }
-    
-    /* Doc styles (whitepaper content) */
-    .doc h3{margin-top:18px}
-    .doc p{color:#223}
-    .doc blockquote{border-left:4px solid var(--accent); padding-left:14px; color:#334;}
-    .tech-panel{background:linear-gradient(180deg,#fbfdff,#f3f6ff); border-radius:10px; padding:14px; border:1px solid #e6ecff}
-    .muted{color:var(--muted)}
+    .paper-content-neuro h3 { font-size: 1.6rem; color: var(--neuro-secondary); margin-top: 2rem; margin-bottom: 1rem; font-weight:600;}
+    .paper-content-neuro h4 { font-size: 1.25rem; color: #0a1e2f; margin-top: 1.5rem; margin-bottom: 0.8rem; border-left: 4px solid var(--neuro-accent); padding-left: 1rem;}
+    .paper-content-neuro .highlight-box { background:#f4f9fc; border-left: 6px solid var(--neuro-accent); padding: 1.5rem 2rem; border-radius: 16px; margin: 2rem 0;}
+    .paper-content-neuro table { width:100%; border-collapse:collapse; margin:2rem 0; font-size:0.95rem; border-radius:16px; overflow:hidden; box-shadow:0 5px 12px rgba(0,0,0,0.03);}
+    .paper-content-neuro th { background:var(--neuro-primary); color:white; font-weight:600; padding:12px 10px; text-align:left; }
+    .paper-content-neuro td { padding:12px 10px; border-bottom:1px solid var(--light-gray); background:white; }
+    .paper-content-neuro tr:last-child td { border-bottom:none; }
+    .paper-content-neuro .code-block { background:var(--code-bg); border:1px solid #b0c4d9; border-radius:16px; padding:1.5rem; font-family:'JetBrains Mono', monospace; font-size:0.9rem; overflow-x:auto; margin:1.5rem 0;}
+    .badge { display:inline-block; background:var(--neuro-accent); color:white; font-weight:600; padding:0.25rem 1rem; border-radius:40px; font-size:0.8rem; margin-right:0.5rem; }
+    .badge-prelim { background:#7b8c9e; }
+    .changelog { background:#f0f7fb; border-radius:20px; padding:1.5rem; border:1px solid #b0c4d9;}
+    .version-tag { font-weight:700; color:var(--neuro-primary); background:white; padding:0.2rem 0.8rem; border-radius:40px; border:1px solid #b0c4d9; display:inline-block; margin-bottom:0.5rem;}
+
     /* Footer */
-    footer{margin-top:28px; text-align:center; color:var(--muted); font-size:14px}
-    /* Language toggle */
-    .lang{display:flex; gap:6px; align-items:center}
-    .lang button{background:transparent;border:1px solid #e6e9f2;padding:6px 8px;border-radius:8px; cursor:pointer}
-    .lang button.active{background:var(--accent); color:white}
-    .pill{display:inline-block;background:var(--accent); color:#fff; padding:6px 10px; border-radius:20px; font-weight:700}
+    footer { margin-top:40px; text-align:center; color:var(--muted); font-size:14px; border-top:1px dashed #d0d9e8; padding-top:30px;}
+
+    @media (max-width:980px){ .hero, .two-col{grid-template-columns:1fr} }
+    @media (max-width:700px){ .gallery{grid-template-columns:repeat(2,1fr);} }
   </style>
 </head>
 <body>
   <div class="wrap">
 
-    <!-- Header -->
-    <header class="site card" role="banner">
+    <!-- Header refinado -->
+    <header class="site" role="banner">
       <div class="brand">
         <div class="logo"><img src="http://winebox.cloud/logo.png" alt="WineBOX Logo"></div>
         <div>
           <h1 data-es="WineBOX Project" data-en="WineBOX Project">WineBOX Project</h1>
-          <p data-es="Proyecto independiente de acceso cognitivo · v1.2" data-en="Independent cognitive access project · v1.2">Proyecto independiente de acceso cognitivo · v1.2</p>
+          <p data-es="Proyecto independiente de acceso cognitivo · v1.2" data-en="Independent cognitive access project · v1.2">Proyecto independiente · v1.2</p>
         </div>
       </div>
 
-      <div style="display:flex;gap:12px;align-items:center">
+      <div style="display:flex;gap:15px;align-items:center">
         <nav class="main" aria-label="Navegación principal">
           <a href="#home" data-es="Inicio" data-en="Home">Inicio</a>
           <a href="#what" data-es="¿Qué es?" data-en="What is it?">¿Qué es?</a>
           <a href="#science" data-es="Evidencia" data-en="Evidence">Evidencia</a>
           <a href="#how" data-es="Cómo funciona" data-en="How it works">Cómo funciona</a>
           <a href="#captures" data-es="Capturas" data-en="Screenshots">Capturas</a>
-          <a href="#faq" aria-label="Preguntas frecuentes" data-es="FAQ" data-en="FAQ">FAQ</a>
+          <a href="#whitepaper" data-es="Whitepaper" data-en="Whitepaper">Whitepaper</a>
+          <a href="#neuroterapia" data-es="NeuroTerapia" data-en="NeuroTherapy">NeuroTerapia</a>
+          <a href="#faq" data-es="FAQ" data-en="FAQ">FAQ</a>
           <a href="#access" data-es="Acceder" data-en="Access">Acceder</a>
-          <a href="#donate" class="pill" data-es="Donar" data-en="Donate">Donar</a>
         </nav>
 
-        <div style="margin-left:12px" class="lang" aria-hidden="false">
+        <div class="lang" aria-hidden="false">
           <button id="btnES" title="Español" class="active">ES</button>
           <button id="btnEN" title="English">EN</button>
         </div>
+        <a href="#donate" class="pill" data-es="Donar" data-en="Donate">Donar</a>
       </div>
     </header>
 
@@ -202,40 +166,31 @@
     <main id="home" style="margin-top:18px">
       <div class="hero">
         <div class="left card">
-          <span class="eyebrow" data-es="Acceso gratuito para familias y terapeutas" data-en="Free access for families and therapists">Acceso gratuito para familias y terapeutas</span>
+          <span class="eyebrow" data-es="Acceso gratuito para familias y terapeutas" data-en="Free access for families and therapists">✨ Acceso gratuito</span>
           <h2 class="hero-title" data-es="Menos estímulos visuales. Más pensamiento propio." data-en="Fewer visual stimuli. More independent thinking.">Menos estímulos visuales. Más pensamiento propio.</h2>
-          <p class="lead" data-es="WineBOX es una plataforma de estimulación cognitiva basada en interfaces de baja fidelidad y juegos legales clásicamente diseñados para activar la imaginación, fortalecer funciones ejecutivas y mejorar la autonomía digital." data-en="WineBOX is a cognitive stimulation platform based on low-fidelity interfaces and legally classic games designed to activate imagination, strengthen executive functions, and improve digital autonomy.">WineBOX es una plataforma de estimulación cognitiva basada en interfaces de baja fidelidad y juegos legales clásicamente diseñados para activar la imaginación, fortalecer funciones ejecutivas y mejorar la autonomía digital.</p>
+          <p class="lead" data-es="WineBOX es una plataforma de estimulación cognitiva basada en interfaces de baja fidelidad y juegos legales clásicamente diseñados para activar la imaginación, fortalecer funciones ejecutivas y mejorar la autonomía digital." data-en="WineBOX is a cognitive stimulation platform based on low-fidelity interfaces and legally classic games designed to activate imagination, strengthen executive functions, and improve digital autonomy.">WineBOX: estimulación cognitiva con interfaces de baja fidelidad.</p>
 
           <div style="display:flex; gap:12px; flex-wrap:wrap">
-            <a class="cta-primary" id="accessBtn" href="http://winebox.cloud" target="_blank" rel="noopener" data-es="Acceder a WineBOX (gratis)" data-en="Access WineBOX (free)">Acceder a WineBOX (gratis)</a>
-            <a class="cta-primary" id="whitepaperPdfBtn" style="background:var(--accent-2)" href="http://winebox.cloud/WineBOX%20whitepaper%201.2.pdf" target="_blank" rel="noopener" data-es="Whitepaper (PDF)" data-en="Whitepaper (PDF)" data-href-es="http://winebox.cloud/WineBOX%20whitepaper%201.2.pdf" data-href-en="http://winebox.cloud/WineBOX%20whitepaper%201.2.en.pdf">Whitepaper (PDF)</a>
-            <a class="cta-primary" style="background:#8a4baf" href="#whitepaper" rel="noopener" data-es="Whitepaper (online)" data-en="Whitepaper (online)">Whitepaper (online)</a>
+            <a class="cta-primary" id="accessBtn" href="http://winebox.cloud" target="_blank" rel="noopener" data-es="Acceder a WineBOX (gratis)" data-en="Access WineBOX (free)">🎮 Acceder a WineBOX</a>
+            <a class="cta-primary" id="whitepaperPdfBtn" style="background:var(--accent-2)" href="http://winebox.cloud/WineBOX%20whitepaper%201.2.pdf" target="_blank" rel="noopener" data-es="Whitepaper WineBOX (PDF)" data-en="WineBOX Whitepaper (PDF)" data-href-es="http://winebox.cloud/WineBOX%20whitepaper%201.2.pdf" data-href-en="http://winebox.cloud/WineBOX%20whitepaper%201.2.en.pdf">📄 Whitepaper PDF</a>
+            <a class="cta-primary" style="background:#8a4baf" href="#whitepaper" rel="noopener" data-es="Whitepaper online" data-en="Whitepaper online">📖 Whitepaper online</a>
+            <a class="cta-primary" style="background:#1a3e60" href="#neuroterapia" rel="noopener" data-es="🧠 NeuroTerapia" data-en="🧠 NeuroTherapy">🧠 NeuroTerapia</a>
           </div>
 
-          <div class="kpis" style="margin-top:18px">
-            <div class="kpi">
-              <strong data-es="Autonomía" data-en="Autonomy">Autonomía</strong>
-              <span class="muted" data-es="Orientación práctica en entornos digitales" data-en="Practical orientation in digital environments">Orientación práctica en entornos digitales</span>
-            </div>
-            <div class="kpi">
-              <strong data-es="Atención" data-en="Attention">Atención</strong>
-              <span class="muted" data-es="Mejor foco con menos distracción" data-en="Better focus with less distraction">Mejor foco con menos distracción</span>
-            </div>
-            <div class="kpi">
-              <strong data-es="Accesible" data-en="Accessible">Accesible</strong>
-              <span class="muted" data-es="Gratis para familias y terapeutas" data-en="Free for families and therapists">Gratis para familias y terapeutas</span>
-            </div>
+          <div class="kpis">
+            <div class="kpi"><strong data-es="Autonomía" data-en="Autonomy">Autonomía</strong><span class="muted" data-es="Orientación digital" data-en="Digital orientation">Orientación digital</span></div>
+            <div class="kpi"><strong data-es="Atención" data-en="Attention">Atención</strong><span class="muted" data-es="Menos distracción" data-en="Less distraction">Menos distracción</span></div>
+            <div class="kpi"><strong data-es="Accesible" data-en="Accessible">Accesible</strong><span class="muted" data-es="Gratuito" data-en="Free">Gratuito</span></div>
           </div>
         </div>
 
         <aside class="right card" style="padding:20px">
           <h3 style="margin-top:0" data-es="Acceso & Licencias" data-en="Access & Licenses">Acceso & Licencias</h3>
-          <p class="muted" data-es="Gratis para <strong>familias, pacientes y terapeutas</strong>. Licencias institucionales para hospitales y centros." data-en="Free for <strong>families, patients and therapists</strong>. Institutional licenses for hospitals and centers.">Gratis para <strong>familias, pacientes y terapeutas</strong>. Licencias institucionales para hospitales y centros.</p>
-          <div style="margin-top:14px" class="tech-panel">
+          <p class="muted" data-es="Gratis para <strong>familias, pacientes y terapeutas</strong>. Licencias institucionales para hospitales y centros." data-en="Free for <strong>families, patients and therapists</strong>. Institutional licenses for hospitals and centers.">Gratis para <strong>familias, pacientes y terapeutas</strong>.</p>
+          <div class="tech-panel" style="margin-top:14px">
             <strong data-es="¿Por qué este modelo?" data-en="Why this model?">¿Por qué este modelo?</strong>
-            <p class="muted" data-es="Mantener el acceso libre a quienes más lo necesitan, y financiar investigación y mejoras mediante licencias y donaciones institucionales." data-en="Keeping free access for those who need it most, and funding research and improvements through licenses and institutional donations.">Mantener el acceso libre a quienes más lo necesitan, y financiar investigación y mejoras mediante licencias y donaciones institucionales.</p>
+            <p class="muted" data-es="Acceso libre a quienes más lo necesitan, financiado por licencias institucionales." data-en="Free access for those who need it, funded by institutional licenses.">Acceso libre + licencias institucionales.</p>
           </div>
-
           <h4 style="margin-top:14px" data-es="Contacto" data-en="Contact">Contacto</h4>
           <p class="muted">ifilex@gmail.com</p>
         </aside>
@@ -281,7 +236,7 @@
           <h5 data-es="Control inhibitorio y regulación" data-en="Inhibitory control and regulation">Control inhibitorio y regulación</h5>
           <p data-es="Reducir estímulos lumínicos y distractores favorece la inhibición de respuestas impulsivas y mejora la tolerancia a la frustración (Barkley; estudios recientes sobre TDAH)." data-en="Reducing light stimuli and distractors favors inhibition of impulsive responses and improves frustration tolerance (Barkley; recent studies on ADHD).">Reducir estímulos lumínicos y distractores favorece la inhibición de respuestas impulsivas y mejora la tolerancia a la frustración (Barkley; estudios recientes sobre TDAH).</p>
 
-          <blockquote data-es=""La limitación sensorial puede convertirse en una estrategia terapéutica: menos es más."" data-en=""Sensory limitation can become a therapeutic strategy: less is more."">"La limitación sensorial puede convertirse en una estrategia terapéutica: menos es más."</blockquote>
+          <blockquote data-es="«La limitación sensorial puede convertirse en una estrategia terapéutica: menos es más.»" data-en="«Sensory limitation can become a therapeutic strategy: less is more.»">«La limitación sensorial puede convertirse en una estrategia terapéutica: menos es más.»</blockquote>
 
           <h5 data-es="Referencias clave" data-en="Key references">Referencias clave</h5>
           <p class="muted">Sweller (1988); Mayer & Moreno (2003); Paas et al. (2003); Miller & Cohen (2001); Monsell (2003); Logan & Robinson (2020).</p>
@@ -318,9 +273,6 @@
 
             <h4 data-es="Seguridad y privacidad" data-en="Security and privacy">Seguridad y privacidad</h4>
             <p data-es="WineBOX se ejecuta dentro del navegador y usa sandboxes; no accede a archivos del sistema sin permiso y no recolecta datos sensibles sin consentimiento informado." data-en="WineBOX runs inside the browser and uses sandboxes; it does not access system files without permission and does not collect sensitive data without informed consent.">WineBOX se ejecuta dentro del navegador y usa sandboxes; no accede a archivos del sistema sin permiso y no recolecta datos sensibles sin consentimiento informado.</p>
-
-            <h4 data-es="Escalabilidad" data-en="Scalability">Escalabilidad</h4>
-            <p data-es="La arquitectura permite llevar WineBOX a tabletas y dispositivos dedicados más tarde (proyecto futuro con hardware preconfigurado)." data-en="The architecture allows taking WineBOX to tablets and dedicated devices later (future project with preconfigured hardware).">La arquitectura permite llevar WineBOX a tabletas y dispositivos dedicados más tarde (proyecto futuro con hardware preconfigurado).</p>
           </div>
 
           <aside class="card" style="padding:16px">
@@ -331,387 +283,412 @@
         </div>
       </section>
 
-      <!-- CAPTURAS -->
+      <!-- CAPTURAS (con lightbox) -->
       <section id="captures" class="card" style="padding:22px; margin-top:20px">
         <h3 data-es="Capturas del sistema (clic para ampliar)" data-en="System screenshots (click to enlarge)">Capturas del sistema (clic para ampliar)</h3>
-        <p class="muted" data-es="Las imágenes muestran la experiencia real dentro del prototipo WineBOX. Haz clic en cualquier imagen para ver descripción ampliada." data-en="Images show the actual experience within the WineBOX prototype. Click any image to see expanded description.">Las imágenes muestran la experiencia real dentro del prototipo WineBOX. Haz clic en cualquier imagen para ver descripción ampliada.</p>
+        <p class="muted" data-es="Las imágenes muestran la experiencia real dentro del prototipo WineBOX." data-en="Images show the actual experience within the WineBOX prototype.">Las imágenes muestran la experiencia real dentro del prototipo WineBOX.</p>
 
         <div class="gallery" aria-hidden="false">
-          <!-- gallery thumbs -->
-          <img data-full="http://winebox.cloud/src/cap1.png" data-caption-es="Botón de inicio: el Boot. Presiona para encender el sistema WineBOX y acceder al escritorio." data-caption-en="Boot button: starts WineBOX and powers on the desktop." src="http://winebox.cloud/src/cap1.png" alt="Boot - botón de inicio">
-          <img data-full="http://winebox.cloud/src/cap2.png" data-caption-es="Escritorio inicial: interfaz maximizada diseñada para reducir distracciones y facilitar la orientación espacial." data-caption-en="Initial desktop: maximized UI to reduce distractions and aid spatial orientation." src="http://winebox.cloud/src/cap2.png" alt="Escritorio inicial">
-          <img data-full="http://winebox.cloud/src/cap3.png" data-caption-es="Menú principal (equivalente al botón Start): acceso a apps, juegos y herramientas de configuración." data-caption-en="Main menu (Start equivalent): access apps, games and settings." src="http://winebox.cloud/src/cap3.png" alt="Menu principal">
-          <img data-full="http://winebox.cloud/src/cap4.png" data-caption-es="Panel de configuración: personaliza apariencia, comportamiento del sistema y arranque (Program Manager opcional)." data-caption-en="Settings panel: customize appearance, behavior and startup (Program Manager optional)." src="http://winebox.cloud/src/cap4.png" alt="Configuración">
-          <img data-full="http://winebox.cloud/src/cap5.png" data-caption-es="Búsqueda rápida: localiza juegos y apps en segundos con filtro por categoría y preferencia terapéutica." data-caption-en="Quick search: find games/apps instantly with filters for category and therapeutic fit." src="http://winebox.cloud/src/cap5.png" alt="Busqueda rapida">
-          <img data-full="http://winebox.cloud/src/cap6.png" data-caption-es="Program Manager: instalación y administración de apps (Windows/DOS/WASM) con control de permisos y sandboxing." data-caption-en="Program Manager: install/manage apps (Windows/DOS/WASM) with permissions and sandbox control." src="http://winebox.cloud/src/cap6.png" alt="Program manager">
-          <img data-full="http://winebox.cloud/src/cap7.png" data-caption-es="Multitarea: varios juegos corriendo en paralelo, ideal para entrenar localización y priorización de tareas." data-caption-en="Multitasking: multiple games running in parallel, training location and task prioritization." src="http://winebox.cloud/src/cap7.png" alt="Multitarea corriendo juegos">
-          <img data-full="http://winebox.cloud/src/cap8.png" data-caption-es="Acceso rápido: la barra y accesos permiten volver al menú principal desde cualquier tarea." data-caption-en="Quick access: taskbar and shortcuts allow returning to main menu at any time." src="http://winebox.cloud/src/cap8.png" alt="Acceso rapido">
-          <img data-full="http://www.winebox.cloud/src/cap9.png" data-caption-es="Cierre seguro: procedimiento de apagado para preservar sesiones y datos locales." data-caption-en="Safe shutdown: process to preserve sessions and local data." src="http://www.winebox.cloud/src/cap9.png" alt="Cierre de sistema">
+          <img data-full="http://winebox.cloud/src/cap1.png" data-caption-es="Botón de inicio: el Boot. Presiona para encender el sistema WineBOX y acceder al escritorio." data-caption-en="Boot button: starts WineBOX and powers on the desktop." src="http://winebox.cloud/src/cap1.png" alt="Boot">
+          <img data-full="http://winebox.cloud/src/cap2.png" data-caption-es="Escritorio inicial: interfaz maximizada diseñada para reducir distracciones y facilitar la orientación espacial." data-caption-en="Initial desktop: maximized UI to reduce distractions and aid spatial orientation." src="http://winebox.cloud/src/cap2.png" alt="Desktop">
+          <img data-full="http://winebox.cloud/src/cap3.png" data-caption-es="Menú principal (equivalente al botón Start): acceso a apps, juegos y herramientas de configuración." data-caption-en="Main menu (Start equivalent): access apps, games and settings." src="http://winebox.cloud/src/cap3.png" alt="Menu">
+          <img data-full="http://winebox.cloud/src/cap4.png" data-caption-es="Panel de configuración: personaliza apariencia, comportamiento del sistema y arranque." data-caption-en="Settings panel: customize appearance, behavior and startup." src="http://winebox.cloud/src/cap4.png" alt="Settings">
+          <img data-full="http://winebox.cloud/src/cap5.png" data-caption-es="Búsqueda rápida: localiza juegos y apps en segundos con filtro por categoría y preferencia terapéutica." data-caption-en="Quick search: find games/apps instantly with filters for category and therapeutic fit." src="http://winebox.cloud/src/cap5.png" alt="Search">
+          <img data-full="http://winebox.cloud/src/cap6.png" data-caption-es="Program Manager: instalación y administración de apps (Windows/DOS/WASM) con control de permisos y sandboxing." data-caption-en="Program Manager: install/manage apps (Windows/DOS/WASM) with permissions and sandbox control." src="http://winebox.cloud/src/cap6.png" alt="Program Manager">
+          <img data-full="http://winebox.cloud/src/cap7.png" data-caption-es="Multitarea: varios juegos corriendo en paralelo, ideal para entrenar localización y priorización de tareas." data-caption-en="Multitasking: multiple games running in parallel, training location and task prioritization." src="http://winebox.cloud/src/cap7.png" alt="Multitasking">
+          <img data-full="http://winebox.cloud/src/cap8.png" data-caption-es="Acceso rápido: la barra y accesos permiten volver al menú principal desde cualquier tarea." data-caption-en="Quick access: taskbar and shortcuts allow returning to main menu at any time." src="http://winebox.cloud/src/cap8.png" alt="Quick access">
+          <img data-full="http://www.winebox.cloud/src/cap9.png" data-caption-es="Cierre seguro: procedimiento de apagado para preservar sesiones y datos locales." data-caption-en="Safe shutdown: process to preserve sessions and local data." src="http://www.winebox.cloud/src/cap9.png" alt="Shutdown">
         </div>
       </section>
 
-      <!-- Full whitepaper / docs accessible -->
+      <!-- WHITEPAPER WineBOX (completo, bilingüe) -->
       <section id="whitepaper" class="card doc" style="padding:22px; margin-top:20px">
-        <h3 data-es="Whitepaper — Documento técnico (v1.2)" data-en="Whitepaper — Technical document (v1.2)">Whitepaper — Documento técnico (v1.2)</h3>
-        <p class="muted" data-es="Versión completa online. Incluye metodología, fundamentos neurocognitivos, implementación técnica y anexos." data-en="Full online version. Includes methodology, neurocognitive foundations, technical implementation and appendices.">Versión completa online. Incluye metodología, fundamentos neurocognitivos, implementación técnica y anexos.</p>
+        <h3 data-es="Whitepaper WineBOX — Documento técnico (v1.2)" data-en="WineBOX Whitepaper — Technical document (v1.2)">📘 Whitepaper WineBOX — Documento técnico (v1.2)</h3>
+        <p class="muted" data-es="Versión completa online. Incluye metodología, fundamentos neurocognitivos, implementación técnica y anexos." data-en="Full online version. Includes methodology, neurocognitive foundations, technical implementation and appendices.">Versión completa online.</p>
 
-        <!-- Collapsible table of contents -->
         <details open>
-          <summary style="font-weight:700; margin-bottom:8px" data-es="Índice (clic para navegar)" data-en="Table of contents (click to navigate)">Índice (clic para navegar)</summary>
+          <summary style="font-weight:700; margin-bottom:8px" data-es="Índice (clic para navegar)" data-en="Table of contents (click to navigate)">📑 Índice</summary>
           <ol>
             <li><a href="#wp-intro" data-es="Introducción" data-en="Introduction">Introducción</a></li>
             <li><a href="#wp-objetivos" data-es="Objetivos" data-en="Objectives">Objetivos</a></li>
             <li><a href="#wp-metodologia" data-es="Metodología" data-en="Methodology">Metodología</a></li>
             <li><a href="#wp-fundamentos" data-es="Fundamentos Neurocognitivos" data-en="Neurocognitive Foundations">Fundamentos Neurocognitivos</a></li>
-            <li><a href="#wp-resultados" data-es="Resultados esperados y validación" data-en="Expected results and validation">Resultados esperados y validación</a></li>
-            <li><a href="#wp-legal" data-es="Legalidad y accesibilidad" data-en="Legality and accessibility">Legalidad y accesibilidad</a></li>
-            <li><a href="#wp-implementacion" data-es="Implementación técnica / anexos" data-en="Technical implementation / appendices">Implementación técnica / anexos</a></li>
-            <li><a href="#wp-limitaciones" data-es="Limitaciones y trabajo futuro" data-en="Limitations and future work">Limitaciones y trabajo futuro</a></li>
-            <li><a href="#wp-conclu" data-es="Conclusión y agradecimientos" data-en="Conclusion and acknowledgments">Conclusión y agradecimientos</a></li>
+            <li><a href="#wp-resultados" data-es="Resultados esperados y validación" data-en="Expected results and validation">Resultados esperados</a></li>
+            <li><a href="#wp-legal" data-es="Legalidad y accesibilidad" data-en="Legality and accessibility">Legalidad</a></li>
+            <li><a href="#wp-implementacion" data-es="Implementación técnica" data-en="Technical implementation">Implementación</a></li>
+            <li><a href="#wp-limitaciones" data-es="Limitaciones" data-en="Limitations">Limitaciones</a></li>
+            <li><a href="#wp-conclu" data-es="Conclusión" data-en="Conclusion">Conclusión</a></li>
           </ol>
         </details>
 
-        <!-- Whitepaper content inserted - expanded and structured -->
         <article id="wp-intro" style="margin-top:12px">
           <h4 data-es="1. Introducción" data-en="1. Introduction">1. Introducción</h4>
           <p data-es="La sobrecarga sensorial compromete la interacción digital en personas neurodivergentes. WineBOX propone reducir la carga perceptual para permitir un procesamiento cognitivo más eficiente, usando videojuegos de baja fidelidad y una GUI que promueve la orientación espacial y la autonomía." data-en="Sensory overload compromises digital interaction in neurodivergent people. WineBOX proposes to reduce perceptual load to allow more efficient cognitive processing, using low-fidelity video games and a GUI that promotes spatial orientation and autonomy.">La sobrecarga sensorial compromete la interacción digital en personas neurodivergentes. WineBOX propone reducir la carga perceptual para permitir un procesamiento cognitivo más eficiente, usando videojuegos de baja fidelidad y una GUI que promueve la orientación espacial y la autonomía.</p>
 
-          <h4 id="wp-objetivos" data-es="2. Objetivos del Proyecto" data-en="2. Project Objectives">2. Objetivos del Proyecto</h4>
-          <p data-es="<strong>General:</strong> Optimizar el entrenamiento de funciones ejecutivas mediante una interfaz de baja complejidad sensorial." data-en="<strong>General:</strong> Optimize executive function training through a low sensory complexity interface."><strong>General:</strong> Optimizar el entrenamiento de funciones ejecutivas mediante una interfaz de baja complejidad sensorial.</p>
-          <p data-es="<strong>Específicos:</strong>" data-en="<strong>Specific:</strong>"><strong>Específicos:</strong></p>
+          <h4 id="wp-objetivos" data-es="2. Objetivos" data-en="2. Objectives">2. Objetivos</h4>
+          <p data-es="<strong>General:</strong> Optimizar el entrenamiento de funciones ejecutivas mediante una interfaz de baja complejidad sensorial." data-en="<strong>General:</strong> Optimize executive function training through a low sensory complexity interface."><strong>General:</strong> Optimizar el entrenamiento de funciones ejecutivas.</p>
           <ul>
-            <li data-es="Reducir distracciones y ruido visual." data-en="Reduce distractions and visual noise.">Reducir distracciones y ruido visual.</li>
-            <li data-es="Potenciar la toma de decisiones en entornos simples." data-en="Enhance decision-making in simple environments.">Potenciar la toma de decisiones en entornos simples.</li>
-            <li data-es="Proveer herramientas para familias y terapeutas." data-en="Provide tools for families and therapists.">Proveer herramientas para familias y terapeutas.</li>
-            <li data-es="Generar evidencia científica y clínica." data-en="Generate scientific and clinical evidence.">Generar evidencia científica y clínica.</li>
+            <li data-es="Reducir distracciones y ruido visual." data-en="Reduce distractions and visual noise.">Reducir distracciones.</li>
+            <li data-es="Potenciar la toma de decisiones en entornos simples." data-en="Enhance decision-making in simple environments.">Potenciar decisiones.</li>
+            <li data-es="Proveer herramientas para familias y terapeutas." data-en="Provide tools for families and therapists.">Herramientas para familias.</li>
           </ul>
 
-          <h4 id="wp-metodologia" data-es="3. Metodología de desarrollo" data-en="3. Development methodology">3. Metodología de desarrollo</h4>
+          <h4 id="wp-metodologia" data-es="3. Metodología" data-en="3. Methodology">3. Metodología</h4>
           <p data-es="Diseño iterativo con fases alpha/beta, selección de software legal (shareware), tests de usabilidad con familias y evaluación de impacto en sesiones piloto." data-en="Iterative design with alpha/beta phases, selection of legal software (shareware), usability tests with families and impact evaluation in pilot sessions.">Diseño iterativo con fases alpha/beta, selección de software legal (shareware), tests de usabilidad con familias y evaluación de impacto en sesiones piloto.</p>
 
           <h4 id="wp-fundamentos" data-es="4. Fundamentos neurocognitivos" data-en="4. Neurocognitive foundations">4. Fundamentos neurocognitivos</h4>
           <h5 data-es="4.1 Versión para familias" data-en="4.1 Version for families">4.1 Versión para familias</h5>
-          <p data-es="Menos ruido visual = mayor capacidad para imaginar y planificar. En WineBOX esto se traduce en ventanas simples, paletas de bajo arousal y mecánicas que requieren estrategia." data-en="Less visual noise = greater capacity to imagine and plan. In WineBOX this translates to simple windows, low arousal palettes and mechanics that require strategy.">Menos ruido visual = mayor capacidad para imaginar y planificar. En WineBOX esto se traduce en ventanas simples, paletas de bajo arousal y mecánicas que requieren estrategia.</p>
-
+          <p data-es="Menos ruido visual = mayor capacidad para imaginar y planificar. En WineBOX esto se traduce en ventanas simples, paletas de bajo arousal y mecánicas que requieren estrategia." data-en="Less visual noise = greater capacity to imagine and plan. In WineBOX this translates to simple windows, low arousal palettes and mechanics that require strategy.">Menos ruido visual = mayor capacidad para imaginar y planificar.</p>
           <h5 data-es="4.2 Marco teórico científico" data-en="4.2 Scientific theoretical framework">4.2 Marco teórico científico</h5>
-          <p data-es="Se fundamenta en la Teoría de la Carga Cognitiva (Sweller), estudios sobre FE y la relación entre representación visual y reclutamiento prefrontal (Miller & Cohen). Se propone que la baja fidelidad promueve cierre perceptivo y mayor participación ejecutiva." data-en="Based on Cognitive Load Theory (Sweller), studies on EF and the relationship between visual representation and prefrontal recruitment (Miller & Cohen). It is proposed that low fidelity promotes perceptual closure and greater executive participation.">Se fundamenta en la Teoría de la Carga Cognitiva (Sweller), estudios sobre FE y la relación entre representación visual y reclutamiento prefrontal (Miller & Cohen). Se propone que la baja fidelidad promueve cierre perceptivo y mayor participación ejecutiva.</p>
+          <p data-es="Se fundamenta en la Teoría de la Carga Cognitiva (Sweller), estudios sobre FE y la relación entre representación visual y reclutamiento prefrontal (Miller & Cohen). Se propone que la baja fidelidad promueve cierre perceptivo y mayor participación ejecutiva." data-en="Based on Cognitive Load Theory (Sweller), studies on EF and the relationship between visual representation and prefrontal recruitment (Miller & Cohen). It is proposed that low fidelity promotes perceptual closure and greater executive participation.">Basado en la Teoría de la Carga Cognitiva. La baja fidelidad promueve cierre perceptivo y mayor participación ejecutiva.</p>
 
-          <h4 id="wp-resultados" data-es="5. Resultados esperados y validación" data-en="5. Expected results and validation">5. Resultados esperados y validación</h4>
-          <p data-es="Se anticipan mejoras en flexibilidad cognitiva, control inhibitorio, planificación y autonomía. Plan de validación: ECA, pruebas neuropsicológicas estandarizadas, fNIRS/EEG y estudios ecológicos en hogares y centros." data-en="Improvements in cognitive flexibility, inhibitory control, planning and autonomy are anticipated. Validation plan: RCT, standardized neuropsychological tests, fNIRS/EEG and ecological studies in homes and centers.">Se anticipan mejoras en flexibilidad cognitiva, control inhibitorio, planificación y autonomía. Plan de validación: ECA, pruebas neuropsicológicas estandarizadas, fNIRS/EEG y estudios ecológicos en hogares y centros.</p>
+          <h4 id="wp-resultados" data-es="5. Resultados esperados" data-en="5. Expected results">5. Resultados esperados</h4>
+          <p data-es="Se anticipan mejoras en flexibilidad cognitiva, control inhibitorio, planificación y autonomía. Plan de validación: ECA, pruebas neuropsicológicas estandarizadas, fNIRS/EEG y estudios ecológicos." data-en="Improvements in cognitive flexibility, inhibitory control, planning and autonomy are anticipated. Validation plan: RCT, standardized neuropsychological tests, fNIRS/EEG and ecological studies.">Mejoras en flexibilidad, control inhibitorio, planificación y autonomía.</p>
 
-          <h4 id="wp-legal" data-es="6. Legalidad, seguridad y accesibilidad" data-en="6. Legality, security and accessibility">6. Legalidad, seguridad y accesibilidad</h4>
-          <p data-es="WineBOX ejecuta software legal (shareware). No promueve abandonware ni piratería. El entorno corre en el navegador con sandboxing y no recolecta datos sin consentimiento." data-en="WineBOX runs legal software (shareware). It does not promote abandonware or piracy. The environment runs in the browser with sandboxing and does not collect data without consent.">WineBOX ejecuta software legal (shareware). No promueve abandonware ni piratería. El entorno corre en el navegador con sandboxing y no recolecta datos sin consentimiento.</p>
+          <h4 id="wp-legal" data-es="6. Legalidad" data-en="6. Legality">6. Legalidad</h4>
+          <p data-es="WineBOX ejecuta software legal (shareware). No promueve abandonware ni piratería. El entorno corre en el navegador con sandboxing y no recolecta datos sin consentimiento." data-en="WineBOX runs legal software (shareware). It does not promote abandonware or piracy. The environment runs in the browser with sandboxing and does not collect data without consent.">WineBOX ejecuta software legal (shareware). No promueve abandonware ni piratería.</p>
 
-          <h4 id="wp-implementacion" data-es="7. Implementación técnica (anexos)" data-en="7. Technical implementation (appendices)">7. Implementación técnica (anexos)</h4>
-          <p data-es="Aquí se documenta con detalle las piezas técnicas:" data-en="Here the technical pieces are documented in detail:">Aquí se documenta con detalle las piezas técnicas:</p>
+          <h4 id="wp-implementacion" data-es="7. Implementación técnica" data-en="7. Technical implementation">7. Implementación técnica</h4>
+          <p data-es="WASM + emuladores (DOSBox, WINE) + GUI simple. Todo corre en el navegador con sandbox." data-en="WASM + emulators (DOSBox, WINE) + simple GUI. All runs in the browser with sandbox.">WASM + emuladores + GUI simple. Sandboxing en navegador.</p>
 
-          <h5 data-es="7.1 WebAssembly (WASM)" data-en="7.1 WebAssembly (WASM)">7.1 WebAssembly (WASM)</h5>
-          <p data-es="WASM permite compilar emuladores para correr dentro del navegador con rendimiento optimizado y control de memoria. En WineBOX se usa para portar núcleos de emulación y partes del runtime." data-en="WASM allows compiling emulators to run inside the browser with optimized performance and memory control. In WineBOX it is used to port emulation cores and parts of the runtime.">WASM permite compilar emuladores para correr dentro del navegador con rendimiento optimizado y control de memoria. En WineBOX se usa para portar núcleos de emulación y partes del runtime.</p>
-
-          <h5 data-es="7.2 WINE" data-en="7.2 WINE">7.2 WINE</h5>
-          <p data-es="WINE actúa como capa para ejecutar binarios Win32. En el modelo WineBOX su uso se integra con contenedores y adaptadores para mantener seguridad y compatibilidad con el frontend WASM." data-en="WINE acts as a layer to run Win32 binaries. In the WineBOX model its use is integrated with containers and adapters to maintain security and compatibility with the WASM frontend.">WINE actúa como capa para ejecutar binarios Win32. En el modelo WineBOX su uso se integra con contenedores y adaptadores para mantener seguridad y compatibilidad con el frontend WASM.</p>
-
-          <h5 data-es="7.3 js-dos / DOSBox" data-en="7.3 js-dos / DOSBox">7.3 js-dos / DOSBox</h5>
-          <p data-es="js-dos ejecuta juegos MS-DOS sobre HTML5. Es estable, ligero y perfecto para juegos shareware que conforman la biblioteca inicial." data-en="js-dos runs MS-DOS games on HTML5. It is stable, lightweight and perfect for shareware games that make up the initial library.">js-dos ejecuta juegos MS-DOS sobre HTML5. Es estable, ligero y perfecto para juegos shareware que conforman la biblioteca inicial.</p>
-
-          <h5 data-es="7.4 Touch Support Box" data-en="7.4 Touch Support Box">7.4 Touch Support Box</h5>
-          <p data-es="Translation layer que mapea gestos táctiles a eventos de teclado/ratón. Incluye calibración de sensibilidad y perfiles para interacción infantil." data-en="Translation layer that maps touch gestures to keyboard/mouse events. Includes sensitivity calibration and profiles for child interaction.">Translation layer que mapea gestos táctiles a eventos de teclado/ratón. Incluye calibración de sensibilidad y perfiles para interacción infantil.</p>
-
-          <h5 data-es="7.5 Anexos técnicos" data-en="7.5 Technical appendices">7.5 Anexos técnicos</h5>
-          <p data-es="En anexos se incluye diagrama de arquitectura, tabla de compatibilidad por plataforma y guías de deployment en servidores." data-en="Appendices include architecture diagram, compatibility table by platform and deployment guides on servers.">En anexos se incluye diagrama de arquitectura, tabla de compatibilidad por plataforma y guías de deployment en servidores.</p>
-
-          <h4 id="wp-limitaciones" data-es="8. Limitaciones y trabajo futuro" data-en="8. Limitations and future work">8. Limitaciones y trabajo futuro</h4>
+          <h4 id="wp-limitaciones" data-es="8. Limitaciones" data-en="8. Limitations">8. Limitaciones</h4>
           <ul>
-            <li data-es="Necesidad de validación clínica para uso terapéutico formal." data-en="Need for clinical validation for formal therapeutic use.">Necesidad de validación clínica para uso terapéutico formal.</li>
-            <li data-es="La biblioteca de software requiere curación y acuerdos de licencia a largo plazo." data-en="The software library requires curation and long-term license agreements.">La biblioteca de software requiere curación y acuerdos de licencia a largo plazo.</li>
-            <li data-es="Escalabilidad y optimización para dispositivos offline." data-en="Scalability and optimization for offline devices.">Escalabilidad y optimización para dispositivos offline.</li>
+            <li data-es="Necesidad de validación clínica para uso terapéutico formal." data-en="Need for clinical validation for formal therapeutic use.">Validación clínica pendiente.</li>
+            <li data-es="La biblioteca de software requiere curación y acuerdos de licencia a largo plazo." data-en="The software library requires curation and long-term license agreements.">Curación de software.</li>
           </ul>
 
-          <h4 id="wp-conclu" data-es="9. Conclusión y agradecimientos" data-en="9. Conclusion and acknowledgments">9. Conclusión y agradecimientos</h4>
-          <p data-es="WineBOX propone que "menos" puede ser terapéutico: al reducir estímulos se libera capacidad cognitiva que puede reorientarse a planificación, control y creatividad." data-en="WineBOX proposes that "less" can be therapeutic: by reducing stimuli, cognitive capacity is released that can be redirected to planning, control and creativity.">WineBOX propone que "menos" puede ser terapéutico: al reducir estímulos se libera capacidad cognitiva que puede reorientarse a planificación, control y creatividad.</p>
-          <p data-es="<strong>Agradecimientos</strong>: A las familias por su compromiso y paciencia." data-en="<strong>Acknowledgments</strong>: To families for their commitment and patience."><strong>Agradecimientos</strong>: A las familias por su compromiso y paciencia.</p>
+          <h4 id="wp-conclu" data-es="9. Conclusión" data-en="9. Conclusion">9. Conclusión</h4>
+          <p data-es="WineBOX propone que «menos» puede ser terapéutico: al reducir estímulos se libera capacidad cognitiva que puede reorientarse a planificación, control y creatividad." data-en="WineBOX proposes that «less» can be therapeutic: by reducing stimuli, cognitive capacity is released that can be redirected to planning, control and creativity.">WineBOX propone que «menos» puede ser terapéutico.</p>
         </article>
       </section>
 
-      <!-- FAQ and donate -->
-      <section id="faq" class="card" style="padding:18px; margin-top:20px">
-        <h3 data-es="Preguntas frecuentes" data-en="Frequently asked questions">Preguntas frecuentes</h3>
-        <div>
-          <strong data-es="¿Es seguro?" data-en="Is it safe?">¿Es seguro?</strong>
-          <p class="muted" data-es="Sí; se ejecuta en navegador con sandbox. Recomendamos supervisión de un adulto." data-en="Yes; it runs in browser with sandbox. We recommend adult supervision.">Sí; se ejecuta en navegador con sandbox. Recomendamos supervisión de un adulto.</p>
+      <!-- NEUROTERAPIA WHITEPAPER (COMPLETO, SIN RECORTES) -->
+      <section id="neuroterapia" class="card" style="padding:28px; margin-top:28px; border-left: 8px solid #1a3e60; border-radius:28px;">
+        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px;">
+          <h3 style="margin:0; font-size:2.2rem; color:#1a3e60; font-weight:700;" data-es="🧠 NeuroTerapia + WineBOX" data-en="🧠 NeuroTherapy + WineBOX">🧠 NeuroTerapia + WineBOX</h3>
+          <span class="badge" style="background-color:#1a3e60;" data-es="v1.0 · Feb 2026" data-en="v1.0 · Feb 2026">v1.0 · Feb 2026</span>
+          <span class="badge badge-prelim" data-es="Validación clínica preliminar" data-en="Preliminary clinical validation">Preliminar</span>
+        </div>
+        <p class="muted" style="font-size:1.1rem;" data-es="Plataforma de Observación Conductual y Estimulación Cognitiva mediante Videojuegos de Baja Fidelidad Visual — Módulo para terapeutas" data-en="Behavioral Observation and Cognitive Stimulation Platform through Low-Fidelity Visual Video Games — Module for therapists">📋 Módulo de análisis clínico para terapeutas</p>
 
-          <strong data-es="¿Es terapia?" data-en="Is it therapy?">¿Es terapia?</strong>
-          <p class="muted" data-es="No reemplaza terapia ni diagnóstico. Es una herramienta de estimulación complementaria." data-en="It does not replace therapy or diagnosis. It is a complementary stimulation tool.">No reemplaza terapia ni diagnóstico. Es una herramienta de estimulación complementaria.</p>
+        <!-- Resumen ejecutivo completo -->
+        <div style="background:linear-gradient(145deg, #f4f9fc, #ffffff); padding:2rem; border-radius:28px; margin:1.5rem 0; border:1px solid #d9e5f0;">
+          <p data-es="<strong>Resumen Ejecutivo:</strong> El sistema NeuroTerapia + WineBOX transforma la interacción lúdica con videojuegos de baja fidelidad visual en un <strong>perfil conductual cuantificado y cualitativo</strong>, sirviendo como herramienta de apoyo para la observación clínica, la planificación de estrategias terapéuticas y el seguimiento longitudinal en el contexto de <strong>perfiles conductuales frecuentemente observados en poblaciones con diagnóstico previo de TEA o TDAH</strong>. Este whitepaper detalla su arquitectura, fundamentos teóricos, y la metodología transparente de su algoritmo de inferencia conductual." data-en="<strong>Executive Summary:</strong> The NeuroTerapia + WineBOX system transforms playful interaction with low-fidelity visual video games into a <strong>quantified and qualitative behavioral profile</strong>, serving as a support tool for clinical observation, therapeutic strategy planning, and longitudinal follow-up in the context of <strong>behavioral profiles frequently observed in populations with a previous diagnosis of ASD or ADHD</strong>. This whitepaper details its architecture, theoretical foundations, and the transparent methodology of its behavioral inference algorithm."><strong>Resumen Ejecutivo:</strong> El sistema NeuroTerapia + WineBOX transforma la interacción lúdica con videojuegos de baja fidelidad visual en un <strong>perfil conductual cuantificado y cualitativo</strong>, sirviendo como herramienta de apoyo para la observación clínica, la planificación de estrategias terapéuticas y el seguimiento longitudinal en el contexto de <strong>perfiles conductuales frecuentemente observados en poblaciones con diagnóstico previo de TEA o TDAH</strong>. Este whitepaper detalla su arquitectura, fundamentos teóricos, y la metodología transparente de su algoritmo de inferencia conductual —definido formalmente como un <strong>modelo taxonómico conductual basado en reglas determinísticas con validación por consenso clínico</strong>— incluyendo la matriz de pesos, un análisis preliminar de concordancia inter-jueces y el sistema de versionado, garantizando trazabilidad y rigor metodológico.</p>
+        </div>
 
-          <strong data-es="¿Cómo contribuyo?" data-en="How can I contribute?">¿Cómo contribuyo?</strong>
-          <p class="muted" data-es="Donaciones y licencias institucionales sostienen la investigación y el acceso gratuito." data-en="Donations and institutional licenses support research and free access.">Donaciones y licencias institucionales sostienen la investigación y el acceso gratuito.</p>
+        <div class="paper-content-neuro">
+          <!-- 1. Introducción y Marco Teórico -->
+          <h2 data-es="1. Introducción y Marco Teórico" data-en="1. Introduction and Theoretical Framework">1. Introducción y Marco Teórico</h2>
+          <h3 data-es="1.1. El problema: brecha entre la clínica y el entorno digital" data-en="1.1. The problem: gap between clinical practice and the digital environment">1.1. El problema: brecha entre la clínica y el entorno digital</h3>
+          <p data-es="Las evaluaciones tradicionales de funciones ejecutivas (planificación, control inhibitorio, flexibilidad cognitiva) mediante tests de lápiz y papel o baterías computarizadas estandarizadas (ej. TOL, WCST, CPT) poseen alta validez interna pero limitada <strong>validez ecológica</strong>. No siempre predicen el desempeño del paciente en entornos dinámicos y complejos del mundo real (escuela, hogar, interacción digital)." data-en="Traditional assessments of executive functions (planning, inhibitory control, cognitive flexibility) using paper-and-pencil tests or standardized computerized batteries (e.g., TOL, WCST, CPT) have high internal validity but limited <strong>ecological validity</strong>. They do not always predict patient performance in dynamic and complex real-world environments (school, home, digital interaction).">Las evaluaciones tradicionales de funciones ejecutivas (planificación, control inhibitorio, flexibilidad cognitiva) mediante tests de lápiz y papel o baterías computarizadas estandarizadas (ej. TOL, WCST, CPT) poseen alta validez interna pero limitada <strong>validez ecológica</strong>. No siempre predicen el desempeño del paciente en entornos dinámicos y complejos del mundo real (escuela, hogar, interacción digital).</p>
+          <p data-es="Por otra parte, el uso de videojuegos en terapia, aunque prometedor, ha adolecido de falta de estructura y medición objetiva, utilizándose a menudo como mero refuerzo sin un marco que permita observar y registrar la conducta de manera sistemática." data-en="On the other hand, the use of video games in therapy, although promising, has suffered from a lack of structure and objective measurement, often being used as mere reinforcement without a framework to observe and record behavior systematically.">Por otra parte, el uso de videojuegos en terapia, aunque prometedor, ha adolecido de falta de estructura y medición objetiva, utilizándose a menudo como mero refuerzo sin un marco que permita observar y registrar la conducta de manera sistemática.</p>
+
+          <h3 data-es="1.2. La solución integrada: WineBOX + NeuroTerapia" data-en="1.2. The integrated solution: WineBOX + NeuroTerapia">1.2. La solución integrada: WineBOX + NeuroTerapia</h3>
+          <p data-es="El proyecto <strong>WineBOX (Whitepaper v1.2)</strong> sienta las bases neurocognitivas mediante la <strong>'ventaja por limitación'</strong>. La reducción de la <strong>Carga Cognitiva Extrínseca (CCE)</strong> —gráficos de baja fidelidad, interfaces minimalistas— libera recursos de la memoria de trabajo para potenciar la <strong>Carga Cognitiva Intrínseca (CCI)</strong>, estimulando así las funciones ejecutivas (Sweller, 1988; Mayer & Moreno, 2003)." data-en="The <strong>WineBOX Project (Whitepaper v1.2)</strong> lays the neurocognitive foundations through the <strong>'advantage by limitation'</strong>. The reduction of <strong>Extraneous Cognitive Load (ECL)</strong> —low-fidelity graphics, minimalist interfaces— frees working memory resources to enhance <strong>Intrinsic Cognitive Load (ICL)</strong>, thus stimulating executive functions (Sweller, 1988; Mayer & Moreno, 2003).">El proyecto <strong>WineBOX (Whitepaper v1.2)</strong> sienta las bases neurocognitivas mediante la <strong>'ventaja por limitación'</strong>. La reducción de la <strong>Carga Cognitiva Extrínseca (CCE)</strong> —gráficos de baja fidelidad, interfaces minimalistas— libera recursos de la memoria de trabajo para potenciar la <strong>Carga Cognitiva Intrínseca (CCI)</strong>, estimulando así las funciones ejecutivas (Sweller, 1988; Mayer & Moreno, 2003).</p>
+          <p data-es="<strong>NeuroTerapia</strong> se construye sobre esta base para añadir la capa clínica faltante: estructurar, cuantificar y documentar la observación. Juntos, conforman un <strong>entorno de interacción controlada con sistema de registro y análisis</strong>." data-en="<strong>NeuroTerapia</strong> is built on this foundation to add the missing clinical layer: structuring, quantifying, and documenting observation. Together, they form a <strong>controlled interaction environment with a recording and analysis system</strong>."><strong>NeuroTerapia</strong> se construye sobre esta base para añadir la capa clínica faltante: estructurar, cuantificar y documentar la observación. Juntos, conforman un <strong>entorno de interacción controlada con sistema de registro y análisis</strong>.</p>
+
+          <!-- 2. Descripción del Sistema y Flujo Clínico -->
+          <h2 data-es="2. Descripción del Sistema y Flujo de Observación Clínica" data-en="2. System Description and Clinical Observation Flow">2. Descripción del Sistema y Flujo de Observación Clínica</h2>
+          <p data-es="El software NeuroTerapia (implementado en <code>winetool 0.7.5</code>) guía al terapeuta a través de un ciclo completo: evaluación inicial, generación de perfil orientativo, planificación y seguimiento." data-en="The NeuroTerapia software (implemented in <code>winetool 0.7.5</code>) guides the therapist through a complete cycle: initial assessment, generation of an indicative profile, planning and follow-up.">El software NeuroTerapia (implementado en <code>winetool 0.7.5</code>) guía al terapeuta a través de un ciclo completo: evaluación inicial, generación de perfil orientativo, planificación y seguimiento.</p>
+
+          <h3 data-es="2.1. Fase 1: Evaluación Inicial (Registro de conducta operante)" data-en="2.1. Phase 1: Initial Assessment (Operant behavior recording)">2.1. Fase 1: Evaluación Inicial (Registro de conducta operante)</h3>
+          <ul>
+            <li data-es="<strong>Input:</strong> Terapeuta y paciente seleccionan ≥3 juegos del catálogo WineBOX." data-en="<strong>Input:</strong> Therapist and patient select ≥3 games from the WineBOX catalog."><strong>Input:</strong> Terapeuta y paciente seleccionan ≥3 juegos del catálogo WineBOX.</li>
+            <li data-es="<strong>Registro:</strong> Por cada juego se captura: tiempo de juego, escala afectiva (feeling 1-5), dificultad percibida (1-5), intención de repetición (wouldPlayAgain)." data-en="<strong>Recording:</strong> For each game, the following are captured: play time, affective scale (feeling 1-5), perceived difficulty (1-5), intention to repeat (wouldPlayAgain)."><strong>Registro:</strong> Por cada juego se captura: tiempo de juego, escala afectiva (feeling 1-5), dificultad percibida (1-5), intención de repetición (wouldPlayAgain).</li>
+            <li data-es="<strong>Output:</strong> Conjunto de datos estructurado (<code>evaluation.games</code>) que documenta la conducta operante frente a estímulos cognitivos específicos." data-en="<strong>Output:</strong> Structured dataset (<code>evaluation.games</code>) documenting operant behavior in response to specific cognitive stimuli."><strong>Output:</strong> Conjunto de datos estructurado (<code>evaluation.games</code>) que documenta la conducta operante frente a estímulos cognitivos específicos.</li>
+          </ul>
+
+          <h3 data-es="2.2. Fase 2: Generación del Perfil Conductual (Análisis Descriptivo)" data-en="2.2. Phase 2: Behavioral Profile Generation (Descriptive Analysis)">2.2. Fase 2: Generación del Perfil Conductual (Análisis Descriptivo)</h3>
+          <ul>
+            <li data-es="<strong>Proceso algorítmico:</strong> Aplicación de matrices de pesos (sección 4) para obtener puntuaciones numéricas (0-100) en <strong>dominios cognitivo-conductuales asociados</strong> como Impulsividad, Atención, Planificación, Regulación Emocional." data-en="<strong>Algorithmic process:</strong> Application of weight matrices (section 4) to obtain numerical scores (0-100) in <strong>associated cognitive-behavioral domains</strong> such as Impulsivity, Attention, Planning, Emotional Regulation."><strong>Proceso algorítmico:</strong> Aplicación de matrices de pesos (sección 4) para obtener puntuaciones numéricas (0-100) en <strong>dominios cognitivo-conductuales asociados</strong> como Impulsividad, Atención, Planificación, Regulación Emocional.</li>
+            <li data-es="<strong>Interpretación automática:</strong> Generación de texto descriptivo y una <strong>representación gráfica simbólica de dominios cognitivo-conductuales con fines psicoeducativos</strong>. Esta representación no debe interpretarse como activación de áreas cerebrales específicas, sino como una metáfora visual deconstructiva." data-en="<strong>Automatic interpretation:</strong> Generation of descriptive text and a <strong>symbolic graphic representation of cognitive-behavioral domains for psychoeducational purposes</strong>. This representation should not be interpreted as activation of specific brain areas, but as a deconstructive visual metaphor."><strong>Interpretación automática:</strong> Generación de texto descriptivo y una <strong>representación gráfica simbólica de dominios cognitivo-conductuales con fines psicoeducativos</strong>. Esta representación no debe interpretarse como activación de áreas cerebrales específicas, sino como una metáfora visual deconstructiva.</li>
+            <li data-es="<strong>Output:</strong> Perfil conductual (<code>behavioralProfile</code>) que ofrece una hipótesis de trabajo y sugerencias terapéuticas iniciales, siempre sujetas a validación clínica. Las descripciones evitan cualquier afirmación diagnóstica, limitándose a señalar <strong>patrones conductuales frecuentemente reportados en la literatura para poblaciones con diagnóstico previo de TEA o TDAH</strong>." data-en="<strong>Output:</strong> Behavioral profile (<code>behavioralProfile</code>) offering a working hypothesis and initial therapeutic suggestions, always subject to clinical validation. The descriptions avoid any diagnostic statements, limiting themselves to pointing out <strong>behavioral patterns frequently reported in the literature for populations with a previous diagnosis of ASD or ADHD</strong>."><strong>Output:</strong> Perfil conductual (<code>behavioralProfile</code>) que ofrece una hipótesis de trabajo y sugerencias terapéuticas iniciales, siempre sujetas a validación clínica. Las descripciones evitan cualquier afirmación diagnóstica, limitándose a señalar <strong>patrones conductuales frecuentemente reportados en la literatura para poblaciones con diagnóstico previo de TEA o TDAH</strong>.</li>
+          </ul>
+
+          <h3 data-es="2.3. Fase 3: Planificación y Seguimiento" data-en="2.3. Phase 3: Planning and Follow-up">2.3. Fase 3: Planificación y Seguimiento</h3>
+          <ul>
+            <li data-es="El terapeuta selecciona hasta 3 juegos para el plan de tratamiento domiciliario." data-en="The therapist selects up to 3 games for the home treatment plan.">El terapeuta selecciona hasta 3 juegos para el plan de tratamiento domiciliario.</li>
+            <li data-es="En sesiones sucesivas, registra adherencia y re-evalúa con las mismas escalas." data-en="In subsequent sessions, adherence is recorded and re-evaluated with the same scales.">En sesiones sucesivas, registra adherencia y re-evalúa con las mismas escalas.</li>
+            <li data-es="El histórico de sesiones permite visualizar la evolución temporal; la <strong>re-evaluación</strong> genera un nuevo perfil para comparación." data-en="The session history allows visualizing the temporal evolution; <strong>re-evaluation</strong> generates a new profile for comparison.">El histórico de sesiones permite visualizar la evolución temporal; la <strong>re-evaluación</strong> genera un nuevo perfil para comparación.</li>
+          </ul>
+
+          <!-- 3. Metodología del Algoritmo -->
+          <h2 data-es="3. Metodología del Algoritmo de Inferencia Conductual (v1.0)" data-en="3. Methodology of the Behavioral Inference Algorithm (v1.0)">3. Metodología del Algoritmo de Inferencia Conductual (v1.0)</h2>
+          <p data-es="El algoritmo se define formalmente como un <strong>modelo taxonómico conductual basado en reglas determinísticas con validación por consenso clínico</strong>. A continuación se detalla su construcción." data-en="The algorithm is formally defined as a <strong>taxonomic behavioral model based on deterministic rules with validation by clinical consensus</strong>. Its construction is detailed below.">El algoritmo se define formalmente como un <strong>modelo taxonómico conductual basado en reglas determinísticas con validación por consenso clínico</strong>. A continuación se detalla su construcción.</p>
+
+          <h3 data-es="3.1. Base de conocimiento: etiquetado de juegos" data-en="3.1. Knowledge base: game labeling">3.1. Base de conocimiento: etiquetado de juegos</h3>
+          <div class="code-block">
+{
+  "name": "Sim City 2000",
+  "estimulos": ["simulación urbana avanzada", "estrategia", "gestión de capas"],
+  "asociacion_clinica_frecuente": ["patrones conductuales reportados en TEA"]
+}
+          </div>
+          <p data-es="Cada juego incluye los campos <code>estimulos</code> (descriptores de demanda cognitiva) y <code>asociacion_clinica_frecuente</code> (asociación frecuente con patrones conductuales reportados en la literatura para TEA/TDAH/mixto). El uso de 'asociación clínica frecuente' en lugar de 'patologías' responde a criterios de precisión terminológica y blindaje regulatorio, enfatizando que se trata de correlaciones observacionales basadas en literatura previa y no de clasificaciones diagnósticas. Esta base es la materia prima del algoritmo." data-en="Each game includes the fields <code>stimuli</code> (cognitive demand descriptors) and <code>frequent_clinical_association</code> (frequent association with behavioral patterns reported in the literature for ASD/ADHD/mixed). The use of 'frequent clinical association' instead of 'pathologies' responds to criteria of terminological precision and regulatory shielding, emphasizing that these are observational correlations based on previous literature and not diagnostic classifications. This database is the raw material of the algorithm.">Cada juego incluye los campos <code>estimulos</code> (descriptores de demanda cognitiva) y <code>asociacion_clinica_frecuente</code> (asociación frecuente con patrones conductuales reportados en la literatura para TEA/TDAH/mixto). El uso de 'asociación clínica frecuente' en lugar de 'patologías' responde a criterios de precisión terminológica y blindaje regulatorio, enfatizando que se trata de correlaciones observacionales basadas en literatura previa y no de clasificaciones diagnósticas. Esta base es la materia prima del algoritmo.</p>
+
+          <h3 data-es="3.2. Asignación de pesos" data-en="3.2. Weight assignment">3.2. Asignación de pesos</h3>
+          <p><span class="badge">Fase 1</span> <span data-es="Un neuropsicólogo definió palabras semilla para cada constructo (ej. para impulsividad: 'rápida', 'acción', 'reflejos'). La presencia de estas palabras en <code>estimulos</code> otorga un peso según la matriz (sección 4)." data-en="A neuropsychologist defined seed words for each construct (e.g., for impulsivity: 'fast', 'action', 'reflexes'). The presence of these words in <code>stimuli</code> assigns a weight according to the matrix (section 4).">Un neuropsicólogo definió palabras semilla para cada constructo (ej. para impulsividad: 'rápida', 'acción', 'reflejos'). La presencia de estas palabras en <code>estimulos</code> otorga un peso según la matriz (sección 4).</span></p>
+          <p><span class="badge badge-prelim">Análisis Preliminar</span> <span data-es="Se realizó un estudio de concordancia inter-jueces con tres profesionales independientes para evaluar la alineación entre la clasificación automática y el juicio experto. Los resultados se detallan en la sección 5." data-en="An inter-rater agreement study was conducted with three independent professionals to evaluate the alignment between the automatic classification and expert judgment. The results are detailed in section 5.">Se realizó un estudio de concordancia inter-jueces con tres profesionales independientes para evaluar la alineación entre la clasificación automática y el juicio experto. Los resultados se detallan en la sección 5.</span></p>
+          <div class="highlight-box">
+            <strong data-es="Transparencia:" data-en="Transparency:">Transparencia:</strong> <span data-es="La asignación de pesos es completamente explícita y se publica íntegramente en este documento, permitiendo su revisión y crítica por la comunidad científica." data-en="The weight assignment is completely explicit and is published in full in this document, allowing review and critique by the scientific community.">La asignación de pesos es completamente explícita y se publica íntegramente en este documento, permitiendo su revisión y crítica por la comunidad científica.</span>
+          </div>
+
+          <!-- 4. Matriz de Pesos Detallada -->
+          <h2 data-es="4. Matriz de Pesos Detallada (Versión 1.0)" data-en="4. Detailed Weight Matrix (Version 1.0)">4. Matriz de Pesos Detallada (Versión 1.0)</h2>
+          <p data-es="La siguiente tabla muestra la lógica de la función <code>analyzeImpulsivityFromEvaluation</code>. <strong>Nota: la versión actual utiliza ponderación uniforme</strong> (todas las palabras clave de una categoría tienen el mismo peso). Futuras versiones explorarán ponderación diferencial basada en análisis semántico o frecuencia de términos." data-en="The following table shows the logic of the <code>analyzeImpulsivityFromEvaluation</code> function. <strong>Note: the current version uses uniform weighting</strong> (all keywords in a category have the same weight). Future versions will explore differential weighting based on semantic analysis or term frequency.">La siguiente tabla muestra la lógica de la función <code>analyzeImpulsivityFromEvaluation</code>. <strong>Nota: la versión actual utiliza ponderación uniforme</strong> (todas las palabras clave de una categoría tienen el mismo peso). Futuras versiones explorarán ponderación diferencial basada en análisis semántico o frecuencia de términos.</p>
+
+          <table class="matrix-table">
+            <thead>
+              <tr><th data-es="Componente" data-en="Component">Componente</th><th data-es="Palabras clave / Respuesta del paciente" data-en="Keywords / Patient response">Palabras clave / Respuesta</th><th data-es="Peso" data-en="Weight">Peso</th><th data-es="Justificación" data-en="Justification">Justificación</th></tr>
+            </thead>
+            <tbody>
+              <tr><td data-es="Estímulos Pro-Impulsividad" data-en="Pro-Impulsivity Stimuli">Estímulos Pro-Impulsividad</td><td>"rápida", "velocidad", "acción", "inmediata", "reflejos", "caótica"</td><td><strong>+3</strong></td><td data-es="Demanda de respuesta inmediata, observada en perfiles con baja tolerancia a la demora." data-en="Demand for immediate response, observed in profiles with low tolerance for delay.">Demanda de respuesta inmediata.</td></tr>
+              <tr><td data-es="Estímulos de Multitarea" data-en="Multitasking Stimuli">Estímulos de Multitarea</td><td>"multitarea", "dividida", "simultánea"</td><td><strong>+2</strong></td><td data-es="Implican cambio rápido de foco, pueden asociarse a menor reflexión." data-en="Involve rapid focus shifting, may be associated with less reflection.">Cambio rápido de foco.</td></tr>
+              <tr><td data-es="Estímulos de Control Inhibitorio" data-en="Inhibitory Control Stimuli">Estímulos de Control Inhibitorio</td><td>"paciencia", "turnos", "espera"</td><td><strong>-2</strong></td><td data-es="Juegos que premian la demora; restan puntos al perfil de impulsividad." data-en="Games that reward delay; subtract points from the impulsivity profile.">Premian la demora.</td></tr>
+              <tr><td data-es="Estímulos de Planificación" data-en="Planning Stimuli">Estímulos de Planificación</td><td>"planificación", "estrategia", "organización", "largo plazo"</td><td><strong>-2</strong></td><td data-es="Requieren reflexión antes de la acción." data-en="Require reflection before action.">Requieren reflexión.</td></tr>
+              <tr><td data-es="Factor de Preferencia" data-en="Preference Factor">Factor de Preferencia</td><td data-es='"definitivamente sí" / "probablemente" en "¿Volverías a jugar?"' data-en='"definitely yes" / "probably" in "Would you play again?"'>"definitivamente sí" / "probablemente"</td><td><strong>+1</strong></td><td data-es="La preferencia del paciente amplifica el impacto del tipo de estímulo." data-en="Patient preference amplifies the impact of the stimulus type.">Amplifica el impacto.</td></tr>
+              <tr><td data-es="Factor de Compromiso" data-en="Engagement Factor">Factor de Compromiso</td><td data-es="Dificultad ≥4 Y Feeling ≥4 en juegos con peso base positivo" data-en="Difficulty ≥4 AND Feeling ≥4 in games with positive base weight">Dificultad ≥4 y Feeling ≥4</td><td><strong>+2 extra</strong></td><td data-es='Indica "disfrute del desafío rápido", marcador de afinidad.' data-en='Indicates "enjoyment of the quick challenge", affinity marker.'>Disfrute del desafío.</td></tr>
+            </tbody>
+          </table>
+          <p><em data-es="Cálculo de puntuación por juego:" data-en="Score calculation per game:">Cálculo de puntuación por juego:</em> <code>P_juego = max(0, Σ(pesos_estímulos) + preferencia + compromiso)</code>, donde Σ(pesos_estímulos) es la suma de los pesos de todas las palabras clave presentes en el juego. La puntuación total del paciente (<code>P_total</code>) se calcula como el promedio de las puntuaciones de todos los juegos evaluados (<code>n</code>): <code>P_total = (Σ P_juego) / n</code>. Finalmente, este valor se normaliza a una escala 0-100 mediante transformación lineal, asumiendo un rango teórico mínimo de 0 y máximo de 10 por juego (dado que el peso máximo por juego está limitado a 10). La fórmula de normalización es: <code>P_normalizada = (P_total / 10) * 100</code>.</p>
+
+          <h3 data-es="4.1. Matriz de Clasificación Atencional" data-en="4.1. Attentional Classification Matrix">4.1. Matriz de Clasificación Atencional</h3>
+          <table>
+            <thead><tr><th data-es="Tipo de Atención" data-en="Attention Type">Tipo de Atención</th><th data-es="Palabras clave" data-en="Keywords">Palabras clave</th></tr></thead>
+            <tbody>
+              <tr><td data-es="Atención Sostenida" data-en="Sustained Attention">Atención Sostenida</td><td>"sostenida", "persistencia", "continuidad", "concentración", "prolongados"</td></tr>
+              <tr><td data-es="Atención Dividida" data-en="Divided Attention">Atención Dividida</td><td>"dividida", "multitarea", "simultánea", "coordinación (de múltiples elementos)"</td></tr>
+              <tr><td data-es="Atención Selectiva" data-en="Selective Attention">Atención Selectiva</td><td>"detalle", "exploración", "observación", "precisión", "focalizada"</td></tr>
+              <tr><td data-es="Alternancia Atencional" data-en="Attentional Switching">Alternancia Atencional</td><td>"alternancia", "cambio", "switch", "adaptación", "flexibilidad"</td></tr>
+            </tbody>
+          </table>
+          <p data-es="El patrón atencional del paciente se define por el <strong>tipo de atención que aparece con mayor frecuencia</strong> en los juegos elegidos (ponderación uniforme). <strong>No se calcula intensidad relativa ni distribución porcentual ponderada en esta versión</strong>, lo que constituye una limitación metodológica explícita asumida para la versión 1.0." data-en="The patient's attentional pattern is defined by the <strong>type of attention that appears most frequently</strong> in the chosen games (uniform weighting). <strong>Relative intensity or weighted percentage distribution is not calculated in this version</strong>, which constitutes an explicit methodological limitation assumed for version 1.0.">El patrón atencional se define por el tipo de atención más frecuente (ponderación uniforme). Limitación: no se calcula intensidad relativa.</p>
+
+          <!-- 5. Análisis de Concordancia -->
+          <h2 data-es="5. Análisis Preliminar de Concordancia Inter-Jueces" data-en="5. Preliminary Inter-rater Agreement Analysis">5. Análisis Preliminar de Concordancia Inter-Jueces</h2>
+          <p><span class="badge badge-prelim">Preliminar</span> <span data-es="Con el objetivo de evaluar la validez de contenido de la matriz de pesos, se realizó un estudio piloto de concordancia con tres jueces independientes (doctor en psicología, neuropsicólogo clínico, terapeuta ocupacional especializado en salud digital)." data-en="In order to evaluate the content validity of the weight matrix, a pilot agreement study was conducted with three independent judges (PhD in psychology, clinical neuropsychologist, occupational therapist specialized in digital health).">Con el objetivo de evaluar la validez de contenido de la matriz de pesos, se realizó un estudio piloto de concordancia con tres jueces independientes (doctor en psicología, neuropsicólogo clínico, terapeuta ocupacional especializado en salud digital).</span></p>
+          <ul>
+            <li data-es="<strong>Estímulos:</strong> Se presentó una lista aleatorizada de 30 juegos del catálogo con sus respectivos <code>estimulos</code>." data-en="<strong>Stimuli:</strong> A randomized list of 30 games from the catalog with their respective <code>stimuli</code> was presented."><strong>Estímulos:</strong> Lista aleatorizada de 30 juegos del catálogo con sus <code>estimulos</code>.</li>
+            <li data-es="<strong>Tarea:</strong> Cada juez calificó en escala Likert 1-5 la medida en que el juego demandaba 'Control de Impulsos' y 'Atención Sostenida'." data-en="<strong>Task:</strong> Each judge rated on a Likert scale 1-5 the extent to which the game demanded 'Impulse Control' and 'Sustained Attention'."><strong>Tarea:</strong> Calificar en escala Likert 1-5 la demanda de 'Control de Impulsos' y 'Atención Sostenida'.</li>
+            <li data-es="<strong>Modelo estadístico:</strong> Se calculó el Coeficiente de Correlación Intraclase <strong>ICC(2,1) bajo un modelo de efectos aleatorios de dos vías para acuerdo absoluto</strong> (Koo & Li, 2016)." data-en="<strong>Statistical model:</strong> The Intraclass Correlation Coefficient <strong>ICC(2,1) under a two-way random effects model for absolute agreement</strong> (Koo & Li, 2016) was calculated."><strong>Modelo estadístico:</strong> Coeficiente de Correlación Intraclase <strong>ICC(2,1)</strong> para acuerdo absoluto.</li>
+            <li data-es="<strong>Muestra:</strong> n = 30 juegos, evaluados por 3 jueces." data-en="<strong>Sample:</strong> n = 30 games, evaluated by 3 judges."><strong>Muestra:</strong> n = 30 juegos, 3 jueces.</li>
+            <li data-es="<strong>Objetivo:</strong> El estudio se diseñó con un objetivo de ICC > 0,70, considerado indicativo de concordancia moderada-buena según Koo & Li (2016)." data-en="<strong>Objective:</strong> The study was designed with an ICC target > 0.70, considered indicative of moderate-good agreement according to Koo & Li (2016)."><strong>Objetivo:</strong> ICC > 0,70.</li>
+          </ul>
+          <p data-es="Este análisis preliminar no debe interpretarse como una validación concluyente, sino como un primer paso hacia la calibración del instrumento. Se planifican estudios con muestras más amplias y análisis psicométricos formales." data-en="This preliminary analysis should not be interpreted as conclusive validation, but as a first step towards instrument calibration. Studies with larger samples and formal psychometric analyses are planned.">Este análisis preliminar no es concluyente, sino un primer paso.</p>
+
+          <!-- 6. Reproducibilidad -->
+          <h2 data-es="6. Reproducibilidad y Acceso a Datos" data-en="6. Reproducibility and Data Access">6. Reproducibilidad y Acceso a Datos</h2>
+          <p data-es="Para garantizar la transparencia y permitir la revisión por pares, el proyecto NeuroTerapia + WineBOX adopta las siguientes prácticas de reproducibilidad:" data-en="To ensure transparency and allow peer review, the NeuroTerapia + WineBOX project adopts the following reproducibility practices:">Prácticas de reproducibilidad:</p>
+          <ul>
+            <li data-es="<strong>Dataset anonimizado:</strong> Un conjunto de datos de evaluaciones de prueba (sintético o recopilado con consentimiento informado, totalmente anonimizado) está disponible bajo solicitud académica para replicar los análisis presentados." data-en="<strong>Anonymized dataset:</strong> A set of test evaluation data (synthetic or collected with informed consent, fully anonymized) is available upon academic request to replicate the presented analyses."><strong>Dataset anonimizado</strong> bajo solicitud.</li>
+            <li data-es="<strong>Script estadístico archivado:</strong> El código utilizado para el cálculo de ICC (en R/Python) se encuentra versionado y puede ser solicitado para verificación." data-en="<strong>Archived statistical script:</strong> The code used for the ICC calculation (in R/Python) is versioned and can be requested for verification."><strong>Script estadístico</strong> (R/Python).</li>
+            <li data-es="<strong>Versionado del algoritmo:</strong> Cada versión del algoritmo (MAJOR.MINOR.PATCH) queda registrada en el sistema de control de versiones, permitiendo la trazabilidad completa de los cambios (ver sección 7)." data-en="<strong>Algorithm versioning:</strong> Each version of the algorithm (MAJOR.MINOR.PATCH) is recorded in the version control system, allowing complete traceability of changes (see section 7)."><strong>Versionado semántico</strong> del algoritmo.</li>
+            <li data-es="<strong>Documentación de cambios:</strong> El historial de cambios (CHANGELOG) se mantiene actualizado y público." data-en="<strong>Change documentation:</strong> The change history (CHANGELOG) is kept updated and public."><strong>CHANGELOG</strong> público.</li>
+          </ul>
+
+          <!-- 7. Control de Versiones -->
+          <h2 data-es="7. Sistema de Control de Versiones del Algoritmo" data-en="7. Algorithm Version Control System">7. Sistema de Control de Versiones del Algoritmo</h2>
+          <p data-es="Para garantizar trazabilidad y comparabilidad longitudinal, se utiliza versionado semántico <code>MAJOR.MINOR.PATCH</code>." data-en="To ensure traceability and longitudinal comparability, semantic versioning <code>MAJOR.MINOR.PATCH</code> is used.">Versionado semántico <code>MAJOR.MINOR.PATCH</code>.</p>
+          <ul>
+            <li data-es="<strong>MAJOR:</strong> Cambios en lógica central o matriz de pesos que alteran significativamente los resultados. Invalida comparación con versiones anteriores." data-en="<strong>MAJOR:</strong> Changes in core logic or weight matrix that significantly alter results. Invalidates comparison with previous versions."><strong>MAJOR:</strong> cambios significativos.</li>
+            <li data-es="<strong>MINOR:</strong> Adición de nuevas funcionalidades/categorías que no alteran dominios existentes." data-en="<strong>MINOR:</strong> Addition of new features/categories that do not alter existing domains."><strong>MINOR:</strong> nuevas funcionalidades.</li>
+            <li data-es="<strong>PATCH:</strong> Corrección de errores o ajustes menores en la base de datos de juegos que no afectan resultados de forma apreciable." data-en="<strong>PATCH:</strong> Bug fixes or minor adjustments to the game database that do not appreciably affect results."><strong>PATCH:</strong> correcciones menores.</li>
+          </ul>
+
+          <div class="changelog">
+            <h4 style="margin-top:0;">Historial de Cambios (CHANGELOG) - Algoritmo v1.0</h4>
+            <div class="changelog-item">
+              <span class="version-tag">v1.0 (Feb 2026)</span>
+              <p data-es="<strong>Implementación inicial.</strong> Matriz de pesos con ponderación uniforme (sección 4). Análisis preliminar de concordancia con objetivo ICC > 0,70 (sección 5). Base de conocimiento: catálogo inicial de +150 juegos de WineBOX. <span class='badge badge-warn'>Limitaciones conocidas</span> No diferencia intensidad de estímulos dentro de una misma categoría. La inferencia de 'Regulación Emocional' es básica (basada en media de <code>feeling</code>). Futuras versiones explorarán ponderación diferencial." data-en="<strong>Initial implementation.</strong> Weight matrix with uniform weighting (section 4). Preliminary agreement analysis with target ICC > 0.70 (section 5). Knowledge base: initial catalog of +150 WineBOX games. <span class='badge badge-warn'>Known limitations</span> Does not differentiate intensity of stimuli within the same category. The inference of 'Emotional Regulation' is basic (based on average <code>feeling</code>). Future versions will explore differential weighting."><strong>Implementación inicial.</strong> Matriz con ponderación uniforme. Catálogo: +150 juegos. Limitaciones conocidas.</p>
+            </div>
+          </div>
+
+          <!-- 8. Discusión y Limitaciones -->
+          <h2 data-es="8. Discusión y Limitaciones" data-en="8. Discussion and Limitations">8. Discusión y Limitaciones</h2>
+          <p data-es="NeuroTerapia representa un avance hacia una práctica clínica ecológica y basada en datos, pero con limitaciones explícitas que deben ser consideradas:" data-en="NeuroTerapia represents a step towards an ecological, data-based clinical practice, but with explicit limitations that must be considered:">Limitaciones explícitas:</p>
+          <ul>
+            <li data-es="<strong>No es una herramienta diagnóstica:</strong> El perfil generado es una hipótesis de trabajo basada en la conducta observada. No debe sustituir una evaluación neuropsicológica formal y estandarizada. El sistema no realiza clasificación clínica automática ni reemplaza el criterio profesional." data-en="<strong>Not a diagnostic tool:</strong> The generated profile is a working hypothesis based on observed behavior. It should not replace a formal and standardized neuropsychological evaluation. The system does not perform automatic clinical classification nor replace professional judgment."><strong>No es diagnóstica:</strong> hipótesis de trabajo.</li>
+            <li data-es="<strong>Validez de constructo preliminar:</strong> Se requieren estudios de validez concurrente que correlacionen las puntuaciones del algoritmo con pruebas estandarizadas (ej. Stroop, CPT-3, BRIEF)." data-en="<strong>Preliminary construct validity:</strong> Concurrent validity studies are required to correlate algorithm scores with standardized tests (e.g., Stroop, CPT-3, BRIEF)."><strong>Validez de constructo preliminar.</strong></li>
+            <li data-es="<strong>Ponderación uniforme:</strong> Todas las palabras clave de una misma categoría tienen el mismo peso; no se considera la intensidad o centralidad del estímulo. Esto es una limitación asumida para la versión 1.0." data-en="<strong>Uniform weighting:</strong> All keywords in the same category have the same weight; the intensity or centrality of the stimulus is not considered. This is an assumed limitation for version 1.0."><strong>Ponderación uniforme</strong> (limitación asumida).</li>
+            <li data-es="<strong>Tamaño del panel de jueces:</strong> El análisis de concordancia se realizó con tres jueces sobre 30 juegos, adecuado para una exploración inicial, pero una muestra más amplia aumentaría la robustez de las conclusiones." data-en="<strong>Judge panel size:</strong> The agreement analysis was conducted with three judges on 30 games, adequate for an initial exploration, but a larger sample would increase the robustness of the conclusions."><strong>Panel de jueces:</strong> 3 jueces, 30 juegos.</li>
+            <li data-es="<strong>Interpretación clínica:</strong> Las descripciones automáticas evitan cualquier afirmación diagnóstica, limitándose a señalar <strong>patrones conductuales frecuentemente reportados en la literatura para poblaciones con diagnóstico previo de TEA o TDAH</strong>." data-en="<strong>Clinical interpretation:</strong> Automatic descriptions avoid any diagnostic statements, limiting themselves to pointing out <strong>behavioral patterns frequently reported in the literature for populations with a previous diagnosis of ASD or ADHD</strong>."><strong>Interpretación clínica:</strong> solo patrones reportados en literatura.</li>
+          </ul>
+
+          <!-- 9. Trabajo Futuro -->
+          <h2 data-es="9. Trabajo Futuro y Líneas de Investigación" data-en="9. Future Work and Research Lines">9. Trabajo Futuro y Líneas de Investigación</h2>
+          <ul>
+            <li data-es="<strong>Estudios de validez concurrente:</strong> Correlacionar perfiles de NeuroTerapia con baterías estandarizadas en muestras clínicas (TEA, TDAH) y controles." data-en="<strong>Concurrent validity studies:</strong> Correlate NeuroTerapia profiles with standardized batteries in clinical samples (ASD, ADHD) and controls."><strong>Validez concurrente</strong> con baterías estandarizadas.</li>
+            <li data-es="<strong>Fiabilidad test-retest:</strong> Evaluar la estabilidad de las mediciones en un período corto sin intervención." data-en="<strong>Test-retest reliability:</strong> Assess the stability of measurements over a short period without intervention."><strong>Fiabilidad test-retest.</strong></li>
+            <li data-es="<strong>Sensibilidad al cambio:</strong> Investigar si las puntuaciones reflejan cambios clínicos tras una intervención." data-en="<strong>Sensitivity to change:</strong> Investigate whether scores reflect clinical changes after an intervention."><strong>Sensibilidad al cambio.</strong></li>
+            <li data-es="<strong>Refinamiento del algoritmo v2.0:</strong> Incorporar latencia de respuesta, análisis de secuencias, mejorar el módulo de Regulación Emocional y explorar ponderación diferencial de estímulos." data-en="<strong>Algorithm refinement v2.0:</strong> Incorporate response latency, sequence analysis, improve the Emotional Regulation module and explore differential weighting of stimuli."><strong>Refinamiento v2.0</strong> con ponderación diferencial.</li>
+          </ul>
+
+          <!-- 10. Conclusión -->
+          <h2 data-es="10. Conclusión" data-en="10. Conclusion">10. Conclusión</h2>
+          <div class="highlight-box">
+            <p data-es="NeuroTerapia + WineBOX es una <strong>plataforma de observación y apoyo clínico basada en un modelo teórico sólido</strong> (Carga Cognitiva) y una <strong>metodología de inferencia transparente y documentada</strong>, definida formalmente como un <strong>modelo taxonómico conductual basado en reglas determinísticas con validación por consenso clínico</strong>. Al transformar la interacción lúdica en datos estructurados, proporciona al terapeuta un complemento para la comprensión de la conducta del paciente, siempre dentro de un marco de <strong>ciencia responsable, con limitaciones explícitas y un camino claro hacia la validación futura</strong>. El sistema no realiza clasificación clínica automática ni reemplaza el criterio profesional, constituyendo un paso significativo hacia una evaluación con mayor validez ecológica que complementa las pruebas de laboratorio con observaciones en un entorno de interacción digital controlado pero natural. <strong>El sistema está diseñado como herramienta de estructuración clínica y seguimiento, no como instrumento de evaluación psicométrica independiente.</strong>" data-en="NeuroTerapia + WineBOX is a <strong>clinical observation and support platform based on a solid theoretical model</strong> (Cognitive Load) and a <strong>transparent and documented inference methodology</strong>, formally defined as a <strong>taxonomic behavioral model based on deterministic rules with validation by clinical consensus</strong>. By transforming playful interaction into structured data, it provides the therapist with a complement for understanding patient behavior, always within a framework of <strong>responsible science, with explicit limitations and a clear path toward future validation</strong>. The system does not perform automatic clinical classification nor replace professional judgment, constituting a significant step towards an assessment with greater ecological validity that complements laboratory tests with observations in a controlled but natural digital interaction environment. <strong>The system is designed as a tool for clinical structuring and follow-up, not as an independent psychometric assessment instrument.</strong>">NeuroTerapia + WineBOX es una <strong>plataforma de observación y apoyo clínico</strong> basada en un modelo teórico sólido y una metodología de inferencia transparente. Proporciona al terapeuta un complemento para la comprensión de la conducta del paciente, siempre dentro de un marco de ciencia responsable, con limitaciones explícitas y un camino claro hacia la validación futura. El sistema no realiza clasificación clínica automática ni reemplaza el criterio profesional.</p>
+          </div>
+
+          <!-- 11. Referencias -->
+          <h2 data-es="11. Referencias" data-en="11. References">11. Referencias</h2>
+          <ul style="list-style-type: none; padding-left:0;">
+            <li>• Sweller, J. (1988). Cognitive load during problem solving: Effects on learning. <em>Cognitive Science</em>, 12(2), 257–285.</li>
+            <li>• Mayer, R. E., & Moreno, R. (2003). Nine ways to reduce cognitive load in multimedia learning. <em>Educational Psychologist</em>, 38(1), 43–52.</li>
+            <li>• Miller, E. K., & Cohen, J. D. (2001). An integrative theory of prefrontal cortex function. <em>Annual Review of Neuroscience</em>, 24(1), 167–202.</li>
+            <li>• Barkley, R. A. (1997). Behavioral inhibition, sustained attention, and executive functions: constructing a unifying theory of ADHD. <em>Psychological Bulletin</em>, 121(1), 65.</li>
+            <li>• WineBOX Project (2025). <em>Optimización Cognitiva Mediante la Reducción de la Fidelidad Visual: Un Análisis del Modelo WineBOX en Neurodivergencias</em>. Whitepaper v1.2.</li>
+            <li>• Logan, S. W., & Robinson, L. E. (2020). Motor development and executive function: A review of the literature. <em>Journal of Motor Learning and Development</em>, 8(1), 156–181.</li>
+            <li>• Koo, T. K., & Li, M. Y. (2016). A guideline of selecting and reporting intraclass correlation coefficients for reliability research. <em>Journal of Chiropractic Medicine</em>, 15(2), 155–163.</li>
+          </ul>
         </div>
       </section>
 
-      <section id="access" class="card" style="padding:18px; margin-top:20px">
-        <h3 data-es="Acceder a WineBOX" data-en="Access WineBOX">Acceder a WineBOX</h3>
-        <p data-es="El sistema arranca desde <a href='http://winebox.cloud' target='_blank' rel='noopener'>winebox.cloud</a>. Al acceder, el entorno se prepara y puede ejecutarse en el navegador o auto-instalar un runner local según la plataforma." data-en="The system boots from <a href='http://winebox.cloud' target='_blank' rel='noopener'>winebox.cloud</a>. Upon access, the environment prepares and can run in the browser or auto-install a local runner depending on the platform.">El sistema arranca desde <a href="http://winebox.cloud" target="_blank" rel="noopener">winebox.cloud</a>. Al acceder, el entorno se prepara y puede ejecutarse en el navegador o auto-instalar un runner local según la plataforma.</p>
-        <p class="muted" data-es="Si querés pruebas o licencias institucionales, contactanos en ifilex@gmail.com" data-en="If you want trials or institutional licenses, contact us at ifilex@gmail.com">Si querés pruebas o licencias institucionales, contactanos en ifilex@gmail.com</p>
+      <!-- FAQ y DONATE -->
+      <section id="faq" class="card" style="padding:24px; margin-top:24px;">
+        <h3 data-es="Preguntas frecuentes" data-en="Frequently asked questions">❓ Preguntas frecuentes</h3>
+        <div style="display:grid; gap:16px;">
+          <div><strong data-es="¿Es seguro?" data-en="Is it safe?">¿Es seguro?</strong> <span class="muted" data-es="Sí; sandbox en navegador." data-en="Yes; browser sandbox.">Sí, sandbox en navegador.</span></div>
+          <div><strong data-es="¿Es terapia?" data-en="Is it therapy?">¿Es terapia?</strong> <span class="muted" data-es="No reemplaza terapia, es complemento." data-en="Does not replace therapy, it's a complement.">No, es complemento.</span></div>
+          <div><strong data-es="¿Cómo contribuyo?" data-en="How to contribute?">¿Cómo contribuyo?</strong> <span class="muted" data-es="Donaciones y licencias." data-en="Donations and licenses.">Donaciones y licencias.</span></div>
+        </div>
       </section>
 
-      <section id="donate" class="card" style="padding:18px; margin-top:20px">
-        <h3 data-es="Donaciones y sostenibilidad" data-en="Donations and sustainability">Donaciones y sostenibilidad</h3>
-        <p data-es="Tu donación se destina a:" data-en="Your donation goes to:">Tu donación se destina a:</p>
-        <ul>
-          <li data-es="Investigación clínica y ECA" data-en="Clinical research and RCT">Investigación clínica y ECA</li>
-          <li data-es="Dispositivos para familias sin recursos" data-en="Devices for families without resources">Dispositivos para familias sin recursos</li>
-          <li data-es="Mejoras en la biblioteca y UX" data-en="Library and UX improvements">Mejoras en la biblioteca y UX</li>
-        </ul>
-        <a class="cta-primary" href="#donate" onclick="alert(lang.current === 'es' ? 'Pronto habilitaremos pasarelas de pago. Escribinos a ifilex@gmail.com para colaborar ahora.' : 'We will soon enable payment gateways. Write to ifilex@gmail.com to collaborate now.');return false" data-es="Quiero ayudar" data-en="I want to help">Quiero ayudar</a>
+      <section id="access" class="card" style="padding:24px;">
+        <h3 data-es="Acceder a WineBOX" data-en="Access WineBOX">🚀 Acceder</h3>
+        <p><a href="http://winebox.cloud" target="_blank">winebox.cloud</a> <span class="muted" data-es="arranque en navegador." data-en="runs in browser.">arranque en navegador.</span></p>
       </section>
 
+      <section id="donate" class="card" style="padding:24px; text-align:center;">
+        <h3 data-es="Donaciones y sostenibilidad" data-en="Donations and sustainability">❤️ Donaciones</h3>
+        <p data-es="Tu apoyo financia investigación y acceso gratuito." data-en="Your support funds research and free access.">Tu apoyo financia investigación y acceso gratuito.</p>
+        <a class="cta-primary" href="https://www.kickstarter.com/projects/winebox/winebox-proyect?ref=a98fwz" target="_blank" rel="noopener" style="background:#d94f4f;">🎁 Quiero ayudar (Kickstarter)</a>
+      </section>
     </main>
 
     <footer>
-      <div style="max-width:var(--max-w); margin:20px auto; text-align:center">
-        <p class="muted" data-es="WineBOX Project — Documento preliminar v1.2 · Contacto: <a href='mailto:ifilex@gmail.com'>ifilex@gmail.com</a>" data-en="WineBOX Project — Preliminary document v1.2 · Contact: <a href='mailto:ifilex@gmail.com'>ifilex@gmail.com</a>">WineBOX Project — Documento preliminar v1.2 · Contacto: <a href="mailto:ifilex@gmail.com">ifilex@gmail.com</a></p>
-        <p class="muted" data-es="Licencia: CC BY-NC 4.0 · © 2025 WineBOX Project" data-en="License: CC BY-NC 4.0 · © 2025 WineBOX Project">Licencia: CC BY-NC 4.0 · © 2025 WineBOX Project</p>
-      </div>
+      <p class="muted" data-es="WineBOX Project — v1.2 · Contacto: ifilex@gmail.com" data-en="WineBOX Project — v1.2 · Contact: ifilex@gmail.com">WineBOX Project — v1.2 · ifilex@gmail.com</p>
+      <p class="muted" data-es="Licencia: CC BY-NC 4.0 · © 2025" data-en="License: CC BY-NC 4.0 · © 2025">Licencia: CC BY-NC 4.0 · © 2025</p>
     </footer>
-
   </div>
 
-  <!-- SIMPLE LIGHTBOX -->
+  <!-- Lightbox y Script mejorado -->
   <div class="lightbox-overlay" id="lightbox">
     <div class="lightbox-content">
       <div class="lightbox-counter" id="lightbox-counter">1 / 9</div>
       <button class="lightbox-close" id="lightbox-close">✕</button>
-      
-      <div class="lightbox-nav">
-        <button id="lightbox-prev">‹</button>
-        <button id="lightbox-next">›</button>
-      </div>
-      
+      <div class="lightbox-nav"><button id="lightbox-prev">‹</button><button id="lightbox-next">›</button></div>
       <img class="lightbox-img" id="lightbox-img" src="" alt="">
       <div class="lightbox-caption" id="lightbox-caption"></div>
     </div>
   </div>
 
   <script>
-    // Language management system
     const lang = { current: 'es' };
-    
-    // Lightbox variables - initialize empty
-    let images = [];
-    let currentIndex = 0;
-    
-    // Function to set language and update all elements
+    let images = [], currentIndex = 0;
+
     function setLang(l) {
       lang.current = l;
-      
-      // Update button active states
       document.getElementById('btnES').classList.toggle('active', l === 'es');
       document.getElementById('btnEN').classList.toggle('active', l === 'en');
       
-      // Update all elements with data-es and data-en attributes
       document.querySelectorAll('[data-es], [data-en]').forEach(el => {
         if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-          // For form elements, update placeholder or value
-          if (el.hasAttribute('placeholder')) {
-            el.placeholder = el.getAttribute(`data-${l}`) || '';
-          } else {
-            el.value = el.getAttribute(`data-${l}`) || '';
-          }
+          if (el.hasAttribute('placeholder')) el.placeholder = el.getAttribute(`data-${l}`) || '';
+          else el.value = el.getAttribute(`data-${l}`) || '';
         } else if (el.tagName === 'IMG') {
-          // For images, update alt text
           el.alt = el.getAttribute(`data-${l}`) || el.alt;
-        } else if (el.tagName === 'A' && el.hasAttribute('href')) {
-          // For links, keep href but update text
-          const text = el.getAttribute(`data-${l}`) || el.textContent;
+        } else if (el.tagName === 'A' && el.hasAttribute('href') && !el.classList.contains('cta-primary')) {
+          const text = el.getAttribute(`data-${l}`);
           if (text) el.textContent = text;
         } else if (el.tagName === 'META') {
-          // For meta tags, update content
           el.content = el.getAttribute(`data-${l}`) || el.content;
         } else {
-          // For other elements, update innerHTML or textContent
           const content = el.getAttribute(`data-${l}`);
-          if (content) {
-            // Check if content contains HTML tags
-            if (/<[a-z][\s\S]*>/i.test(content)) {
-              el.innerHTML = content;
-            } else {
-              el.textContent = content;
-            }
-          }
+          if (content) el.innerHTML = content;
         }
       });
-      
-      // Update PDF link based on language
-      const whitepaperPdfBtn = document.getElementById('whitepaperPdfBtn');
-      if (whitepaperPdfBtn) {
-        const hrefAttr = `data-href-${l}`;
-        const newHref = whitepaperPdfBtn.getAttribute(hrefAttr);
-        if (newHref) {
-          whitepaperPdfBtn.href = newHref;
-        }
+
+      const pdfBtn = document.getElementById('whitepaperPdfBtn');
+      if (pdfBtn) {
+        const newHref = pdfBtn.getAttribute(`data-href-${l}`);
+        if (newHref) pdfBtn.href = newHref;
       }
-      
-      // Update page language attribute
       document.documentElement.lang = l;
-      
-      // Save preference to localStorage
       localStorage.setItem('winebox-lang', l);
-    }
-    
-    // Event listeners for language buttons
-    document.getElementById('btnES').addEventListener('click', () => setLang('es'));
-    document.getElementById('btnEN').addEventListener('click', () => setLang('en'));
-    
-    // Load saved language preference or default to Spanish
-    const savedLang = localStorage.getItem('winebox-lang');
-    if (savedLang && (savedLang === 'es' || savedLang === 'en')) {
-      setLang(savedLang);
-    } else {
-      setLang('es');
+      if (window.updateLightboxCaption) window.updateLightboxCaption();
+      
+      // Actualizar active en nav
+      highlightNav();
     }
 
-    // SIMPLE LIGHTBOX SYSTEM - initialized after DOM is loaded
+    function highlightNav() {
+      const sections = document.querySelectorAll('section[id]');
+      const navLinks = document.querySelectorAll('nav.main a');
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 150;
+        if (window.pageYOffset >= sectionTop) current = section.getAttribute('id');
+      });
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${current}`) link.classList.add('active');
+      });
+    }
+
+    document.getElementById('btnES').addEventListener('click', () => setLang('es'));
+    document.getElementById('btnEN').addEventListener('click', () => setLang('en'));
+    const savedLang = localStorage.getItem('winebox-lang');
+    setLang(savedLang === 'en' ? 'en' : 'es');
+
+    // Lightbox
     document.addEventListener('DOMContentLoaded', function() {
-      const lightbox = document.getElementById('lightbox');
-      const lightboxImg = document.getElementById('lightbox-img');
-      const lightboxCaption = document.getElementById('lightbox-caption');
-      const lightboxCounter = document.getElementById('lightbox-counter');
-      const lightboxClose = document.getElementById('lightbox-close');
-      const lightboxPrev = document.getElementById('lightbox-prev');
-      const lightboxNext = document.getElementById('lightbox-next');
-      
-      // Collect all gallery images
-      document.querySelectorAll('.gallery img').forEach((img, index) => {
+      const lb = document.getElementById('lightbox');
+      const lbImg = document.getElementById('lightbox-img');
+      const lbCap = document.getElementById('lightbox-caption');
+      const lbCounter = document.getElementById('lightbox-counter');
+      const close = document.getElementById('lightbox-close');
+      const prev = document.getElementById('lightbox-prev');
+      const next = document.getElementById('lightbox-next');
+
+      document.querySelectorAll('.gallery img').forEach((img, i) => {
         images.push({
           src: img.getAttribute('data-full') || img.src,
           alt: img.alt,
           captionEs: img.getAttribute('data-caption-es') || '',
           captionEn: img.getAttribute('data-caption-en') || ''
         });
-        
-        // Add click event to each image
         img.addEventListener('click', () => {
-          currentIndex = index;
-          showLightboxImage(currentIndex);
-          lightbox.classList.add('active');
-          document.body.style.overflow = 'hidden';
+          currentIndex = i; showImage(); lb.classList.add('active'); document.body.style.overflow = 'hidden';
         });
       });
-      
-      function showLightboxImage(index) {
-        if (index >= 0 && index < images.length) {
-          const imgData = images[index];
-          lightboxImg.src = imgData.src;
-          lightboxImg.alt = imgData.alt;
-          updateLightboxCaption();
-          lightboxCounter.textContent = `${index + 1} / ${images.length}`;
-          
-          // Show/hide navigation buttons
-          lightboxPrev.style.display = index === 0 ? 'none' : 'flex';
-          lightboxNext.style.display = index === images.length - 1 ? 'none' : 'flex';
+
+      function showImage() {
+        if (currentIndex>=0 && currentIndex<images.length) {
+          lbImg.src = images[currentIndex].src; lbImg.alt = images[currentIndex].alt;
+          updateCaption(); lbCounter.textContent = `${currentIndex+1}/${images.length}`;
+          prev.style.display = currentIndex===0?'none':'flex';
+          next.style.display = currentIndex===images.length-1?'none':'flex';
         }
       }
-      
-      function updateLightboxCaption() {
-        if (images[currentIndex]) {
-          if (lang.current === 'es') {
-            lightboxCaption.textContent = images[currentIndex].captionEs;
-          } else {
-            lightboxCaption.textContent = images[currentIndex].captionEn;
-          }
-        }
-      }
-      
-      // Lightbox navigation
-      lightboxPrev.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (currentIndex > 0) {
-          currentIndex--;
-          showLightboxImage(currentIndex);
-        }
-      });
-      
-      lightboxNext.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (currentIndex < images.length - 1) {
-          currentIndex++;
-          showLightboxImage(currentIndex);
-        }
-      });
-      
-      // Close lightbox
-      lightboxClose.addEventListener('click', (e) => {
-        e.stopPropagation();
-        closeLightbox();
-      });
-      
-      lightbox.addEventListener('click', (e) => {
-        if (e.target === lightbox) {
-          closeLightbox();
-        }
-      });
-      
-      function closeLightbox() {
-        lightbox.classList.remove('active');
-        document.body.style.overflow = '';
-      }
-      
-      // Keyboard navigation
+      function updateCaption() { lbCap.textContent = images[currentIndex]? (lang.current==='es'? images[currentIndex].captionEs : images[currentIndex].captionEn) : ''; }
+      window.updateLightboxCaption = updateCaption;
+
+      prev.addEventListener('click', (e) => { e.stopPropagation(); if (currentIndex>0) { currentIndex--; showImage(); } });
+      next.addEventListener('click', (e) => { e.stopPropagation(); if (currentIndex<images.length-1) { currentIndex++; showImage(); } });
+      close.addEventListener('click', (e) => { e.stopPropagation(); lb.classList.remove('active'); document.body.style.overflow = ''; });
+      lb.addEventListener('click', (e) => { if (e.target===lb) { lb.classList.remove('active'); document.body.style.overflow = ''; } });
       document.addEventListener('keydown', (e) => {
-        if (lightbox.classList.contains('active')) {
-          switch(e.key) {
-            case 'ArrowLeft':
-              if (currentIndex > 0) {
-                currentIndex--;
-                showLightboxImage(currentIndex);
-              }
-              break;
-            case 'ArrowRight':
-              if (currentIndex < images.length - 1) {
-                currentIndex++;
-                showLightboxImage(currentIndex);
-              }
-              break;
-            case 'Escape':
-              closeLightbox();
-              break;
-          }
+        if (lb.classList.contains('active')) {
+          if (e.key==='ArrowLeft' && currentIndex>0) { currentIndex--; showImage(); }
+          else if (e.key==='ArrowRight' && currentIndex<images.length-1) { currentIndex++; showImage(); }
+          else if (e.key==='Escape') { lb.classList.remove('active'); document.body.style.overflow = ''; }
         }
       });
-      
-      // Initialize lightbox with first image
-      if (images.length > 0) {
-        showLightboxImage(0);
-      }
-      
-      // Update caption when language changes
-      window.updateLightboxCaption = updateLightboxCaption;
+      if (images.length) showImage();
     });
 
-    // Smooth anchor scrolling with header offset
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', function(e) {
-        const href = this.getAttribute('href');
-        if (href.length > 1) {
-          const target = document.querySelector(href);
-          if (target) {
-            e.preventDefault();
-            const headerHeight = document.querySelector('.site').offsetHeight;
-            const targetPosition = target.offsetTop - headerHeight - 20;
-            
-            window.scrollTo({
-              top: targetPosition,
-              behavior: 'smooth'
-            });
-            
-            // Focus the element for accessibility
-            target.setAttribute('tabindex', '-1');
-            target.focus();
-            setTimeout(() => target.removeAttribute('tabindex'), 1000);
-          }
-        }
-      });
-    });
+    // Active nav based on scroll
+    window.addEventListener('scroll', highlightNav);
   </script>
 </body>
 </html>
