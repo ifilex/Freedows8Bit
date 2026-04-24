@@ -36,6 +36,791 @@
         }
 </script>
 
+
+
+<script>
+    // ========== SISTEMA DE TRADUCCIONES ==========
+    const translations = {
+        en: {
+            // Pantalla de inicio
+            startup_title: "WineBOX",
+            startup_subtitle: "Click to start WineBOX",
+            startup_button: "START",
+            startup_about: "About us",
+            // Encabezado y navegación
+            menu_home: "Home",
+            menu_apps: "Applications",
+            menu_games: "Games",
+            menu_arcade: "Arcade",
+            menu_multimedia: "Multimedia",
+            menu_utilities: "Utilities",
+            menu_strategy: "Strategy",
+            menu_uninstall: "Uninstall",
+            menu_settings: "Settings",
+            menu_shutdown: "Shutdown",
+            search_placeholder: "Search applications...",
+            launcher_search_placeholder: "Search applications...",
+            launcher_count: "applications available",
+            launcher_count_filtered: "applications found for",
+            // Secciones
+            recently_used: "Recently Used",
+            categories_all: "All",
+            categories_apps: "Apps",
+            categories_games: "Games",
+            categories_multimedia: "Multimedia",
+            categories_utilities: "Utilities",
+            categories_arcade: "Arcade",
+            categories_strategy: "Strategy",
+            loading: "Loading applications...",
+            no_apps: "No applications available",
+            no_apps_help: "Add applications in apps-data.js file",
+            no_recent: "No recent applications",
+            // Modal de aplicación
+            modal_category: "Category",
+            modal_description: "Description",
+            modal_installed_status: "Installed",
+            modal_run: "Run",
+            modal_install: "Install in Program Manager",
+            modal_uninstall: "Uninstall",
+            // Confirmaciones
+            confirm_uninstall_title: "Confirm Uninstall",
+            confirm_uninstall_text: "Are you sure you want to uninstall",
+            confirm_uninstall_warning: "This will remove it from Program Manager and recent apps.",
+            confirm_shutdown_title: "Confirm Shutdown",
+            confirm_shutdown_text: "Are you sure you want to shutdown WineBOX?",
+            confirm_shutdown_warning: "This will close the program and all background processes. Any unsaved work may be lost.",
+            // Botones de acción
+            button_uninstall: "Uninstall",
+            button_cancel: "Cancel",
+            button_shutdown: "Shutdown",
+            // Mensajes de estado
+            status_eula_accepted: "EULA accepted. Welcome to WineBOX!",
+            status_installed: "installed successfully in Program Manager",
+            status_uninstalled: "uninstalled successfully from Program Manager",
+            status_settings_applied: "Settings applied successfully",
+            status_settings_reset: "Settings reset to defaults",
+            status_keyboard_enabled: "Keyboard navigation enabled",
+            status_keyboard_disabled: "Keyboard navigation disabled",
+            status_install_cancelled: "Installation cancelled",
+            status_shutdown: "Shutting down WineBOX...",
+            // Settings
+            settings_title_appearance: "Appearance",
+            settings_desc_appearance: "Customize the look and feel of WineBOX",
+            settings_title_interface: "Interface",
+            settings_desc_interface: "Configure how you interact with WineBOX",
+            settings_title_system: "System",
+            settings_desc_system: "System preferences and performance settings",
+            settings_theme: "Theme",
+            settings_bg_color: "Background Color",
+            settings_bg_image: "Background Image",
+            settings_upload: "Upload Image",
+            settings_display: "Display",
+            settings_icon_size: "Icon Size",
+            settings_animations: "Enable Animations",
+            settings_preferences: "Preferences",
+            settings_autostart: "Auto-start on boot",
+            settings_show_startup: "Show startup screen",
+            settings_reset: "Reset to Default",
+            settings_apply: "Apply Changes",
+            // Otros
+            desktop: "Desktop",
+            eula_button_agree: "I AGREE",
+            eula_button_disagree: "I DISAGREE"
+        },
+        es: {
+            startup_title: "WineBOX",
+            startup_subtitle: "Haz clic para iniciar WineBOX",
+            startup_button: "INICIAR",
+            startup_about: "Acerca de",
+            menu_home: "Inicio",
+            menu_apps: "Aplicaciones",
+            menu_games: "Juegos",
+            menu_arcade: "Arcade",
+            menu_multimedia: "Multimedia",
+            menu_utilities: "Utilidades",
+            menu_strategy: "Estrategia",
+            menu_uninstall: "Desinstalar",
+            menu_settings: "Ajustes",
+            menu_shutdown: "Apagar",
+            search_placeholder: "Buscar aplicaciones...",
+            launcher_search_placeholder: "Buscar aplicaciones...",
+            launcher_count: "aplicaciones disponibles",
+            launcher_count_filtered: "aplicaciones encontradas para",
+            recently_used: "Usados Recientemente",
+            categories_all: "Todo",
+            categories_apps: "Apps",
+            categories_games: "Juegos",
+            categories_multimedia: "Multimedia",
+            categories_utilities: "Utilidades",
+            categories_arcade: "Arcade",
+            categories_strategy: "Estrategia",
+            loading: "Cargando aplicaciones...",
+            no_apps: "No hay aplicaciones disponibles",
+            no_apps_help: "Agrega aplicaciones en el archivo apps-data.js",
+            no_recent: "No hay aplicaciones recientes",
+            modal_category: "Categoría",
+            modal_description: "Descripción",
+            modal_installed_status: "Instalado",
+            modal_run: "Ejecutar",
+            modal_install: "Instalar en Administrador de Programas",
+            modal_uninstall: "Desinstalar",
+            confirm_uninstall_title: "Confirmar Desinstalación",
+            confirm_uninstall_text: "¿Estás seguro de que quieres desinstalar",
+            confirm_uninstall_warning: "Esto lo eliminará del Administrador de Programas y de las aplicaciones recientes.",
+            confirm_shutdown_title: "Confirmar Apagado",
+            confirm_shutdown_text: "¿Estás seguro de que quieres apagar WineBOX?",
+            confirm_shutdown_warning: "Esto cerrará el programa y todos los procesos en segundo plano. Se puede perder trabajo no guardado.",
+            button_uninstall: "Desinstalar",
+            button_cancel: "Cancelar",
+            button_shutdown: "Apagar",
+            status_eula_accepted: "EULA aceptado. ¡Bienvenido a WineBOX!",
+            status_installed: "instalado con éxito en el Administrador de Programas",
+            status_uninstalled: "desinstalado con éxito del Administrador de Programas",
+            status_settings_applied: "Configuración aplicada con éxito",
+            status_settings_reset: "Configuración restablecida a valores predeterminados",
+            status_keyboard_enabled: "Navegación por teclado habilitada",
+            status_keyboard_disabled: "Navegación por teclado deshabilitada",
+            status_install_cancelled: "Instalación cancelada",
+            status_shutdown: "Apagando WineBOX...",
+            settings_title_appearance: "Apariencia",
+            settings_desc_appearance: "Personaliza el aspecto de WineBOX",
+            settings_title_interface: "Interfaz",
+            settings_desc_interface: "Configura cómo interactúas con WineBOX",
+            settings_title_system: "Sistema",
+            settings_desc_system: "Preferencias del sistema y ajustes de rendimiento",
+            settings_theme: "Tema",
+            settings_bg_color: "Color de Fondo",
+            settings_bg_image: "Imagen de Fondo",
+            settings_upload: "Subir Imagen",
+            settings_display: "Pantalla",
+            settings_icon_size: "Tamaño de Icono",
+            settings_animations: "Habilitar Animaciones",
+            settings_preferences: "Preferencias",
+            settings_autostart: "Inicio automático al arrancar",
+            settings_show_startup: "Mostrar pantalla de inicio",
+            settings_reset: "Restablecer a Valores Predeterminados",
+            settings_apply: "Aplicar Cambios",
+            desktop: "Escritorio",
+            eula_button_agree: "ACEPTO",
+            eula_button_disagree: "NO ACEPTO"
+        },
+        fr: {
+            startup_title: "WineBOX",
+            startup_subtitle: "Cliquez pour démarrer WineBOX",
+            startup_button: "DÉMARRER",
+            startup_about: "À propos",
+            menu_home: "Accueil",
+            menu_apps: "Applications",
+            menu_games: "Jeux",
+            menu_arcade: "Arcade",
+            menu_multimedia: "Multimédia",
+            menu_utilities: "Utilitaires",
+            menu_strategy: "Stratégie",
+            menu_uninstall: "Désinstaller",
+            menu_settings: "Paramètres",
+            menu_shutdown: "Arrêter",
+            search_placeholder: "Rechercher des applications...",
+            launcher_search_placeholder: "Rechercher des applications...",
+            launcher_count: "applications disponibles",
+            launcher_count_filtered: "applications trouvées pour",
+            recently_used: "Récemment Utilisés",
+            categories_all: "Tout",
+            categories_apps: "Apps",
+            categories_games: "Jeux",
+            categories_multimedia: "Multimédia",
+            categories_utilities: "Utilitaires",
+            categories_arcade: "Arcade",
+            categories_strategy: "Stratégie",
+            loading: "Chargement des applications...",
+            no_apps: "Aucune application disponible",
+            no_apps_help: "Ajoutez des applications dans le fichier apps-data.js",
+            no_recent: "Aucune application récente",
+            modal_category: "Catégorie",
+            modal_description: "Description",
+            modal_installed_status: "Installé",
+            modal_run: "Exécuter",
+            modal_install: "Installer dans le Gestionnaire de Programmes",
+            modal_uninstall: "Désinstaller",
+            confirm_uninstall_title: "Confirmer la Désinstallation",
+            confirm_uninstall_text: "Êtes-vous sûr de vouloir désinstaller",
+            confirm_uninstall_warning: "Cela le supprimera du Gestionnaire de Programmes et des applications récentes.",
+            confirm_shutdown_title: "Confirmer l'Arrêt",
+            confirm_shutdown_text: "Êtes-vous sûr de vouloir arrêter WineBOX ?",
+            confirm_shutdown_warning: "Cela fermera le programme et tous les processus d'arrière-plan. Tout travail non enregistré pourrait être perdu.",
+            button_uninstall: "Désinstaller",
+            button_cancel: "Annuler",
+            button_shutdown: "Arrêter",
+            status_eula_accepted: "EULA accepté. Bienvenue dans WineBOX !",
+            status_installed: "installé avec succès dans le Gestionnaire de Programmes",
+            status_uninstalled: "désinstallé avec succès du Gestionnaire de Programmes",
+            status_settings_applied: "Paramètres appliqués avec succès",
+            status_settings_reset: "Paramètres réinitialisés aux valeurs par défaut",
+            status_keyboard_enabled: "Navigation au clavier activée",
+            status_keyboard_disabled: "Navigation au clavier désactivée",
+            status_install_cancelled: "Installation annulée",
+            status_shutdown: "Arrêt de WineBOX...",
+            settings_title_appearance: "Apparence",
+            settings_desc_appearance: "Personnalisez l'apparence de WineBOX",
+            settings_title_interface: "Interface",
+            settings_desc_interface: "Configurez votre interaction avec WineBOX",
+            settings_title_system: "Système",
+            settings_desc_system: "Préférences système et paramètres de performances",
+            settings_theme: "Thème",
+            settings_bg_color: "Couleur d'Arrière-plan",
+            settings_bg_image: "Image d'Arrière-plan",
+            settings_upload: "Télécharger une Image",
+            settings_display: "Affichage",
+            settings_icon_size: "Taille des Icônes",
+            settings_animations: "Activer les Animations",
+            settings_preferences: "Préférences",
+            settings_autostart: "Démarrage automatique au boot",
+            settings_show_startup: "Afficher l'écran de démarrage",
+            settings_reset: "Réinitialiser aux Valeurs par Défaut",
+            settings_apply: "Appliquer les Modifications",
+            desktop: "Bureau",
+            eula_button_agree: "J'ACCEPTE",
+            eula_button_disagree: "JE REFUSE"
+        },
+        de: {
+            startup_title: "WineBOX",
+            startup_subtitle: "Klicken Sie, um WineBOX zu starten",
+            startup_button: "STARTEN",
+            startup_about: "Über uns",
+            menu_home: "Startseite",
+            menu_apps: "Anwendungen",
+            menu_games: "Spiele",
+            menu_arcade: "Arcade",
+            menu_multimedia: "Multimedia",
+            menu_utilities: "Dienstprogramme",
+            menu_strategy: "Strategie",
+            menu_uninstall: "Deinstallieren",
+            menu_settings: "Einstellungen",
+            menu_shutdown: "Herunterfahren",
+            search_placeholder: "Anwendungen suchen...",
+            launcher_search_placeholder: "Anwendungen suchen...",
+            launcher_count: "Anwendungen verfügbar",
+            launcher_count_filtered: "Anwendungen gefunden für",
+            recently_used: "Zuletzt verwendet",
+            categories_all: "Alle",
+            categories_apps: "Apps",
+            categories_games: "Spiele",
+            categories_multimedia: "Multimedia",
+            categories_utilities: "Dienstprogramme",
+            categories_arcade: "Arcade",
+            categories_strategy: "Strategie",
+            loading: "Lade Anwendungen...",
+            no_apps: "Keine Anwendungen verfügbar",
+            no_apps_help: "Fügen Sie Anwendungen in der Datei apps-data.js hinzu",
+            no_recent: "Keine kürzlich verwendeten Anwendungen",
+            modal_category: "Kategorie",
+            modal_description: "Beschreibung",
+            modal_installed_status: "Installiert",
+            modal_run: "Ausführen",
+            modal_install: "Im Programm-Manager installieren",
+            modal_uninstall: "Deinstallieren",
+            confirm_uninstall_title: "Deinstallation bestätigen",
+            confirm_uninstall_text: "Sind Sie sicher, dass Sie deinstallieren möchten?",
+            confirm_uninstall_warning: "Dies wird es aus dem Programm-Manager und den aktuellen Apps entfernen.",
+            confirm_shutdown_title: "Herunterfahren bestätigen",
+            confirm_shutdown_text: "Sind Sie sicher, dass Sie WineBOX herunterfahren möchten?",
+            confirm_shutdown_warning: "Dadurch wird das Programm und alle Hintergrundprozesse geschlossen. Nicht gespeicherte Arbeit kann verloren gehen.",
+            button_uninstall: "Deinstallieren",
+            button_cancel: "Abbrechen",
+            button_shutdown: "Herunterfahren",
+            status_eula_accepted: "EULA akzeptiert. Willkommen bei WineBOX!",
+            status_installed: "erfolgreich im Programm-Manager installiert",
+            status_uninstalled: "erfolgreich aus dem Programm-Manager deinstalliert",
+            status_settings_applied: "Einstellungen erfolgreich übernommen",
+            status_settings_reset: "Einstellungen auf Standard zurückgesetzt",
+            status_keyboard_enabled: "Tastaturnavigation aktiviert",
+            status_keyboard_disabled: "Tastaturnavigation deaktiviert",
+            status_install_cancelled: "Installation abgebrochen",
+            status_shutdown: "WineBOX wird heruntergefahren...",
+            settings_title_appearance: "Erscheinungsbild",
+            settings_desc_appearance: "Passen Sie das Erscheinungsbild von WineBOX an",
+            settings_title_interface: "Oberfläche",
+            settings_desc_interface: "Konfigurieren Sie Ihre Interaktion mit WineBOX",
+            settings_title_system: "System",
+            settings_desc_system: "Systemeinstellungen und Leistungsoptionen",
+            settings_theme: "Design",
+            settings_bg_color: "Hintergrundfarbe",
+            settings_bg_image: "Hintergrundbild",
+            settings_upload: "Bild hochladen",
+            settings_display: "Anzeige",
+            settings_icon_size: "Symbolgröße",
+            settings_animations: "Animationen aktivieren",
+            settings_preferences: "Präferenzen",
+            settings_autostart: "Automatischer Start beim Booten",
+            settings_show_startup: "Startbildschirm anzeigen",
+            settings_reset: "Auf Standard zurücksetzen",
+            settings_apply: "Änderungen übernehmen",
+            desktop: "Desktop",
+            eula_button_agree: "ICH STIMME ZU",
+            eula_button_disagree: "ICH LEHNE AB"
+        },
+        pt: {
+            startup_title: "WineBOX",
+            startup_subtitle: "Clique para iniciar o WineBOX",
+            startup_button: "INICIAR",
+            startup_about: "Sobre nós",
+            menu_home: "Início",
+            menu_apps: "Aplicações",
+            menu_games: "Jogos",
+            menu_arcade: "Arcade",
+            menu_multimedia: "Multimídia",
+            menu_utilities: "Utilidades",
+            menu_strategy: "Estratégia",
+            menu_uninstall: "Desinstalar",
+            menu_settings: "Configurações",
+            menu_shutdown: "Desligar",
+            search_placeholder: "Pesquisar aplicações...",
+            launcher_search_placeholder: "Pesquisar aplicações...",
+            launcher_count: "aplicações disponíveis",
+            launcher_count_filtered: "aplicações encontradas para",
+            recently_used: "Usados Recentemente",
+            categories_all: "Todos",
+            categories_apps: "Apps",
+            categories_games: "Jogos",
+            categories_multimedia: "Multimídia",
+            categories_utilities: "Utilidades",
+            categories_arcade: "Arcade",
+            categories_strategy: "Estratégia",
+            loading: "Carregando aplicações...",
+            no_apps: "Nenhuma aplicação disponível",
+            no_apps_help: "Adicione aplicações no arquivo apps-data.js",
+            no_recent: "Nenhuma aplicação recente",
+            modal_category: "Categoria",
+            modal_description: "Descrição",
+            modal_installed_status: "Instalado",
+            modal_run: "Executar",
+            modal_install: "Instalar no Gerenciador de Programas",
+            modal_uninstall: "Desinstalar",
+            confirm_uninstall_title: "Confirmar Desinstalação",
+            confirm_uninstall_text: "Tem certeza de que deseja desinstalar",
+            confirm_uninstall_warning: "Isso o removerá do Gerenciador de Programas e das aplicações recentes.",
+            confirm_shutdown_title: "Confirmar Desligamento",
+            confirm_shutdown_text: "Tem certeza de que deseja desligar o WineBOX?",
+            confirm_shutdown_warning: "Isso fechará o programa e todos os processos em segundo plano. Qualquer trabalho não salvo pode ser perdido.",
+            button_uninstall: "Desinstalar",
+            button_cancel: "Cancelar",
+            button_shutdown: "Desligar",
+            status_eula_accepted: "EULA aceito. Bem-vindo ao WineBOX!",
+            status_installed: "instalado com sucesso no Gerenciador de Programas",
+            status_uninstalled: "desinstalado com sucesso do Gerenciador de Programas",
+            status_settings_applied: "Configurações aplicadas com sucesso",
+            status_settings_reset: "Configurações redefinidas para os padrões",
+            status_keyboard_enabled: "Navegação por teclado ativada",
+            status_keyboard_disabled: "Navegação por teclado desativada",
+            status_install_cancelled: "Instalação cancelada",
+            status_shutdown: "Desligando o WineBOX...",
+            settings_title_appearance: "Aparência",
+            settings_desc_appearance: "Personalize a aparência do WineBOX",
+            settings_title_interface: "Interface",
+            settings_desc_interface: "Configure como você interage com o WineBOX",
+            settings_title_system: "Sistema",
+            settings_desc_system: "Preferências do sistema e configurações de desempenho",
+            settings_theme: "Tema",
+            settings_bg_color: "Cor de Fundo",
+            settings_bg_image: "Imagem de Fundo",
+            settings_upload: "Enviar Imagem",
+            settings_display: "Ecrã",
+            settings_icon_size: "Tamanho do Ícone",
+            settings_animations: "Ativar Animações",
+            settings_preferences: "Preferências",
+            settings_autostart: "Início automático na inicialização",
+            settings_show_startup: "Mostrar tela de inicialização",
+            settings_reset: "Redefinir para os Padrões",
+            settings_apply: "Aplicar Alterações",
+            desktop: "Área de Trabalho",
+            eula_button_agree: "EU CONCORDO",
+            eula_button_disagree: "EU DISCORDO"
+        },
+        ru: {
+            startup_title: "WineBOX",
+            startup_subtitle: "Нажмите, чтобы запустить WineBOX",
+            startup_button: "ЗАПУСК",
+            startup_about: "О нас",
+            menu_home: "Главная",
+            menu_apps: "Приложения",
+            menu_games: "Игры",
+            menu_arcade: "Аркада",
+            menu_multimedia: "Мультимедиа",
+            menu_utilities: "Утилиты",
+            menu_strategy: "Стратегия",
+            menu_uninstall: "Удалить",
+            menu_settings: "Настройки",
+            menu_shutdown: "Выключение",
+            search_placeholder: "Поиск приложений...",
+            launcher_search_placeholder: "Поиск приложений...",
+            launcher_count: "доступных приложений",
+            launcher_count_filtered: "найдено приложений для",
+            recently_used: "Недавно использованные",
+            categories_all: "Все",
+            categories_apps: "Приложения",
+            categories_games: "Игры",
+            categories_multimedia: "Мультимедиа",
+            categories_utilities: "Утилиты",
+            categories_arcade: "Аркада",
+            categories_strategy: "Стратегия",
+            loading: "Загрузка приложений...",
+            no_apps: "Нет доступных приложений",
+            no_apps_help: "Добавьте приложения в файл apps-data.js",
+            no_recent: "Нет недавних приложений",
+            modal_category: "Категория",
+            modal_description: "Описание",
+            modal_installed_status: "Установлено",
+            modal_run: "Запустить",
+            modal_install: "Установить в Программы",
+            modal_uninstall: "Удалить",
+            confirm_uninstall_title: "Подтверждение удаления",
+            confirm_uninstall_text: "Вы уверены, что хотите удалить",
+            confirm_uninstall_warning: "Это удалит его из Программ и недавних приложений.",
+            confirm_shutdown_title: "Подтверждение выключения",
+            confirm_shutdown_text: "Вы уверены, что хотите выключить WineBOX?",
+            confirm_shutdown_warning: "Это закроет программу и все фоновые процессы. Любая несохраненная работа может быть потеряна.",
+            button_uninstall: "Удалить",
+            button_cancel: "Отмена",
+            button_shutdown: "Выключить",
+            status_eula_accepted: "Лицензионное соглашение принято. Добро пожаловать в WineBOX!",
+            status_installed: "успешно установлен в Программы",
+            status_uninstalled: "успешно удален из Программ",
+            status_settings_applied: "Настройки успешно применены",
+            status_settings_reset: "Настройки сброшены до значений по умолчанию",
+            status_keyboard_enabled: "Навигация с клавиатуры включена",
+            status_keyboard_disabled: "Навигация с клавиатуры отключена",
+            status_install_cancelled: "Установка отменена",
+            status_shutdown: "Завершение работы WineBOX...",
+            settings_title_appearance: "Внешний вид",
+            settings_desc_appearance: "Настройте внешний вид WineBOX",
+            settings_title_interface: "Интерфейс",
+            settings_desc_interface: "Настройте взаимодействие с WineBOX",
+            settings_title_system: "Система",
+            settings_desc_system: "Системные настройки и производительность",
+            settings_theme: "Тема",
+            settings_bg_color: "Цвет фона",
+            settings_bg_image: "Фоновое изображение",
+            settings_upload: "Загрузить изображение",
+            settings_display: "Дисплей",
+            settings_icon_size: "Размер иконок",
+            settings_animations: "Включить анимацию",
+            settings_preferences: "Предпочтения",
+            settings_autostart: "Автозапуск при загрузке",
+            settings_show_startup: "Показывать стартовый экран",
+            settings_reset: "Сбросить до стандартных",
+            settings_apply: "Применить изменения",
+            desktop: "Рабочий стол",
+            eula_button_agree: "Я СОГЛАСЕН",
+            eula_button_disagree: "Я НЕ СОГЛАСЕН"
+        },
+        zh: {
+            startup_title: "WineBOX",
+            startup_subtitle: "点击启动 WineBOX",
+            startup_button: "开始",
+            startup_about: "关于我们",
+            menu_home: "主页",
+            menu_apps: "应用",
+            menu_games: "游戏",
+            menu_arcade: "街机",
+            menu_multimedia: "多媒体",
+            menu_utilities: "实用工具",
+            menu_strategy: "策略",
+            menu_uninstall: "卸载",
+            menu_settings: "设置",
+            menu_shutdown: "关机",
+            search_placeholder: "搜索应用...",
+            launcher_search_placeholder: "搜索应用...",
+            launcher_count: "个可用应用",
+            launcher_count_filtered: "个应用符合",
+            recently_used: "最近使用",
+            categories_all: "全部",
+            categories_apps: "应用",
+            categories_games: "游戏",
+            categories_multimedia: "多媒体",
+            categories_utilities: "实用工具",
+            categories_arcade: "街机",
+            categories_strategy: "策略",
+            loading: "加载应用中...",
+            no_apps: "没有可用应用",
+            no_apps_help: "请在 apps-data.js 文件中添加应用",
+            no_recent: "没有最近使用的应用",
+            modal_category: "类别",
+            modal_description: "描述",
+            modal_installed_status: "已安装",
+            modal_run: "运行",
+            modal_install: "安装到程序管理器",
+            modal_uninstall: "卸载",
+            confirm_uninstall_title: "确认卸载",
+            confirm_uninstall_text: "您确定要卸载",
+            confirm_uninstall_warning: "这将从程序管理器和最近应用中删除它。",
+            confirm_shutdown_title: "确认关机",
+            confirm_shutdown_text: "您确定要关闭 WineBOX 吗？",
+            confirm_shutdown_warning: "这将关闭程序及所有后台进程。任何未保存的工作可能会丢失。",
+            button_uninstall: "卸载",
+            button_cancel: "取消",
+            button_shutdown: "关机",
+            status_eula_accepted: "已接受许可协议。欢迎使用 WineBOX！",
+            status_installed: "已成功安装到程序管理器",
+            status_uninstalled: "已成功从程序管理器卸载",
+            status_settings_applied: "设置已成功应用",
+            status_settings_reset: "设置已重置为默认值",
+            status_keyboard_enabled: "键盘导航已启用",
+            status_keyboard_disabled: "键盘导航已禁用",
+            status_install_cancelled: "安装已取消",
+            status_shutdown: "正在关闭 WineBOX...",
+            settings_title_appearance: "外观",
+            settings_desc_appearance: "自定义 WineBOX 的视觉风格",
+            settings_title_interface: "界面",
+            settings_desc_interface: "配置您与 WineBOX 的交互方式",
+            settings_title_system: "系统",
+            settings_desc_system: "系统偏好和性能设置",
+            settings_theme: "主题",
+            settings_bg_color: "背景颜色",
+            settings_bg_image: "背景图片",
+            settings_upload: "上传图片",
+            settings_display: "显示",
+            settings_icon_size: "图标大小",
+            settings_animations: "启用动画",
+            settings_preferences: "偏好",
+            settings_autostart: "开机自动启动",
+            settings_show_startup: "显示启动屏幕",
+            settings_reset: "重置为默认值",
+            settings_apply: "应用更改",
+            desktop: "桌面",
+            eula_button_agree: "我同意",
+            eula_button_disagree: "我不同意"
+        },
+        ja: {
+            startup_title: "WineBOX",
+            startup_subtitle: "クリックしてWineBOXを起動",
+            startup_button: "スタート",
+            startup_about: "私たちに関しては",
+            menu_home: "ホーム",
+            menu_apps: "アプリケーション",
+            menu_games: "ゲーム",
+            menu_arcade: "アーケード",
+            menu_multimedia: "マルチメディア",
+            menu_utilities: "ユーティリティ",
+            menu_strategy: "ストラテジー",
+            menu_uninstall: "アンインストール",
+            menu_settings: "設定",
+            menu_shutdown: "シャットダウン",
+            search_placeholder: "アプリケーションを検索...",
+            launcher_search_placeholder: "アプリケーションを検索...",
+            launcher_count: "件のアプリケーションが利用可能",
+            launcher_count_filtered: "件のアプリケーションが見つかりました",
+            recently_used: "最近使用したアイテム",
+            categories_all: "すべて",
+            categories_apps: "アプリ",
+            categories_games: "ゲーム",
+            categories_multimedia: "マルチメディア",
+            categories_utilities: "ユーティリティ",
+            categories_arcade: "アーケード",
+            categories_strategy: "ストラテジー",
+            loading: "アプリケーションを読み込み中...",
+            no_apps: "利用可能なアプリケーションはありません",
+            no_apps_help: "apps-data.js ファイルにアプリケーションを追加してください",
+            no_recent: "最近のアプリケーションはありません",
+            modal_category: "カテゴリ",
+            modal_description: "説明",
+            modal_installed_status: "インストール済み",
+            modal_run: "実行",
+            modal_install: "プログラムマネージャにインストール",
+            modal_uninstall: "アンインストール",
+            confirm_uninstall_title: "アンインストールの確認",
+            confirm_uninstall_text: "アンインストールしてもよろしいですか？",
+            confirm_uninstall_warning: "プログラムマネージャと最近使用したアプリから削除されます。",
+            confirm_shutdown_title: "シャットダウンの確認",
+            confirm_shutdown_text: "WineBOXをシャットダウンしてもよろしいですか？",
+            confirm_shutdown_warning: "プログラムとすべてのバックグラウンドプロセスが閉じられます。保存されていない作業は失われる可能性があります。",
+            button_uninstall: "アンインストール",
+            button_cancel: "キャンセル",
+            button_shutdown: "シャットダウン",
+            status_eula_accepted: "EULAに同意しました。WineBOXへようこそ！",
+            status_installed: "プログラムマネージャへのインストールに成功しました",
+            status_uninstalled: "プログラムマネージャからのアンインストールに成功しました",
+            status_settings_applied: "設定が適用されました",
+            status_settings_reset: "設定がデフォルトにリセットされました",
+            status_keyboard_enabled: "キーボードナビゲーションが有効になりました",
+            status_keyboard_disabled: "キーボードナビゲーションが無効になりました",
+            status_install_cancelled: "インストールがキャンセルされました",
+            status_shutdown: "WineBOXをシャットダウンしています...",
+            settings_title_appearance: "外観",
+            settings_desc_appearance: "WineBOXのルックアンドフィールをカスタマイズ",
+            settings_title_interface: "インターフェース",
+            settings_desc_interface: "WineBOXとの対話方法を設定",
+            settings_title_system: "システム",
+            settings_desc_system: "システムの設定とパフォーマンス設定",
+            settings_theme: "テーマ",
+            settings_bg_color: "背景色",
+            settings_bg_image: "背景画像",
+            settings_upload: "画像をアップロード",
+            settings_display: "ディスプレイ",
+            settings_icon_size: "アイコンサイズ",
+            settings_animations: "アニメーションを有効にする",
+            settings_preferences: "環境設定",
+            settings_autostart: "起動時に自動開始",
+            settings_show_startup: "スタートアップ画面を表示",
+            settings_reset: "デフォルトにリセット",
+            settings_apply: "変更を適用",
+            desktop: "デスクトップ",
+            eula_button_agree: "同意する",
+            eula_button_disagree: "同意しない"
+        }
+    };
+
+    let currentLanguage = 'en';
+
+    function detectLanguage() {
+        const userLang = navigator.language || navigator.userLanguage;
+        const langCode = userLang.split('-')[0];
+        
+        if (translations[langCode]) {
+            currentLanguage = langCode;
+        } else {
+            currentLanguage = 'en';
+        }
+        
+        console.log(`🌐 Language detected: ${currentLanguage} (from ${userLang})`);
+        return currentLanguage;
+    }
+
+    function t(key) {
+        return translations[currentLanguage][key] || translations['en'][key] || key;
+    }
+
+    function applyTranslations() {
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+            const key = element.getAttribute('data-i18n');
+            const translation = t(key);
+            if (translation) {
+                if (element.tagName === 'INPUT' && element.placeholder) {
+                    element.placeholder = translation;
+                } else if (element.tagName === 'BUTTON' && element.value) {
+                    element.value = translation;
+                } else if (element.tagName === 'OPTION') {
+                    element.textContent = translation;
+                } else {
+                    element.textContent = translation;
+                }
+            }
+        });
+        
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) searchInput.placeholder = t('search_placeholder');
+        
+        const launcherSearch = document.getElementById('launcherSearch');
+        if (launcherSearch) launcherSearch.placeholder = t('launcher_search_placeholder');
+        
+        const startupTitle = document.querySelector('.startup-logo h1');
+        if (startupTitle) startupTitle.textContent = t('startup_title');
+        
+        const startupSubtitle = document.querySelector('.startup-logo p');
+        if (startupSubtitle) startupSubtitle.textContent = t('startup_subtitle');
+        
+        const startButton = document.getElementById('startButton');
+        if (startButton && startButton.textContent !== 'About us') {
+            startButton.textContent = t('startup_button');
+        }
+        
+        const aboutStartupButton = document.getElementById('aboutStartupButton');
+        if (aboutStartupButton && aboutStartupButton.querySelector('span')) {
+            aboutStartupButton.querySelector('span').textContent = t('startup_about');
+        }
+        
+        const recentTitle = document.querySelector('.recent-title');
+        if (recentTitle) recentTitle.textContent = t('recently_used');
+        
+        const categoryButtons = document.querySelectorAll('.category-button');
+        if (categoryButtons.length) {
+            const categoryMappings = {
+                'all': 'categories_all',
+                'apps': 'categories_apps',
+                'games': 'categories_games',
+                'multimedia': 'categories_multimedia',
+                'utilities': 'categories_utilities',
+                'arcade': 'categories_arcade',
+                'rts': 'categories_strategy'
+            };
+            categoryButtons.forEach(btn => {
+                const cat = btn.getAttribute('data-category');
+                if (categoryMappings[cat]) {
+                    btn.textContent = t(categoryMappings[cat]);
+                }
+            });
+        }
+        
+        const loadingMessage = document.getElementById('loadingMessage');
+        if (loadingMessage && loadingMessage.textContent === 'Loading applications...') {
+            loadingMessage.textContent = t('loading');
+        }
+        
+        updateDynamicTexts();
+    }
+
+    function updateDynamicTexts() {
+        const loadingEl = document.getElementById('loadingMessage');
+        if (loadingEl && loadingEl.innerHTML.includes('Loading applications')) {
+            loadingEl.textContent = t('loading');
+        }
+        
+        const noAppsEl = document.querySelector('.app-grid .error-message, .app-grid[style*="grid"]');
+        if (noAppsEl && !loadingEl) {
+            const errorMsg = noAppsEl.querySelector('p:first-child');
+            if (errorMsg && errorMsg.textContent.includes('No applications')) {
+                errorMsg.textContent = t('no_apps');
+                const helpMsg = noAppsEl.querySelector('p:last-child');
+                if (helpMsg) helpMsg.textContent = t('no_apps_help');
+            }
+        }
+        
+        const noRecentEl = document.querySelector('#recentApps p');
+        if (noRecentEl && noRecentEl.textContent.includes('No recent')) {
+            noRecentEl.textContent = t('no_recent');
+        }
+        
+        const eulaTitle = document.querySelector('.eula-header h2');
+        if (eulaTitle && eulaTitle.textContent === 'WineBOX End User License Agreement') {
+            eulaTitle.textContent = 'WineBOX ' + t('eula_title');
+        }
+        
+        const eulaAgreeBtn = document.getElementById('eulaAgree');
+        if (eulaAgreeBtn) eulaAgreeBtn.textContent = t('eula_button_agree');
+        
+        const eulaDisagreeBtn = document.getElementById('eulaDisagree');
+        if (eulaDisagreeBtn) eulaDisagreeBtn.textContent = t('eula_button_disagree');
+    }
+
+// ========== FUNCIÓN PARA OBTENER DESCRIPCIÓN TRADUCIDA ==========
+function getLocalizedDescription(app) {
+    // Si la descripción es un string (formato original), devolverlo directamente
+    if (typeof app.description === 'string') {
+        return app.description;
+    }
+    
+    // Si es un objeto con múltiples idiomas
+    if (app.description && typeof app.description === 'object') {
+        // Intentar obtener en el idioma actual
+        if (currentLanguage && app.description[currentLanguage]) {
+            return app.description[currentLanguage];
+        }
+        
+        // Fallback a inglés
+        if (app.description.en) {
+            return app.description.en;
+        }
+        
+        // Fallback: primer idioma disponible
+        const firstKey = Object.keys(app.description)[0];
+        if (firstKey) {
+            return app.description[firstKey];
+        }
+    }
+    
+    // Fallback final
+    return `${app.name} - Description not available`;
+}
+</script>
+
 <script>
     // PWA Installation Handler
     let deferredPrompt;
@@ -2845,43 +3630,43 @@ input:checked + .toggle-slider:before {
 <div class="side-menu" id="sideMenu">
     <div class="menu-item" data-category="all">
         <svg viewBox="0 0 24 24"><path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z" /></svg>
-        <span>Home</span>
+        <span data-i18n="menu_home">Home</span>
     </div>
     <div class="menu-item" data-category="apps">
         <svg viewBox="0 0 24 24"><path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" /></svg>
-        <span>Applications</span>
+        <span data-i18n="menu_apps">Applications</span>
     </div>
     <div class="menu-item" data-category="games">
         <svg viewBox="0 0 24 24"><path d="M21,6H3A2,2 0 0,0 1,8V16A2,2 0 0,0 3,18H21A2,2 0 0,0 23,16V8A2,2 0 0,0 21,6M21,16H3V8H21M6,15H8V13H10V11H8V9H6V11H4V13H6M14.5,12A1.5,1.5 0 0,1 16,13.5A1.5,1.5 0 0,1 14.5,15A1.5,1.5 0 0,1 13,13.5A1.5,1.5 0 0,1 14.5,12M18.5,9A1.5,1.5 0 0,1 20,10.5A1.5,1.5 0 0,1 18.5,12A1.5,1.5 0 0,1 17,10.5A1.5,1.5 0 0,1 18.5,9Z" /></svg>
-        <span>Games</span>
+        <span data-i18n="menu_games">Games</span>
     </div>
     <div class="menu-item" data-category="arcade">
         <svg viewBox="0 0 24 24"><path d="M21,16V4H3V16H21M21,2A2,2 0 0,1 23,4V16A2,2 0 0,1 21,18H14V20H16V22H8V20H10V18H3C1.89,18 1,17.1 1,16V4C1,2.89 1.89,2 3,2H21M5,6H14V11H5V6M15,6H19V8H15V6M19,9V14H15V9H19M5,12H9V14H5V12Z" /></svg>
-        <span>Arcade</span>
+        <span data-i18n="menu_arcade">Arcade</span>
     </div>
     <div class="menu-item" data-category="multimedia">
         <svg viewBox="0 0 24 24"><path d="M4,6H20V16H4M20,18A2,2 0 0,0 22,16V6C22,4.89 21.1,4 20,4H4C2.89,4 2,4.89 2,6V16A2,2 0 0,0 4,18H0V20H24V18H20Z" /></svg>
-        <span>Multimedia</span>
+        <span data-i18n="menu_multimedia">Multimedia</span>
     </div>
     <div class="menu-item" data-category="utilities">
         <svg viewBox="0 0 24 24"><path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L2.34,18.73C2.46,18.95 2.73,19.03 2.95,18.95L5.44,17.94C5.96,18.34 6.5,18.68 7.13,18.93L7.5,21.58C7.54,21.82 7.75,22 8,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" /></svg>
-        <span>Utilities</span>
+        <span data-i18n="menu_utilities">Utilities</span>
     </div>
     <div class="menu-item" data-category="rts">
         <svg viewBox="0 0 24 24"><path d="M12,2L1,21H23M12,6L19.53,19H4.47M11,10V14H13V10M11,16V18H13V16" /></svg>
-        <span>Strategy</span>
+        <span data-i18n="menu_strategy">Strategy</span>
     </div>
     <div class="menu-item" data-category="uninstall">
         <svg viewBox="0 0 24 24"><path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" /></svg>
-        <span>Uninstall</span>
+        <span data-i18n="menu_uninstall">Uninstall</span>
     </div>
     <div class="menu-item" data-category="settings">
         <svg viewBox="0 0 24 24"><path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L2.34,18.73C2.46,18.95 2.73,19.03 2.95,18.95L5.44,17.94C5.96,18.34 6.5,18.68 7.13,18.93L7.5,21.58C7.54,21.82 7.75,22 8,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" /></svg>
-        <span>Settings</span>
+        <span data-i18n="menu_settings">Settings</span>
     </div>
     <div class="menu-item" data-category="shutdown">
         <svg viewBox="0 0 24 24"><path d="M13,3H11V13H13V3M17.83,5.17L16.41,6.59C18.05,7.91 19,9.9 19,12A7,7 0 0,1 12,19A7,7 0 0,1 5,12C5,9.91 5.95,7.91 7.58,6.58L6.17,5.17C4.23,6.82 3,9.26 3,12A9,9 0 0,0 12,21A9,9 0 0,0 21,12C21,9.26 19.77,6.82 17.83,5.17Z" /></svg>
-        <span>Shutdown</span>
+        <span data-i18n="menu_shutdown">Shutdown</span>
     </div>
 </div>
 <div class="menu-overlay" id="menuOverlay"></div>
@@ -3604,7 +4389,7 @@ function acceptEULA() {
     // Continuar con el inicio normal
     continueStartupProcess();
     
-    showStatusMessage('EULA accepted. Welcome to WineBOX!', 'success');
+    showStatusMessage(t('status_eula_accepted'), 'success');
 }
 
 function rejectEULA() {
@@ -5127,14 +5912,14 @@ function displayApps(apps) {
     }
     
     if (apps.length === 0) {
-        appGrid.innerHTML = `
-            <div style="color: #666; grid-column: 1/-1; text-align: center; padding: 40px;">
-                <p>No applications available</p>
-                <p style="font-size: 12px; margin-top: 10px;">
-                    Add applications in apps-data.js file
-                </p>
-            </div>
-        `;
+appGrid.innerHTML = `
+    <div style="color: #666; grid-column: 1/-1; text-align: center; padding: 40px;">
+        <p>${t('no_apps')}</p>
+        <p style="font-size: 12px; margin-top: 10px;">
+            ${t('no_apps_help')}
+        </p>
+    </div>
+`;
         return;
     }
     
@@ -5179,7 +5964,7 @@ function displayRecentApps() {
     recentAppsContainer.innerHTML = '';
     
     if (recentApps.length === 0) {
-        recentAppsContainer.innerHTML = '<p style="color: #666; padding: 10px;">No recent applications</p>';
+        recentAppsContainer.innerHTML = `<p style="color: #666; padding: 10px;">${t('no_recent')}</p>`;
         return;
     }
     
@@ -5342,7 +6127,7 @@ function populateLauncher() {
     currentLauncherAppIndex = 0;
     
     if (searchResultsCount) {
-        searchResultsCount.textContent = `${appData.length} applications available`;
+        searchResultsCount.textContent = `${appData.length} ${t('launcher_count')}`;
     }
     
     updateLauncherSelection();
@@ -5488,11 +6273,11 @@ function searchLauncher() {
     updateLauncherSelection();
     
     if (searchResultsCount) {
-        if (searchTerm === '') {
-            searchResultsCount.textContent = `${visibleCount} applications available`;
-        } else {
-            searchResultsCount.textContent = `${visibleCount} applications found for "${searchTerm}"`;
-        }
+if (searchTerm === '') {
+    searchResultsCount.textContent = `${visibleCount} ${t('launcher_count')}`;
+} else {
+    searchResultsCount.textContent = `${visibleCount} ${t('launcher_count_filtered')} "${searchTerm}"`;
+}
     }
 }
 
@@ -5540,12 +6325,14 @@ function openAppModal(app) {
         shortcut.name === app.name && shortcut.type === 'web' && !shortcut.isTrash
     );
 
+    const localizedDesc = getLocalizedDescription(app);
+
     appDetails.innerHTML = `
         <h2>${app.name}</h2>
         <img src="${app.image}" alt="${app.name}" style="max-width: 200px; border-radius: 8px; margin: 10px 0;"
              onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjMzMzMzMzIi8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+QXBwPC90ZXh0Pgo8L3N2Zz4K'">
-        <p><strong>Category:</strong> ${app.category}</p>
-        <p><strong>Description:</strong> ${app.description}</p>
+        <p><strong>${t('modal_category')}:</strong> ${app.category}</p>
+        <p><strong>${t('modal_description')}:</strong> ${localizedDesc}</p>
         ${isInstalled || currentCategory === 'uninstall' ? 
             '<p><strong>Status:</strong> <span style="color: #4CAF50;">✓ Installed</span></p>' : ''}
     `;
@@ -5753,7 +6540,7 @@ function getInstalledApps() {
 function showUninstallConfirm(app) {
     currentUninstallApp = app;
     currentConfirmButtonIndex = 0;
-    document.getElementById('uninstallAppName').textContent = `Are you sure you want to uninstall "${app.name}"? This will remove it from Program Manager and recent apps.`;
+    document.getElementById('uninstallAppName').innerHTML = `${t('confirm_uninstall_text')} "${app.name}"?<br><span style="font-size: 12px;">${t('confirm_uninstall_warning')}</span>`;
     document.getElementById('uninstallConfirm').classList.add('active');
     updateConfirmSelection();
 }
@@ -6311,6 +7098,11 @@ function ready(fn) {
 }
 
 ready(function() {
+
+    // ========== INICIALIZAR IDIOMA ==========
+    detectLanguage();
+    applyTranslations();
+    
     // Inicializar elementos globales
     appGrid = document.getElementById('appGrid');
     recentAppsContainer = document.getElementById('recentApps');
