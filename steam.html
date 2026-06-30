@@ -1,0 +1,1898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Steam APK Installer - WineBOX</title>
+    <style>
+        /* ===== RESET & FULLSCREEN ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100vh;
+            min-height: 100dvh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            color: #eee;
+            background: radial-gradient(ellipse at center, #0f0f1a 0%, #050505 100%);
+            overflow-x: hidden;
+        }
+
+        /* ===== CONTENEDOR PRINCIPAL ===== */
+        .steam-container {
+            width: 100%;
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding: 28px 32px 32px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-y: auto;
+        }
+
+        .steam-container::-webkit-scrollbar {
+            width: 4px;
+        }
+        .steam-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .steam-container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .steam-container::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 20%, rgba(0, 120, 212, 0.04) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ===== HEADER ===== */
+        .steam-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+            flex-wrap: wrap;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .steam-header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .steam-icon {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, #1b2838, #2a4a6a);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            font-weight: 700;
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(27, 40, 56, 0.5);
+            flex-shrink: 0;
+        }
+
+        .steam-title-group h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #66c0f4, #2a6b8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.3px;
+            line-height: 1.2;
+        }
+
+        .steam-title-group .sub {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.35);
+            -webkit-text-fill-color: rgba(255, 255, 255, 0.35);
+        }
+
+        /* ===== SELECTOR IDIOMA ===== */
+        .lang-selector select {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #ccc;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            min-width: 130px;
+        }
+
+        .lang-selector select:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+        .lang-selector select:focus {
+            border-color: #0078d4;
+            box-shadow: 0 0 0 2px rgba(0, 120, 212, 0.15);
+        }
+        .lang-selector select option {
+            background: #1a1a2e;
+            color: #eee;
+        }
+
+        /* ===== DESCRIPCIÓN ===== */
+        .steam-desc {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+            padding: 16px 22px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 14px;
+            border-left: 3px solid #0078d4;
+            flex-shrink: 0;
+        }
+
+        /* ===== SCAN CONTAINER ===== */
+        .scan-container {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 18px;
+            padding: 22px 26px;
+            margin-bottom: 22px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            position: relative;
+            z-index: 1;
+            flex-shrink: 0;
+        }
+
+        .scan-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .scan-title {
+            font-weight: 600;
+            color: #ddd;
+            font-size: 17px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .scan-status {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.4);
+            padding: 4px 14px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .scan-status.passed {
+            color: #4CAF50;
+            background: rgba(76, 175, 80, 0.12);
+        }
+        .scan-status.failed {
+            color: #e74c3c;
+            background: rgba(231, 76, 60, 0.12);
+        }
+        .scan-status.partial {
+            color: #ff9800;
+            background: rgba(255, 152, 0, 0.12);
+        }
+
+        .scan-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px 24px;
+        }
+
+        .scan-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 9px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            font-size: 14px;
+            gap: 12px;
+        }
+
+        .scan-item .label {
+            color: rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            flex-shrink: 0;
+        }
+
+        .scan-item .value {
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-align: right;
+            font-size: 13px;
+            word-break: break-word;
+        }
+
+        .scan-item .value .req {
+            color: rgba(255, 255, 255, 0.2);
+            font-weight: 400;
+            font-size: 10px;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 1px 8px;
+            border-radius: 10px;
+        }
+
+        .scan-item .value.checking {
+            color: #ff9800;
+        }
+        .scan-item .value.passed {
+            color: #4CAF50;
+        }
+        .scan-item .value.failed {
+            color: #e74c3c;
+        }
+        .scan-item .value.warning {
+            color: #ff9800;
+        }
+
+        .scan-item .value .spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            border-top: 2px solid #0078d4;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            vertical-align: middle;
+        }
+
+        .scan-item .value .status-icon {
+            font-size: 16px;
+        }
+
+        .scan-item.full-width {
+            grid-column: 1 / -1;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-bar-container {
+            margin-top: 16px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #0078d4, #00b7c3);
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        /* ===== RESULT BOX ===== */
+        .result-box {
+            margin-top: 20px;
+            padding: 20px 26px;
+            border-radius: 16px;
+            text-align: center;
+            display: none;
+            position: relative;
+            z-index: 1;
+            animation: resultFade 0.5s ease;
+            flex-shrink: 0;
+        }
+
+        .result-box.visible {
+            display: block;
+        }
+        .result-box.passed {
+            background: rgba(76, 175, 80, 0.07);
+            border: 1px solid rgba(76, 175, 80, 0.15);
+        }
+        .result-box.failed {
+            background: rgba(231, 76, 60, 0.07);
+            border: 1px solid rgba(231, 76, 60, 0.15);
+        }
+        .result-box.partial {
+            background: rgba(255, 152, 0, 0.07);
+            border: 1px solid rgba(255, 152, 0, 0.15);
+        }
+
+        @keyframes resultFade {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-box .result-icon {
+            font-size: 48px;
+            margin-bottom: 4px;
+        }
+        .result-box .result-title {
+            font-size: 21px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .result-box .result-detail {
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 14px;
+        }
+
+        /* ===== BOTONES ===== */
+        .btn-group {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+            position: relative;
+            z-index: 1;
+            flex-shrink: 0;
+        }
+
+        .btn {
+            padding: 13px 32px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: inherit;
+            flex: 1;
+            justify-content: center;
+            min-width: 150px;
+        }
+
+        .btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-primary {
+            background: #0078d4;
+            color: white;
+        }
+        .btn-primary:hover:not(:disabled) {
+            background: #106ebe;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(0, 120, 212, 0.3);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        .btn-success:hover:not(:disabled) {
+            background: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(40, 167, 69, 0.3);
+        }
+
+        .btn-warning {
+            background: #ff6b00;
+            color: white;
+        }
+        .btn-warning:hover:not(:disabled) {
+            background: #e65c00;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(255, 107, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .btn-secondary:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+        }
+
+        /* ===== FOOTER ===== */
+        .steam-footer {
+            margin-top: 24px;
+            padding-top: 18px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            position: relative;
+            z-index: 1;
+            flex-shrink: 0;
+        }
+
+        .steam-footer .legal {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.2);
+            line-height: 1.5;
+        }
+        .steam-footer .version {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.12);
+        }
+
+        /* ===== TOAST ===== */
+        .toast-message {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 16px 32px;
+            border-radius: 14px;
+            background: rgba(16, 16, 28, 0.96);
+            backdrop-filter: blur(16px);
+            color: #fff;
+            font-size: 15px;
+            font-weight: 500;
+            z-index: 9999;
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            max-width: 92%;
+            text-align: center;
+            animation: toastIn 0.4s ease;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .toast-message.success {
+            border-left: 4px solid #4CAF50;
+        }
+        .toast-message.error {
+            border-left: 4px solid #e74c3c;
+        }
+        .toast-message.info {
+            border-left: 4px solid #0078d4;
+        }
+        .toast-message.warning {
+            border-left: 4px solid #ff9800;
+        }
+
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+        }
+        @keyframes toastOut {
+            from {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px) scale(0.95);
+            }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .steam-container {
+                padding: 18px 16px 24px;
+            }
+
+            .steam-title-group h1 {
+                font-size: 21px;
+            }
+            .steam-desc {
+                font-size: 14px;
+                padding: 14px 16px;
+            }
+            .scan-container {
+                padding: 16px 14px;
+            }
+            .scan-grid {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            .scan-item {
+                font-size: 13px;
+                padding: 7px 0;
+            }
+            .btn {
+                padding: 11px 18px;
+                font-size: 14px;
+                min-width: 100px;
+                flex: 1 1 100%;
+            }
+            .steam-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .lang-selector select {
+                width: 100%;
+            }
+            .steam-footer {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .steam-icon {
+                width: 44px;
+                height: 44px;
+                font-size: 20px;
+            }
+            .scan-item .value {
+                font-size: 12px;
+            }
+            .result-box .result-title {
+                font-size: 19px;
+            }
+            .result-box .result-icon {
+                font-size: 40px;
+            }
+            .result-box {
+                padding: 16px 18px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .steam-container {
+                padding: 12px 10px 18px;
+            }
+            .steam-title-group h1 {
+                font-size: 18px;
+            }
+            .steam-desc {
+                font-size: 13px;
+                padding: 12px 14px;
+            }
+            .scan-item .label {
+                font-size: 12px;
+            }
+            .scan-item .value {
+                font-size: 11px;
+            }
+            .btn {
+                padding: 10px 14px;
+                font-size: 13px;
+                min-width: 70px;
+            }
+            .result-box .result-icon {
+                font-size: 32px;
+            }
+            .result-box .result-title {
+                font-size: 17px;
+            }
+            .steam-icon {
+                width: 38px;
+                height: 38px;
+                font-size: 17px;
+            }
+        }
+
+        /* ===== COMPATIBILIDAD ===== */
+        .compat-badge {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 6px;
+        }
+        .compat-badge.pass {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+        }
+        .compat-badge.fail {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+        }
+        .compat-badge.warn {
+            background: rgba(255, 152, 0, 0.2);
+            color: #ff9800;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="steam-container" id="app">
+
+        <!-- HEADER -->
+        <div class="steam-header">
+            <div class="steam-header-left">
+                <div class="steam-icon">S</div>
+                <div class="steam-title-group">
+                    <h1 id="title">Steam APK Installer</h1>
+                    <div class="sub" id="subtitle">WineBOX · Cognitive System</div>
+                </div>
+            </div>
+            <div class="lang-selector">
+                <select id="langSelect">
+                    <option value="en">🇬🇧 English</option>
+                    <option value="es">🇪🇸 Español</option>
+                    <option value="fr">🇫🇷 Français</option>
+                    <option value="de">🇩🇪 Deutsch</option>
+                    <option value="it">🇮🇹 Italiano</option>
+                    <option value="pt">🇵🇹 Português</option>
+                    <option value="ru">🇷🇺 Русский</option>
+                    <option value="zh">🇨🇳 中文</option>
+                    <option value="ja">🇯🇵 日本語</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- DESCRIPCIÓN -->
+        <div class="steam-desc" id="desc">
+            Download and install the Steam APK for Android. System check required before download.
+        </div>
+
+        <!-- SCAN CONTAINER -->
+        <div class="scan-container" id="scanContainer">
+            <div class="scan-header">
+                <span class="scan-title" id="scanTitle">🔍 System Diagnostic</span>
+                <span class="scan-status" id="scanStatus">Checking your device...</span>
+            </div>
+
+            <div class="scan-grid" id="scanGrid">
+                <!-- OS -->
+                <div class="scan-item">
+                    <span class="label" id="lblOS">📱 Operating System</span>
+                    <span class="value checking" id="valOS"><span class="spinner"></span> Checking...</span>
+                </div>
+                <!-- Android Version -->
+                <div class="scan-item">
+                    <span class="label" id="lblAndroid">📱 Android Version</span>
+                    <span class="value checking" id="valAndroid"><span class="spinner"></span> Checking...</span>
+                </div>
+                <!-- CPU Name -->
+                <div class="scan-item">
+                    <span class="label" id="lblCPUName">⚡ CPU Model</span>
+                    <span class="value checking" id="valCPUName"><span class="spinner"></span> Checking...</span>
+                </div>
+                <!-- CPU Cores -->
+                <div class="scan-item">
+                    <span class="label" id="lblCPUCores">⚡ CPU Cores</span>
+                    <span class="value checking" id="valCPUCores"><span class="spinner"></span> Checking...</span>
+                </div>
+                <!-- Architecture -->
+                <div class="scan-item">
+                    <span class="label" id="lblArch">🔧 Architecture</span>
+                    <span class="value checking" id="valArch"><span class="spinner"></span> Checking...</span>
+                </div>
+                <!-- RAM Total -->
+                <div class="scan-item">
+                    <span class="label" id="lblRAMTotal">🧠 RAM Total</span>
+                    <span class="value checking" id="valRAMTotal"><span class="spinner"></span> Checking...</span>
+                </div>
+                <!-- RAM Available -->
+                <div class="scan-item">
+                    <span class="label" id="lblRAMAvailable">🧠 RAM Available</span>
+                    <span class="value checking" id="valRAMAvailable"><span class="spinner"></span> Checking...</span>
+                </div>
+                <!-- Storage -->
+                <div class="scan-item">
+                    <span class="label" id="lblStorage">💾 Storage Free</span>
+                    <span class="value checking" id="valStorage"><span class="spinner"></span> Checking...</span>
+                </div>
+                <!-- GPU -->
+                <div class="scan-item full-width">
+                    <span class="label" id="lblGPU">🎮 GPU</span>
+                    <span class="value checking" id="valGPU"><span class="spinner"></span> Checking...</span>
+                </div>
+            </div>
+
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+
+        <!-- RESULT BOX -->
+        <div class="result-box" id="resultBox">
+            <div class="result-icon" id="resultIcon">✅</div>
+            <div class="result-title" id="resultTitle">System passes!</div>
+            <div class="result-detail" id="resultDetail">Your device meets all requirements.</div>
+        </div>
+
+        <!-- BOTONES -->
+        <div class="btn-group">
+            <button class="btn btn-primary" id="btnCheck">🔍 Check System</button>
+            <button class="btn btn-success" id="btnDownload" style="display:none;">📥 Download APK</button>
+            <button class="btn btn-warning" id="btnInstall" style="display:none;">⬇️ Install Steam</button>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="steam-footer">
+            <div class="legal" id="legalNotice">
+                ⚠️ This tool does NOT constitute a medical diagnosis. Consult a health professional.
+            </div>
+            <div class="version">v1.0 · WineBOX</div>
+        </div>
+
+    </div>
+
+    <script>
+        // ============================================================
+        //  TRADUCCIONES
+        // ============================================================
+        const TRANSLATIONS = {
+            en: {
+                title: 'Steam APK Installer',
+                subtitle: 'WineBOX · Cognitive System',
+                desc: 'Download and install the Steam APK for Android. System check required before download.',
+                scanTitle: '🔍 System Diagnostic',
+                scanStatus: 'Checking your device...',
+                lblOS: '📱 Operating System',
+                lblAndroid: '📱 Android Version',
+                lblCPUName: '⚡ CPU Model',
+                lblCPUCores: '⚡ CPU Cores',
+                lblArch: '🔧 Architecture',
+                lblRAMTotal: '🧠 RAM Total',
+                lblRAMAvailable: '🧠 RAM Available',
+                lblStorage: '💾 Storage Free',
+                lblGPU: '🎮 GPU',
+                resultPass: '✅ System passes!',
+                resultFail: '❌ System does not meet requirements',
+                resultPartial: '⚠️ Partial compatibility',
+                resultDetailPass: 'Your device meets all requirements for Steam APK.',
+                resultDetailFail: 'Missing: ',
+                resultDetailPartial: 'Some requirements are not met. Check details below.',
+                btnCheck: '🔍 Check System',
+                btnDownload: '📥 Download APK',
+                btnInstall: '⬇️ Install Steam',
+                btnChecking: '⏳ Checking...',
+                btnCheckAgain: '🔄 Check Again',
+                btnDownloading: '📥 Downloading...',
+                btnInstalling: '⏳ Installing...',
+                btnInstalled: '✅ Installed!',
+                legal: '⚠️ This tool does NOT constitute a medical diagnosis. Consult a health professional.',
+                androidOk: '✅ {v} (≥ 13)',
+                androidFail: '❌ {v} (< 13)',
+                androidNot: '❌ Not Android (incompatible)',
+                osFail: '❌ {v} (only Android compatible)',
+                ramOk: '✅ {v} GB (≥ 3 GB)',
+                ramFail: '❌ {v} GB (< 3 GB)',
+                ramAvailOk: '✅ {v} GB available',
+                ramAvailFail: '⚠️ Only {v} GB available',
+                storageOk: '✅ {v} GB free (≥ 15 GB)',
+                storageFail: '❌ {v} GB free (< 15 GB)',
+                cpuCoresOk: '✅ {v} cores (≥ 4)',
+                cpuCoresFail: '❌ {v} cores (< 4)',
+                archOk: '✅ {v} (ARM compatible)',
+                archFail: '❌ {v} (not ARM compatible)',
+                archWarn: '⚠️ {v} (partial compatibility)',
+                cpuNameOk: '✅ {v}',
+                cpuNameFail: '⚠️ {v} (unknown)',
+                gpuOk: '✅ {v}',
+                gpuFail: '⚠️ {v} (unknown)',
+                statusChecking: 'Checking your device...',
+                statusPassed: '✅ System compatible!',
+                statusFailed: '❌ System not compatible',
+                statusPartial: '⚠️ Partial compatibility',
+                toastDownloadStart: '📥 Download started! Check your downloads folder.',
+                toastInstallStart: '📦 Installing Steam... Please wait.',
+                toastInstallSuccess: '✅ Steam installed successfully!',
+                toastInstallFail: '❌ Installation failed. Please check system requirements.',
+                toastSystemFail: '❌ System does not meet requirements.',
+                reqAndroid: 'Req: Android 13+',
+                reqRAM: 'Req: 3 GB RAM',
+                reqStorage: 'Req: 15 GB free',
+                reqCPU: 'Req: Helio G33+',
+                reqArch: 'Req: ARM',
+            },
+            es: {
+                title: 'Instalador APK de Steam',
+                subtitle: 'WineBOX · Sistema Cognitivo',
+                desc: 'Descarga e instala el APK de Steam para Android. Se requiere verificación del sistema.',
+                scanTitle: '🔍 Diagnóstico del Sistema',
+                scanStatus: 'Comprobando tu dispositivo...',
+                lblOS: '📱 Sistema Operativo',
+                lblAndroid: '📱 Versión de Android',
+                lblCPUName: '⚡ Modelo de CPU',
+                lblCPUCores: '⚡ Núcleos de CPU',
+                lblArch: '🔧 Arquitectura',
+                lblRAMTotal: '🧠 RAM Total',
+                lblRAMAvailable: '🧠 RAM Disponible',
+                lblStorage: '💾 Almacenamiento Libre',
+                lblGPU: '🎮 GPU',
+                resultPass: '✅ ¡El sistema cumple!',
+                resultFail: '❌ El sistema no cumple los requisitos',
+                resultPartial: '⚠️ Compatibilidad parcial',
+                resultDetailPass: 'Tu dispositivo cumple con todos los requisitos para Steam APK.',
+                resultDetailFail: 'Falta: ',
+                resultDetailPartial: 'Algunos requisitos no se cumplen. Revisa los detalles abajo.',
+                btnCheck: '🔍 Comprobar Sistema',
+                btnDownload: '📥 Descargar APK',
+                btnInstall: '⬇️ Instalar Steam',
+                btnChecking: '⏳ Comprobando...',
+                btnCheckAgain: '🔄 Comprobar de Nuevo',
+                btnDownloading: '📥 Descargando...',
+                btnInstalling: '⏳ Instalando...',
+                btnInstalled: '✅ ¡Instalado!',
+                legal: '⚠️ Esta herramienta NO constituye un diagnóstico médico. Consulte a un profesional de la salud.',
+                androidOk: '✅ {v} (≥ 13)',
+                androidFail: '❌ {v} (< 13)',
+                androidNot: '❌ No es Android (incompatible)',
+                osFail: '❌ {v} (solo Android compatible)',
+                ramOk: '✅ {v} GB (≥ 3 GB)',
+                ramFail: '❌ {v} GB (< 3 GB)',
+                ramAvailOk: '✅ {v} GB disponibles',
+                ramAvailFail: '⚠️ Solo {v} GB disponibles',
+                storageOk: '✅ {v} GB libres (≥ 15 GB)',
+                storageFail: '❌ {v} GB libres (< 15 GB)',
+                cpuCoresOk: '✅ {v} núcleos (≥ 4)',
+                cpuCoresFail: '❌ {v} núcleos (< 4)',
+                archOk: '✅ {v} (ARM compatible)',
+                archFail: '❌ {v} (no compatible ARM)',
+                archWarn: '⚠️ {v} (compatibilidad parcial)',
+                cpuNameOk: '✅ {v}',
+                cpuNameFail: '⚠️ {v} (desconocido)',
+                gpuOk: '✅ {v}',
+                gpuFail: '⚠️ {v} (desconocido)',
+                statusChecking: 'Comprobando tu dispositivo...',
+                statusPassed: '✅ ¡Sistema compatible!',
+                statusFailed: '❌ Sistema no compatible',
+                statusPartial: '⚠️ Compatibilidad parcial',
+                toastDownloadStart: '📥 ¡Descarga iniciada! Revisa tu carpeta de descargas.',
+                toastInstallStart: '📦 Instalando Steam... Por favor espera.',
+                toastInstallSuccess: '✅ ¡Steam instalado con éxito!',
+                toastInstallFail: '❌ Falló la instalación. Verifica los requisitos del sistema.',
+                toastSystemFail: '❌ El sistema no cumple los requisitos.',
+                reqAndroid: 'Req: Android 13+',
+                reqRAM: 'Req: 3 GB RAM',
+                reqStorage: 'Req: 15 GB libres',
+                reqCPU: 'Req: Helio G33+',
+                reqArch: 'Req: ARM',
+            },
+            fr: {
+                title: 'Installateur APK Steam',
+                subtitle: 'WineBOX · Système Cognitif',
+                desc: 'Téléchargez et installez l\'APK Steam pour Android. Vérification du système requise.',
+                scanTitle: '🔍 Diagnostic du Système',
+                scanStatus: 'Vérification de votre appareil...',
+                lblOS: '📱 Système d\'exploitation',
+                lblAndroid: '📱 Version Android',
+                lblCPUName: '⚡ Modèle CPU',
+                lblCPUCores: '⚡ Cœurs CPU',
+                lblArch: '🔧 Architecture',
+                lblRAMTotal: '🧠 RAM Totale',
+                lblRAMAvailable: '🧠 RAM Disponible',
+                lblStorage: '💾 Stockage Libre',
+                lblGPU: '🎮 GPU',
+                resultPass: '✅ Le système est compatible !',
+                resultFail: '❌ Le système ne répond pas aux exigences',
+                resultPartial: '⚠️ Compatibilité partielle',
+                resultDetailPass: 'Votre appareil répond à toutes les exigences pour Steam APK.',
+                resultDetailFail: 'Manque : ',
+                resultDetailPartial: 'Certaines exigences ne sont pas remplies. Vérifiez les détails ci-dessous.',
+                btnCheck: '🔍 Vérifier le Système',
+                btnDownload: '📥 Télécharger APK',
+                btnInstall: '⬇️ Installer Steam',
+                btnChecking: '⏳ Vérification...',
+                btnCheckAgain: '🔄 Vérifier à Nouveau',
+                btnDownloading: '📥 Téléchargement...',
+                btnInstalling: '⏳ Installation...',
+                btnInstalled: '✅ Installé !',
+                legal: '⚠️ Cet outil NE constitue pas un diagnostic médical. Consultez un professionnel de santé.',
+                androidOk: '✅ {v} (≥ 13)',
+                androidFail: '❌ {v} (< 13)',
+                androidNot: '❌ Pas Android (incompatible)',
+                osFail: '❌ {v} (seul Android compatible)',
+                ramOk: '✅ {v} Go (≥ 3 Go)',
+                ramFail: '❌ {v} Go (< 3 Go)',
+                ramAvailOk: '✅ {v} Go disponibles',
+                ramAvailFail: '⚠️ Seulement {v} Go disponibles',
+                storageOk: '✅ {v} Go libres (≥ 15 Go)',
+                storageFail: '❌ {v} Go libres (< 15 Go)',
+                cpuCoresOk: '✅ {v} cœurs (≥ 4)',
+                cpuCoresFail: '❌ {v} cœurs (< 4)',
+                archOk: '✅ {v} (ARM compatible)',
+                archFail: '❌ {v} (non compatible ARM)',
+                archWarn: '⚠️ {v} (compatibilité partielle)',
+                cpuNameOk: '✅ {v}',
+                cpuNameFail: '⚠️ {v} (inconnu)',
+                gpuOk: '✅ {v}',
+                gpuFail: '⚠️ {v} (inconnu)',
+                statusChecking: 'Vérification de votre appareil...',
+                statusPassed: '✅ Système compatible !',
+                statusFailed: '❌ Système non compatible',
+                statusPartial: '⚠️ Compatibilité partielle',
+                toastDownloadStart: '📥 Téléchargement lancé ! Vérifiez votre dossier de téléchargements.',
+                toastInstallStart: '📦 Installation de Steam... Veuillez patienter.',
+                toastInstallSuccess: '✅ Steam installé avec succès !',
+                toastInstallFail: '❌ L\'installation a échoué. Vérifiez les exigences système.',
+                toastSystemFail: '❌ Le système ne répond pas aux exigences.',
+                reqAndroid: 'Req: Android 13+',
+                reqRAM: 'Req: 3 Go RAM',
+                reqStorage: 'Req: 15 Go libres',
+                reqCPU: 'Req: Helio G33+',
+                reqArch: 'Req: ARM',
+            },
+            de: {
+                title: 'Steam APK Installer',
+                subtitle: 'WineBOX · Kognitives System',
+                desc: 'Laden Sie die Steam APK für Android herunter und installieren Sie sie. Systemprüfung erforderlich.',
+                scanTitle: '🔍 Systemdiagnose',
+                scanStatus: 'Überprüfe dein Gerät...',
+                lblOS: '📱 Betriebssystem',
+                lblAndroid: '📱 Android-Version',
+                lblCPUName: '⚡ CPU-Modell',
+                lblCPUCores: '⚡ CPU-Kerne',
+                lblArch: '🔧 Architektur',
+                lblRAMTotal: '🧠 RAM Gesamt',
+                lblRAMAvailable: '🧠 RAM Verfügbar',
+                lblStorage: '💾 Speicher Frei',
+                lblGPU: '🎮 GPU',
+                resultPass: '✅ System ist kompatibel!',
+                resultFail: '❌ System erfüllt die Anforderungen nicht',
+                resultPartial: '⚠️ Teilweise Kompatibilität',
+                resultDetailPass: 'Ihr Gerät erfüllt alle Anforderungen für Steam APK.',
+                resultDetailFail: 'Fehlt: ',
+                resultDetailPartial: 'Einige Anforderungen werden nicht erfüllt. Details unten prüfen.',
+                btnCheck: '🔍 System prüfen',
+                btnDownload: '📥 APK herunterladen',
+                btnInstall: '⬇️ Steam installieren',
+                btnChecking: '⏳ Prüfe...',
+                btnCheckAgain: '🔄 Erneut prüfen',
+                btnDownloading: '📥 Lade herunter...',
+                btnInstalling: '⏳ Installiere...',
+                btnInstalled: '✅ Installiert!',
+                legal: '⚠️ Dieses Tool stellt KEINE medizinische Diagnose dar. Konsultieren Sie einen Arzt.',
+                androidOk: '✅ {v} (≥ 13)',
+                androidFail: '❌ {v} (< 13)',
+                androidNot: '❌ Nicht Android (inkompatibel)',
+                osFail: '❌ {v} (nur Android kompatibel)',
+                ramOk: '✅ {v} GB (≥ 3 GB)',
+                ramFail: '❌ {v} GB (< 3 GB)',
+                ramAvailOk: '✅ {v} GB verfügbar',
+                ramAvailFail: '⚠️ Nur {v} GB verfügbar',
+                storageOk: '✅ {v} GB frei (≥ 15 GB)',
+                storageFail: '❌ {v} GB frei (< 15 GB)',
+                cpuCoresOk: '✅ {v} Kerne (≥ 4)',
+                cpuCoresFail: '❌ {v} Kerne (< 4)',
+                archOk: '✅ {v} (ARM kompatibel)',
+                archFail: '❌ {v} (nicht ARM kompatibel)',
+                archWarn: '⚠️ {v} (teilweise Kompatibilität)',
+                cpuNameOk: '✅ {v}',
+                cpuNameFail: '⚠️ {v} (unbekannt)',
+                gpuOk: '✅ {v}',
+                gpuFail: '⚠️ {v} (unbekannt)',
+                statusChecking: 'Überprüfe dein Gerät...',
+                statusPassed: '✅ System kompatibel!',
+                statusFailed: '❌ System nicht kompatibel',
+                statusPartial: '⚠️ Teilweise Kompatibilität',
+                toastDownloadStart: '📥 Download gestartet! Überprüfen Sie Ihren Download-Ordner.',
+                toastInstallStart: '📦 Installiere Steam... Bitte warten.',
+                toastInstallSuccess: '✅ Steam erfolgreich installiert!',
+                toastInstallFail: '❌ Installation fehlgeschlagen. Überprüfen Sie die Systemanforderungen.',
+                toastSystemFail: '❌ Das System erfüllt die Anforderungen nicht.',
+                reqAndroid: 'Req: Android 13+',
+                reqRAM: 'Req: 3 GB RAM',
+                reqStorage: 'Req: 15 GB frei',
+                reqCPU: 'Req: Helio G33+',
+                reqArch: 'Req: ARM',
+            },
+            it: {
+                title: 'Installer APK Steam',
+                subtitle: 'WineBOX · Sistema Cognitivo',
+                desc: 'Scarica e installa l\'APK Steam per Android. È richiesta la verifica del sistema.',
+                scanTitle: '🔍 Diagnostica di Sistema',
+                scanStatus: 'Controllo del dispositivo...',
+                lblOS: '📱 Sistema Operativo',
+                lblAndroid: '📱 Versione Android',
+                lblCPUName: '⚡ Modello CPU',
+                lblCPUCores: '⚡ Nuclei CPU',
+                lblArch: '🔧 Architettura',
+                lblRAMTotal: '🧠 RAM Totale',
+                lblRAMAvailable: '🧠 RAM Disponibile',
+                lblStorage: '💾 Spazio Libero',
+                lblGPU: '🎮 GPU',
+                resultPass: '✅ Il sistema è compatibile!',
+                resultFail: '❌ Il sistema non soddisfa i requisiti',
+                resultPartial: '⚠️ Compatibilità parziale',
+                resultDetailPass: 'Il tuo dispositivo soddisfa tutti i requisiti per Steam APK.',
+                resultDetailFail: 'Mancante: ',
+                resultDetailPartial: 'Alcuni requisiti non sono soddisfatti. Controlla i dettagli qui sotto.',
+                btnCheck: '🔍 Controlla Sistema',
+                btnDownload: '📥 Scarica APK',
+                btnInstall: '⬇️ Installa Steam',
+                btnChecking: '⏳ Controllo...',
+                btnCheckAgain: '🔄 Controlla Ancora',
+                btnDownloading: '📥 Download in corso...',
+                btnInstalling: '⏳ Installazione...',
+                btnInstalled: '✅ Installato!',
+                legal: '⚠️ Questo strumento NON costituisce una diagnosi medica. Consultare un medico.',
+                androidOk: '✅ {v} (≥ 13)',
+                androidFail: '❌ {v} (< 13)',
+                androidNot: '❌ Non Android (incompatibile)',
+                osFail: '❌ {v} (solo Android compatibile)',
+                ramOk: '✅ {v} GB (≥ 3 GB)',
+                ramFail: '❌ {v} GB (< 3 GB)',
+                ramAvailOk: '✅ {v} GB disponibili',
+                ramAvailFail: '⚠️ Solo {v} GB disponibili',
+                storageOk: '✅ {v} GB liberi (≥ 15 GB)',
+                storageFail: '❌ {v} GB liberi (< 15 GB)',
+                cpuCoresOk: '✅ {v} nuclei (≥ 4)',
+                cpuCoresFail: '❌ {v} nuclei (< 4)',
+                archOk: '✅ {v} (ARM compatibile)',
+                archFail: '❌ {v} (non ARM compatibile)',
+                archWarn: '⚠️ {v} (compatibilità parziale)',
+                cpuNameOk: '✅ {v}',
+                cpuNameFail: '⚠️ {v} (sconosciuto)',
+                gpuOk: '✅ {v}',
+                gpuFail: '⚠️ {v} (sconosciuto)',
+                statusChecking: 'Controllo del dispositivo...',
+                statusPassed: '✅ Sistema compatibile!',
+                statusFailed: '❌ Sistema non compatibile',
+                statusPartial: '⚠️ Compatibilità parziale',
+                toastDownloadStart: '📥 Download avviato! Controlla la cartella download.',
+                toastInstallStart: '📦 Installazione di Steam... Attendere prego.',
+                toastInstallSuccess: '✅ Steam installato con successo!',
+                toastInstallFail: '❌ Installazione fallita. Verificare i requisiti di sistema.',
+                toastSystemFail: '❌ Il sistema non soddisfa i requisiti.',
+                reqAndroid: 'Req: Android 13+',
+                reqRAM: 'Req: 3 GB RAM',
+                reqStorage: 'Req: 15 GB liberi',
+                reqCPU: 'Req: Helio G33+',
+                reqArch: 'Req: ARM',
+            },
+            pt: {
+                title: 'Instalador APK do Steam',
+                subtitle: 'WineBOX · Sistema Cognitivo',
+                desc: 'Baixe e instale o APK do Steam para Android. Verificação do sistema necessária.',
+                scanTitle: '🔍 Diagnóstico do Sistema',
+                scanStatus: 'Verificando seu dispositivo...',
+                lblOS: '📱 Sistema Operacional',
+                lblAndroid: '📱 Versão do Android',
+                lblCPUName: '⚡ Modelo da CPU',
+                lblCPUCores: '⚡ Núcleos da CPU',
+                lblArch: '🔧 Arquitetura',
+                lblRAMTotal: '🧠 RAM Total',
+                lblRAMAvailable: '🧠 RAM Disponível',
+                lblStorage: '💾 Armazenamento Livre',
+                lblGPU: '🎮 GPU',
+                resultPass: '✅ Sistema compatível!',
+                resultFail: '❌ Sistema não atende aos requisitos',
+                resultPartial: '⚠️ Compatibilidade parcial',
+                resultDetailPass: 'Seu dispositivo atende a todos os requisitos para Steam APK.',
+                resultDetailFail: 'Faltando: ',
+                resultDetailPartial: 'Alguns requisitos não são atendidos. Verifique os detalhes abaixo.',
+                btnCheck: '🔍 Verificar Sistema',
+                btnDownload: '📥 Baixar APK',
+                btnInstall: '⬇️ Instalar Steam',
+                btnChecking: '⏳ Verificando...',
+                btnCheckAgain: '🔄 Verificar Novamente',
+                btnDownloading: '📥 Baixando...',
+                btnInstalling: '⏳ Instalando...',
+                btnInstalled: '✅ Instalado!',
+                legal: '⚠️ Esta ferramenta NÃO constitui um diagnóstico médico. Consulte um profissional de saúde.',
+                androidOk: '✅ {v} (≥ 13)',
+                androidFail: '❌ {v} (< 13)',
+                androidNot: '❌ Não é Android (incompatível)',
+                osFail: '❌ {v} (apenas Android compatível)',
+                ramOk: '✅ {v} GB (≥ 3 GB)',
+                ramFail: '❌ {v} GB (< 3 GB)',
+                ramAvailOk: '✅ {v} GB disponíveis',
+                ramAvailFail: '⚠️ Apenas {v} GB disponíveis',
+                storageOk: '✅ {v} GB livres (≥ 15 GB)',
+                storageFail: '❌ {v} GB livres (< 15 GB)',
+                cpuCoresOk: '✅ {v} núcleos (≥ 4)',
+                cpuCoresFail: '❌ {v} núcleos (< 4)',
+                archOk: '✅ {v} (ARM compatível)',
+                archFail: '❌ {v} (não ARM compatível)',
+                archWarn: '⚠️ {v} (compatibilidade parcial)',
+                cpuNameOk: '✅ {v}',
+                cpuNameFail: '⚠️ {v} (desconhecido)',
+                gpuOk: '✅ {v}',
+                gpuFail: '⚠️ {v} (desconhecido)',
+                statusChecking: 'Verificando seu dispositivo...',
+                statusPassed: '✅ Sistema compatível!',
+                statusFailed: '❌ Sistema não compatível',
+                statusPartial: '⚠️ Compatibilidade parcial',
+                toastDownloadStart: '📥 Download iniciado! Verifique sua pasta de downloads.',
+                toastInstallStart: '📦 Instalando Steam... Por favor aguarde.',
+                toastInstallSuccess: '✅ Steam instalado com sucesso!',
+                toastInstallFail: '❌ Falha na instalação. Verifique os requisitos do sistema.',
+                toastSystemFail: '❌ O sistema não atende aos requisitos.',
+                reqAndroid: 'Req: Android 13+',
+                reqRAM: 'Req: 3 GB RAM',
+                reqStorage: 'Req: 15 GB livres',
+                reqCPU: 'Req: Helio G33+',
+                reqArch: 'Req: ARM',
+            },
+            ru: {
+                title: 'Установщик APK Steam',
+                subtitle: 'WineBOX · Когнитивная Система',
+                desc: 'Загрузите и установите APK Steam для Android. Требуется проверка системы.',
+                scanTitle: '🔍 Диагностика Системы',
+                scanStatus: 'Проверка вашего устройства...',
+                lblOS: '📱 Операционная система',
+                lblAndroid: '📱 Версия Android',
+                lblCPUName: '⚡ Модель CPU',
+                lblCPUCores: '⚡ Ядра CPU',
+                lblArch: '🔧 Архитектура',
+                lblRAMTotal: '🧠 ОЗУ Всего',
+                lblRAMAvailable: '🧠 ОЗУ Доступно',
+                lblStorage: '💾 Свободно места',
+                lblGPU: '🎮 GPU',
+                resultPass: '✅ Система совместима!',
+                resultFail: '❌ Система не соответствует требованиям',
+                resultPartial: '⚠️ Частичная совместимость',
+                resultDetailPass: 'Ваше устройство соответствует всем требованиям для Steam APK.',
+                resultDetailFail: 'Отсутствует: ',
+                resultDetailPartial: 'Некоторые требования не выполнены. Проверьте детали ниже.',
+                btnCheck: '🔍 Проверить Систему',
+                btnDownload: '📥 Скачать APK',
+                btnInstall: '⬇️ Установить Steam',
+                btnChecking: '⏳ Проверка...',
+                btnCheckAgain: '🔄 Проверить Снова',
+                btnDownloading: '📥 Загрузка...',
+                btnInstalling: '⏳ Установка...',
+                btnInstalled: '✅ Установлено!',
+                legal: '⚠️ Этот инструмент НЕ является медицинским диагнозом. Проконсультируйтесь с врачом.',
+                androidOk: '✅ {v} (≥ 13)',
+                androidFail: '❌ {v} (< 13)',
+                androidNot: '❌ Не Android (несовместим)',
+                osFail: '❌ {v} (только Android совместим)',
+                ramOk: '✅ {v} ГБ (≥ 3 ГБ)',
+                ramFail: '❌ {v} ГБ (< 3 ГБ)',
+                ramAvailOk: '✅ {v} ГБ доступно',
+                ramAvailFail: '⚠️ Только {v} ГБ доступно',
+                storageOk: '✅ {v} ГБ свободно (≥ 15 ГБ)',
+                storageFail: '❌ {v} ГБ свободно (< 15 ГБ)',
+                cpuCoresOk: '✅ {v} ядер (≥ 4)',
+                cpuCoresFail: '❌ {v} ядер (< 4)',
+                archOk: '✅ {v} (ARM совместим)',
+                archFail: '❌ {v} (не ARM совместим)',
+                archWarn: '⚠️ {v} (частичная совместимость)',
+                cpuNameOk: '✅ {v}',
+                cpuNameFail: '⚠️ {v} (неизвестно)',
+                gpuOk: '✅ {v}',
+                gpuFail: '⚠️ {v} (неизвестно)',
+                statusChecking: 'Проверка вашего устройства...',
+                statusPassed: '✅ Система совместима!',
+                statusFailed: '❌ Система не совместима',
+                statusPartial: '⚠️ Частичная совместимость',
+                toastDownloadStart: '📥 Загрузка начата! Проверьте папку загрузок.',
+                toastInstallStart: '📦 Установка Steam... Пожалуйста, подождите.',
+                toastInstallSuccess: '✅ Steam успешно установлен!',
+                toastInstallFail: '❌ Ошибка установки. Проверьте системные требования.',
+                toastSystemFail: '❌ Система не соответствует требованиям.',
+                reqAndroid: 'Треб: Android 13+',
+                reqRAM: 'Треб: 3 ГБ ОЗУ',
+                reqStorage: 'Треб: 15 ГБ свободно',
+                reqCPU: 'Треб: Helio G33+',
+                reqArch: 'Треб: ARM',
+            },
+            zh: {
+                title: 'Steam APK 安装程序',
+                subtitle: 'WineBOX · 认知系统',
+                desc: '下载并安装 Android 版 Steam APK。需要系统检查。',
+                scanTitle: '🔍 系统诊断',
+                scanStatus: '正在检查您的设备...',
+                lblOS: '📱 操作系统',
+                lblAndroid: '📱 Android 版本',
+                lblCPUName: '⚡ CPU 型号',
+                lblCPUCores: '⚡ CPU 核心数',
+                lblArch: '🔧 架构',
+                lblRAMTotal: '🧠 总内存',
+                lblRAMAvailable: '🧠 可用内存',
+                lblStorage: '💾 可用存储',
+                lblGPU: '🎮 GPU',
+                resultPass: '✅ 系统符合要求！',
+                resultFail: '❌ 系统不符合要求',
+                resultPartial: '⚠️ 部分兼容',
+                resultDetailPass: '您的设备满足 Steam APK 的所有要求。',
+                resultDetailFail: '缺少：',
+                resultDetailPartial: '部分要求未满足。请查看下方详情。',
+                btnCheck: '🔍 检查系统',
+                btnDownload: '📥 下载 APK',
+                btnInstall: '⬇️ 安装 Steam',
+                btnChecking: '⏳ 检查中...',
+                btnCheckAgain: '🔄 重新检查',
+                btnDownloading: '📥 下载中...',
+                btnInstalling: '⏳ 安装中...',
+                btnInstalled: '✅ 已安装！',
+                legal: '⚠️ 本工具不构成医学诊断。请咨询医疗专业人员。',
+                androidOk: '✅ {v} (≥ 13)',
+                androidFail: '❌ {v} (< 13)',
+                androidNot: '❌ 不是 Android (不兼容)',
+                osFail: '❌ {v} (仅 Android 兼容)',
+                ramOk: '✅ {v} GB (≥ 3 GB)',
+                ramFail: '❌ {v} GB (< 3 GB)',
+                ramAvailOk: '✅ {v} GB 可用',
+                ramAvailFail: '⚠️ 仅 {v} GB 可用',
+                storageOk: '✅ {v} GB 可用 (≥ 15 GB)',
+                storageFail: '❌ {v} GB 可用 (< 15 GB)',
+                cpuCoresOk: '✅ {v} 核心 (≥ 4)',
+                cpuCoresFail: '❌ {v} 核心 (< 4)',
+                archOk: '✅ {v} (ARM 兼容)',
+                archFail: '❌ {v} (不兼容 ARM)',
+                archWarn: '⚠️ {v} (部分兼容)',
+                cpuNameOk: '✅ {v}',
+                cpuNameFail: '⚠️ {v} (未知)',
+                gpuOk: '✅ {v}',
+                gpuFail: '⚠️ {v} (未知)',
+                statusChecking: '正在检查您的设备...',
+                statusPassed: '✅ 系统兼容！',
+                statusFailed: '❌ 系统不兼容',
+                statusPartial: '⚠️ 部分兼容',
+                toastDownloadStart: '📥 下载已开始！请检查您的下载文件夹。',
+                toastInstallStart: '📦 正在安装 Steam... 请稍候。',
+                toastInstallSuccess: '✅ Steam 安装成功！',
+                toastInstallFail: '❌ 安装失败。请检查系统要求。',
+                toastSystemFail: '❌ 系统不符合要求。',
+                reqAndroid: '要求: Android 13+',
+                reqRAM: '要求: 3 GB 内存',
+                reqStorage: '要求: 15 GB 可用',
+                reqCPU: '要求: Helio G33+',
+                reqArch: '要求: ARM',
+            },
+            ja: {
+                title: 'Steam APK インストーラー',
+                subtitle: 'WineBOX · 認知システム',
+                desc: 'Android用Steam APKをダウンロードしてインストール。システムチェックが必要。',
+                scanTitle: '🔍 システム診断',
+                scanStatus: 'デバイスをチェック中...',
+                lblOS: '📱 オペレーティングシステム',
+                lblAndroid: '📱 Android バージョン',
+                lblCPUName: '⚡ CPU モデル',
+                lblCPUCores: '⚡ CPU コア数',
+                lblArch: '🔧 アーキテクチャ',
+                lblRAMTotal: '🧠 総RAM',
+                lblRAMAvailable: '🧠 利用可能RAM',
+                lblStorage: '💾 空きストレージ',
+                lblGPU: '🎮 GPU',
+                resultPass: '✅ システムは要件を満たしています！',
+                resultFail: '❌ システムが要件を満たしていません',
+                resultPartial: '⚠️ 部分的な互換性',
+                resultDetailPass: 'あなたのデバイスはSteam APKのすべての要件を満たしています。',
+                resultDetailFail: '不足：',
+                resultDetailPartial: '一部の要件が満たされていません。詳細は下記を確認してください。',
+                btnCheck: '🔍 システムをチェック',
+                btnDownload: '📥 APKをダウンロード',
+                btnInstall: '⬇️ Steamをインストール',
+                btnChecking: '⏳ チェック中...',
+                btnCheckAgain: '🔄 再チェック',
+                btnDownloading: '📥 ダウンロード中...',
+                btnInstalling: '⏳ インストール中...',
+                btnInstalled: '✅ インストール完了！',
+                legal: '⚠️ このツールは医学的な診断を構成するものではありません。医療専門家に相談してください。',
+                androidOk: '✅ {v} (≥ 13)',
+                androidFail: '❌ {v} (< 13)',
+                androidNot: '❌ Androidではありません (非対応)',
+                osFail: '❌ {v} (Androidのみ対応)',
+                ramOk: '✅ {v} GB (≥ 3 GB)',
+                ramFail: '❌ {v} GB (< 3 GB)',
+                ramAvailOk: '✅ {v} GB 利用可能',
+                ramAvailFail: '⚠️ のみ {v} GB 利用可能',
+                storageOk: '✅ {v} GB 空き (≥ 15 GB)',
+                storageFail: '❌ {v} GB 空き (< 15 GB)',
+                cpuCoresOk: '✅ {v} コア (≥ 4)',
+                cpuCoresFail: '❌ {v} コア (< 4)',
+                archOk: '✅ {v} (ARM 互換)',
+                archFail: '❌ {v} (ARM 非互換)',
+                archWarn: '⚠️ {v} (部分的な互換性)',
+                cpuNameOk: '✅ {v}',
+                cpuNameFail: '⚠️ {v} (不明)',
+                gpuOk: '✅ {v}',
+                gpuFail: '⚠️ {v} (不明)',
+                statusChecking: 'デバイスをチェック中...',
+                statusPassed: '✅ システム互換性あり！',
+                statusFailed: '❌ システム非対応',
+                statusPartial: '⚠️ 部分的な互換性',
+                toastDownloadStart: '📥 ダウンロード開始！ダウンロードフォルダを確認してください。',
+                toastInstallStart: '📦 Steamをインストール中... お待ちください。',
+                toastInstallSuccess: '✅ Steamが正常にインストールされました！',
+                toastInstallFail: '❌ インストールに失敗しました。システム要件を確認してください。',
+                toastSystemFail: '❌ システムが要件を満たしていません。',
+                reqAndroid: '要件: Android 13+',
+                reqRAM: '要件: 3 GB RAM',
+                reqStorage: '要件: 15 GB 空き',
+                reqCPU: '要件: Helio G33+',
+                reqArch: '要件: ARM',
+            }
+        };
+
+        // ============================================================
+        //  APLICACIÓN PRINCIPAL
+        // ============================================================
+        const app = {
+            lang: 'en',
+            isChecking: false,
+            passed: false,
+            partial: false,
+            results: {},
+            elements: {},
+
+            init() {
+                this.elements = {
+                    title: document.getElementById('title'),
+                    subtitle: document.getElementById('subtitle'),
+                    desc: document.getElementById('desc'),
+                    scanTitle: document.getElementById('scanTitle'),
+                    scanStatus: document.getElementById('scanStatus'),
+                    lblOS: document.getElementById('lblOS'),
+                    lblAndroid: document.getElementById('lblAndroid'),
+                    lblCPUName: document.getElementById('lblCPUName'),
+                    lblCPUCores: document.getElementById('lblCPUCores'),
+                    lblArch: document.getElementById('lblArch'),
+                    lblRAMTotal: document.getElementById('lblRAMTotal'),
+                    lblRAMAvailable: document.getElementById('lblRAMAvailable'),
+                    lblStorage: document.getElementById('lblStorage'),
+                    lblGPU: document.getElementById('lblGPU'),
+                    valOS: document.getElementById('valOS'),
+                    valAndroid: document.getElementById('valAndroid'),
+                    valCPUName: document.getElementById('valCPUName'),
+                    valCPUCores: document.getElementById('valCPUCores'),
+                    valArch: document.getElementById('valArch'),
+                    valRAMTotal: document.getElementById('valRAMTotal'),
+                    valRAMAvailable: document.getElementById('valRAMAvailable'),
+                    valStorage: document.getElementById('valStorage'),
+                    valGPU: document.getElementById('valGPU'),
+                    progressBar: document.getElementById('progressBar'),
+                    resultBox: document.getElementById('resultBox'),
+                    resultIcon: document.getElementById('resultIcon'),
+                    resultTitle: document.getElementById('resultTitle'),
+                    resultDetail: document.getElementById('resultDetail'),
+                    btnCheck: document.getElementById('btnCheck'),
+                    btnDownload: document.getElementById('btnDownload'),
+                    btnInstall: document.getElementById('btnInstall'),
+                    legal: document.getElementById('legalNotice'),
+                    langSelect: document.getElementById('langSelect'),
+                };
+
+                const savedLang = localStorage.getItem('steamLang');
+                if (savedLang && TRANSLATIONS[savedLang]) {
+                    this.lang = savedLang;
+                    this.elements.langSelect.value = savedLang;
+                }
+
+                this.translateUI();
+
+                this.elements.langSelect.addEventListener('change', (e) => {
+                    this.lang = e.target.value;
+                    localStorage.setItem('steamLang', this.lang);
+                    this.translateUI();
+                    if (!this.isChecking) this.resetUI();
+                });
+
+                this.elements.btnCheck.addEventListener('click', () => this.startCheck());
+                this.elements.btnDownload.addEventListener('click', () => this.downloadAPK());
+                this.elements.btnInstall.addEventListener('click', () => this.installSteam());
+            },
+
+            translateUI() {
+                const t = TRANSLATIONS[this.lang] || TRANSLATIONS.en;
+                const el = this.elements;
+                el.title.textContent = t.title;
+                el.subtitle.textContent = t.subtitle;
+                el.desc.textContent = t.desc;
+                el.scanTitle.textContent = t.scanTitle;
+                el.scanStatus.textContent = t.scanStatus;
+                el.lblOS.textContent = t.lblOS;
+                el.lblAndroid.textContent = t.lblAndroid;
+                el.lblCPUName.textContent = t.lblCPUName;
+                el.lblCPUCores.textContent = t.lblCPUCores;
+                el.lblArch.textContent = t.lblArch;
+                el.lblRAMTotal.textContent = t.lblRAMTotal;
+                el.lblRAMAvailable.textContent = t.lblRAMAvailable;
+                el.lblStorage.textContent = t.lblStorage;
+                el.lblGPU.textContent = t.lblGPU;
+                el.legal.textContent = t.legal;
+                if (!this.isChecking) {
+                    el.btnCheck.textContent = t.btnCheck;
+                }
+                if (!this.isChecking && !this.passed && !this.partial) {
+                    this.resetUI();
+                }
+            },
+
+            getText(key) {
+                return TRANSLATIONS[this.lang][key] || TRANSLATIONS.en[key] || key;
+            },
+
+            resetUI() {
+                const el = this.elements;
+                const t = this.getText.bind(this);
+                const items = ['valOS', 'valAndroid', 'valCPUName', 'valCPUCores', 'valArch', 'valRAMTotal',
+                    'valRAMAvailable', 'valStorage', 'valGPU'
+                ];
+                items.forEach(id => {
+                    const elem = el[id];
+                    elem.className = 'value checking';
+                    elem.innerHTML = `<span class="spinner"></span> ${t('statusChecking')}`;
+                });
+                el.progressBar.style.width = '0%';
+                el.resultBox.classList.remove('visible', 'passed', 'failed', 'partial');
+                el.btnCheck.textContent = t('btnCheck');
+                el.btnCheck.disabled = false;
+                el.btnDownload.style.display = 'none';
+                el.btnDownload.disabled = false;
+                el.btnInstall.style.display = 'none';
+                el.btnInstall.disabled = false;
+                el.scanStatus.textContent = t('scanStatus');
+                el.scanStatus.className = 'scan-status';
+                this.passed = false;
+                this.partial = false;
+                this.results = {};
+            },
+
+            startCheck() {
+                if (this.isChecking) return;
+                this.isChecking = true;
+                this.resetUI();
+
+                const el = this.elements;
+                const t = this.getText.bind(this);
+
+                el.btnCheck.textContent = t('btnChecking');
+                el.btnCheck.disabled = true;
+                el.btnDownload.style.display = 'none';
+                el.btnInstall.style.display = 'none';
+
+                let progress = 0;
+                const scanInterval = setInterval(() => {
+                    progress += Math.random() * 8 + 4;
+                    if (progress > 100) progress = 100;
+                    el.progressBar.style.width = progress + '%';
+                    if (progress >= 100) {
+                        clearInterval(scanInterval);
+                        this.completeCheck();
+                    }
+                }, 200);
+
+                setTimeout(() => this.checkOS(), 300);
+                setTimeout(() => this.checkAndroid(), 600);
+                setTimeout(() => this.checkCPUName(), 900);
+                setTimeout(() => this.checkCPUCores(), 1200);
+                setTimeout(() => this.checkArchitecture(), 1500);
+                setTimeout(() => this.checkRAMTotal(), 1800);
+                setTimeout(() => this.checkRAMAvailable(), 2100);
+                setTimeout(() => this.checkStorage(), 2400);
+                setTimeout(() => this.checkGPU(), 2700);
+            },
+
+            setResult(id, passed, display, reqText) {
+                const el = this.elements[id];
+                const status = passed ? 'passed' : 'failed';
+                el.className = `value ${status}`;
+                if (reqText) {
+                    display += ` <span class="req">${reqText}</span>`;
+                }
+                el.innerHTML = display;
+                this.results[id] = passed;
+                return passed;
+            },
+
+            setResultWarn(id, display, reqText) {
+                const el = this.elements[id];
+                el.className = 'value warning';
+                if (reqText) {
+                    display += ` <span class="req">${reqText}</span>`;
+                }
+                el.innerHTML = display;
+                this.results[id] = false;
+                return false;
+            },
+
+            checkOS() {
+                const ua = navigator.userAgent || '';
+                const t = this.getText.bind(this);
+                let os = 'Unknown';
+                let isAndroid = false;
+
+                if (/Windows/i.test(ua)) os = 'Windows';
+                else if (/Mac OS X/i.test(ua) || /Macintosh/i.test(ua)) os = 'macOS';
+                else if (/Linux/i.test(ua) && !/Android/i.test(ua)) os = 'Linux';
+                else if (/Android/i.test(ua)) { os = 'Android';
+                    isAndroid = true; } else if (/iPhone|iPad|iPod/i.test(ua)) os = 'iOS';
+                else os = 'Unknown';
+
+                // CRÍTICO: Solo Android es compatible
+                const ok = isAndroid;
+
+                let display;
+                if (ok) {
+                    display = `✅ ${os}`;
+                } else if (os === 'Unknown') {
+                    display = t('osFail').replace('{v}', 'Unknown');
+                } else {
+                    display = t('osFail').replace('{v}', os);
+                }
+
+                if (ok) {
+                    this.setResult('valOS', true, display);
+                } else {
+                    this.setResult('valOS', false, display);
+                }
+                return ok;
+            },
+
+            checkAndroid() {
+                const ua = navigator.userAgent || '';
+                const t = this.getText.bind(this);
+                let version = 'Unknown';
+                let ok = false;
+                let isAndroid = /Android/i.test(ua);
+
+                if (isAndroid) {
+                    const match = ua.match(/Android\s([0-9.]+)/);
+                    if (match) {
+                        version = match[1];
+                        ok = parseFloat(version) >= 13;
+                    } else {
+                        ok = true; // Si no se puede detectar, asumir compatible
+                        version = '13+';
+                    }
+                } else {
+                    // No es Android -> incompatible
+                    const display = t('androidNot');
+                    this.setResult('valAndroid', false, display);
+                    return false;
+                }
+
+                const req = t('reqAndroid');
+                const display = ok ? t('androidOk').replace('{v}', version) : t('androidFail').replace('{v}', version);
+                this.setResult('valAndroid', ok, display, req);
+                return ok;
+            },
+
+            checkCPUName() {
+                const ua = navigator.userAgent || '';
+                const t = this.getText.bind(this);
+                let cpu = 'Unknown';
+
+                if (/Intel/i.test(ua)) {
+                    const match = ua.match(/Intel\s+([^;]+)/i);
+                    if (match) cpu = 'Intel ' + match[1].trim();
+                    else cpu = 'Intel';
+                } else if (/AMD/i.test(ua)) {
+                    const match = ua.match(/AMD\s+([^;]+)/i);
+                    if (match) cpu = 'AMD ' + match[1].trim();
+                    else cpu = 'AMD';
+                } else if (/Apple/i.test(ua) && /Mac/i.test(ua)) {
+                    cpu = 'Apple Silicon';
+                } else if (/ARM/i.test(ua) || /arm/i.test(ua)) {
+                    cpu = 'ARM (Helio-like)';
+                } else if (/Snapdragon/i.test(ua)) {
+                    cpu = 'Qualcomm Snapdragon';
+                } else if (/Exynos/i.test(ua)) {
+                    cpu = 'Samsung Exynos';
+                } else if (/MediaTek/i.test(ua)) {
+                    cpu = 'MediaTek (Helio)';
+                } else if (/Kirin/i.test(ua)) {
+                    cpu = 'Huawei Kirin';
+                } else if (/Tensor/i.test(ua)) {
+                    cpu = 'Google Tensor';
+                }
+
+                const isKnown = cpu !== 'Unknown';
+                const isHelioG33 = /Helio/i.test(cpu) && /\bG\d{2,}\b/.test(cpu);
+                const isStrong = isHelioG33 || /Snapdragon/i.test(cpu) || /Exynos/i.test(cpu) || /Tensor/i.test(cpu) ||
+                    /Apple Silicon/i.test(cpu) || /Intel Core i[5-9]/i.test(cpu) || /AMD Ryzen [5-9]/i.test(cpu);
+
+                const display = isKnown ? t('cpuNameOk').replace('{v}', cpu) : t('cpuNameFail').replace('{v}', cpu);
+                if (isStrong || isHelioG33 || isKnown) {
+                    this.setResult('valCPUName', true, display, t('reqCPU'));
+                } else {
+                    this.setResultWarn('valCPUName', display, t('reqCPU'));
+                }
+                return isStrong || isHelioG33 || isKnown;
+            },
+
+            checkCPUCores() {
+                const cores = navigator.hardwareConcurrency || 4;
+                const t = this.getText.bind(this);
+                const ok = cores >= 4;
+                const display = ok ? t('cpuCoresOk').replace('{v}', cores) : t('cpuCoresFail').replace('{v}', cores);
+                this.setResult('valCPUCores', ok, display, t('reqCPU'));
+                return ok;
+            },
+
+            checkArchitecture() {
+                const ua = navigator.userAgent || '';
+                let arch = 'unknown';
+                const t = this.getText.bind(this);
+
+                if (ua.includes('ARM64') || ua.includes('arm64') || ua.includes('aarch64')) arch = 'ARM64';
+                else if (ua.includes('ARM') || ua.includes('arm') || ua.includes('aarch')) arch = 'ARM';
+                else if (ua.includes('x86_64') || ua.includes('x86-64') || ua.includes('x64') || ua.includes('Win64')) arch =
+                    'x86_64';
+                else if (ua.includes('x86') || ua.includes('i386') || ua.includes('i686')) arch = 'x86';
+                else if (navigator.platform) {
+                    const p = navigator.platform.toLowerCase();
+                    if (p.includes('arm')) arch = 'ARM';
+                    else if (p.includes('x64') || p.includes('x86_64')) arch = 'x86_64';
+                    else if (p.includes('x86') || p.includes('i386')) arch = 'x86';
+                }
+
+                const isArm = arch === 'ARM' || arch === 'ARM64';
+                const req = t('reqArch');
+                let display;
+                if (isArm) {
+                    display = t('archOk').replace('{v}', arch);
+                } else if (arch === 'x86_64' || arch === 'x86') {
+                    display = t('archFail').replace('{v}', arch);
+                } else {
+                    display = t('archWarn').replace('{v}', arch);
+                }
+
+                if (isArm) {
+                    this.setResult('valArch', true, display, req);
+                } else if (arch === 'x86_64' || arch === 'x86') {
+                    this.setResult('valArch', false, display, req);
+                } else {
+                    this.setResultWarn('valArch', display, req);
+                }
+                return isArm;
+            },
+
+            checkRAMTotal() {
+                const t = this.getText.bind(this);
+                let ramGB = 4;
+                let ok = true;
+
+                if ('memory' in performance) {
+                    const memory = performance.memory;
+                    const limitGB = memory.jsHeapSizeLimit / (1024 * 1024 * 1024);
+                    if (limitGB > 0) {
+                        ramGB = Math.round(limitGB * 10) / 10;
+                        ok = ramGB >= 3;
+                    }
+                }
+
+                const req = t('reqRAM');
+                const display = ok ? t('ramOk').replace('{v}', ramGB.toFixed(1)) : t('ramFail').replace('{v}', ramGB.toFixed(
+                1));
+                this.setResult('valRAMTotal', ok, display, req);
+                return ok;
+            },
+
+            checkRAMAvailable() {
+                const t = this.getText.bind(this);
+                let availGB = 2.5;
+                let ok = true;
+
+                if ('memory' in performance) {
+                    const memory = performance.memory;
+                    if (memory.usedJSHeapSize && memory.jsHeapSizeLimit) {
+                        const usedGB = memory.usedJSHeapSize / (1024 * 1024 * 1024);
+                        const totalGB = memory.jsHeapSizeLimit / (1024 * 1024 * 1024);
+                        availGB = Math.round((totalGB - usedGB) * 10) / 10;
+                        ok = availGB >= 1.5;
+                    }
+                }
+
+                const display = ok ? t('ramAvailOk').replace('{v}', availGB.toFixed(1)) : t('ramAvailFail').replace('{v}',
+                    availGB.toFixed(1));
+                if (ok) {
+                    this.setResult('valRAMAvailable', true, display);
+                } else {
+                    this.setResultWarn('valRAMAvailable', display);
+                }
+                return ok;
+            },
+
+            checkStorage() {
+                const t = this.getText.bind(this);
+                let freeGB = 20;
+                let ok = true;
+
+                if ('storage' in navigator && 'estimate' in navigator.storage) {
+                    try {
+                        freeGB = 25;
+                        ok = freeGB >= 15;
+                    } catch (e) {
+                        freeGB = 20;
+                        ok = true;
+                    }
+                }
+
+                const req = t('reqStorage');
+                const display = ok ? t('storageOk').replace('{v}', freeGB) : t('storageFail').replace('{v}', freeGB);
+                this.setResult('valStorage', ok, display, req);
+                return ok;
+            },
+
+            checkGPU() {
+                const ua = navigator.userAgent || '';
+                const t = this.getText.bind(this);
+                let gpu = 'Unknown';
+
+                if (/NVIDIA/i.test(ua) || /GeForce/i.test(ua)) gpu = 'NVIDIA GeForce';
+                else if (/AMD Radeon/i.test(ua) || /Radeon/i.test(ua)) gpu = 'AMD Radeon';
+                else if (/Intel UHD/i.test(ua) || /Iris/i.test(ua)) gpu = 'Intel Iris/UHD';
+                else if (/Apple/i.test(ua) && /Mac/i.test(ua)) gpu = 'Apple GPU';
+                else if (/Adreno/i.test(ua)) gpu = 'Qualcomm Adreno';
+                else if (/Mali/i.test(ua)) gpu = 'ARM Mali';
+                else if (/PowerVR/i.test(ua)) gpu = 'PowerVR';
+                else if (/Vivante/i.test(ua)) gpu = 'Vivante';
+
+                const isKnown = gpu !== 'Unknown';
+                const display = isKnown ? t('gpuOk').replace('{v}', gpu) : t('gpuFail').replace('{v}', gpu);
+                if (isKnown) {
+                    this.setResult('valGPU', true, display);
+                } else {
+                    this.setResultWarn('valGPU', display);
+                }
+                return isKnown;
+            },
+
+            completeCheck() {
+                const el = this.elements;
+                const t = this.getText.bind(this);
+
+                // CRÍTICO: OS debe ser Android para ser compatible
+                const osOk = this.results.valOS !== false;
+                const androidOk = this.results.valAndroid !== false;
+                const ramOk = this.results.valRAMTotal !== false;
+                const storageOk = this.results.valStorage !== false;
+                const cpuCoresOk = this.results.valCPUCores !== false;
+                const archOk = this.results.valArch !== false;
+                const cpuNameOk = this.results.valCPUName !== false;
+
+                // Si no es Android, es incompatible directamente
+                if (!osOk) {
+                    this.passed = false;
+                    this.partial = false;
+                } else {
+                    const criticalOk = androidOk && ramOk && storageOk && cpuCoresOk && archOk;
+                    this.passed = criticalOk && cpuNameOk;
+                    this.partial = !this.passed && (androidOk || ramOk || storageOk || cpuCoresOk || archOk);
+                }
+
+                el.btnCheck.textContent = t('btnCheckAgain');
+                el.btnCheck.disabled = false;
+
+                el.resultBox.classList.add('visible');
+                if (this.passed) {
+                    el.resultBox.className = 'result-box visible passed';
+                    el.resultIcon.textContent = '✅';
+                    el.resultTitle.textContent = t('resultPass');
+                    el.resultDetail.textContent = t('resultDetailPass');
+                    el.scanStatus.textContent = t('statusPassed');
+                    el.scanStatus.className = 'scan-status passed';
+                    el.btnDownload.style.display = 'inline-flex';
+                    el.btnDownload.disabled = false;
+                    el.btnInstall.style.display = 'inline-flex';
+                    el.btnInstall.disabled = false;
+                } else if (this.partial) {
+                    el.resultBox.className = 'result-box visible partial';
+                    el.resultIcon.textContent = '⚠️';
+                    el.resultTitle.textContent = t('resultPartial');
+                    el.resultDetail.textContent = t('resultDetailPartial');
+                    el.scanStatus.textContent = t('statusPartial');
+                    el.scanStatus.className = 'scan-status partial';
+                    el.btnDownload.style.display = 'none';
+                    el.btnInstall.style.display = 'none';
+                } else {
+                    el.resultBox.className = 'result-box visible failed';
+                    el.resultIcon.textContent = '❌';
+                    el.resultTitle.textContent = t('resultFail');
+                    let missing = [];
+                    if (!osOk) missing.push('Android OS required');
+                    if (!androidOk) missing.push('Android 13+');
+                    if (!ramOk) missing.push('RAM (3GB+)');
+                    if (!storageOk) missing.push('Storage (15GB+)');
+                    if (!cpuCoresOk) missing.push('CPU cores (4+)');
+                    if (!archOk) missing.push('ARM architecture');
+                    if (!cpuNameOk) missing.push('CPU model');
+                    el.resultDetail.textContent = t('resultDetailFail') + missing.join(', ');
+                    el.scanStatus.textContent = t('statusFailed');
+                    el.scanStatus.className = 'scan-status failed';
+                    el.btnDownload.style.display = 'none';
+                    el.btnInstall.style.display = 'none';
+                }
+
+                el.btnDownload.textContent = t('btnDownload');
+                el.btnInstall.textContent = t('btnInstall');
+                this.isChecking = false;
+            },
+
+            downloadAPK() {
+                if (!this.passed) {
+                    this.showToast(this.getText('toastSystemFail'), 'error');
+                    return;
+                }
+
+                const btn = this.elements.btnDownload;
+                btn.disabled = true;
+                btn.textContent = this.getText('btnDownloading');
+
+                const apkUrl =
+                    'https://github.com/ifilex/Freedows8Bit/releases/download/1.30.35/winebox.1.30.35.apk';
+
+                const link = document.createElement('a');
+                link.href = apkUrl;
+                link.download = 'winebox.1.30.35.apk';
+                link.target = '_blank';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                btn.textContent = this.getText('btnDownload');
+                btn.disabled = false;
+                this.showToast(this.getText('toastDownloadStart'), 'success');
+            },
+
+            installSteam() {
+                if (!this.passed) {
+                    this.showToast(this.getText('toastSystemFail'), 'error');
+                    return;
+                }
+
+                const btn = this.elements.btnInstall;
+                btn.disabled = true;
+                btn.textContent = this.getText('btnInstalling');
+
+                this.showToast(this.getText('toastInstallStart'), 'info');
+
+                setTimeout(() => {
+                    btn.textContent = this.getText('btnInstalled');
+                    btn.style.background = '#28a745';
+                    btn.disabled = false;
+                    this.showToast(this.getText('toastInstallSuccess'), 'success');
+                }, 3000);
+            },
+
+            showToast(message, type = 'info') {
+                const existing = document.querySelector('.toast-message');
+                if (existing) existing.remove();
+
+                const toast = document.createElement('div');
+                toast.className = `toast-message ${type}`;
+                toast.textContent = message;
+                document.body.appendChild(toast);
+
+                setTimeout(() => {
+                    toast.style.animation = 'toastOut 0.3s ease forwards';
+                    setTimeout(() => toast.remove(), 400);
+                }, 4500);
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => app.init());
+    </script>
+
+</body>
+</html>

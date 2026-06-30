@@ -8718,6 +8718,152 @@ function executeModalAction(action) {
     currentModalActionIndex = 0;
 }
 
+// ========== INYECCIÓN DEL ICONO STEAM FIJADO EN LA DOCKBAR ==========
+(function injectSteamIcon() {
+    // Esperar a que la dockbar exista
+    function ensureSteamIcon() {
+        const dockbarApps = document.getElementById('dockbarApps');
+        if (!dockbarApps) {
+            setTimeout(ensureSteamIcon, 200);
+            return;
+        }
+
+        // 1. Verificar si Steam ya está fijado
+        const existingSteam = dockbarApps.querySelector('.dockbar-pinned[data-app-name="Steam"]');
+        if (existingSteam) return;
+
+        // 2. Definir el objeto "app" para Steam
+        const steamApp = {
+            name: 'Steam',
+            image: 'src/icons/steam.png',
+            link: 'steam.html',
+            category: 'games',
+            description: 'Steam client'
+        };
+
+        // 3. Función para fijar Steam (clon de Program Manager)
+        function ensureSteamPinned() {
+            let pinnedApps = JSON.parse(localStorage.getItem('wineboxPinnedApps') || '[]');
+            const alreadyPinned = pinnedApps.some(app => app.name === 'Steam');
+            if (!alreadyPinned) {
+                pinnedApps.push(steamApp);
+                localStorage.setItem('wineboxPinnedApps', JSON.stringify(pinnedApps));
+                updateSteamIcon();
+            }
+        }
+
+        // 4. Crear el icono en la dockbar
+        function createSteamIcon() {
+            const iconElement = document.createElement('div');
+            iconElement.className = 'dockbar-app-icon dockbar-pinned';
+            iconElement.setAttribute('data-title', 'Steam');
+            iconElement.setAttribute('data-app-name', 'Steam');
+
+            iconElement.innerHTML = `
+                <img src="src/icons/steam.png" alt="Steam"
+                     onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzQiIGhlaWdodD0iMzQiIHZpZXdCb3g9IjAgMCAzNCAzNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjM0IiBoZWlnaHQ9IjM0IiBmaWxsPSIjMzMzMzMzIiByeD0iNCIvPgo8dGV4dCB4PSIxNyIgeT0iMTciIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5TVDwvdGV4dD4KPC9zdmc+Cg==">
+            `;
+
+            iconElement.addEventListener('click', function() {
+                let fullApp = window.appData ? window.appData.find(a => a.name === 'Steam') : null;
+                if (!fullApp) fullApp = steamApp;
+                if (typeof window.launchAppDirectly === 'function') {
+                    window.launchAppDirectly(fullApp);
+                } else {
+                    console.warn('launchAppDirectly no disponible, usando fallback');
+                    if (typeof window.createAppWindow === 'function') {
+                        window.createAppWindow('Steam', 'Steam', 'src/icons/steam.png', 'web', null, 'steam.html');
+                        if (typeof window.addToRecentApps === 'function') {
+                            window.addToRecentApps(steamApp);
+                        }
+                    }
+                }
+            });
+
+            return iconElement;
+        }
+
+        // 5. Función para actualizar/insertar el icono
+        function updateSteamIcon() {
+            const existing = dockbarApps.querySelectorAll('.dockbar-pinned[data-app-name="Steam"]');
+            existing.forEach(el => el.remove());
+
+            const pmIcon = dockbarApps.querySelector('.dockbar-pinned[data-app-name="Program Manager"]');
+            const newIcon = createSteamIcon();
+            if (pmIcon) {
+                pmIcon.parentNode.insertBefore(newIcon, pmIcon.nextSibling);
+            } else {
+                dockbarApps.insertBefore(newIcon, dockbarApps.firstChild);
+            }
+        }
+
+        // 6. Ejecutar fijación
+        ensureSteamPinned();
+        updateSteamIcon();
+
+        // 7. Monitorizar (igual que Program Manager)
+        function monitorSteam() {
+            const pinnedApps = JSON.parse(localStorage.getItem('wineboxPinnedApps') || '[]');
+            const steamPinned = pinnedApps.some(app => app.name === 'Steam');
+            if (!steamPinned) {
+                ensureSteamPinned();
+                updateSteamIcon();
+            }
+        }
+        setInterval(monitorSteam, 5000);
+        console.log('✅ Icono Steam fijado correctamente en la dockbar');
+    }
+
+    // Inyectar cuando el DOM esté listo
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        ensureSteamIcon();
+    } else {
+        document.addEventListener('DOMContentLoaded', ensureSteamIcon);
+    }
+
+    // También asegurar cuando se recargue la dockbar
+    const originalUpdateTaskbar = window.updateTaskbarPinnedApps;
+    if (typeof originalUpdateTaskbar === 'function') {
+        window.updateTaskbarPinnedApps = function() {
+            originalUpdateTaskbar();
+            const dockbarApps = document.getElementById('dockbarApps');
+            if (dockbarApps) {
+                const existing = dockbarApps.querySelector('.dockbar-pinned[data-app-name="Steam"]');
+                if (!existing) {
+                    const steamAppLocal = {
+                        name: 'Steam',
+                        image: 'src/icons/steam.png',
+                        link: 'steam.html'
+                    };
+                    let pinnedApps = JSON.parse(localStorage.getItem('wineboxPinnedApps') || '[]');
+                    if (!pinnedApps.some(a => a.name === 'Steam')) {
+                        pinnedApps.push(steamAppLocal);
+                        localStorage.setItem('wineboxPinnedApps', JSON.stringify(pinnedApps));
+                    }
+                    const newIcon = document.createElement('div');
+                    newIcon.className = 'dockbar-app-icon dockbar-pinned';
+                    newIcon.setAttribute('data-title', 'Steam');
+                    newIcon.setAttribute('data-app-name', 'Steam');
+                    newIcon.innerHTML = `<img src="src/icons/steam.png" alt="Steam" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzQiIGhlaWdodD0iMzQiIHZpZXdCb3g9IjAgMCAzNCAzNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjM0IiBoZWlnaHQ9IjM0IiBmaWxsPSIjMzMzMzMzIiByeD0iNCIvPgo8dGV4dCB4PSIxNyIgeT0iMTciIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5TVDwvdGV4dD4KPC9zdmc+Cg==">`;
+                    newIcon.addEventListener('click', function() {
+                        let fullApp = window.appData ? window.appData.find(a => a.name === 'Steam') : null;
+                        if (!fullApp) fullApp = { name: 'Steam', image: 'src/icons/steam.png', link: 'steam.html' };
+                        if (typeof window.launchAppDirectly === 'function') {
+                            window.launchAppDirectly(fullApp);
+                        }
+                    });
+                    const pmIcon = dockbarApps.querySelector('.dockbar-pinned[data-app-name="Program Manager"]');
+                    if (pmIcon) {
+                        pmIcon.parentNode.insertBefore(newIcon, pmIcon.nextSibling);
+                    } else {
+                        dockbarApps.insertBefore(newIcon, dockbarApps.firstChild);
+                    }
+                }
+            }
+        };
+    }
+})();
+
 </script>
 </body>
 </html>
