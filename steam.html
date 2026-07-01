@@ -413,16 +413,6 @@
             box-shadow: 0 6px 24px rgba(40, 167, 69, 0.3);
         }
 
-        .btn-warning {
-            background: #ff6b00;
-            color: white;
-        }
-        .btn-warning:hover:not(:disabled) {
-            background: #e65c00;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 24px rgba(255, 107, 0, 0.3);
-        }
-
         .btn-secondary {
             background: rgba(255, 255, 255, 0.05);
             color: rgba(255, 255, 255, 0.6);
@@ -737,7 +727,6 @@
         <div class="btn-group">
             <button class="btn btn-primary" id="btnCheck">🔍 Check System</button>
             <button class="btn btn-success" id="btnDownload" style="display:none;">📥 Download APK</button>
-            <button class="btn btn-warning" id="btnInstall" style="display:none;">⬇️ Install Steam</button>
         </div>
 
         <!-- FOOTER -->
@@ -778,12 +767,9 @@
                 resultDetailPartial: 'Some requirements are not met. Check details below.',
                 btnCheck: '🔍 Check System',
                 btnDownload: '📥 Download APK',
-                btnInstall: '⬇️ Install Steam',
                 btnChecking: '⏳ Checking...',
                 btnCheckAgain: '🔄 Check Again',
                 btnDownloading: '📥 Downloading...',
-                btnInstalling: '⏳ Installing...',
-                btnInstalled: '✅ Installed!',
                 legal: '⚠️ This tool does NOT constitute a medical diagnosis. Consult a health professional.',
                 androidOk: '✅ {v} (≥ 10)',
                 androidFail: '❌ {v} (< 10)',
@@ -793,8 +779,8 @@
                 ramFail: '❌ {v} GB (< 3 GB)',
                 ramAvailOk: '✅ {v} GB available',
                 ramAvailFail: '⚠️ Only {v} GB available',
-                storageOk: '✅ {v} GB free (≥ 15 GB)',
-                storageFail: '❌ {v} GB free (< 15 GB)',
+                storageOk: '✅ {v} GB free (≥ 10 GB)',
+                storageFail: '❌ {v} GB free (< 10 GB)',
                 cpuCoresOk: '✅ {v} cores (≥ 4)',
                 cpuCoresFail: '❌ {v} cores (< 4)',
                 archOk: '✅ {v} (ARM compatible)',
@@ -803,19 +789,16 @@
                 cpuNameOk: '✅ {v}',
                 cpuNameFail: '⚠️ {v} (unknown)',
                 gpuOk: '✅ {v}',
-                gpuFail: '⚠️ {v} (unknown)',
+                gpuFail: 'ℹ️ {v} (not required for installation)',
                 statusChecking: 'Checking your device...',
                 statusPassed: '✅ System compatible!',
                 statusFailed: '❌ System not compatible',
                 statusPartial: '⚠️ Partial compatibility',
                 toastDownloadStart: '📥 Download started! Check your downloads folder.',
-                toastInstallStart: '📦 Installing Steam... Please wait.',
-                toastInstallSuccess: '✅ Steam installed successfully!',
-                toastInstallFail: '❌ Installation failed. Please check system requirements.',
                 toastSystemFail: '❌ System does not meet requirements.',
                 reqAndroid: 'Req: Android 10+',
                 reqRAM: 'Req: 3 GB RAM',
-                reqStorage: 'Req: 15 GB free',
+                reqStorage: 'Req: 10 GB free',
                 reqCPU: 'Req: Helio G33+',
                 reqArch: 'Req: ARM',
             },
@@ -842,12 +825,9 @@
                 resultDetailPartial: 'Algunos requisitos no se cumplen. Revisa los detalles abajo.',
                 btnCheck: '🔍 Comprobar Sistema',
                 btnDownload: '📥 Descargar APK',
-                btnInstall: '⬇️ Instalar Steam',
                 btnChecking: '⏳ Comprobando...',
                 btnCheckAgain: '🔄 Comprobar de Nuevo',
                 btnDownloading: '📥 Descargando...',
-                btnInstalling: '⏳ Instalando...',
-                btnInstalled: '✅ ¡Instalado!',
                 legal: '⚠️ Esta herramienta NO constituye un diagnóstico médico. Consulte a un profesional de la salud.',
                 androidOk: '✅ {v} (≥ 10)',
                 androidFail: '❌ {v} (< 10)',
@@ -857,8 +837,8 @@
                 ramFail: '❌ {v} GB (< 3 GB)',
                 ramAvailOk: '✅ {v} GB disponibles',
                 ramAvailFail: '⚠️ Solo {v} GB disponibles',
-                storageOk: '✅ {v} GB libres (≥ 15 GB)',
-                storageFail: '❌ {v} GB libres (< 15 GB)',
+                storageOk: '✅ {v} GB libres (≥ 10 GB)',
+                storageFail: '❌ {v} GB libres (< 10 GB)',
                 cpuCoresOk: '✅ {v} núcleos (≥ 4)',
                 cpuCoresFail: '❌ {v} núcleos (< 4)',
                 archOk: '✅ {v} (ARM compatible)',
@@ -867,19 +847,16 @@
                 cpuNameOk: '✅ {v}',
                 cpuNameFail: '⚠️ {v} (desconocido)',
                 gpuOk: '✅ {v}',
-                gpuFail: '⚠️ {v} (desconocido)',
+                gpuFail: 'ℹ️ {v} (no requerido para la instalación)',
                 statusChecking: 'Comprobando tu dispositivo...',
                 statusPassed: '✅ ¡Sistema compatible!',
                 statusFailed: '❌ Sistema no compatible',
                 statusPartial: '⚠️ Compatibilidad parcial',
                 toastDownloadStart: '📥 ¡Descarga iniciada! Revisa tu carpeta de descargas.',
-                toastInstallStart: '📦 Instalando Steam... Por favor espera.',
-                toastInstallSuccess: '✅ ¡Steam instalado con éxito!',
-                toastInstallFail: '❌ Falló la instalación. Verifica los requisitos del sistema.',
                 toastSystemFail: '❌ El sistema no cumple los requisitos.',
                 reqAndroid: 'Req: Android 10+',
                 reqRAM: 'Req: 3 GB RAM',
-                reqStorage: 'Req: 15 GB libres',
+                reqStorage: 'Req: 10 GB libres',
                 reqCPU: 'Req: Helio G33+',
                 reqArch: 'Req: ARM',
             },
@@ -906,12 +883,9 @@
                 resultDetailPartial: 'Certaines exigences ne sont pas remplies. Vérifiez les détails ci-dessous.',
                 btnCheck: '🔍 Vérifier le Système',
                 btnDownload: '📥 Télécharger APK',
-                btnInstall: '⬇️ Installer Steam',
                 btnChecking: '⏳ Vérification...',
                 btnCheckAgain: '🔄 Vérifier à Nouveau',
                 btnDownloading: '📥 Téléchargement...',
-                btnInstalling: '⏳ Installation...',
-                btnInstalled: '✅ Installé !',
                 legal: '⚠️ Cet outil NE constitue pas un diagnostic médical. Consultez un professionnel de santé.',
                 androidOk: '✅ {v} (≥ 10)',
                 androidFail: '❌ {v} (< 10)',
@@ -921,8 +895,8 @@
                 ramFail: '❌ {v} Go (< 3 Go)',
                 ramAvailOk: '✅ {v} Go disponibles',
                 ramAvailFail: '⚠️ Seulement {v} Go disponibles',
-                storageOk: '✅ {v} Go libres (≥ 15 Go)',
-                storageFail: '❌ {v} Go libres (< 15 Go)',
+                storageOk: '✅ {v} Go libres (≥ 10 Go)',
+                storageFail: '❌ {v} Go libres (< 10 Go)',
                 cpuCoresOk: '✅ {v} cœurs (≥ 4)',
                 cpuCoresFail: '❌ {v} cœurs (< 4)',
                 archOk: '✅ {v} (ARM compatible)',
@@ -931,19 +905,16 @@
                 cpuNameOk: '✅ {v}',
                 cpuNameFail: '⚠️ {v} (inconnu)',
                 gpuOk: '✅ {v}',
-                gpuFail: '⚠️ {v} (inconnu)',
+                gpuFail: 'ℹ️ {v} (non requis pour l\'installation)',
                 statusChecking: 'Vérification de votre appareil...',
                 statusPassed: '✅ Système compatible !',
                 statusFailed: '❌ Système non compatible',
                 statusPartial: '⚠️ Compatibilité partielle',
                 toastDownloadStart: '📥 Téléchargement lancé ! Vérifiez votre dossier de téléchargements.',
-                toastInstallStart: '📦 Installation de Steam... Veuillez patienter.',
-                toastInstallSuccess: '✅ Steam installé avec succès !',
-                toastInstallFail: '❌ L\'installation a échoué. Vérifiez les exigences système.',
                 toastSystemFail: '❌ Le système ne répond pas aux exigences.',
                 reqAndroid: 'Req: Android 10+',
                 reqRAM: 'Req: 3 Go RAM',
-                reqStorage: 'Req: 15 Go libres',
+                reqStorage: 'Req: 10 Go libres',
                 reqCPU: 'Req: Helio G33+',
                 reqArch: 'Req: ARM',
             },
@@ -970,12 +941,9 @@
                 resultDetailPartial: 'Einige Anforderungen werden nicht erfüllt. Details unten prüfen.',
                 btnCheck: '🔍 System prüfen',
                 btnDownload: '📥 APK herunterladen',
-                btnInstall: '⬇️ Steam installieren',
                 btnChecking: '⏳ Prüfe...',
                 btnCheckAgain: '🔄 Erneut prüfen',
                 btnDownloading: '📥 Lade herunter...',
-                btnInstalling: '⏳ Installiere...',
-                btnInstalled: '✅ Installiert!',
                 legal: '⚠️ Dieses Tool stellt KEINE medizinische Diagnose dar. Konsultieren Sie einen Arzt.',
                 androidOk: '✅ {v} (≥ 10)',
                 androidFail: '❌ {v} (< 10)',
@@ -985,8 +953,8 @@
                 ramFail: '❌ {v} GB (< 3 GB)',
                 ramAvailOk: '✅ {v} GB verfügbar',
                 ramAvailFail: '⚠️ Nur {v} GB verfügbar',
-                storageOk: '✅ {v} GB frei (≥ 15 GB)',
-                storageFail: '❌ {v} GB frei (< 15 GB)',
+                storageOk: '✅ {v} GB frei (≥ 10 GB)',
+                storageFail: '❌ {v} GB frei (< 10 GB)',
                 cpuCoresOk: '✅ {v} Kerne (≥ 4)',
                 cpuCoresFail: '❌ {v} Kerne (< 4)',
                 archOk: '✅ {v} (ARM kompatibel)',
@@ -995,19 +963,16 @@
                 cpuNameOk: '✅ {v}',
                 cpuNameFail: '⚠️ {v} (unbekannt)',
                 gpuOk: '✅ {v}',
-                gpuFail: '⚠️ {v} (unbekannt)',
+                gpuFail: 'ℹ️ {v} (nicht für die Installation erforderlich)',
                 statusChecking: 'Überprüfe dein Gerät...',
                 statusPassed: '✅ System kompatibel!',
                 statusFailed: '❌ System nicht kompatibel',
                 statusPartial: '⚠️ Teilweise Kompatibilität',
                 toastDownloadStart: '📥 Download gestartet! Überprüfen Sie Ihren Download-Ordner.',
-                toastInstallStart: '📦 Installiere Steam... Bitte warten.',
-                toastInstallSuccess: '✅ Steam erfolgreich installiert!',
-                toastInstallFail: '❌ Installation fehlgeschlagen. Überprüfen Sie die Systemanforderungen.',
                 toastSystemFail: '❌ Das System erfüllt die Anforderungen nicht.',
                 reqAndroid: 'Req: Android 10+',
                 reqRAM: 'Req: 3 GB RAM',
-                reqStorage: 'Req: 15 GB frei',
+                reqStorage: 'Req: 10 GB frei',
                 reqCPU: 'Req: Helio G33+',
                 reqArch: 'Req: ARM',
             },
@@ -1034,12 +999,9 @@
                 resultDetailPartial: 'Alcuni requisiti non sono soddisfatti. Controlla i dettagli qui sotto.',
                 btnCheck: '🔍 Controlla Sistema',
                 btnDownload: '📥 Scarica APK',
-                btnInstall: '⬇️ Installa Steam',
                 btnChecking: '⏳ Controllo...',
                 btnCheckAgain: '🔄 Controlla Ancora',
                 btnDownloading: '📥 Download in corso...',
-                btnInstalling: '⏳ Installazione...',
-                btnInstalled: '✅ Installato!',
                 legal: '⚠️ Questo strumento NON costituisce una diagnosi medica. Consultare un medico.',
                 androidOk: '✅ {v} (≥ 10)',
                 androidFail: '❌ {v} (< 10)',
@@ -1049,8 +1011,8 @@
                 ramFail: '❌ {v} GB (< 3 GB)',
                 ramAvailOk: '✅ {v} GB disponibili',
                 ramAvailFail: '⚠️ Solo {v} GB disponibili',
-                storageOk: '✅ {v} GB liberi (≥ 15 GB)',
-                storageFail: '❌ {v} GB liberi (< 15 GB)',
+                storageOk: '✅ {v} GB liberi (≥ 10 GB)',
+                storageFail: '❌ {v} GB liberi (< 10 GB)',
                 cpuCoresOk: '✅ {v} nuclei (≥ 4)',
                 cpuCoresFail: '❌ {v} nuclei (< 4)',
                 archOk: '✅ {v} (ARM compatibile)',
@@ -1059,19 +1021,16 @@
                 cpuNameOk: '✅ {v}',
                 cpuNameFail: '⚠️ {v} (sconosciuto)',
                 gpuOk: '✅ {v}',
-                gpuFail: '⚠️ {v} (sconosciuto)',
+                gpuFail: 'ℹ️ {v} (non richiesto per l\'installazione)',
                 statusChecking: 'Controllo del dispositivo...',
                 statusPassed: '✅ Sistema compatibile!',
                 statusFailed: '❌ Sistema non compatibile',
                 statusPartial: '⚠️ Compatibilità parziale',
                 toastDownloadStart: '📥 Download avviato! Controlla la cartella download.',
-                toastInstallStart: '📦 Installazione di Steam... Attendere prego.',
-                toastInstallSuccess: '✅ Steam installato con successo!',
-                toastInstallFail: '❌ Installazione fallita. Verificare i requisiti di sistema.',
                 toastSystemFail: '❌ Il sistema non soddisfa i requisiti.',
                 reqAndroid: 'Req: Android 10+',
                 reqRAM: 'Req: 3 GB RAM',
-                reqStorage: 'Req: 15 GB liberi',
+                reqStorage: 'Req: 10 GB liberi',
                 reqCPU: 'Req: Helio G33+',
                 reqArch: 'Req: ARM',
             },
@@ -1098,12 +1057,9 @@
                 resultDetailPartial: 'Alguns requisitos não são atendidos. Verifique os detalhes abaixo.',
                 btnCheck: '🔍 Verificar Sistema',
                 btnDownload: '📥 Baixar APK',
-                btnInstall: '⬇️ Instalar Steam',
                 btnChecking: '⏳ Verificando...',
                 btnCheckAgain: '🔄 Verificar Novamente',
                 btnDownloading: '📥 Baixando...',
-                btnInstalling: '⏳ Instalando...',
-                btnInstalled: '✅ Instalado!',
                 legal: '⚠️ Esta ferramenta NÃO constitui um diagnóstico médico. Consulte um profissional de saúde.',
                 androidOk: '✅ {v} (≥ 10)',
                 androidFail: '❌ {v} (< 10)',
@@ -1113,8 +1069,8 @@
                 ramFail: '❌ {v} GB (< 3 GB)',
                 ramAvailOk: '✅ {v} GB disponíveis',
                 ramAvailFail: '⚠️ Apenas {v} GB disponíveis',
-                storageOk: '✅ {v} GB livres (≥ 15 GB)',
-                storageFail: '❌ {v} GB livres (< 15 GB)',
+                storageOk: '✅ {v} GB livres (≥ 10 GB)',
+                storageFail: '❌ {v} GB livres (< 10 GB)',
                 cpuCoresOk: '✅ {v} núcleos (≥ 4)',
                 cpuCoresFail: '❌ {v} núcleos (< 4)',
                 archOk: '✅ {v} (ARM compatível)',
@@ -1123,19 +1079,16 @@
                 cpuNameOk: '✅ {v}',
                 cpuNameFail: '⚠️ {v} (desconhecido)',
                 gpuOk: '✅ {v}',
-                gpuFail: '⚠️ {v} (desconhecido)',
+                gpuFail: 'ℹ️ {v} (não necessário para instalação)',
                 statusChecking: 'Verificando seu dispositivo...',
                 statusPassed: '✅ Sistema compatível!',
                 statusFailed: '❌ Sistema não compatível',
                 statusPartial: '⚠️ Compatibilidade parcial',
                 toastDownloadStart: '📥 Download iniciado! Verifique sua pasta de downloads.',
-                toastInstallStart: '📦 Instalando Steam... Por favor aguarde.',
-                toastInstallSuccess: '✅ Steam instalado com sucesso!',
-                toastInstallFail: '❌ Falha na instalação. Verifique os requisitos do sistema.',
                 toastSystemFail: '❌ O sistema não atende aos requisitos.',
                 reqAndroid: 'Req: Android 10+',
                 reqRAM: 'Req: 3 GB RAM',
-                reqStorage: 'Req: 15 GB livres',
+                reqStorage: 'Req: 10 GB livres',
                 reqCPU: 'Req: Helio G33+',
                 reqArch: 'Req: ARM',
             },
@@ -1162,12 +1115,9 @@
                 resultDetailPartial: 'Некоторые требования не выполнены. Проверьте детали ниже.',
                 btnCheck: '🔍 Проверить Систему',
                 btnDownload: '📥 Скачать APK',
-                btnInstall: '⬇️ Установить Steam',
                 btnChecking: '⏳ Проверка...',
                 btnCheckAgain: '🔄 Проверить Снова',
                 btnDownloading: '📥 Загрузка...',
-                btnInstalling: '⏳ Установка...',
-                btnInstalled: '✅ Установлено!',
                 legal: '⚠️ Этот инструмент НЕ является медицинским диагнозом. Проконсультируйтесь с врачом.',
                 androidOk: '✅ {v} (≥ 10)',
                 androidFail: '❌ {v} (< 10)',
@@ -1177,8 +1127,8 @@
                 ramFail: '❌ {v} ГБ (< 3 ГБ)',
                 ramAvailOk: '✅ {v} ГБ доступно',
                 ramAvailFail: '⚠️ Только {v} ГБ доступно',
-                storageOk: '✅ {v} ГБ свободно (≥ 15 ГБ)',
-                storageFail: '❌ {v} ГБ свободно (< 15 ГБ)',
+                storageOk: '✅ {v} ГБ свободно (≥ 10 ГБ)',
+                storageFail: '❌ {v} ГБ свободно (< 10 ГБ)',
                 cpuCoresOk: '✅ {v} ядер (≥ 4)',
                 cpuCoresFail: '❌ {v} ядер (< 4)',
                 archOk: '✅ {v} (ARM совместим)',
@@ -1187,19 +1137,16 @@
                 cpuNameOk: '✅ {v}',
                 cpuNameFail: '⚠️ {v} (неизвестно)',
                 gpuOk: '✅ {v}',
-                gpuFail: '⚠️ {v} (неизвестно)',
+                gpuFail: 'ℹ️ {v} (не требуется для установки)',
                 statusChecking: 'Проверка вашего устройства...',
                 statusPassed: '✅ Система совместима!',
                 statusFailed: '❌ Система не совместима',
                 statusPartial: '⚠️ Частичная совместимость',
                 toastDownloadStart: '📥 Загрузка начата! Проверьте папку загрузок.',
-                toastInstallStart: '📦 Установка Steam... Пожалуйста, подождите.',
-                toastInstallSuccess: '✅ Steam успешно установлен!',
-                toastInstallFail: '❌ Ошибка установки. Проверьте системные требования.',
                 toastSystemFail: '❌ Система не соответствует требованиям.',
                 reqAndroid: 'Треб: Android 10+',
                 reqRAM: 'Треб: 3 ГБ ОЗУ',
-                reqStorage: 'Треб: 15 ГБ свободно',
+                reqStorage: 'Треб: 10 ГБ свободно',
                 reqCPU: 'Треб: Helio G33+',
                 reqArch: 'Треб: ARM',
             },
@@ -1226,12 +1173,9 @@
                 resultDetailPartial: '部分要求未满足。请查看下方详情。',
                 btnCheck: '🔍 检查系统',
                 btnDownload: '📥 下载 APK',
-                btnInstall: '⬇️ 安装 Steam',
                 btnChecking: '⏳ 检查中...',
                 btnCheckAgain: '🔄 重新检查',
                 btnDownloading: '📥 下载中...',
-                btnInstalling: '⏳ 安装中...',
-                btnInstalled: '✅ 已安装！',
                 legal: '⚠️ 本工具不构成医学诊断。请咨询医疗专业人员。',
                 androidOk: '✅ {v} (≥ 10)',
                 androidFail: '❌ {v} (< 10)',
@@ -1241,8 +1185,8 @@
                 ramFail: '❌ {v} GB (< 3 GB)',
                 ramAvailOk: '✅ {v} GB 可用',
                 ramAvailFail: '⚠️ 仅 {v} GB 可用',
-                storageOk: '✅ {v} GB 可用 (≥ 15 GB)',
-                storageFail: '❌ {v} GB 可用 (< 15 GB)',
+                storageOk: '✅ {v} GB 可用 (≥ 10 GB)',
+                storageFail: '❌ {v} GB 可用 (< 10 GB)',
                 cpuCoresOk: '✅ {v} 核心 (≥ 4)',
                 cpuCoresFail: '❌ {v} 核心 (< 4)',
                 archOk: '✅ {v} (ARM 兼容)',
@@ -1251,19 +1195,16 @@
                 cpuNameOk: '✅ {v}',
                 cpuNameFail: '⚠️ {v} (未知)',
                 gpuOk: '✅ {v}',
-                gpuFail: '⚠️ {v} (未知)',
+                gpuFail: 'ℹ️ {v} (安装不需要)',
                 statusChecking: '正在检查您的设备...',
                 statusPassed: '✅ 系统兼容！',
                 statusFailed: '❌ 系统不兼容',
                 statusPartial: '⚠️ 部分兼容',
                 toastDownloadStart: '📥 下载已开始！请检查您的下载文件夹。',
-                toastInstallStart: '📦 正在安装 Steam... 请稍候。',
-                toastInstallSuccess: '✅ Steam 安装成功！',
-                toastInstallFail: '❌ 安装失败。请检查系统要求。',
                 toastSystemFail: '❌ 系统不符合要求。',
                 reqAndroid: '要求: Android 10+',
                 reqRAM: '要求: 3 GB 内存',
-                reqStorage: '要求: 15 GB 可用',
+                reqStorage: '要求: 10 GB 可用',
                 reqCPU: '要求: Helio G33+',
                 reqArch: '要求: ARM',
             },
@@ -1290,12 +1231,9 @@
                 resultDetailPartial: '一部の要件が満たされていません。詳細は下記を確認してください。',
                 btnCheck: '🔍 システムをチェック',
                 btnDownload: '📥 APKをダウンロード',
-                btnInstall: '⬇️ Steamをインストール',
                 btnChecking: '⏳ チェック中...',
                 btnCheckAgain: '🔄 再チェック',
                 btnDownloading: '📥 ダウンロード中...',
-                btnInstalling: '⏳ インストール中...',
-                btnInstalled: '✅ インストール完了！',
                 legal: '⚠️ このツールは医学的な診断を構成するものではありません。医療専門家に相談してください。',
                 androidOk: '✅ {v} (≥ 10)',
                 androidFail: '❌ {v} (< 10)',
@@ -1305,8 +1243,8 @@
                 ramFail: '❌ {v} GB (< 3 GB)',
                 ramAvailOk: '✅ {v} GB 利用可能',
                 ramAvailFail: '⚠️ のみ {v} GB 利用可能',
-                storageOk: '✅ {v} GB 空き (≥ 15 GB)',
-                storageFail: '❌ {v} GB 空き (< 15 GB)',
+                storageOk: '✅ {v} GB 空き (≥ 10 GB)',
+                storageFail: '❌ {v} GB 空き (< 10 GB)',
                 cpuCoresOk: '✅ {v} コア (≥ 4)',
                 cpuCoresFail: '❌ {v} コア (< 4)',
                 archOk: '✅ {v} (ARM 互換)',
@@ -1315,19 +1253,16 @@
                 cpuNameOk: '✅ {v}',
                 cpuNameFail: '⚠️ {v} (不明)',
                 gpuOk: '✅ {v}',
-                gpuFail: '⚠️ {v} (不明)',
+                gpuFail: 'ℹ️ {v} (インストールに不要)',
                 statusChecking: 'デバイスをチェック中...',
                 statusPassed: '✅ システム互換性あり！',
                 statusFailed: '❌ システム非対応',
                 statusPartial: '⚠️ 部分的な互換性',
                 toastDownloadStart: '📥 ダウンロード開始！ダウンロードフォルダを確認してください。',
-                toastInstallStart: '📦 Steamをインストール中... お待ちください。',
-                toastInstallSuccess: '✅ Steamが正常にインストールされました！',
-                toastInstallFail: '❌ インストールに失敗しました。システム要件を確認してください。',
                 toastSystemFail: '❌ システムが要件を満たしていません。',
                 reqAndroid: '要件: Android 10+',
                 reqRAM: '要件: 3 GB RAM',
-                reqStorage: '要件: 15 GB 空き',
+                reqStorage: '要件: 10 GB 空き',
                 reqCPU: '要件: Helio G33+',
                 reqArch: '要件: ARM',
             }
@@ -1376,7 +1311,6 @@
                     resultDetail: document.getElementById('resultDetail'),
                     btnCheck: document.getElementById('btnCheck'),
                     btnDownload: document.getElementById('btnDownload'),
-                    btnInstall: document.getElementById('btnInstall'),
                     legal: document.getElementById('legalNotice'),
                     langSelect: document.getElementById('langSelect'),
                 };
@@ -1398,7 +1332,6 @@
 
                 this.elements.btnCheck.addEventListener('click', () => this.startCheck());
                 this.elements.btnDownload.addEventListener('click', () => this.downloadAPK());
-                this.elements.btnInstall.addEventListener('click', () => this.installSteam());
             },
 
             translateUI() {
@@ -1448,8 +1381,6 @@
                 el.btnCheck.disabled = false;
                 el.btnDownload.style.display = 'none';
                 el.btnDownload.disabled = false;
-                el.btnInstall.style.display = 'none';
-                el.btnInstall.disabled = false;
                 el.scanStatus.textContent = t('scanStatus');
                 el.scanStatus.className = 'scan-status';
                 this.passed = false;
@@ -1468,7 +1399,6 @@
                 el.btnCheck.textContent = t('btnChecking');
                 el.btnCheck.disabled = true;
                 el.btnDownload.style.display = 'none';
-                el.btnInstall.style.display = 'none';
 
                 let progress = 0;
                 const scanInterval = setInterval(() => {
@@ -1515,6 +1445,14 @@
                 return false;
             },
 
+            setResultInfo(id, display) {
+                const el = this.elements[id];
+                el.className = 'value passed';
+                el.innerHTML = display;
+                this.results[id] = true; // No bloquea
+                return true;
+            },
+
             // ===== DETECCIÓN MEJORADA DE OS =====
             checkOS() {
                 const ua = navigator.userAgent || '';
@@ -1522,7 +1460,6 @@
                 let os = 'Unknown';
                 let isAndroid = false;
 
-                // Detección mejorada usando userAgentData si está disponible
                 if (navigator.userAgentData && navigator.userAgentData.platform) {
                     const platform = navigator.userAgentData.platform.toLowerCase();
                     if (platform.includes('android')) {
@@ -1534,7 +1471,6 @@
                     else if (platform.includes('ios') || platform.includes('iphone') || platform.includes('ipad')) os = 'iOS';
                 }
 
-                // Fallback a userAgent si userAgentData no está disponible o no detectó Android
                 if (!isAndroid) {
                     if (/Android/i.test(ua)) {
                         isAndroid = true;
@@ -1572,12 +1508,10 @@
                 let ok = false;
                 let isAndroid = false;
 
-                // Primero intentar con userAgentData
                 if (navigator.userAgentData && navigator.userAgentData.platform) {
                     const platform = navigator.userAgentData.platform.toLowerCase();
                     if (platform.includes('android')) {
                         isAndroid = true;
-                        // Intentar obtener versión de userAgentData
                         if (navigator.userAgentData.brands) {
                             for (const brand of navigator.userAgentData.brands) {
                                 const match = brand.version.match(/^(\d+)/);
@@ -1593,40 +1527,33 @@
                     }
                 }
 
-                // Fallback a userAgent
                 if (!isAndroid && /Android/i.test(ua)) {
                     isAndroid = true;
                     const match = ua.match(/Android\s([0-9.]+)/);
                     if (match) {
                         version = match[1];
                     } else {
-                        // Intentar otras formas de detectar versión
                         const verMatch = ua.match(/Android\s+([0-9]+)/);
                         if (verMatch) version = verMatch[1];
                     }
                 }
 
-                // Si no es Android, incompatible
                 if (!isAndroid) {
                     const display = t('androidNot');
                     this.setResult('valAndroid', false, display);
                     return false;
                 }
 
-                // Si la versión sigue siendo Unknown, intentar obtenerla de otra manera
                 if (version === 'Unknown') {
-                    // Intentar con navigator.platform
                     if (navigator.platform && navigator.platform.includes('Android')) {
                         const match = navigator.platform.match(/Android\s+([0-9]+)/);
                         if (match) version = match[1];
                     }
-                    // Si aún es Unknown, asumir Android 10+ como fallback (muchos dispositivos modernos)
                     if (version === 'Unknown') {
                         version = '10+';
                         ok = true;
                     }
                 } else {
-                    // Comparar versión: Android 10+ es compatible
                     const versionNum = parseFloat(version);
                     ok = versionNum >= 10;
                 }
@@ -1668,7 +1595,6 @@
                     cpu = 'MediaTek Dimensity';
                 }
 
-                // Si no se detectó en userAgent, intentar con navigator
                 if (cpu === 'Unknown' && navigator.platform) {
                     if (navigator.platform.includes('ARM') || navigator.platform.includes('arm')) {
                         cpu = 'ARM-based';
@@ -1704,7 +1630,6 @@
                 let arch = 'unknown';
                 const t = this.getText.bind(this);
 
-                // Usar userAgentData si está disponible
                 if (navigator.userAgentData && navigator.userAgentData.brands) {
                     for (const brand of navigator.userAgentData.brands) {
                         if (brand.brand.includes('ARM') || brand.brand.includes('arm')) {
@@ -1714,7 +1639,6 @@
                     }
                 }
 
-                // Fallback a userAgent
                 if (arch === 'unknown') {
                     if (ua.includes('ARM64') || ua.includes('arm64') || ua.includes('aarch64')) arch = 'ARM64';
                     else if (ua.includes('ARM') || ua.includes('arm') || ua.includes('aarch')) arch = 'ARM';
@@ -1756,30 +1680,22 @@
                 let ramGB = 4;
                 let ok = true;
 
-                // Primero intentar con navigator.deviceMemory (API moderna para RAM total)
                 if (navigator.deviceMemory) {
                     ramGB = navigator.deviceMemory;
                     ok = ramGB >= 3;
-                } 
-                // Fallback a performance.memory (solo heap, no es ideal pero es mejor que nada)
-                else if ('memory' in performance) {
+                } else if ('memory' in performance) {
                     const memory = performance.memory;
                     const limitGB = memory.jsHeapSizeLimit / (1024 * 1024 * 1024);
                     if (limitGB > 0) {
-                        // Ajustar para estimar RAM total aproximada
                         ramGB = Math.round(limitGB * 1.8 * 10) / 10;
                         ok = ramGB >= 3;
                     }
-                } 
-                // Si no hay APIs, asumir 4GB como valor predeterminado para dispositivos modernos
-                else {
-                    // Para Android, muchos dispositivos tienen al menos 4GB
+                } else {
                     const ua = navigator.userAgent || '';
                     if (/Android/i.test(ua)) {
-                        // Intentar detectar por modelo
                         if (/Samsung/i.test(ua) || /Galaxy/i.test(ua) || /Pixel/i.test(ua) || 
                             /OnePlus/i.test(ua) || /Xiaomi/i.test(ua) || /Mi\s/i.test(ua)) {
-                            ramGB = 6; // Asumir al menos 6GB para dispositivos modernos
+                            ramGB = 6;
                         } else {
                             ramGB = 4;
                         }
@@ -1801,18 +1717,15 @@
                 let availGB = 2.5;
                 let ok = true;
 
-                // Usar performance.memory para estimar RAM disponible
                 if ('memory' in performance) {
                     const memory = performance.memory;
                     if (memory.usedJSHeapSize && memory.jsHeapSizeLimit) {
                         const usedGB = memory.usedJSHeapSize / (1024 * 1024 * 1024);
-                        // Estimar RAM total desde deviceMemory o usar el límite
                         let totalGB = navigator.deviceMemory || (memory.jsHeapSizeLimit / (1024 * 1024 * 1024) * 1.8);
                         availGB = Math.round((totalGB - usedGB) * 10) / 10;
                         ok = availGB >= 1.5;
                     }
                 } else {
-                    // Fallback: asumir que hay suficiente disponible
                     availGB = 3.0;
                     ok = true;
                 }
@@ -1837,30 +1750,27 @@
                         navigator.storage.estimate().then((estimate) => {
                             if (estimate.quota && estimate.usage) {
                                 freeGB = Math.round((estimate.quota - estimate.usage) / (1024 * 1024 * 1024) * 10) / 10;
-                                ok = freeGB >= 15;
+                                ok = freeGB >= 10; // Cambiado a 10 GB
                                 const req = t('reqStorage');
                                 const display = ok ? t('storageOk').replace('{v}', freeGB) : t('storageFail').replace('{v}', freeGB);
                                 this.setResult('valStorage', ok, display, req);
                             }
                         }).catch(() => {
-                            // Fallback
                             const req = t('reqStorage');
                             const display = t('storageOk').replace('{v}', '20+');
                             this.setResult('valStorage', true, display, req);
                         });
                         return true;
-                    } catch (e) {
-                        // Fallback
-                    }
+                    } catch (e) {}
                 }
 
-                // Fallback sincrónico
                 const req = t('reqStorage');
                 const display = t('storageOk').replace('{v}', '20+');
                 this.setResult('valStorage', true, display, req);
                 return true;
             },
 
+            // ===== GPU - SOLO INFORMATIVO, NO BLOQUEA =====
             checkGPU() {
                 const ua = navigator.userAgent || '';
                 const t = this.getText.bind(this);
@@ -1874,15 +1784,13 @@
                 else if (/Mali/i.test(ua)) gpu = 'ARM Mali';
                 else if (/PowerVR/i.test(ua)) gpu = 'PowerVR';
                 else if (/Vivante/i.test(ua)) gpu = 'Vivante';
+                else if (/IMG/i.test(ua) || /PowerVR/i.test(ua)) gpu = 'IMG PowerVR';
 
                 const isKnown = gpu !== 'Unknown';
                 const display = isKnown ? t('gpuOk').replace('{v}', gpu) : t('gpuFail').replace('{v}', gpu);
-                if (isKnown) {
-                    this.setResult('valGPU', true, display);
-                } else {
-                    this.setResultWarn('valGPU', display);
-                }
-                return isKnown;
+                // Siempre pasa, solo informativo
+                this.setResultInfo('valGPU', display);
+                return true;
             },
 
             completeCheck() {
@@ -1898,7 +1806,8 @@
                 const archOk = this.results.valArch !== false;
                 const cpuNameOk = this.results.valCPUName !== false;
 
-                // Si no es Android, es incompatible directamente
+                // GPU NO BLOQUEA - es solo informativo
+
                 if (!osOk) {
                     this.passed = false;
                     this.partial = false;
@@ -1921,8 +1830,6 @@
                     el.scanStatus.className = 'scan-status passed';
                     el.btnDownload.style.display = 'inline-flex';
                     el.btnDownload.disabled = false;
-                    el.btnInstall.style.display = 'inline-flex';
-                    el.btnInstall.disabled = false;
                 } else if (this.partial) {
                     el.resultBox.className = 'result-box visible partial';
                     el.resultIcon.textContent = '⚠️';
@@ -1931,7 +1838,6 @@
                     el.scanStatus.textContent = t('statusPartial');
                     el.scanStatus.className = 'scan-status partial';
                     el.btnDownload.style.display = 'none';
-                    el.btnInstall.style.display = 'none';
                 } else {
                     el.resultBox.className = 'result-box visible failed';
                     el.resultIcon.textContent = '❌';
@@ -1940,7 +1846,7 @@
                     if (!osOk) missing.push('Android OS required');
                     if (!androidOk) missing.push('Android 10+');
                     if (!ramOk) missing.push('RAM (3GB+)');
-                    if (!storageOk) missing.push('Storage (15GB+)');
+                    if (!storageOk) missing.push('Storage (10GB+)');
                     if (!cpuCoresOk) missing.push('CPU cores (4+)');
                     if (!archOk) missing.push('ARM architecture');
                     if (!cpuNameOk) missing.push('CPU model');
@@ -1948,11 +1854,9 @@
                     el.scanStatus.textContent = t('statusFailed');
                     el.scanStatus.className = 'scan-status failed';
                     el.btnDownload.style.display = 'none';
-                    el.btnInstall.style.display = 'none';
                 }
 
                 el.btnDownload.textContent = t('btnDownload');
-                el.btnInstall.textContent = t('btnInstall');
                 this.isChecking = false;
             },
 
@@ -1980,26 +1884,6 @@
                 btn.textContent = this.getText('btnDownload');
                 btn.disabled = false;
                 this.showToast(this.getText('toastDownloadStart'), 'success');
-            },
-
-            installSteam() {
-                if (!this.passed) {
-                    this.showToast(this.getText('toastSystemFail'), 'error');
-                    return;
-                }
-
-                const btn = this.elements.btnInstall;
-                btn.disabled = true;
-                btn.textContent = this.getText('btnInstalling');
-
-                this.showToast(this.getText('toastInstallStart'), 'info');
-
-                setTimeout(() => {
-                    btn.textContent = this.getText('btnInstalled');
-                    btn.style.background = '#28a745';
-                    btn.disabled = false;
-                    this.showToast(this.getText('toastInstallSuccess'), 'success');
-                }, 3000);
             },
 
             showToast(message, type = 'info') {
