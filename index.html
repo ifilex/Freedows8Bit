@@ -5135,23 +5135,36 @@ function updateTaskbarPinnedApps() {
     
     const pinnedApps = getPinnedApps();
     
+    // CORRECCIÓN: Solo eliminar iconos fijados que ya no están en la lista
     const existingPinnedIcons = dockbarApps.querySelectorAll('.dockbar-pinned');
     existingPinnedIcons.forEach(icon => {
         const appName = icon.getAttribute('data-app-name');
+        // Mantener Program Manager siempre, eliminar otros que no estén en pinnedApps
         if (appName !== 'Program Manager') {
-            icon.remove();
+            const isStillPinned = pinnedApps.some(app => app.name === appName);
+            if (!isStillPinned) {
+                icon.remove();
+            }
         }
     });
     
+    // Agregar nuevos iconos fijados (solo si no existen)
     pinnedApps.forEach(app => {
         const existingIcon = dockbarApps.querySelector(`.dockbar-pinned[data-app-name="${app.name}"]`);
         if (!existingIcon) {
             const pinnedIcon = createPinnedAppIcon(app);
-            dockbarApps.insertBefore(pinnedIcon, dockbarApps.firstChild);
+            // Insertar antes del primer icono fijado o al principio
+            const firstPinned = dockbarApps.querySelector('.dockbar-pinned');
+            if (firstPinned) {
+                dockbarApps.insertBefore(pinnedIcon, firstPinned);
+            } else {
+                dockbarApps.insertBefore(pinnedIcon, dockbarApps.firstChild);
+            }
             console.log(`✅ Icono fijado agregado: ${app.name}`);
         }
     });
 }
+
 
 function createPinnedAppIcon(app) {
     const iconElement = document.createElement('div');
@@ -7247,6 +7260,15 @@ function closeWindow(windowId) {
             window.container.parentNode.removeChild(window.container);
         }
         taskManager.openWindows.splice(windowIndex, 1);
+        
+        // CORRECCIÓN: Limpiar completamente la dockbar
+        const dockbarApps = document.getElementById('dockbarApps');
+        if (dockbarApps) {
+            // Eliminar TODOS los iconos de apps abiertas
+            const appIcons = dockbarApps.querySelectorAll('.dockbar-app-icon:not(.dockbar-pinned)');
+            appIcons.forEach(icon => icon.remove());
+        }
+        
         if (taskManager.openWindows.length > 0) {
             const lastWindow = taskManager.openWindows[taskManager.openWindows.length - 1];
             setActiveWindow(lastWindow.id);
@@ -7274,13 +7296,42 @@ function closeActiveWindow() {
 function updateDockBar() {
     const dockbarApps = document.getElementById('dockbarApps');
     if (!dockbarApps) return;
+    
+    // IMPORTANTE: Limpiar SOLO los iconos de apps abiertas, NO los fijados
+    // Primero, guardar los iconos fijados
+    const pinnedIcons = dockbarApps.querySelectorAll('.dockbar-pinned');
+    const pinnedIconsArray = Array.from(pinnedIcons);
+    
+    // Limpiar todo
     dockbarApps.innerHTML = '';
-    updateTaskbarPinnedApps();
+    
+    // Restaurar iconos fijados
+    pinnedIconsArray.forEach(icon => {
+        dockbarApps.appendChild(icon);
+    });
+    
+    // Agregar iconos de apps abiertas (NO fijadas)
     taskManager.openWindows.forEach(window => {
+        // Verificar si esta app ya está fijada para no duplicar
+        const isPinned = pinnedIconsArray.some(icon => 
+            icon.getAttribute('data-app-name') === window.title
+        );
+        
+        // Si está fijada, actualizar su estado en lugar de crear uno nuevo
+        if (isPinned) {
+            const existingIcon = dockbarApps.querySelector(`.dockbar-pinned[data-app-name="${window.title}"]`);
+            if (existingIcon) {
+                existingIcon.className = `dockbar-app-icon dockbar-pinned ${window.id === taskManager.activeWindowId ? 'active' : ''}`;
+                return;
+            }
+        }
+        
+        // Crear icono para app no fijada
         const iconElement = document.createElement('div');
         iconElement.className = `dockbar-app-icon ${window.id === taskManager.activeWindowId ? 'active' : ''}`;
         iconElement.setAttribute('data-title', window.title);
         iconElement.setAttribute('data-window-id', window.id);
+        // No fijado, no tiene data-app-name
         iconElement.innerHTML = `<img src="${window.icon}" alt="${window.title}" 
              onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzQiIGhlaWdodD0iMzQiIHZpZXdCb3g9IjAgMCAzNCAzNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjM0IiBoZWlnaHQ9IjM0IiBmaWxsPSIjMzMzMzMzIiByeD0iNCIvPgo8dGV4dCB4PSIxNyIgeT0iMTciIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5BcHA8L3RleHQ+Cjwvc3ZnPgo='">`;
         iconElement.addEventListener('click', () => {
