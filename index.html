@@ -4853,18 +4853,27 @@ input:checked + .toggle-slider:before {
             </svg>
         </div>
         <div class="dockbar-separator"></div>
-        <div class="dockbar-controls">
-            <div class="dockbar-icon dockbar-minimize" id="dockbarMinimize" title="Minimize">
-                <svg viewBox="0 0 24 24">
-                    <path d="M19,13H5V11H19V13Z" />
-                </svg>
-            </div>
-            <div class="dockbar-icon dockbar-back" id="dockbarBack" title="Back">
-                <svg viewBox="0 0 24 24">
-                    <path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" />
-                </svg>
-            </div>
-        </div>
+
+<div class="dockbar-controls">
+    <div class="dockbar-icon dockbar-minimize" id="dockbarMinimize" title="Minimize">
+        <svg viewBox="0 0 24 24">
+            <path d="M19,13H5V11H19V13Z" />
+        </svg>
+    </div>
+    <div class="dockbar-icon dockbar-back" id="dockbarBack" title="Back">
+        <svg viewBox="0 0 24 24">
+            <path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" />
+        </svg>
+    </div>
+    <!-- NUEVO: Botón Aura -->
+    <div class="dockbar-icon dockbar-aura" id="dockbarAura" title="Aura">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+            <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
+            <circle cx="12" cy="12" r="6" fill="currentColor" opacity="0.3"/>
+        </svg>
+    </div>
+</div>
+
         <div class="dockbar-separator"></div>
     </div>
     
@@ -7352,6 +7361,35 @@ function initDockbarControls() {
             openNeuroScreening();
         });
     }
+
+    // NUEVO: Manejar el clic del botón Aura
+    const dockbarAura = document.getElementById('dockbarAura');
+    if (dockbarAura) {
+        dockbarAura.addEventListener('click', function() {
+            // Definir la app Aura
+            const auraApp = {
+                name: 'Aura',
+                image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMzIiIGN5PSIzMiIgcj0iMjgiIGZpbGw9IiMwMDc4ZDQiLz4KPHRleHQgeD0iMzIiIHk9IjQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+QTwvdGV4dD4KPC9zdmc+',
+                link: 'https://winebox.cloud/aura.html',
+                category: 'apps',
+                description: 'Aura - Intelligent assistant'
+            };
+
+            // Lanzar la aplicación Aura
+            if (typeof window.launchAppDirectly === 'function') {
+                window.launchAppDirectly(auraApp);
+            } else {
+                console.warn('launchAppDirectly no disponible, usando fallback');
+                if (typeof window.createAppWindow === 'function') {
+                    window.createAppWindow('Aura', 'Aura', auraApp.image, 'web', null, auraApp.link);
+                    if (typeof window.addToRecentApps === 'function') {
+                        window.addToRecentApps(auraApp);
+                    }
+                }
+            }
+        });
+    }
+
 }
 
 // ========== SISTEMA DE SCROLL WINDOWS 10 ==========
