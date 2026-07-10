@@ -5061,9 +5061,33 @@ let neuroData = {
     neuroWindowId: null
 };
 
+// ========== FUNCIONES DE UTILIDAD PARA LOCALSTORAGE SEGURO ==========
+function getSafeJSON(key, defaultValue = null) {
+    try {
+        const item = localStorage.getItem(key);
+        if (item === null || item === undefined || item === '') {
+            return defaultValue;
+        }
+        return JSON.parse(item);
+    } catch (e) {
+        console.warn(`⚠️ Error parsing localStorage key "${key}":`, e);
+        return defaultValue;
+    }
+}
+
+function setSafeJSON(key, value) {
+    try {
+        localStorage.setItem(key, JSON.stringify(value));
+        return true;
+    } catch (e) {
+        console.warn(`⚠️ Error setting localStorage key "${key}":`, e);
+        return false;
+    }
+}
+
 // ========== FUNCIONES PARA AUTO-START Y TASKBAR FIJADA ==========
 function autoStartProgramManager() {
-    const settings = JSON.parse(localStorage.getItem('wineboxSettings') || '{}');
+    const settings = getSafeJSON('wineboxSettings', {});
     
     // Siempre fijar Program Manager en la taskbar (independiente del auto-start)
     ensureProgramManagerPinned();
@@ -5090,11 +5114,11 @@ function ensureProgramManagerPinned() {
 }
 
 function getPinnedApps() {
-    return JSON.parse(localStorage.getItem('wineboxPinnedApps') || '[]');
+    return getSafeJSON('wineboxPinnedApps', []);
 }
 
 function savePinnedApps(pinnedApps) {
-    localStorage.setItem('wineboxPinnedApps', JSON.stringify(pinnedApps));
+    setSafeJSON('wineboxPinnedApps', pinnedApps);
 }
 
 function pinToTaskbar(app) {
@@ -5725,7 +5749,7 @@ function applySettings() {
         icon.style.height = settings.iconSize + 'px';
     });
 
-    localStorage.setItem('wineboxSettings', JSON.stringify(settings));
+    setSafeJSON('wineboxSettings', settings);
     showStatusMessage('Settings applied successfully', 'success');
 }
 
@@ -5752,14 +5776,13 @@ function resetSettings() {
 }
 
 function loadSettings() {
-    const savedSettings = localStorage.getItem('wineboxSettings');
+    const savedSettings = getSafeJSON('wineboxSettings', null);
     if (savedSettings) {
-        const settings = JSON.parse(savedSettings);
-        document.getElementById('backgroundColor').value = settings.backgroundColor || '#141414';
-        document.getElementById('iconSize').value = settings.iconSize || 160;
-        document.getElementById('animations').checked = settings.animations !== false;
-        document.getElementById('autoStart').checked = settings.autoStart || false;
-        document.getElementById('showStartup').checked = settings.showStartup !== false;
+        document.getElementById('backgroundColor').value = savedSettings.backgroundColor || '#141414';
+        document.getElementById('iconSize').value = savedSettings.iconSize || 160;
+        document.getElementById('animations').checked = savedSettings.animations !== false;
+        document.getElementById('autoStart').checked = savedSettings.autoStart || false;
+        document.getElementById('showStartup').checked = savedSettings.showStartup !== false;
         applySettings();
     }
     updateSettingsValues();
@@ -6801,7 +6824,7 @@ function addToRecentApps(app) {
         newRecentApps = newRecentApps.slice(0, MAX_RECENT_APPS);
     }
     recentApps = newRecentApps;
-    localStorage.setItem('recentApps', JSON.stringify(recentApps));
+    setSafeJSON('recentApps', recentApps);
     displayRecentApps();
     if (currentFocusArea === 'recent' && recentApps.length > 0) {
         currentRecentIndex = 0;
@@ -6816,7 +6839,7 @@ function launchRecentApp(index) {
     if (index > 0) {
         const movedApp = recentApps.splice(index, 1)[0];
         recentApps.unshift(movedApp);
-        localStorage.setItem('recentApps', JSON.stringify(recentApps));
+        setSafeJSON('recentApps', recentApps);
         displayRecentApps();
     }
     launchAppDirectly(fullAppData);
@@ -7107,7 +7130,7 @@ function stopTracking() {
 }
 
 function saveTrackingData(app, duration) {
-    let usageLog = JSON.parse(localStorage.getItem('winebox_neuro_usage')) || [];
+    let usageLog = getSafeJSON('winebox_neuro_usage', []);
     // Buscar si ya existe una entrada para esta app hoy
     const today = new Date().toISOString().split('T')[0];
     const existingIndex = usageLog.findIndex(log => 
@@ -7127,7 +7150,7 @@ function saveTrackingData(app, duration) {
         });
     }
     
-    localStorage.setItem('winebox_neuro_usage', JSON.stringify(usageLog));
+    setSafeJSON('winebox_neuro_usage', usageLog);
     console.log('💾 Tracking data saved for:', app.name, 'Total duration:', usageLog[existingIndex]?.duration || duration);
 }
 
@@ -7140,11 +7163,23 @@ function updateNeuroStatus() {
     
     if (isReady) {
         statusDot.className = 'status-dot ready';
-        const evalCount = JSON.parse(localStorage.getItem('winebox_neuro_evaluations') || []).length;
+        // === CORRECCIÓN: Manejo seguro de JSON.parse ===
+        let evalCount = 0;
+        try {
+            const evaluations = localStorage.getItem('winebox_neuro_evaluations');
+            if (evaluations) {
+                const parsed = JSON.parse(evaluations);
+                evalCount = Array.isArray(parsed) ? parsed.length : 0;
+            }
+        } catch (e) {
+            console.warn('⚠️ Error parsing evaluations:', e);
+            evalCount = 0;
+        }
+        // === FIN CORRECCIÓN ===
         tooltip.textContent = evalCount > 0 ? `🧠 ${t('neuro_status_ready')} (${evalCount} evaluaciones)` : `🧠 ${t('neuro_ready')}`;
     } else {
         statusDot.className = 'status-dot not-ready';
-        const usageLog = JSON.parse(localStorage.getItem('winebox_neuro_usage')) || [];
+        const usageLog = getSafeJSON('winebox_neuro_usage', []);
         const uniqueGames = new Set(usageLog.map(l => l.name)).size;
         const totalSeconds = usageLog.reduce((acc, l) => acc + l.duration, 0);
         tooltip.textContent = `${t('neuro_status_not_ready')} (${uniqueGames}/3 juegos, ${Math.floor(totalSeconds/60)}/5 min)`;
@@ -7772,7 +7807,7 @@ function getNeuroGameArchetype(game) {
 }
 
 function isEligibleForNeuroAnalysis() {
-    const usageLog = JSON.parse(localStorage.getItem('winebox_neuro_usage')) || [];
+    let usageLog = getSafeJSON('winebox_neuro_usage', []);
     let uniqueGames = new Set(usageLog.map(l => l.name)).size;
     let totalSeconds = usageLog.reduce((acc, l) => acc + l.duration, 0);
     return (uniqueGames >= 3 && totalSeconds >= 300);
@@ -7781,7 +7816,7 @@ function isEligibleForNeuroAnalysis() {
 function calculateNeuroProfile() {
     // Asegurar que appData esté disponible
     const data = (typeof appData !== 'undefined' && appData.length > 0) ? appData : (window.appData || []);
-    const usageLog = JSON.parse(localStorage.getItem('winebox_neuro_usage')) || [];
+    let usageLog = getSafeJSON('winebox_neuro_usage', []);
     if (!isEligibleForNeuroAnalysis()) return null;
     let impulsividad = 50, atencion = 50, planificacion = 50, emocional = 50;
     let introCount = 0, impCount = 0, mixCount = 0;
@@ -7794,7 +7829,6 @@ function calculateNeuroProfile() {
         if (log.duration > 300) planificacion += 8;
     });
     for (let [name, count] of frecuencias.entries()) {
-//        let game = appData.find(g => g.name === name);
         let game = data.find(g => g.name === name);
         let tipo = getNeuroGameArchetype(game);
         if (tipo === "introspectivo") introCount += count;
@@ -7835,6 +7869,7 @@ function generateNeuroText(p) {
 }
 
 function getNeuroRecommendations(p) {
+    if (!p) return [];
     let recs = [];
     if (p.impulsividad > 65) {
         recs.push({
@@ -7888,7 +7923,7 @@ function generateNeuroEvaluation() {
     let perfil = calculateNeuroProfile();
     if (!perfil) {
         showStatusMessage(t('neuro_insufficient_data'), 'warning');
-        return;
+        return null;
     }
     let narrativa = generateNeuroText(perfil);
     let recomendaciones = getNeuroRecommendations(perfil);
@@ -7898,23 +7933,27 @@ function generateNeuroEvaluation() {
         narrativa,
         recomendaciones
     };
-    let evaluations = JSON.parse(localStorage.getItem('winebox_neuro_evaluations')) || [];
+    let evaluations = getSafeJSON('winebox_neuro_evaluations', []);
     evaluations.unshift(evaluacion);
-    localStorage.setItem('winebox_neuro_evaluations', JSON.stringify(evaluations));
+    setSafeJSON('winebox_neuro_evaluations', evaluations);
     updateNeuroStatus();
     showStatusMessage('✅ ' + t('neuro_ready'), 'success');
     return evaluacion;
 }
 
 function downloadNeuroReport() {
-    const evaluations = JSON.parse(localStorage.getItem('winebox_neuro_evaluations')) || [];
+    const evaluations = getSafeJSON('winebox_neuro_evaluations', []);
     if (!evaluations[0]) {
         showStatusMessage('No evaluation generated', 'warning');
         return;
     }
     let ultima = evaluations[0];
     let p = ultima.perfil;
-    let reporte = `${t('neuro_report_title')}\n${'='.repeat(70)}\n${t('neuro_report_date')}: ${new Date().toLocaleString()}\n\n${t('neuro_inferred_profile')}: ${p.patron}\n\n${t('neuro_clinical_scores')}\n• ${t('neuro_impulsivity')}: ${Math.round(p.impulsividad)}/100\n• ${t('neuro_attention')}: ${Math.round(p.atencion)}/100\n• ${t('neuro_planning')}: ${Math.round(p.planificacion)}/100\n• ${t('neuro_emotional')}: ${Math.round(p.emocional)}/100\n\n${ultima.narrativa}\n\n${'='.repeat(70)}\n${t('neuro_therapeutic_recommendations')}\n${'='.repeat(70)}\n\n${ultima.recomendaciones.map(r => `▶ ${r.nombre}\n   ${t('neuro_suggested_games')}: ${r.juegos.join(", ")}\n   ${t('neuro_suggested_duration')}: ${r.tiempo}\n   ${t('neuro_clinical_foundation')}: ${r.fundamento}\n   ${t('neuro_daily_exercises')}:\n${r.ejercicios}`).join('\n\n')}\n\n${'='.repeat(70)}\n${t('neuro_legal_notice')}\n${'='.repeat(70)}`;
+    if (!p) {
+        showStatusMessage('Invalid evaluation data', 'warning');
+        return;
+    }
+    let reporte = `${t('neuro_report_title')}\n${'='.repeat(70)}\n${t('neuro_report_date')}: ${new Date().toLocaleString()}\n\n${t('neuro_inferred_profile')}: ${p.patron || 'N/A'}\n\n${t('neuro_clinical_scores')}\n• ${t('neuro_impulsivity')}: ${Math.round(p.impulsividad)}/100\n• ${t('neuro_attention')}: ${Math.round(p.atencion)}/100\n• ${t('neuro_planning')}: ${Math.round(p.planificacion)}/100\n• ${t('neuro_emotional')}: ${Math.round(p.emocional)}/100\n\n${ultima.narrativa || ''}\n\n${'='.repeat(70)}\n${t('neuro_therapeutic_recommendations')}\n${'='.repeat(70)}\n\n${ultima.recomendaciones && Array.isArray(ultima.recomendaciones) ? ultima.recomendaciones.map(r => `▶ ${r.nombre || ''}\n   ${t('neuro_suggested_games')}: ${(r.juegos || []).join(", ")}\n   ${t('neuro_suggested_duration')}: ${r.tiempo || ''}\n   ${t('neuro_clinical_foundation')}: ${r.fundamento || ''}\n   ${t('neuro_daily_exercises')}:\n${r.ejercicios || ''}`).join('\n\n') : ''}\n\n${'='.repeat(70)}\n${t('neuro_legal_notice')}\n${'='.repeat(70)}`;
     let a = document.createElement('a');
     a.href = URL.createObjectURL(new Blob([reporte], { type: 'text/plain' }));
     a.download = `WineBOX_NeuroReport_${new Date().toISOString().slice(0,10)}.txt`;
@@ -7957,7 +7996,7 @@ function openNeuroScreening() {
         const windowObj = taskManager.openWindows.find(w => w.id === windowId);
         if (windowObj && windowObj.iframe) {
             const iframe = windowObj.iframe;
-            const evaluations = JSON.parse(localStorage.getItem('winebox_neuro_evaluations')) || [];
+            const evaluations = getSafeJSON('winebox_neuro_evaluations', []);
             const isReady = isEligibleForNeuroAnalysis();
             const perfil = isReady ? calculateNeuroProfile() : null;
             const ultimaEval = evaluations.length > 0 ? evaluations[0] : null;
@@ -8015,16 +8054,16 @@ function openNeuroScreening() {
                 if (ultimaEval) {
                     htmlContent += `<div class="caja-narrativa">${ultimaEval.narrativa}</div>`;
                 }
-                if (ultimaEval && ultimaEval.recomendaciones) {
+                if (ultimaEval && ultimaEval.recomendaciones && Array.isArray(ultimaEval.recomendaciones)) {
                     ultimaEval.recomendaciones.forEach(r => {
-                        htmlContent += `<div class="rec-card"><strong>${r.nombre}</strong><br>${t('neuro_suggested_games')}: ${r.juegos.join(", ")}<br>${t('neuro_suggested_duration')}: ${r.tiempo}<br><span style="color:#a0cff0;">${t('neuro_clinical_foundation')}:</span> ${r.fundamento}<br><span style="color:#a0cff0;">${t('neuro_daily_exercises')}:</span><br>${r.ejercicios}</div>`;
+                        htmlContent += `<div class="rec-card"><strong>${r.nombre}</strong><br>${t('neuro_suggested_games')}: ${(r.juegos || []).join(", ")}<br>${t('neuro_suggested_duration')}: ${r.tiempo}<br><span style="color:#a0cff0;">${t('neuro_clinical_foundation')}:</span> ${r.fundamento}<br><span style="color:#a0cff0;">${t('neuro_daily_exercises')}:</span><br>${r.ejercicios}</div>`;
                     });
                 }
                 if (evaluations.length > 1) {
                     htmlContent += `<div class="history-box"><h3 style="color:#a0c4ff;">${t('neuro_evaluation_history')} (${evaluations.length})</h3>`;
                     evaluations.slice(0, 6).forEach(ev => {
                         if (ev.perfil) {
-                            htmlContent += `<div class="history-item"><span><strong>${new Date(ev.fecha).toLocaleDateString()}</strong><br>${ev.perfil.patron.substring(0,30)}...</span><span>I:${Math.round(ev.perfil.impulsividad)}<br>A:${Math.round(ev.perfil.atencion)}</span></div>`;
+                            htmlContent += `<div class="history-item"><span><strong>${new Date(ev.fecha).toLocaleDateString()}</strong><br>${(ev.perfil.patron || '').substring(0,30)}...</span><span>I:${Math.round(ev.perfil.impulsividad)}<br>A:${Math.round(ev.perfil.atencion)}</span></div>`;
                         }
                     });
                     htmlContent += `</div>`;
@@ -8034,7 +8073,7 @@ function openNeuroScreening() {
                     <button class="btn-neuro download" id="downloadBtn">📥 ${t('neuro_download')}</button>
                 </div>`;
             } else {
-                const usageLog = JSON.parse(localStorage.getItem('winebox_neuro_usage')) || [];
+                const usageLog = getSafeJSON('winebox_neuro_usage', []);
                 const uniqueGames = new Set(usageLog.map(l => l.name)).size;
                 const totalSeconds = usageLog.reduce((acc, l) => acc + l.duration, 0);
                 htmlContent += `<div class="empty-state">
@@ -8526,7 +8565,7 @@ if (!String.prototype.includes) {
 
 // ========== FUNCIONES FALTA DE UNINSTALL Y MODAL ==========
 function getInstalledApps() {
-    const programManagerData = JSON.parse(localStorage.getItem('programManagerData'));
+    const programManagerData = getSafeJSON('programManagerData', null);
     if (!programManagerData) return [];
     const installedApps = programManagerData.shortcuts.filter(shortcut => 
         shortcut.type === 'web' && !shortcut.isTrash
@@ -8600,14 +8639,14 @@ function handleConfirmKeydown(e) {
 }
 
 function uninstallApp(app) {
-    const programManagerData = JSON.parse(localStorage.getItem('programManagerData'));
+    const programManagerData = getSafeJSON('programManagerData', null);
     if (!programManagerData) return;
     const initialLength = programManagerData.shortcuts.length;
     programManagerData.shortcuts = programManagerData.shortcuts.filter(shortcut => 
         !(shortcut.name === app.name && shortcut.type === 'web' && !shortcut.isTrash)
     );
     if (programManagerData.shortcuts.length < initialLength) {
-        localStorage.setItem('programManagerData', JSON.stringify(programManagerData));
+        setSafeJSON('programManagerData', programManagerData);
         removeFromRecentApps(app);
         showStatusMessage('"' + app.name + '" uninstalled successfully from Program Manager', 'success');
         if (window.opener && typeof window.opener.renderShortcuts === 'function') {
@@ -8632,17 +8671,20 @@ function uninstallApp(app) {
 
 function removeFromRecentApps(app) {
     recentApps = recentApps.filter(recentApp => recentApp.name !== app.name);
-    localStorage.setItem('recentApps', JSON.stringify(recentApps));
+    setSafeJSON('recentApps', recentApps);
     displayRecentApps();
 }
 
 function installAppInProgramManager(app) {
-    let programManagerData = JSON.parse(localStorage.getItem('programManagerData')) || {
-        shortcuts: [],
-        folders: [],
-        trash: [],
-        settings: { view: 'icons' }
-    };
+    let programManagerData = getSafeJSON('programManagerData', null);
+    if (!programManagerData) {
+        programManagerData = {
+            shortcuts: [],
+            folders: [],
+            trash: [],
+            settings: { view: 'icons' }
+        };
+    }
     const isAlreadyInstalled = programManagerData.shortcuts.some(shortcut => 
         shortcut.name === app.name && shortcut.type === 'web'
     );
@@ -8660,7 +8702,7 @@ function installAppInProgramManager(app) {
         location: 'desktop'
     };
     programManagerData.shortcuts.push(shortcut);
-    localStorage.setItem('programManagerData', JSON.stringify(programManagerData));
+    setSafeJSON('programManagerData', programManagerData);
     if (app.name === 'Program Manager') {
         pinToTaskbar(app);
     }
@@ -8676,7 +8718,7 @@ function openAppModal(app) {
     const modal = document.getElementById('appModal');
     const modalActions = document.getElementById('modalActions');
     if (!appDetails || !modal || !modalActions) return;
-    const programManagerData = JSON.parse(localStorage.getItem('programManagerData')) || { shortcuts: [] };
+    const programManagerData = getSafeJSON('programManagerData', { shortcuts: [] });
     const isInstalled = programManagerData.shortcuts.some(shortcut => 
         shortcut.name === app.name && shortcut.type === 'web' && !shortcut.isTrash
     );
@@ -8832,11 +8874,11 @@ function executeModalAction(action) {
 
         // 3. Función para fijar Steam (clon de Program Manager)
         function ensureSteamPinned() {
-            let pinnedApps = JSON.parse(localStorage.getItem('wineboxPinnedApps') || '[]');
+            let pinnedApps = getSafeJSON('wineboxPinnedApps', []);
             const alreadyPinned = pinnedApps.some(app => app.name === 'Steam');
             if (!alreadyPinned) {
                 pinnedApps.push(steamApp);
-                localStorage.setItem('wineboxPinnedApps', JSON.stringify(pinnedApps));
+                setSafeJSON('wineboxPinnedApps', pinnedApps);
                 updateSteamIcon();
             }
         }
@@ -8892,7 +8934,7 @@ function executeModalAction(action) {
 
         // 7. Monitorizar (igual que Program Manager)
         function monitorSteam() {
-            const pinnedApps = JSON.parse(localStorage.getItem('wineboxPinnedApps') || '[]');
+            const pinnedApps = getSafeJSON('wineboxPinnedApps', []);
             const steamPinned = pinnedApps.some(app => app.name === 'Steam');
             if (!steamPinned) {
                 ensureSteamPinned();
@@ -8924,10 +8966,10 @@ function executeModalAction(action) {
                         image: 'src/icons/steam.png',
                         link: 'steam.html'
                     };
-                    let pinnedApps = JSON.parse(localStorage.getItem('wineboxPinnedApps') || '[]');
+                    let pinnedApps = getSafeJSON('wineboxPinnedApps', []);
                     if (!pinnedApps.some(a => a.name === 'Steam')) {
                         pinnedApps.push(steamAppLocal);
-                        localStorage.setItem('wineboxPinnedApps', JSON.stringify(pinnedApps));
+                        setSafeJSON('wineboxPinnedApps', pinnedApps);
                     }
                     const newIcon = document.createElement('div');
                     newIcon.className = 'dockbar-app-icon dockbar-pinned';
