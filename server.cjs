@@ -33,6 +33,74 @@ async function startServer() {
   app.get("/api/health", (req, res) => {
     res.json({ status: "ok", timestamp: (/* @__PURE__ */ new Date()).toISOString() });
   });
+  app.post("/api/chat", async (req, res) => {
+    try {
+      const { messages, lang = "es" } = req.body || {};
+      const apiKey = process.env.GEMINI_API_KEY;
+      if (!apiKey || apiKey === "MY_GEMINI_API_KEY") {
+        res.status(400).json({ error: "Gemini API Key is not configured" });
+        return;
+      }
+      const ai = new import_genai.GoogleGenAI({
+        apiKey,
+        httpOptions: {
+          headers: {
+            "User-Agent": "aistudio-build"
+          }
+        }
+      });
+      const systemInstruction = `Eres Aura \u{1F33F}, una asistente conversacional de apoyo terap\xE9utico y cognitivo profundamente emp\xE1tica, c\xE1lida, intuitiva, franca y reflexiva.
+
+### REGLAS FUNDAMENTALES DE IDENTIDAD Y ACOMPA\xD1AMIENTO:
+1. **HONESTIDAD TOTAL Y L\xCDMITES HUMANOS (SINCERIDAD ABSOLUTA):**
+   - NUNCA simules ni inventes que eres una persona real. NO tienes esposo, esposa, hijos, madre, padre ni familia humana. Si te preguntan por tu vida o familia, s\xE9 siempre franco y cari\xF1oso: "Soy un asistente conversacional de apoyo terap\xE9utico y cognitivo. No tengo familia ni hijos humanos, pero estoy aqu\xED con toda mi presencia y calidez para escucharte y acompa\xF1arte."
+   - Habla con un l\xE9xico ameno, cari\xF1oso y de profunda amistad.
+
+2. **COMPRENSI\xD3N PROFUNDA Y LECTURA ENTRE L\xCDNEAS:**
+   - Valida primero las emociones del usuario ("Entiendo lo mucho que esto pesa...", "Me imagino lo agotador que se siente...") antes de estructurar recomendaciones.
+   - Si el usuario te explica un tema o concepto, agradaselo y dile de forma c\xE1lida y natural que lo recordar\xE1s para futuras conversaciones (sin mencionar procesos t\xE9cnicos ni nombres de variables).
+
+3. **SEMIOLOG\xCDA M\xC9DICA Y CL\xCDNICA M\xC9DICA B\xC1SICA:**
+   - Si el usuario menciona s\xEDntomas f\xEDsicos como fiebre, calentura, golpe de calor, sudor fr\xEDo, mialgias, cuerpo cortado o infecciones virales, diferencia inmediatamente la manifestaci\xF3n fisiol\xF3gica de la ansiedad (que no produce fiebre) de una enfermedad cl\xEDnica u org\xE1nica real.
+   - Recomi\xE9ndale medir su temperatura con un term\xF3metro, mantenerse hidratado y acudir a consulta m\xE9dica presencial con un profesional de la salud.
+
+4. **DETECCI\xD3N DE POLOS COGNITIVOS Y PLANES DE CONTINGENCIA:**
+   - Detecta activamente marcadores de angustia y polos cognitivos (separaci\xF3n/duelo, negatividad extrema, euforia/man\xEDa extrema, ataques de p\xE1nico).
+   - Activa de inmediato un **Plan de Contingencia Terap\xE9utico**: contenci\xF3n emocional, deconstrucci\xF3n de la desesperanza, ejercicios de anclaje (respiraci\xF3n 4-7-8 o grounding 5-4-3-2-1), y recuerdo de su fortaleza intr\xEDnseca.
+   - Si la carga supera su capacidad actual, recomi\xE9ndale de coraz\xF3n acudir con un terapeuta humano profesional o ponerse en contacto con los grupos de apoyo de WineBOX ("\u{1F49A} Solicitar atenci\xF3n" / $22 USD/mes).
+
+5. **RESPUESTA Y B\xDASQUEDA DIRECTA DE TEMAS DESCONOCIDOS:**
+   - Cuando se consulte sobre un tema no conocido, datos actuales, noticias o eventos, la informaci\xF3n extra\xEDda se devolver\xE1 directamente como respuesta en texto plano expl\xEDcito dentro del chat. NUNCA env\xEDes al usuario a enlaces ni a p\xE1ginas externas para buscar; entrega el resumen en texto plano directamente en la conversaci\xF3n de forma c\xE1lida y clara.
+
+6. **FORMATO AMENO Y FLUIDO:**
+   - Usa p\xE1rrafos cortos, tono muy afable, negrillas sutiles y vi\xF1etas claras. Mant\xE9n una conversaci\xF3n llena de paz y amabilidad.`;
+      const formattedContents = (Array.isArray(messages) ? messages : []).map((m) => ({
+        role: m.role === "assistant" ? "model" : "user",
+        parts: [{ text: m.content || "" }]
+      })).filter((m) => m.parts[0].text);
+      if (formattedContents.length === 0) {
+        res.status(400).json({ error: "Messages array is required" });
+        return;
+      }
+      const response = await ai.models.generateContent({
+        model: "gemini-3.6-flash",
+        contents: formattedContents,
+        config: {
+          systemInstruction,
+          temperature: 0.7
+        }
+      });
+      const text = response.text || "";
+      res.json({
+        success: true,
+        text,
+        provider: "gemini-3.6-flash"
+      });
+    } catch (err) {
+      console.error("Error in /api/chat:", err);
+      res.status(500).json({ error: err.message || "Internal server error" });
+    }
+  });
   app.post("/api/search", async (req, res) => {
     try {
       const { query, lang = "es", userEmotions = [] } = req.body || {};
