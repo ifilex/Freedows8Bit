@@ -1,14 +1,56 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+
     <title>WineBOX - Cognitive Stimulation System</title>
-    <script type="module" crossorigin src="assets/index-dHx-EX46.js"></script>
-    <link rel="stylesheet" crossorigin href="assets/index-DGc4z6N_.css">
+
+    <meta name="description" content="WineBOX is a global and free cognitive stimulation environment using retro games to improve attention, planning, and executive functions in neurodivergent users.">
+    <meta name="keywords" content="cognitive stimulation, autism, ADHD, executive functions, neurodiversity, retro games, low visual fidelity, wine, dosbox, wasm">
+
+    <meta property="og:title" content="WineBOX – Cognitive Stimulation System">
+    <meta property="og:description" content="A free and accessible cognitive stimulation platform using legal retro games to improve attention and mental autonomy.">
+    <meta property="og:image" content="logo.png">
+    <meta property="og:url" content="/">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="WineBOX – Cognitive Stimulation System">
+    <meta name="twitter:image" content="http://winebox.cloud/logo.png">
+
+    <link rel="alternate" href="https://winebox.cloud" hreflang="en" />
+    <link rel="alternate" href="https://winebox.cloud?lang=es" hreflang="es" />
+    <link rel="canonical" href="https://winebox.cloud"/>
+
+    <!-- PWA Web Manifest & Theme -->
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#141414" />
+    <meta name="mobile-web-app-capable" content="yes" />
+
+    <!-- iOS / Safari Apple Web App support -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="WineBOX" />
+    <link rel="apple-touch-icon" href="https://winebox.cloud/src/icons/fileExplorer.png" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://winebox.cloud/src/icons/fileExplorer.png" />
+    <script type="module" crossorigin src="assets/index-DC5Mjsp9.js"></script>
+    <link rel="stylesheet" crossorigin href="assets/index-XwH4c0Xw.css">
   </head>
-  <body>
+  <body class="bg-[#141414] text-white select-none overflow-x-hidden">
     <div id="root"></div>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('sw.js').catch((err) => {
+            console.log('SW registration error:', err);
+          });
+        });
+      }
+    </script>
   </body>
 </html>
+
 
