@@ -4,9 +4,9 @@
   <meta charset="utf-8" />
   <title data-es="WineBOX Project — Portal Oficial" data-en="WineBOX Project — Official Portal">WineBOX Project — Portal Oficial</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" data-es="WineBOX - Estimulación cognitiva con interfaces digitales accesibles. Recursos para familias, terapeutas e investigación." data-en="WineBOX - Cognitive stimulation with accessible digital interfaces. Resources for families, therapists and research." />
-  <meta property="og:title" content="WineBOX — Estimulación Cognitiva Retro"> 
-  <meta property="og:description" content="Menos estímulos visuales. Más pensamiento propio. Plataforma gratuita para familias y terapeutas.">
+  <meta name="description" data-es="WineBOX - Estimulación cognitiva y neurorrehabilitación post-ICTUS/ACV con interfaces digitales accesibles. 30 ejercicios clínicos, 8 semanas, evidencia científica." data-en="WineBOX - Cognitive stimulation and post-stroke neurorehabilitation with accessible digital interfaces. 30 clinical exercises, 8 weeks, scientific evidence." />
+  <meta property="og:title" content="WineBOX — Estimulación Cognitiva y Neurorrehabilitación Post-ICTUS">
+  <meta property="og:description" content="Menos estímulos visuales. Más pensamiento propio. Protocolo clínico de 8 semanas y 30 ejercicios para daño cerebral adquirido.">
   <meta property="og:image" content="http://winebox.cloud/logo.png">
   <meta property="og:url" content="http://winebox.cloud">
   <meta name="twitter:card" content="summary_large_image">
@@ -17,35 +17,35 @@
   <style>
     :root{
       --max-w:1100px;
-      --accent:#2E59A7;       /* azul tech */
-      --accent-2:#6A56E5;     /* violeta */
+      --accent:#2E59A7;
+      --accent-2:#6A56E5;
+      --accent-3:#0F6E4A;
       --muted:#6b6b6b;
       --bg:#f5f7fb;
       --card:#fff;
       --radius:12px;
       --shadow: 0 8px 20px rgba(18,24,44,0.06);
       --glass: rgba(255,255,255,0.85);
+      --wsp:#25D366;
     }
     *{box-sizing:border-box}
     html,body{height:100%; margin:0; font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial; color:#111; background:var(--bg); -webkit-font-smoothing:antialiased;}
     a{color:var(--accent); text-decoration:none}
     .wrap{max-width:var(--max-w); margin:28px auto; padding:24px; position:relative;}
-    /* Header */
     header.site{display:flex; gap:18px; align-items:center; justify-content:space-between; padding:18px; background:linear-gradient(180deg, #ffffffaa, #ffffff00); border-radius:14px; box-shadow:var(--shadow); position:sticky; top:12px; z-index:10; backdrop-filter: blur(4px);}
     .brand{display:flex; align-items:center; gap:14px;}
     .logo img{width:56px; height:56px; border-radius:50%; object-fit:contain;}
     .brand h1{margin:0;font-size:18px;line-height:1}
     .brand p{margin:0;color:var(--muted); font-size:13px}
-    /* Nav */
     nav.main{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
     nav.main a{padding:8px 12px; border-radius:8px; font-weight:600; color:#0f1724}
     .cta-primary{
-      background:var(--accent); 
-      color:#fff; 
-      border:0; 
-      padding:10px 14px; 
-      border-radius:10px; 
-      font-weight:700; 
+      background:var(--accent);
+      color:#fff;
+      border:0;
+      padding:10px 14px;
+      border-radius:10px;
+      font-weight:700;
       cursor:pointer;
       display:inline-flex;
       align-items:center;
@@ -57,7 +57,25 @@
       transform: translateY(-2px);
       box-shadow: 0 6px 14px rgba(0,0,0,0.15);
     }
-    /* Hero */
+    .cta-wsp{
+      background:var(--wsp);
+      color:#fff;
+      border:0;
+      padding:10px 14px;
+      border-radius:10px;
+      font-weight:700;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-size:14px;
+      transition: all 0.2s ease;
+    }
+    .cta-wsp:hover {
+      background:#1ebe5d;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+    }
     .hero{display:grid; grid-template-columns:1fr 360px; gap:22px; margin-top:18px; align-items:start}
     .card{background:var(--card); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow)}
     .eyebrow{display:inline-block; font-size:13px; color:var(--muted); margin-bottom:8px}
@@ -66,16 +84,13 @@
     .kpis{display:flex; gap:12px; margin-top:14px; flex-wrap:wrap}
     .kpi{background:linear-gradient(180deg, #fff, #fbfdff); padding:12px 14px; border-radius:10px; border:1px solid #eef2ff; min-width:130px; text-align:center}
     .kpi strong{display:block; font-size:18px}
-    /* Sections */
     section{margin-top:20px; scroll-margin-top: 100px;}
     .two-col{display:grid; grid-template-columns:1fr 360px; gap:20px}
     @media (max-width:980px){ .hero, .two-col{grid-template-columns:1fr} .hero .right, .hero .left{width:100%}}
-    /* Gallery */
     .gallery{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
     .gallery img{width:100%; height:170px; object-fit:cover; border-radius:8px; cursor:pointer; border:1px solid #e6e9f2; transition: transform 0.3s ease;}
     .gallery img:hover{transform: scale(1.02);}
     @media (max-width:980px){ .gallery img{height:140px} .gallery{grid-template-columns:repeat(2,1fr)} }
-    /* SIMPLE LIGHTBOX - FIXED */
     .lightbox-overlay {
       position: fixed;
       top: 0;
@@ -88,241 +103,75 @@
       align-items: center;
       z-index: 10000;
     }
-    
-    .lightbox-overlay.active {
-      display: flex;
-    }
-    
-    .lightbox-content {
-      position: relative;
-      max-width: 90%;
-      max-height: 90%;
-      text-align: center;
-    }
-    
-    .lightbox-img {
-      max-width: 100%;
-      max-height: 70vh;
-      border-radius: 8px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    }
-    
-    .lightbox-caption {
-      color: white;
-      margin-top: 15px;
-      font-size: 16px;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    
-    .lightbox-close {
-      position: absolute;
-      top: -40px;
-      right: 0;
-      background: white;
-      border: none;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      font-size: 20px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .lightbox-nav {
-      position: absolute;
-      top: 50%;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      transform: translateY(-50%);
-      padding: 0 20px;
-    }
-    
-    .lightbox-nav button {
-      background: rgba(255,255,255,0.9);
-      border: none;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      font-size: 24px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .lightbox-nav button:hover {
-      background: white;
-    }
-    
-    .lightbox-counter {
-      position: absolute;
-      top: -40px;
-      left: 0;
-      color: white;
-      font-size: 16px;
-      font-weight: 600;
-    }
-    
-    /* Doc styles (whitepaper content) */
+    .lightbox-overlay.active { display: flex; }
+    .lightbox-content { position: relative; max-width: 90%; max-height: 90%; text-align: center; }
+    .lightbox-img { max-width: 100%; max-height: 70vh; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    .lightbox-caption { color: white; margin-top: 15px; font-size: 16px; max-width: 600px; margin-left: auto; margin-right: auto; }
+    .lightbox-close { position: absolute; top: -40px; right: 0; background: white; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .lightbox-nav { position: absolute; top: 50%; width: 100%; display: flex; justify-content: space-between; transform: translateY(-50%); padding: 0 20px; }
+    .lightbox-nav button { background: rgba(255,255,255,0.9); border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .lightbox-nav button:hover { background: white; }
+    .lightbox-counter { position: absolute; top: -40px; left: 0; color: white; font-size: 16px; font-weight: 600; }
     .doc h3{margin-top:18px}
     .doc p{color:#223}
     .doc blockquote{border-left:4px solid var(--accent); padding-left:14px; color:#334;}
     .tech-panel{background:linear-gradient(180deg,#fbfdff,#f3f6ff); border-radius:10px; padding:14px; border:1px solid #e6ecff}
     .muted{color:var(--muted)}
-    /* Footer */
     footer{margin-top:28px; text-align:center; color:var(--muted); font-size:14px}
-    /* Language toggle */
     .lang{display:flex; gap:6px; align-items:center}
     .lang button{background:transparent;border:1px solid #e6e9f2;padding:6px 8px;border-radius:8px; cursor:pointer}
     .lang button.active{background:var(--accent); color:white}
     .pill{display:inline-block;background:var(--accent); color:#fff; padding:6px 10px; border-radius:20px; font-weight:700}
+    .secondary-btn { background: #2c3e50; color: #fff; border: 0; padding: 10px 14px; border-radius: 10px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; transition: all 0.2s ease; text-decoration: none; }
+    .secondary-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,0.15); }
+    .whitepaper-tools-btn { background: #8e44ad; color: #fff; border: 0; padding: 10px 14px; border-radius: 10px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; transition: all 0.2s ease; }
+    .whitepaper-tools-btn:hover { background: #6c3483; transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,0.15); }
+    .secondary-buttons { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; align-items: center; }
+    @media (max-width: 600px) { .secondary-buttons { flex-direction: column; align-items: flex-start; } .secondary-btn, .whitepaper-tools-btn { width: 100%; justify-content: center; } }
+    .wp-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 20000; }
+    .wp-modal-overlay.active { display: flex; }
+    .wp-modal-content { width: 90%; max-width: 1000px; height: 85vh; background: white; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+    .wp-modal-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: #1a2639; color: white; }
+    .wp-modal-header h3 { margin: 0; font-size: 18px; }
+    .wp-modal-close { background: rgba(255,255,255,0.2); border: none; color: white; font-size: 24px; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .wp-modal-close:hover { background: #e74c3c; }
+    .wp-modal-body { flex: 1; background: #f8f9fa; }
+    .wp-modal-body iframe { width: 100%; height: 100%; border: none; }
     
-    /* ===== BOTONES DE SEGUNDA FILA (MISMO ESTILO QUE LOS ORIGINALES) ===== */
-    .secondary-btn {
-      background: #2c3e50;
-      color: #fff;
-      border: 0;
-      padding: 10px 14px;
-      border-radius: 10px;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 14px;
-      transition: all 0.2s ease;
-      text-decoration: none;
-    }
+    /* Exercise cards */
+    .exercise-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(300px,1fr)); gap:14px; margin-top:16px}
+    .exercise-card{background:#fff; border:1px solid #e6ecff; border-radius:10px; padding:14px; border-left:4px solid var(--accent); transition: transform 0.2s ease, box-shadow 0.2s ease;}
+    .exercise-card:hover{transform: translateY(-3px); box-shadow: 0 8px 16px rgba(0,0,0,0.08);}
+    .exercise-card h5{margin:0 0 6px; font-size:15px; color:#1a2639}
+    .exercise-card .domain{font-size:11px; text-transform:uppercase; letter-spacing:0.5px; font-weight:700; color:var(--accent);}
+    .exercise-card p{margin:6px 0; font-size:13px; color:#4a5568; line-height:1.5}
+    .exercise-card .functions{font-size:12px; color:var(--muted); margin-top:6px}
     
-    .secondary-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 14px rgba(0,0,0,0.15);
-    }
+    .domain-badge{display:inline-block; padding:3px 8px; border-radius:12px; font-size:11px; font-weight:700; margin-right:4px}
+    .domain-att{background:#e3f2fd; color:#1565c0}
+    .domain-imp{background:#fce4ec; color:#c62828}
+    .domain-plan{background:#e8f5e9; color:#2e7d32}
+    .domain-flex{background:#fff3e0; color:#e65100}
     
-    .whitepaper-tools-btn {
-      background: #8e44ad;
-      color: #fff;
-      border: 0;
-      padding: 10px 14px;
-      border-radius: 10px;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 14px;
-      transition: all 0.2s ease;
-    }
+    .stat-highlight{background:linear-gradient(135deg, #e8f5e9, #f1f8e9); border:1px solid #c8e6c9; border-radius:10px; padding:16px; margin:12px 0;}
+    .stat-highlight .number{font-size:28px; font-weight:700; color:var(--accent-3); display:block;}
+    .stat-highlight .label{font-size:13px; color:#555;}
     
-    .whitepaper-tools-btn:hover {
-      background: #6c3483;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 14px rgba(0,0,0,0.15);
-    }
-    
-    /* Contenedor de botones secundarios */
-    .secondary-buttons {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 16px;
-      align-items: center;
-    }
-    
-    /* Responsive para móviles */
-    @media (max-width: 600px) {
-      .secondary-buttons {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .secondary-btn, .whitepaper-tools-btn {
-        width: 100%;
-        justify-content: center;
-      }
-    }
-    
-    /* Modal para whitepaper */
-    .wp-modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.9);
-      backdrop-filter: blur(5px);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 20000;
-    }
-    .wp-modal-overlay.active {
-      display: flex;
-    }
-    .wp-modal-content {
-      width: 90%;
-      max-width: 1000px;
-      height: 85vh;
-      background: white;
-      border-radius: 16px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-    }
-    .wp-modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 20px;
-      background: #1a2639;
-      color: white;
-    }
-    .wp-modal-header h3 {
-      margin: 0;
-      font-size: 18px;
-    }
-    .wp-modal-close {
-      background: rgba(255,255,255,0.2);
-      border: none;
-      color: white;
-      font-size: 24px;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .wp-modal-close:hover {
-      background: #e74c3c;
-    }
-    .wp-modal-body {
-      flex: 1;
-      background: #f8f9fa;
-    }
-    .wp-modal-body iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
+    .whatsapp-float{position:fixed; bottom:24px; right:24px; z-index:9999; background:var(--wsp); color:#fff; border-radius:50%; width:60px; height:60px; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(37,211,102,0.4); transition: transform 0.3s ease; text-decoration:none;}
+    .whatsapp-float:hover{transform: scale(1.1); color:#fff;}
+    .whatsapp-float svg{width:32px; height:32px; fill:#fff;}
   </style>
 </head>
 <body>
   <div class="wrap">
 
-    <!-- Header (idéntico al original) -->
+    <!-- Header -->
     <header class="site card" role="banner">
       <div class="brand">
         <div class="logo"><img src="http://winebox.cloud/logo.png" alt="WineBOX Logo"></div>
         <div>
           <h1 data-es="WineBOX Project" data-en="WineBOX Project">WineBOX Project</h1>
-          <p data-es="Proyecto independiente de acceso cognitivo · v1.2" data-en="Independent cognitive access project · v1.2">Proyecto independiente de acceso cognitivo · v1.2</p>
+          <p data-es="Neurorrehabilitación post-ICTUS/ACV · v1.3" data-en="Post-stroke neurorehabilitation · v1.3">Neurorrehabilitación post-ICTUS/ACV · v1.3</p>
         </div>
       </div>
 
@@ -331,11 +180,11 @@
           <a href="#home" data-es="Inicio" data-en="Home">Inicio</a>
           <a href="#what" data-es="¿Qué es?" data-en="What is it?">¿Qué es?</a>
           <a href="#science" data-es="Evidencia" data-en="Evidence">Evidencia</a>
-          <a href="#how" data-es="Cómo funciona" data-en="How it works">Cómo funciona</a>
+          <a href="#ictus" data-es="Protocolo ICTUS" data-en="Stroke Protocol">Protocolo ICTUS</a>
+          <a href="#exercises" data-es="30 Ejercicios" data-en="30 Exercises">30 Ejercicios</a>
           <a href="#captures" data-es="Capturas" data-en="Screenshots">Capturas</a>
-          <a href="#faq" aria-label="Preguntas frecuentes" data-es="FAQ" data-en="FAQ">FAQ</a>
-          <a href="#access" data-es="Acceder" data-en="Access">Acceder</a>
-          <a href="#donate" class="pill" data-es="Donar" data-en="Donate">Donar</a>
+          <a href="#faq" data-es="FAQ" data-en="FAQ">FAQ</a>
+          <a href="#contact" class="pill" style="background:var(--wsp)" data-es="WhatsApp" data-en="WhatsApp">WhatsApp</a>
         </nav>
 
         <div style="margin-left:12px" class="lang" aria-hidden="false">
@@ -345,75 +194,77 @@
       </div>
     </header>
 
-    <!-- HERO CON NUEVA ESTRUCTURA DE BOTONES -->
+    <!-- HERO -->
     <main id="home" style="margin-top:18px">
       <div class="hero">
         <div class="left card">
-          <span class="eyebrow" data-es="Acceso gratuito para familias y terapeutas" data-en="Free access for families and therapists">Acceso gratuito para familias y terapeutas</span>
+          <span class="eyebrow" data-es="Acceso gratuito para familias, pacientes y terapeutas" data-en="Free access for families, patients and therapists">Acceso gratuito para familias, pacientes y terapeutas</span>
           <h2 class="hero-title" data-es="Menos estímulos visuales. Más pensamiento propio." data-en="Fewer visual stimuli. More independent thinking.">Menos estímulos visuales. Más pensamiento propio.</h2>
-          <p class="lead" data-es="WineBOX es una plataforma de estimulación cognitiva basada en interfaces de baja fidelidad y juegos legales clásicamente diseñados para activar la imaginación, fortalecer funciones ejecutivas y mejorar la autonomía digital." data-en="WineBOX is a cognitive stimulation platform based on low-fidelity interfaces and legally classic games designed to activate imagination, strengthen executive functions, and improve digital autonomy.">WineBOX es una plataforma de estimulación cognitiva basada en interfaces de baja fidelidad y juegos legales clásicamente diseñados para activar la imaginación, fortalecer funciones ejecutivas y mejorar la autonomía digital.</p>
+          <p class="lead" data-es="WineBOX es una plataforma de estimulación cognitiva y neurorrehabilitación basada en interfaces de baja fidelidad visual. Diseñada para activar la imaginación, fortalecer funciones ejecutivas y mejorar la autonomía digital en pacientes con daño cerebral adquirido (ICTUS/ACV), TEA, TDAH y adultos mayores." data-en="WineBOX is a cognitive stimulation and neurorehabilitation platform based on low-fidelity visual interfaces. Designed to activate imagination, strengthen executive functions and improve digital autonomy in patients with acquired brain injury (stroke), ASD, ADHD and older adults.">WineBOX es una plataforma de estimulación cognitiva y neurorrehabilitación basada en interfaces de baja fidelidad visual. Diseñada para activar la imaginación, fortalecer funciones ejecutivas y mejorar la autonomía digital en pacientes con daño cerebral adquirido (ICTUS/ACV), TEA, TDAH y adultos mayores.</p>
 
-          <!-- PRIMERA FILA: Botones principales (originales) -->
           <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
             <a class="cta-primary" id="accessBtn" href="http://winebox.cloud" target="_blank" rel="noopener" data-es="Acceder a WineBOX (gratis)" data-en="Access WineBOX (free)">Acceder a WineBOX (gratis)</a>
+            <a class="cta-wsp" href="https://wa.me/5491166116631?text=Hola%2C%20quisiera%20solicitar%20informaci%C3%B3n%20sobre%20WineBOX%20y%20el%20protocolo%20para%20ICTUS%2FACV" target="_blank" rel="noopener" data-es="Solicitar terapia / asesoramiento" data-en="Request therapy / advice">Solicitar terapia / asesoramiento</a>
             <a class="cta-primary" id="whitepaperPdfBtn" style="background:var(--accent-2)" href="http://winebox.cloud/WineBOX%20whitepaper%201.2.pdf" target="_blank" rel="noopener" data-es="Whitepaper (PDF)" data-en="Whitepaper (PDF)" data-href-es="http://winebox.cloud/WineBOX%20whitepaper%201.2.pdf" data-href-en="http://winebox.cloud/WineBOX%20whitepaper%201.2.en.pdf">Whitepaper (PDF)</a>
-            <a class="cta-primary" style="background:#8a4baf" href="#whitepaper" rel="noopener" data-es="Whitepaper (online)" data-en="Whitepaper (online)">Whitepaper (online)</a>
           </div>
 
-          <!-- KPIs (igual que original) -->
           <div class="kpis" style="margin-top:18px">
             <div class="kpi">
-              <strong data-es="Autonomía" data-en="Autonomy">Autonomía</strong>
-              <span class="muted" data-es="Orientación práctica en entornos digitales" data-en="Practical orientation in digital environments">Orientación práctica en entornos digitales</span>
+              <strong data-es="30 Ejercicios" data-en="30 Exercises">30 Ejercicios</strong>
+              <span class="muted" data-es="4 dominios cognitivos" data-en="4 cognitive domains">4 dominios cognitivos</span>
             </div>
             <div class="kpi">
-              <strong data-es="Atención" data-en="Attention">Atención</strong>
-              <span class="muted" data-es="Mejor foco con menos distracción" data-en="Better focus with less distraction">Mejor foco con menos distracción</span>
+              <strong data-es="8 Semanas" data-en="8 Weeks">8 Semanas</strong>
+              <span class="muted" data-es="32 sesiones de 18 min" data-en="32 sessions of 18 min">32 sesiones de 18 min</span>
             </div>
             <div class="kpi">
-              <strong data-es="Accesible" data-en="Accessible">Accesible</strong>
-              <span class="muted" data-es="Gratis para familias y terapeutas" data-en="Free for families and therapists">Gratis para familias y terapeutas</span>
+              <strong data-es="ICC 0.79" data-en="ICC 0.79">ICC 0.79</strong>
+              <span class="muted" data-es="Concordancia interjueces" data-en="Inter-rater agreement">Concordancia interjueces</span>
             </div>
           </div>
         </div>
 
-        <!-- Sidebar derecho (idéntico al original) -->
         <aside class="right card" style="padding:20px">
           <h3 style="margin-top:0" data-es="Acceso & Licencias" data-en="Access & Licenses">Acceso & Licencias</h3>
-          <p class="muted" data-es="Gratis para <strong>familias, pacientes y terapeutas</strong>. Licencias institucionales para hospitales y centros." data-en="Free for <strong>families, patients and therapists</strong>. Institutional licenses for hospitals and centers.">Gratis para <strong>familias, pacientes y terapeutas</strong>. Licencias institucionales para hospitales y centros.</p>
+          <p class="muted" data-es="Gratis para <strong>familias, pacientes y terapeutas</strong>. Licencias institucionales para hospitales y centros de rehabilitación." data-en="Free for <strong>families, patients and therapists</strong>. Institutional licenses for hospitals and rehabilitation centers.">Gratis para <strong>familias, pacientes y terapeutas</strong>. Licencias institucionales para hospitales y centros de rehabilitación.</p>
           <div style="margin-top:14px" class="tech-panel">
             <strong data-es="¿Por qué este modelo?" data-en="Why this model?">¿Por qué este modelo?</strong>
             <p class="muted" data-es="Mantener el acceso libre a quienes más lo necesitan, y financiar investigación y mejoras mediante licencias y donaciones institucionales." data-en="Keeping free access for those who need it most, and funding research and improvements through licenses and institutional donations.">Mantener el acceso libre a quienes más lo necesitan, y financiar investigación y mejoras mediante licencias y donaciones institucionales.</p>
           </div>
 
-          <h4 style="margin-top:14px" data-es="Contacto" data-en="Contact">Contacto</h4>
-          <p class="muted">ifilex@gmail.com</p>
+          <h4 style="margin-top:14px" data-es="Contacto y Terapia" data-en="Contact & Therapy">Contacto y Terapia</h4>
+          <p class="muted" data-es="Solicitá asesoramiento o coordiná una sesión por WhatsApp:" data-en="Request advice or schedule a session via WhatsApp:">Solicitá asesoramiento o coordiná una sesión por WhatsApp:</p>
+          <a class="cta-wsp" style="margin-top:8px; width:100%; justify-content:center;" href="https://wa.me/5491166116631?text=Hola%2C%20quisiera%20solicitar%20asesoramiento%20sobre%20WineBOX" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            +54 9 11 6611-6631
+          </a>
+          <p class="muted" style="font-size:12px; margin-top:8px" data-es="Atención por WhatsApp para terapia, asesoramiento y licencias institucionales." data-en="WhatsApp support for therapy, advice and institutional licenses.">Atención por WhatsApp para terapia, asesoramiento y licencias institucionales.</p>
         </aside>
       </div>
 
-      <!-- RESTO DEL CONTENIDO (idéntico al original) -->
-      <!-- WHAT / short -->
+      <!-- WHAT -->
       <section id="what" class="card doc" aria-labelledby="what-title" style="margin-top:18px; padding:22px">
         <h3 id="what-title" data-es="¿Qué es WineBOX?" data-en="What is WineBOX?">¿Qué es WineBOX?</h3>
-        <p data-es="WineBOX es una interfaz cognitiva que combina emulación de entornos retro y una GUI simplificada para crear un espacio donde la mente puede practicar inferencia visual, planificación y control inhibitorio sin saturarse con estímulos innecesarios." data-en="WineBOX is a cognitive interface that combines retro environment emulation and a simplified GUI to create a space where the mind can practice visual inference, planning and inhibitory control without being saturated with unnecessary stimuli.">WineBOX es una interfaz cognitiva que combina emulación de entornos retro y una GUI simplificada para crear un espacio donde la mente puede practicar inferencia visual, planificación y control inhibitorio sin saturarse con estímulos innecesarios.</p>
+        <p data-es="WineBOX es una interfaz cognitiva que combina emulación de entornos retro y una GUI simplificada para crear un espacio donde la mente puede practicar inferencia visual, planificación y control inhibitorio sin saturarse con estímulos innecesarios. Su aplicación en neurorrehabilitación post-ICTUS/ACV permite dosificar la dificultad en 8 semanas y sistematizar la observación conductual del paciente." data-en="WineBOX is a cognitive interface that combines retro environment emulation and a simplified GUI to create a space where the mind can practice visual inference, planning and inhibitory control without being saturated with unnecessary stimuli. Its application in post-stroke neurorehabilitation allows dosing difficulty over 8 weeks and systematizing behavioral observation.">WineBOX es una interfaz cognitiva que combina emulación de entornos retro y una GUI simplificada para crear un espacio donde la mente puede practicar inferencia visual, planificación y control inhibitorio sin saturarse con estímulos innecesarios. Su aplicación en neurorrehabilitación post-ICTUS/ACV permite dosificar la dificultad en 8 semanas y sistematizar la observación conductual del paciente.</p>
 
         <h4 data-es="Beneficios clave" data-en="Key benefits">Beneficios clave</h4>
         <ul>
-          <li data-es="Estimula funciones ejecutivas mediante tareas lúdicas." data-en="Stimulates executive functions through playful tasks.">Estimula funciones ejecutivas mediante tareas lúdicas.</li>
+          <li data-es="Estimula funciones ejecutivas mediante tareas lúdicas de baja fidelidad." data-en="Stimulates executive functions through low-fidelity playful tasks.">Estimula funciones ejecutivas mediante tareas lúdicas de baja fidelidad.</li>
           <li data-es="Mejora la organización espacial y la memoria de trabajo." data-en="Improves spatial organization and working memory.">Mejora la organización espacial y la memoria de trabajo.</li>
           <li data-es="Favorece la regulación sensorial y la tolerancia a la frustración." data-en="Promotes sensory regulation and frustration tolerance.">Favorece la regulación sensorial y la tolerancia a la frustración.</li>
+          <li data-es="Reduce la carga cognitiva extrínseca (Sweller, 1988) para liberar recursos atencionales." data-en="Reduces extrinsic cognitive load (Sweller, 1988) to free attentional resources.">Reduce la carga cognitiva extrínseca (Sweller, 1988) para liberar recursos atencionales.</li>
+          <li data-es="Adaptable a daño cerebral adquirido (ICTUS/ACV), TEA, TDAH y adultos mayores." data-en="Adaptable to acquired brain injury (stroke), ASD, ADHD and older adults.">Adaptable a daño cerebral adquirido (ICTUS/ACV), TEA, TDAH y adultos mayores.</li>
         </ul>
       </section>
 
-      <!-- SCIENCE / expanded -->
+      <!-- SCIENCE / EVIDENCE -->
       <section id="science" class="card doc" style="margin-top:20px; padding:22px">
         <h3 data-es="Evidencia y fundamentos" data-en="Evidence and foundations">Evidencia y fundamentos</h3>
         <p class="muted" data-es="Versión corta (familias) · Versión técnica (investigadores)" data-en="Short version (families) · Technical version (researchers)">Versión corta (familias) · Versión técnica (investigadores)</p>
 
-        <!-- Family friendly -->
         <div id="science-family">
           <h4 data-es="Explicación para familias" data-en="Explanation for families">Explicación para familias</h4>
-          <p data-es="Cuando hay menos ruido visual, el cerebro puede usar sus propios recursos para imaginar y planificar. WineBOX reduce estímulos no esenciales para que la atención se dirija a lo que realmente importa: pensar, probar y aprender." data-en="When there is less visual noise, the brain can use its own resources to imagine and plan. WineBOX reduces non-essential stimuli so that attention is directed to what really matters: thinking, trying and learning.">Cuando hay menos ruido visual, el cerebro puede usar sus propios recursos para imaginar y planificar. WineBOX reduce estímulos no esenciales para que la atención se dirija a lo que realmente importa: pensar, probar y aprender.</p>
+          <p data-es="Cuando hay menos ruido visual, el cerebro puede usar sus propios recursos para imaginar y planificar. WineBOX reduce estímulos no esenciales para que la atención se dirija a lo que realmente importa: pensar, probar y aprender. En pacientes con ICTUS/ACV, esta reducción es clave porque la fatiga cognitiva y las fluctuaciones atencionales exigen pausas frecuentes y entornos predecibles." data-en="When there is less visual noise, the brain can use its own resources to imagine and plan. WineBOX reduces non-essential stimuli so that attention is directed to what really matters: thinking, trying and learning. In stroke patients, this reduction is key because cognitive fatigue and attentional fluctuations require frequent pauses and predictable environments.">Cuando hay menos ruido visual, el cerebro puede usar sus propios recursos para imaginar y planificar. WineBOX reduce estímulos no esenciales para que la atención se dirija a lo que realmente importa: pensar, probar y aprender. En pacientes con ICTUS/ACV, esta reducción es clave porque la fatiga cognitiva y las fluctuaciones atencionales exigen pausas frecuentes y entornos predecibles.</p>
           <ul>
             <li data-es="Más imaginación: los usuarios completan mentalmente lo que falta." data-en="More imagination: users mentally complete what's missing.">Más imaginación: los usuarios completan mentalmente lo que falta.</li>
             <li data-es="Menos cansancio: menos luz y animaciones intensas evitan fatiga." data-en="Less fatigue: less light and intense animations prevent exhaustion.">Menos cansancio: menos luz y animaciones intensas evitan fatiga.</li>
@@ -421,7 +272,6 @@
           </ul>
         </div>
 
-        <!-- Technical -->
         <div id="science-technical" style="margin-top:18px">
           <h4 data-es="Marco teórico (técnico)" data-en="Theoretical framework (technical)">Marco teórico (técnico)</h4>
           <p data-es="<strong>Teoría de la Carga Cognitiva</strong>: Reducir la carga extrínseca (Sweller, 1988) libera la memoria de trabajo para el procesamiento central (Paas, Mayer)." data-en="<strong>Cognitive Load Theory</strong>: Reducing extrinsic load (Sweller, 1988) frees working memory for central processing (Paas, Mayer)."><strong>Teoría de la Carga Cognitiva</strong>: Reducir la carga extrínseca (Sweller, 1988) libera la memoria de trabajo para el procesamiento central (Paas, Mayer).</p>
@@ -434,19 +284,337 @@
 
           <blockquote data-es=""La limitación sensorial puede convertirse en una estrategia terapéutica: menos es más."" data-en=""Sensory limitation can become a therapeutic strategy: less is more."">"La limitación sensorial puede convertirse en una estrategia terapéutica: menos es más."</blockquote>
 
+          <h4 data-es="Resultados de la investigación (N=1.200)" data-en="Research results (N=1,200)">Resultados de la investigación (N=1.200)</h4>
+          <p data-es="Estudio observacional retrospectivo (2017-2025) con muestra de 1.200 pacientes de 7 a 17 años en contextos clínicos y educativos (68% Argentina, 12% Chile, 11% México, 9% España)." data-en="Retrospective observational study (2017-2025) with a sample of 1,200 patients aged 7-17 in clinical and educational contexts (68% Argentina, 12% Chile, 11% Mexico, 9% Spain).">Estudio observacional retrospectivo (2017-2025) con muestra de 1.200 pacientes de 7 a 17 años en contextos clínicos y educativos (68% Argentina, 12% Chile, 11% México, 9% España).</p>
+          
+          <div class="stat-highlight">
+            <span class="number">ICC(2,1) = 0,79</span>
+            <span class="label" data-es="Control de Impulsos — Concordancia buena (Koo & Li, 2016)" data-en="Impulse Control — Good agreement (Koo & Li, 2016)">Control de Impulsos — Concordancia buena (Koo & Li, 2016)</span>
+          </div>
+          <div class="stat-highlight">
+            <span class="number">ICC(2,1) = 0,74</span>
+            <span class="label" data-es="Atención Sostenida — Concordancia moderada a buena" data-en="Sustained Attention — Moderate to good agreement">Atención Sostenida — Concordancia moderada a buena</span>
+          </div>
+
           <h5 data-es="Referencias clave" data-en="Key references">Referencias clave</h5>
-          <p class="muted">Sweller (1988); Mayer & Moreno (2003); Paas et al. (2003); Miller & Cohen (2001); Monsell (2003); Logan & Robinson (2020).</p>
+          <p class="muted">Sweller (1988); Mayer & Moreno (2003); Paas et al. (2003); Miller & Cohen (2001); Monsell (2003); Logan & Robinson (2020); Sohlberg & Mateer (2001); Toglia (2011); Levine et al. (2000); Cicerone et al. (2019).</p>
         </div>
       </section>
 
-      <!-- HOW IT WORKS – deep technical -->
-      <section id="how" class="card" style="padding:22px; margin-top:20px">
-        <h3 data-es="Cómo funciona (versión técnica)" data-en="How it works (technical version)">Cómo funciona (versión técnica)</h3>
+      <!-- ICTUS PROTOCOL -->
+      <section id="ictus" class="card" style="padding:22px; margin-top:20px">
+        <h3 data-es="Protocolo de Neurorrehabilitación post-ICTUS/ACV" data-en="Post-stroke Neurorehabilitation Protocol">Protocolo de Neurorrehabilitación post-ICTUS/ACV</h3>
+        <p class="muted" data-es="Método WineBOX · Lic. Emanuel Chanampa (MN 56716 · MP 84132) · 8 semanas · 30 ejercicios" data-en="WineBOX Method · Lic. Emanuel Chanampa (MN 56716 · MP 84132) · 8 weeks · 30 exercises">Método WineBOX · Lic. Emanuel Chanampa (MN 56716 · MP 84132) · 8 semanas · 30 ejercicios</p>
 
         <div class="two-col">
           <div>
-            <p data-es="WineBOX combina varias tecnologías para ejecutar software retro y moderno dentro del navegador, manteniendo aislamiento, rendimiento y compatibilidad." data-en="WineBOX combines several technologies to run retro and modern software within the browser, maintaining isolation, performance and compatibility.">WineBOX combina varias tecnologías para ejecutar software retro y moderno dentro del navegador, manteniendo aislamiento, rendimiento y compatibilidad.</p>
+            <h4 data-es="Estructura temporal en 4 fases" data-en="Temporal structure in 4 phases">Estructura temporal en 4 fases</h4>
+            <table style="width:100%; border-collapse:collapse; font-size:14px; margin-top:8px">
+              <thead>
+                <tr style="background:#f0f4ff; text-align:left">
+                  <th style="padding:8px; border:1px solid #dde3f0">Fase</th>
+                  <th style="padding:8px; border:1px solid #dde3f0">Semanas</th>
+                  <th style="padding:8px; border:1px solid #dde3f0">Dominio</th>
+                  <th style="padding:8px; border:1px solid #dde3f0">Ejercicios</th>
+                  <th style="padding:8px; border:1px solid #dde3f0">Meta Clínica</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="padding:8px; border:1px solid #dde3f0">I</td>
+                  <td style="padding:8px; border:1px solid #dde3f0">1-2</td>
+                  <td style="padding:8px; border:1px solid #dde3f0"><span class="domain-badge domain-att">Atención Sostenida</span></td>
+                  <td style="padding:8px; border:1px solid #dde3f0">1 a 7</td>
+                  <td style="padding:8px; border:1px solid #dde3f0">Tolerancia a la tarea, hábito diario, reducir fatiga.</td>
+                </tr>
+                <tr style="background:#fafbff">
+                  <td style="padding:8px; border:1px solid #dde3f0">II</td>
+                  <td style="padding:8px; border:1px solid #dde3f0">3-4</td>
+                  <td style="padding:8px; border:1px solid #dde3f0"><span class="domain-badge domain-imp">Control de Impulsos</span></td>
+                  <td style="padding:8px; border:1px solid #dde3f0">8 a 14</td>
+                  <td style="padding:8px; border:1px solid #dde3f0">Inhibir respuesta automática; regla de los 3 segundos.</td>
+                </tr>
+                <tr>
+                  <td style="padding:8px; border:1px solid #dde3f0">III</td>
+                  <td style="padding:8px; border:1px solid #dde3f0">5-6</td>
+                  <td style="padding:8px; border:1px solid #dde3f0"><span class="domain-badge domain-plan">Planificación Ejecutiva</span></td>
+                  <td style="padding:8px; border:1px solid #dde3f0">15 a 21</td>
+                  <td style="padding:8px; border:1px solid #dde3f0">Anticipar consecuencias; organizar pasos secuenciales.</td>
+                </tr>
+                <tr style="background:#fafbff">
+                  <td style="padding:8px; border:1px solid #dde3f0">IV</td>
+                  <td style="padding:8px; border:1px solid #dde3f0">7-8</td>
+                  <td style="padding:8px; border:1px solid #dde3f0"><span class="domain-badge domain-flex">Flexibilidad Cognitiva</span></td>
+                  <td style="padding:8px; border:1px solid #dde3f0">22 a 30</td>
+                  <td style="padding:8px; border:1px solid #dde3f0">Adaptación al cambio de reglas; metacognición activa.</td>
+                </tr>
+              </tbody>
+            </table>
 
+            <h4 style="margin-top:18px" data-es="Estructura de la sesión tipo (18 minutos)" data-en="Typical session structure (18 minutes)">Estructura de la sesión tipo (18 minutos)</h4>
+            <ul>
+              <li data-es="<strong>Calentamiento (3 min):</strong> Activación con un ejercicio dominado previamente." data-en="<strong>Warm-up (3 min):</strong> Activation with a previously mastered exercise."><strong>Calentamiento (3 min):</strong> Activación con un ejercicio dominado previamente.</li>
+              <li data-es="<strong>Ejercicio principal (12 min):</strong> Aplicación con observación de latencias y perseveraciones." data-en="<strong>Main exercise (12 min):</strong> Application with observation of latencies and perseverations."><strong>Ejercicio principal (12 min):</strong> Aplicación con observación de latencias y perseveraciones.</li>
+              <li data-es="<strong>Cierre metacognitivo (3 min):</strong> ¿Qué notaste hoy? ¿Qué estrategia te ayudó?" data-en="<strong>Metacognitive closure (3 min):</strong> What did you notice today? What strategy helped you?"><strong>Cierre metacognitivo (3 min):</strong> ¿Qué notaste hoy? ¿Qué estrategia te ayudó?</li>
+            </ul>
+
+            <h4 data-es="Criterios objetivos de progresión" data-en="Objective progression criteria">Criterios objetivos de progresión</h4>
+            <ul>
+              <li data-es="<strong>Avanzar:</strong> ≥ 8/10 ensayos exitosos con ayuda mínima. Fatiga < 5/10." data-en="<strong>Advance:</strong> ≥ 8/10 successful trials with minimal help. Fatigue < 5/10."><strong>Avanzar:</strong> ≥ 8/10 ensayos exitosos con ayuda mínima. Fatiga < 5/10.</li>
+              <li data-es="<strong>Mantener:</strong> 5 a 7 ensayos. Requiere andamiaje. Repetir 1-2 sesiones." data-en="<strong>Maintain:</strong> 5 to 7 trials. Requires scaffolding. Repeat 1-2 sessions."><strong>Mantener:</strong> 5 a 7 ensayos. Requiere andamiaje. Repetir 1-2 sesiones.</li>
+              <li data-es="<strong>Retroceder:</strong> < 5 ensayos o fatiga > 7. Bloqueo. Reducir tiempo." data-en="<strong>Step back:</strong> < 5 trials or fatigue > 7. Blockage. Reduce time."><strong>Retroceder:</strong> < 5 ensayos o fatiga > 7. Bloqueo. Reducir tiempo.</li>
+            </ul>
+
+            <h4 data-es="Banderas rojas para suspender la tarea" data-en="Red flags to stop the task">Banderas rojas para suspender la tarea</h4>
+            <ul>
+              <li data-es="Aparición de cefalea pulsátil, mareo o visión borrosa." data-en="Onset of pulsating headache, dizziness or blurred vision.">Aparición de cefalea pulsátil, mareo o visión borrosa.</li>
+              <li data-es="Incremento brusco de la tensión muscular o sincinesias en el hemicuerpo afectado." data-en="Sudden increase in muscle tension or synkinesis in the affected hemibody.">Incremento brusco de la tensión muscular o sincinesias en el hemicuerpo afectado.</li>
+              <li data-es="Labilidad o frustración desbordada recurrente." data-en="Recurrent emotional lability or overwhelming frustration.">Labilidad o frustración desbordada recurrente.</li>
+              <li data-es="Caída abrupta del rendimiento atencional tras 5 a 8 minutos de sesión." data-en="Abrupt drop in attentional performance after 5 to 8 minutes of session.">Caída abrupta del rendimiento atencional tras 5 a 8 minutos de sesión.</li>
+            </ul>
+          </div>
+
+          <aside class="card" style="padding:16px; background:#f8faff; border:1px solid #e6ecff">
+            <h4 data-es="Medidas de resultado cuantitativas" data-en="Quantitative outcome measures">Medidas de resultado cuantitativas</h4>
+            <p class="muted" style="font-size:13px" data-es="Métricas funcionales estandarizadas pre y post intervención (8 semanas):" data-en="Standardized functional metrics pre and post intervention (8 weeks):">Métricas funcionales estandarizadas pre y post intervención (8 semanas):</p>
+            
+            <div style="margin-top:10px">
+              <strong style="font-size:13px" data-es="Métrica A: Tiempo Medio de Reacción Inhibitoria (TMRI)" data-en="Metric A: Mean Inhibitory Reaction Time (MIRT)">Métrica A: Tiempo Medio de Reacción Inhibitoria (TMRI)</strong>
+              <p class="muted" style="font-size:12px" data-es="Milisegundos entre distractor e inhibición del clic (Ej. 11: Clumsy Bird)." data-en="Milliseconds between distractor and click inhibition (Ex. 11: Clumsy Bird).">Milisegundos entre distractor e inhibición del clic (Ej. 11: Clumsy Bird).</p>
+            </div>
+            <div style="margin-top:10px">
+              <strong style="font-size:13px" data-es="Métrica B: Índice de Eficiencia en Planificación (IEP)" data-en="Metric B: Planning Efficiency Index (PEI)">Métrica B: Índice de Eficiencia en Planificación (IEP)</strong>
+              <p class="muted" style="font-size:12px" data-es="Relación entre movimientos óptimos vs ejecutados en Pathfinder y Box World." data-en="Ratio between optimal vs executed moves in Pathfinder and Box World.">Relación entre movimientos óptimos vs ejecutados en Pathfinder y Box World.</p>
+            </div>
+            <div style="margin-top:10px">
+              <strong style="font-size:13px" data-es="Métrica C: Costo de Cambio Categorial (CCC)" data-en="Metric C: Categorical Switch Cost (CSC)">Métrica C: Costo de Cambio Categorial (CCC)</strong>
+              <p class="muted" style="font-size:12px" data-es="Diferencia temporal entre ensayos homogéneos y con alternancia en Robotrivia." data-en="Time difference between homogeneous and alternating trials in Robotrivia.">Diferencia temporal entre ensayos homogéneos y con alternancia en Robotrivia.</p>
+            </div>
+
+            <h4 style="margin-top:18px" data-es="Niveles de evidencia" data-en="Evidence levels">Niveles de evidencia</h4>
+            <p class="muted" style="font-size:12px" data-es="<strong>Nivel 1:</strong> Técnicas de rehabilitación cognitiva con base teórica comprobada (Sohlberg & Mateer, 2001; Logan et al., 1997)." data-en="<strong>Level 1:</strong> Cognitive rehabilitation techniques with proven theoretical basis (Sohlberg & Mateer, 2001; Logan et al., 1997)."><strong>Nivel 1:</strong> Técnicas de rehabilitación cognitiva con base teórica comprobada (Sohlberg & Mateer, 2001; Logan et al., 1997).</p>
+            <p class="muted" style="font-size:12px" data-es="<strong>Nivel 2:</strong> Plataforma WineBOX como vehículo de baja fidelidad visual (ICC ≥ 0,74)." data-en="<strong>Level 2:</strong> WineBOX platform as a low-fidelity visual vehicle (ICC ≥ 0.74)."><strong>Nivel 2:</strong> Plataforma WineBOX como vehículo de baja fidelidad visual (ICC ≥ 0,74).</p>
+            <p class="muted" style="font-size:12px" data-es="<strong>Nivel 3:</strong> Adaptación al daño cerebral post-ICTUS (propuesta asistencial)." data-en="<strong>Level 3:</strong> Adaptation to post-stroke brain injury (care proposal)."><strong>Nivel 3:</strong> Adaptación al daño cerebral post-ICTUS (propuesta asistencial).</p>
+          </aside>
+        </div>
+      </section>
+
+      <!-- 30 EXERCISES -->
+      <section id="exercises" class="card" style="padding:22px; margin-top:20px">
+        <h3 data-es="30 Ejercicios del Protocolo WineBOX para ICTUS/ACV" data-en="30 WineBOX Protocol Exercises for Stroke">30 Ejercicios del Protocolo WineBOX para ICTUS/ACV</h3>
+        <p class="muted" data-es="Programa completo de 8 semanas · 4 dominios cognitivos · Ejercicios adaptados para neurorrehabilitación post-daño cerebral" data-en="Complete 8-week program · 4 cognitive domains · Exercises adapted for post-brain injury neurorehabilitation">Programa completo de 8 semanas · 4 dominios cognitivos · Ejercicios adaptados para neurorrehabilitación post-daño cerebral</p>
+
+        <!-- DOMAIN 1: ATTENTION -->
+        <h4 style="margin-top:20px; color:#1565c0" data-es="🔵 Dominio 1: Atención Sostenida (Semanas 1-2) — Ejercicios 1 a 7" data-en="🔵 Domain 1: Sustained Attention (Weeks 1-2) — Exercises 1 to 7">🔵 Dominio 1: Atención Sostenida (Semanas 1-2) — Ejercicios 1 a 7</h4>
+        <div class="exercise-grid">
+          <div class="exercise-card">
+            <span class="domain domain-att">Atención Sostenida</span>
+            <h5 data-es="1. Recuerdo Secuencial Progresivo (Sequence)" data-en="1. Progressive Sequential Recall (Sequence)">1. Recuerdo Secuencial Progresivo (Sequence)</h5>
+            <p data-es="Memoria de Trabajo / Atención Sostenida. Repite secuencias de luces y sonidos antes de tocar la pantalla." data-en="Working Memory / Sustained Attention. Repeat sequences of lights and sounds before touching the screen.">Memoria de Trabajo / Atención Sostenida. Repite secuencias de luces y sonidos antes de tocar la pantalla.</p>
+            <span class="functions" data-es="⏱ 10 min · Sohlberg & Mateer (2001)" data-en="⏱ 10 min · Sohlberg & Mateer (2001)">⏱ 10 min · Sohlberg & Mateer (2001)</span>
+          </div>
+          <div class="exercise-card">
+            <span class="domain domain-att">Atención Sostenida</span>
+            <h5 data-es="2. Exploración y Mapeo Espacial 3D (Voxel Quest)" data-en="2. 3D Spatial Exploration & Mapping (Voxel Quest)">2. Exploración y Mapeo Espacial 3D (Voxel Quest)</h5>
+            <p data-es="Atención Visual / Orientación Espacial. Navegación minimalista para evaluar negligencia espacial unilateral." data-en="Visual Attention / Spatial Orientation. Minimalist navigation to assess unilateral spatial neglect.">Atención Visual / Orientación Espacial. Navegación minimalista para evaluar negligencia espacial unilateral.</p>
+            <span class="functions" data-es="⏱ 10 min · Zoltan (2007)" data-en="⏱ 10 min · Zoltan (2007)">⏱ 10 min · Zoltan (2007)</span>
+          </div>
+          <div class="exercise-card">
+            <span class="domain domain-att">Atención Sostenida</span>
+            <h5 data-es="3. Resolución Numérica Estructurada (Sudoku)" data-en="3. Structured Numerical Resolution (Sudoku)">3. Resolución Numérica Estructurada (Sudoku)</h5>
+            <p data-es="Atención Selectiva / Razonamiento Lógico. Activa redes frontoparietales sin ansiedad estética." data-en="Selective Attention / Logical Reasoning. Activates frontoparietal networks without aesthetic anxiety.">Atención Selectiva / Razonamiento Lógico. Activa redes frontoparietales sin ansiedad estética.</p>
+            <span class="functions" data-es="⏱ 15 min · Owen (1997)" data-en="⏱ 15 min · Owen (1997)">⏱ 15 min · Owen (1997)</span>
+          </div>
+          <div class="exercise-card">
+            <span class="domain domain-att">Atención Sostenida</span>
+            <h5 data-es="4. Inferencia Lógica bajo Incertidumbre (Winemine)" data-en="4. Logical Inference under Uncertainty (Winemine)">4. Inferencia Lógica bajo Incertidumbre (Winemine)</h5>
+            <p data-es="Atención Focalizada / Deducción. Razonamiento probabilístico controlado tipo buscaminas." data-en="Focused Attention / Deduction. Controlled probabilistic reasoning, minesweeper-style.">Atención Focalizada / Deducción. Razonamiento probabilístico controlado tipo buscaminas.</p>
+            <span class="functions" data-es="⏱ 10 min · Zoltan (2007)" data-en="⏱ 10 min · Zoltan (2007)">⏱ 10 min · Zoltan (2007)</span>
+          </div>
+          <div class="exercise-card">
+            <span class="domain domain-att">Atención Sostenida</span>
+            <h5 data-es="5. Rastreo Visual Serial y Acceso Léxico (Sopa de Letras)" data-en="5. Serial Visual Tracking & Lexical Access (Word Search)">5. Rastreo Visual Serial y Acceso Léxico (Sopa de Letras)</h5>
+            <p data-es="Búsqueda Visual / Memoria Semántica. Exploración visual organizada y acceso léxico." data-en="Visual Search / Semantic Memory. Organized visual exploration and lexical access.">Búsqueda Visual / Memoria Semántica. Exploración visual organizada y acceso léxico.</p>
+            <span class="functions" data-es="⏱ 10 min · Sohlberg & Mateer (2001)" data-en="⏱ 10 min · Sohlberg & Mateer (2001)">⏱ 10 min · Sohlberg & Mateer (2001)</span>
+          </div>
+          <div class="exercise-card">
+            <span class="domain domain-att">Atención Sostenida</span>
+            <h5 data-es="6. Sincronía Visomotora y Alerta Fásica (Pixel Leap)" data-en="6. Visuomotor Synchrony & Phasic Alert (Pixel Leap)">6. Sincronía Visomotora y Alerta Fásica (Pixel Leap)</h5>
+            <p data-es="Atención Sostenida / Coordinación Ojo-Mano. Sincronización visomotora fina." data-en="Sustained Attention / Eye-Hand Coordination. Fine visuomotor synchronization.">Atención Sostenida / Coordinación Ojo-Mano. Sincronización visomotora fina.</p>
+            <span class="functions" data-es="⏱ 7 min · Zoltan (2007)" data-en="⏱ 7 min · Zoltan (2007)">⏱ 7 min · Zoltan (2007)</span>
+          </div>
+          <div class="exercise-card">
+            <span class="domain domain-att">Atención Sostenida</span>
+            <h5 data-es="7. Retención Fonológica y Repetición (Rec)" data-en="7. Phonological Retention & Repetition (Rec)">7. Retención Fonológica y Repetición (Rec)</h5>
+            <p data-es="Bucle Fonológico / Memoria Auditiva. Reentrenamiento auditivo-verbal para seguir instrucciones médicas." data-en="Phonological Loop / Auditory Memory. Auditory-verbal retraining to follow medical instructions.">Bucle Fonológico / Memoria Auditiva. Reentrenamiento auditivo-verbal para seguir instrucciones médicas.</p>
+            <span class="functions" data-es="⏱ 10 min · Sohlberg & Mateer (2001)" data-en="⏱ 10 min · Sohlberg & Mateer (2001)">⏱ 10 min · Sohlberg & Mateer (2001)</span>
+          </div>
+        </div>
+
+        <!-- DOMAIN 2: IMPULSE CONTROL -->
+        <h4 style="margin-top:28px; color:#c62828" data-es="🔴 Dominio 2: Control de Impulsos (Semanas 3-4) — Ejercicios 8 a 14" data-en="🔴 Domain 2: Impulse Control (Weeks 3-4) — Exercises 8 to 14">🔴 Dominio 2: Control de Impulsos (Semanas 3-4) — Ejercicios 8 a 14</h4>
+        <div class="exercise-grid">
+          <div class="exercise-card">
+            <span class="domain domain-imp">Control de Impulsos</span>
+            <h5 data-es="8. La Regla de los Tres Segundos (Solitaire)" data-en="8. The Three-Second Rule (Solitaire)">8. La Regla de los Tres Segundos (Solitaire)</h5>
+            <p data-es="Inhibición Motriz / Pausa Reflexiva. Pausa de 3 segundos antes de mover cada carta." data-en="Motor Inhibition / Reflective Pause. 3-second pause before moving each card.">Inhibición Motriz / Pausa Reflexiva. Pausa de 3 segundos antes de mover cada carta.</p>
+            <span class="functions" data-es="⏱ 15 min · Levine et al. (2000)" data-en="⏱ 15 min · Levine et al. (2000)">⏱ 15 min · Levine et al. (2000)</span>
+          </div>
+          <div class="exercise-card">
+            <span class="domain domain-imp">Control de Impulsos</span>
+            <h5 data-es="9. Calma ante la Aceleración Externa (BlockMatrix)" data-en="9. Calm amidst External Acceleration (BlockMatrix)">9. Calma ante la Aceleración Externa (BlockMatrix)</h5>
+            <p data-es="Regulación Emocional / Tolerancia. Inoculación al estrés con demandas de tiempo aceleradas." data-en="Emotional Regulation / Tolerance. Stress inoculation with accelerated time demands.">Regulación Emocional / Tolerancia. Inoculación al estrés con demandas de tiempo aceleradas.</p>
+            <span class="functions" data-es="⏱ 10 min · Cicerone et al. (2011)" data-en="⏱ 10 min · Cicerone et al. (2011)">⏱ 10 min · Cicerone et al. (2011)</span>
+          </div>
+          <div class="exercise-card">
+            <span class="domain domain-imp">Control de Impulsos</span>
+            <h5 data-es="10. Modulación de Fuerza y Trayectoria (Breakout)" data-en="10. Force & Trajectory Modulation (Breakout)">10. Modulación de Fuerza y Trayectoria (Breakout)</h5>
+            <p data-es="Control Motor Fino / Suavidad. Movimientos suaves sobre hielo, sin espasmos." data-en="Fine Motor Control / Smoothness. Smooth movements on ice, without spasms.">Control Motor Fino / Suavidad. Movimientos suaves sobre hielo, sin espasmos.</p>
+            <span class="functions" data-es="⏱ 10 min · Zoltan (2007)" data-en="⏱ 10 min · Zoltan (2007)">⏱ 10 min · Zoltan (2007)</span>
+          </div>
+          <div class="exercise-card">
+            <span class="domain domain-imp">Control de Impulsos</span>
+            <h5 data-es="11. Timing e Inhibición Go/No-Go (Clumsy Bird)" data-en="11. Timing & Go/No-Go Inhibition (Clumsy Bird)">11. Timing e Inhibición Go/No-Go (Clumsy Bird)</h5>
+            <p data-es="Inhibición de Respuesta / Stop-Signal. Frenar el toque compulsivo continuo." data-en="Response Inhibition / Stop-Signal. Stop continuous compulsive tapping.">Inhibición de Respuesta / Stop-Signal. Frenar el toque compulsivo continuo.</p>
+            <span class="functions" data-es="⏱ 5 min · Logan et al. (1997)" data-en="⏱ 5 min · Logan et al. (1997)">⏱ 5 min · Logan et al. (1997)</span>
+          </div>
+          <div class="exercise-card">
+            <span class="domain domain-imp">Control de Impulsos</span>
+            <h5 data-es="12. Anticipación en Memoria Compleja (Spider)" data-en="12. Anticipation in Complex Memory (Spider)">12. Anticipación en Memoria Compleja (Spider)</h5>
+            <p data-es="Memoria de Trabajo / Planificación. Planificación secuencial de múltiples columnas." data-en="Working Memory / Planning. Sequential planning of multiple columns.">Memoria de Trabajo / Planificación. Planificación secuencial de múltiples columnas.</p>
+            <span class="functions" data-es="⏱ 15 min · Owen (1997)" data-en="⏱ 15 min · Owen (1997)">⏱ 15 min · Owen (1997)</span>
+          </div>
+          <div class="exercise-card">
+            <span class="domain domain-imp">Control de Impulsos</span>
+            <h5 data-es="13. Teoría de la Mente y Anticipación (Damas)" data-en="13. Theory of Mind & Anticipation (Checkers)">13. Teoría de la Mente y Anticipación (Damas)</h5>
+            <p data-es="Inhibición Táctica / Estrategia. Anticipación de intención ajena." data-en="Tactical Inhibition / Strategy. Anticipation of others' intentions.">Inhibición Táctica / Estrategia. Anticipación de intención ajena.</p>
+            <span class="functions" data-es="⏱ 15 min · Owen (1997)" data-en="⏱ 15 min · Owen (1997)">⏱ 15 min · Owen (1997)</span>
+          </div>
+          <div class="exercise-card">
+            <span class="domain domain-imp">Control de Impulsos</span>
+            <h5 data-es="14. Transformación del Fallo en Información (Prehistorik)" data-en="14. Transforming Failure into Information (Prehistorik)">14. Transformación del Fallo en Información (Prehistorik)</h5>
+            <p data-es="Tolerancia a la Frustración. Reestructuración cognitiva ante el error repetido." data-en="Frustration Tolerance. Cognitive restructuring after repeated errors.">Tolerancia a la Frustración. Reestructuración cognitiva ante el error repetido.</p>
+            <span class="functions" data-es="⏱ 10 min · Cicerone et al. (2011)" data-en="⏱ 10 min · Cicerone et al. (2011)">⏱ 10 min · Cicerone et al. (2011)</span>
+          </div>
+        </div>
+
+        <!-- DOMAIN 3: PLANNING -->
+        <h4 style="margin-top:28px; color:#2e7d32" data-es="🟢 Dominio 3: Planificación Ejecutiva (Semanas 5-6) — Ejercicios 15 a 21" data-en="🟢 Domain 3: Executive Planning (Weeks 5-6) — Exercises 15 to 21">🟢 Dominio 3: Planificación Ejecutiva (Semanas 5-6) — Ejercicios 15 a 21</h4>
+        <div class="exercise-grid">
+          <div class="exercise-card">
+            <span class="domain domain-plan">Planificación Ejecutiva</span>
+            <h5 data-es="15. Formulación y Descarte de Hipótesis (Naval)" data-en="15. Hypothesis Formulation & Discarding (Naval)">15. Formulación y Descarte de Hipótesis (Naval)</h5>
+            <p data-es="Deducción Lógica / Mapeo Mental. Planificación deductiva con actualización de modelo mental." data-en="Logical Deduction / Mental Mapping. Deductive planning with mental model updating.">Deducción Lógica / Mapeo Mental. Planificación deductiva con actualización de modelo mental.</p>
+            <span class="functions" data-es="⏱ 15 min · Zoltan (2007)" data-en="⏱ 15 min · Zoltan (2007)">⏱ 15 min · Zoltan (2007)</span>
+          </div>
+          <div class="exercise-card">
+            <span class="domain domain-plan">Planificación Ejecutiva</span>
+            <h5 data-es="16. Jerarquización de Recursos (Retro Urban)" data-en="16. Resource Prioritization (Retro Urban)">16. Jerarquización de Recursos (Retro Urban)</h5>
+            <p data-es="Toma de Decisiones / Visión de Futuro. Gestión de recursos y prioridades tipo simulador urbano." data-en="Decision Making / Future Vision. Resource and priority management, city-sim style.">Toma de Decisiones / Visión de Futuro. Gestión de recursos y prioridades tipo simulador urbano.</p>
+            <span class="functions" data-es="⏱ 20 min · Levine et al. (2000)" data-en="⏱ 20 min · Levine et al. (2000)">⏱ 20 min · Levine et al. (2000)</span>
+          </div>
+          <div class="exercise-card">
+            <span class="domain domain-plan">Planificación Ejecutiva</span>
+            <h5 data-es="17. División del Foco y Priorización (8bits Realms)" data-en="17. Focus Division & Prioritization (8bits Realms)">17. División del Foco y Priorización (8bits Realms)</h5>
+            <p data-es="Multitarea Controlada / Estrategia. Alternancia de focos de atención y metas concurrentes." data-en="Controlled Multitasking / Strategy. Alternating attention foci and concurrent goals.">Multitarea Controlada / Estrategia. Alternancia de focos de atención y metas concurrentes.</p>
+            <span class="functions" data-es="⏱ 15 min · Monsell (2003)" data-en="⏱ 15 min · Monsell (2003)">⏱ 15 min · Monsell (2003)</span>
+          </div>
+          <div class="exercise-card">
+            <span class="domain domain-plan">Planificación Ejecutiva</span>
+            <h5 data-es="18. Simulación Mental de Movimientos (Box World)" data-en="18. Mental Simulation of Movements (Box World)">18. Simulación Mental de Movimientos (Box World)</h5>
+            <p data-es="Planificación Espacial / Torre de Londres. Anticipación mental pura para prevenir bloqueos." data-en="Spatial Planning / Tower of London. Pure mental anticipation to prevent blockages.">Planificación Espacial / Torre de Londres. Anticipación mental pura para prevenir bloqueos.</p>
+            <span class="functions" data-es="⏱ 15 min · Owen (1997)" data-en="⏱ 15 min · Owen (1997)">⏱ 15 min · Owen (1997)</span>
+          </div>
+          <div class="exercise-card">
+            <span class="domain domain-plan">Planificación Ejecutiva</span>
+            <h5 data-es="19. Coordinación y Cadenas Causales (Pathfinder)" data-en="19. Coordination & Causal Chains (Pathfinder)">19. Coordinación y Cadenas Causales (Pathfinder)</h5>
+            <p data-es="Secuenciación / Causa y Efecto. Comprensión de secuencias causa-efecto interdependientes." data-en="Sequencing / Cause & Effect. Understanding interdependent cause-effect sequences.">Secuenciación / Causa y Efecto. Comprensión de secuencias causa-efecto interdependientes.</p>
+            <span class="functions" data-es="⏱ 15 min · Katz (2011)" data-en="⏱ 15 min · Katz (2011)">⏱ 15 min · Katz (2011)</span>
+          </div>
+          <div class="exercise-card">
+            <span class="domain domain-plan">Planificación Ejecutiva</span>
+            <h5 data-es="20. Generalización a la Vida Diaria (ToDO)" data-en="20. Generalization to Daily Life (ToDO)">20. Generalización a la Vida Diaria (ToDO)</h5>
+            <p data-es="Planificación Ecológica en el Hogar. Transferencia de habilidades ejecutivas a AVD." data-en="Ecological Planning at Home. Transfer of executive skills to ADLs.">Planificación Ecológica en el Hogar. Transferencia de habilidades ejecutivas a AVD.</p>
+            <span class="functions" data-es="⏱ 10 min · Toglia (2011)" data-en="⏱ 10 min · Toglia (2011)">⏱ 10 min · Toglia (2011)</span>
+          </div>
+          <div class="exercise-card">
+            <span class="domain domain-plan">Planificación Ejecutiva</span>
+            <h5 data-es="21. Predicción en Sistemas Complejos (Máquina)" data-en="21. Prediction in Complex Systems (Machine)">21. Predicción en Sistemas Complejos (Máquina)</h5>
+            <p data-es="Razonamiento Causal Físico. Simulación mental de procesos mecánicos y anticipación." data-en="Physical Causal Reasoning. Mental simulation of mechanical processes and anticipation.">Razonamiento Causal Físico. Simulación mental de procesos mecánicos y anticipación.</p>
+            <span class="functions" data-es="⏱ 10 min · Owen (1997)" data-en="⏱ 10 min · Owen (1997)">⏱ 10 min · Owen (1997)</span>
+          </div>
+        </div>
+
+        <!-- DOMAIN 4: FLEXIBILITY -->
+        <h4 style="margin-top:28px; color:#e65100" data-es="🟠 Dominio 4: Flexibilidad Cognitiva (Semanas 7-8) — Ejercicios 22 a 30" data-en="🟠 Domain 4: Cognitive Flexibility (Weeks 7-8) — Exercises 22 to 30">🟠 Dominio 4: Flexibilidad Cognitiva (Semanas 7-8) — Ejercicios 22 a 30</h4>
+        <div class="exercise-grid">
+          <div class="exercise-card">
+            <span class="domain domain-flex">Flexibilidad Cognitiva</span>
+            <h5 data-es="22. Reajuste Dinámico de Reglas (Truco / Cartas)" data-en="22. Dynamic Rule Adjustment (Truco / Cards)">22. Reajuste Dinámico de Reglas (Truco / Cartas)</h5>
+            <p data-es="Flexibilidad de Set Mental. Cambio de reglas en curso para entrenar alternancia." data-en="Mental Set Flexibility. Rule changes mid-game to train switching.">Flexibilidad de Set Mental. Cambio de reglas en curso para entrenar alternancia.</p>
+            <span class="functions" data-es="⏱ 15 min · Monsell (2003)" data-en="⏱ 15 min · Monsell (2003)">⏱ 15 min · Monsell (2003)</span>
+          </div>
+          <div class="exercise-card">
+            <span class="domain domain-flex">Flexibilidad Cognitiva</span>
+            <h5 data-es="23. Modificación de Metas Abiertas (Retrocraft)" data-en="23. Open Goal Modification (Retrocraft)">23. Modificación de Metas Abiertas (Retrocraft)</h5>
+            <p data-es="Creatividad / Adaptación. Abandono de estrategias obsoletas y reformulación de objetivos." data-en="Creativity / Adaptation. Abandoning obsolete strategies and reformulating goals.">Creatividad / Adaptación. Abandono de estrategias obsoletas y reformulación de objetivos.</p>
+            <span class="functions" data-es="⏱ 15 min · Toglia (2011)" data-en="⏱ 15 min · Toglia (2011)">⏱ 15 min · Toglia (2011)</span>
+          </div>
+          <div class="exercise-card">
+            <span class="domain domain-flex">Flexibilidad Cognitiva</span>
+            <h5 data-es="24. Perspectiva Espacial Ajena (Simio Salvaje)" data-en="24. Others' Spatial Perspective (Wild Ape)">24. Perspectiva Espacial Ajena (Simio Salvaje)</h5>
+            <p data-es="Rotación Mental / Cognición Social. Adopción de perspectiva visual ajena." data-en="Mental Rotation / Social Cognition. Adopting another's visual perspective.">Rotación Mental / Cognición Social. Adopción de perspectiva visual ajena.</p>
+            <span class="functions" data-es="⏱ 10 min · Zoltan (2007)" data-en="⏱ 10 min · Zoltan (2007)">⏱ 10 min · Zoltan (2007)</span>
+          </div>
+          <div class="exercise-card">
+            <span class="domain domain-flex">Flexibilidad Cognitiva</span>
+            <h5 data-es="25. Generación Rápida de Alternativas (Rivals)" data-en="25. Rapid Alternative Generation (Rivals)">25. Generación Rápida de Alternativas (Rivals)</h5>
+            <p data-es="Toma de Decisiones / Flexibilidad. Generación de alternativas divergentes ante imprevistos." data-en="Decision Making / Flexibility. Generating divergent alternatives to unexpected events.">Toma de Decisiones / Flexibilidad. Generación de alternativas divergentes ante imprevistos.</p>
+            <span class="functions" data-es="⏱ 15 min · Monsell (2003)" data-en="⏱ 15 min · Monsell (2003)">⏱ 15 min · Monsell (2003)</span>
+          </div>
+          <div class="exercise-card">
+            <span class="domain domain-flex">Flexibilidad Cognitiva</span>
+            <h5 data-es="26. Costo de Cambio Categorial (Robotrivia)" data-en="26. Categorical Switch Cost (Robotrivia)">26. Costo de Cambio Categorial (Robotrivia)</h5>
+            <p data-es="Switch Cost / Memoria Semántica. Medición y entrenamiento del costo de cambio entre categorías." data-en="Switch Cost / Semantic Memory. Measuring and training category switch cost.">Switch Cost / Memoria Semántica. Medición y entrenamiento del costo de cambio entre categorías.</p>
+            <span class="functions" data-es="⏱ 10 min · Monsell (2003)" data-en="⏱ 10 min · Monsell (2003)">⏱ 10 min · Monsell (2003)</span>
+          </div>
+          <div class="exercise-card">
+            <span class="domain domain-flex">Flexibilidad Cognitiva</span>
+            <h5 data-es="27. Reformulación Constructiva del Error (99 Noches)" data-en="27. Constructive Error Reframing (99 Nights)">27. Reformulación Constructiva del Error (99 Noches)</h5>
+            <p data-es="Flexibilidad Emocional. Aplicación de reestructuración cognitiva ante la pérdida de recursos." data-en="Emotional Flexibility. Applying cognitive restructuring after resource loss.">Flexibilidad Emocional. Aplicación de reestructuración cognitiva ante la pérdida de recursos.</p>
+            <span class="functions" data-es="⏱ 15 min · Cicerone et al. (2011)" data-en="⏱ 15 min · Cicerone et al. (2011)">⏱ 15 min · Cicerone et al. (2011)</span>
+          </div>
+          <div class="exercise-card">
+            <span class="domain domain-flex">Flexibilidad Cognitiva</span>
+            <h5 data-es="28. Diario ABCDE y Metacognición (Diario Calma)" data-en="28. ABCDE Journal & Metacognition (Calm Journal)">28. Diario ABCDE y Metacognición (Diario Calma)</h5>
+            <p data-es="Reestructuración Metacognitiva. Modelo cognitivo ABCDE para resignificar el déficit." data-en="Metacognitive Restructuring. ABCDE cognitive model to reframe deficit.">Reestructuración Metacognitiva. Modelo cognitivo ABCDE para resignificar el déficit.</p>
+            <span class="functions" data-es="⏱ 10 min · Toglia (2011)" data-en="⏱ 10 min · Toglia (2011)">⏱ 10 min · Toglia (2011)</span>
+          </div>
+          <div class="exercise-card">
+            <span class="domain domain-flex">Flexibilidad Cognitiva</span>
+            <h5 data-es="29. Bitácora Semanal y Logros (Rec Grabadora)" data-en="29. Weekly Log & Achievements (Rec Recorder)">29. Bitácora Semanal y Logros (Rec Grabadora)</h5>
+            <p data-es="Autoconciencia / Memoria Episódica. Narración en primera persona para reforzar autoeficacia." data-en="Self-awareness / Episodic Memory. First-person narration to reinforce self-efficacy.">Autoconciencia / Memoria Episódica. Narración en primera persona para reforzar autoeficacia.</p>
+            <span class="functions" data-es="⏱ 10 min · Katz (2011)" data-en="⏱ 10 min · Katz (2011)">⏱ 10 min · Katz (2011)</span>
+          </div>
+          <div class="exercise-card">
+            <span class="domain domain-flex">Flexibilidad Cognitiva</span>
+            <h5 data-es="30. Inversión de Roles: Paciente Maestro (Elección Libre)" data-en="30. Role Reversal: Patient as Teacher (Free Choice)">30. Inversión de Roles: Paciente Maestro (Elección Libre)</h5>
+            <p data-es="Consolidación / Empoderamiento. Enseñanza y transmisión de reglas para consolidar redes ejecutivas." data-en="Consolidation / Empowerment. Teaching and transmitting rules to consolidate executive networks.">Consolidación / Empoderamiento. Enseñanza y transmisión de reglas para consolidar redes ejecutivas.</p>
+            <span class="functions" data-es="⏱ 20 min · Toglia (2011)" data-en="⏱ 20 min · Toglia (2011)">⏱ 20 min · Toglia (2011)</span>
+          </div>
+        </div>
+
+        <div style="margin-top:20px; text-align:center">
+          <a class="cta-wsp" href="https://wa.me/5491166116631?text=Hola%2C%20quisiera%20acceder%20al%20protocolo%20completo%20de%2030%20ejercicios%20para%20ICTUS%2FACV" target="_blank" rel="noopener" data-es="Solicitar protocolo completo por WhatsApp" data-en="Request full protocol via WhatsApp">Solicitar protocolo completo por WhatsApp</a>
+        </div>
+      </section>
+
+      <!-- HOW IT WORKS -->
+      <section id="how" class="card" style="padding:22px; margin-top:20px">
+        <h3 data-es="Cómo funciona (versión técnica)" data-en="How it works (technical version)">Cómo funciona (versión técnica)</h3>
+        <div class="two-col">
+          <div>
+            <p data-es="WineBOX combina varias tecnologías para ejecutar software retro y moderno dentro del navegador, manteniendo aislamiento, rendimiento y compatibilidad." data-en="WineBOX combines several technologies to run retro and modern software within the browser, maintaining isolation, performance and compatibility.">WineBOX combina varias tecnologías para ejecutar software retro y moderno dentro del navegador, manteniendo aislamiento, rendimiento y compatibilidad.</p>
             <h4 data-es="Arquitectura general" data-en="General architecture">Arquitectura general</h4>
             <ol>
               <li data-es="<strong>Interfaz</strong>: GUI tipo escritorio maximizada — barra de tareas, ventanas persistentes, accesos rápidos." data-en="<strong>Interface</strong>: Maximized desktop GUI — taskbar, persistent windows, quick access."><strong>Interfaz</strong>: GUI tipo escritorio maximizada — barra de tareas, ventanas persistentes, accesos rápidos.</li>
@@ -454,41 +622,24 @@
               <li data-es="<strong>WebAssembly (WASM)</strong>: Núcleo que permite compilar emuladores y componentes al navegador con rendimiento cercano a nativo." data-en="<strong>WebAssembly (WASM)</strong>: Core that allows compiling emulators and components to the browser with near-native performance."><strong>WebAssembly (WASM)</strong>: Núcleo que permite compilar emuladores y componentes al navegador con rendimiento cercano a nativo.</li>
               <li data-es="<strong>Touch Support Box</strong>: Capa de traducción táctil → eventos de teclado/ratón para dispositivos touch." data-en="<strong>Touch Support Box</strong>: Touch translation layer → keyboard/mouse events for touch devices."><strong>Touch Support Box</strong>: Capa de traducción táctil → eventos de teclado/ratón para dispositivos touch.</li>
             </ol>
-
-            <h4 data-es="Tecnologías clave (detalle)" data-en="Key technologies (detail)">Tecnologías clave (detalle)</h4>
-            <div class="tech-panel" style="margin-top:8px">
-              <strong data-es="WebAssembly (WASM)" data-en="WebAssembly (WASM)">WebAssembly (WASM)</strong>
-              <p class="muted" data-es="WASM permite portar emuladores (DOSBox, partes de WINE) para ejecutarse de forma segura en el navegador con muy buena velocidad y sin instalaciones." data-en="WASM allows porting emulators (DOSBox, parts of WINE) to run safely in the browser with very good speed and no installations.">WASM permite portar emuladores (DOSBox, partes de WINE) para ejecutarse de forma segura en el navegador con muy buena velocidad y sin instalaciones.</p>
-
-              <strong data-es="WINE" data-en="WINE">WINE</strong>
-              <p class="muted" data-es="Wine actúa como capa de compatibilidad para llamadas Windows, permitiendo ejecutar binarios Win32 en entornos no-Windows. En combinación con WASM y contenedores, podemos ofrecer apoyo a apps clásicas." data-en="Wine acts as a compatibility layer for Windows calls, allowing Win32 binaries to run in non-Windows environments. Combined with WASM and containers, we can offer support for classic apps.">Wine actúa como capa de compatibilidad para llamadas Windows, permitiendo ejecutar binarios Win32 en entornos no-Windows. En combinación con WASM y contenedores, podemos ofrecer apoyo a apps clásicas.</p>
-
-              <strong data-es="js-dos / DOSBox" data-en="js-dos / DOSBox">js-dos / DOSBox</strong>
-              <p class="muted" data-es="Ejecuta juegos MS-DOS directamente en HTML5; ideal para juegos shareware de baja fidelidad visual." data-en="Runs MS-DOS games directly in HTML5; ideal for low-fidelity visual shareware games.">Ejecuta juegos MS-DOS directamente en HTML5; ideal para juegos shareware de baja fidelidad visual.</p>
-            </div>
-
             <h4 data-es="Seguridad y privacidad" data-en="Security and privacy">Seguridad y privacidad</h4>
-            <p data-es="WineBOX se ejecuta dentro del navegador y usa sandboxes; no accede a archivos del sistema sin permiso y no recolecta datos sensibles sin consentimiento informado." data-en="WineBOX runs inside the browser and uses sandboxes; it does not access system files without permission and does not collect sensitive data without informed consent.">WineBOX se ejecuta dentro del navegador y usa sandboxes; no accede a archivos del sistema sin permiso y no recolecta datos sensibles sin consentimiento informado.</p>
-
-            <h4 data-es="Escalabilidad" data-en="Scalability">Escalabilidad</h4>
-            <p data-es="La arquitectura permite llevar WineBOX a tabletas y dispositivos dedicados más tarde (proyecto futuro con hardware preconfigurado)." data-en="The architecture allows taking WineBOX to tablets and dedicated devices later (future project with preconfigured hardware).">La arquitectura permite llevar WineBOX a tabletas y dispositivos dedicados más tarde (proyecto futuro con hardware preconfigurado).</p>
+            <p data-es="WineBOX se ejecuta dentro del navegador y usa sandboxes; no accede a archivos del sistema sin permiso y no recolecta datos sensibles sin consentimiento informado. Procesamiento 100% local." data-en="WineBOX runs inside the browser and uses sandboxes; it does not access system files without permission and does not collect sensitive data without informed consent. 100% local processing.">WineBOX se ejecuta dentro del navegador y usa sandboxes; no accede a archivos del sistema sin permiso y no recolecta datos sensibles sin consentimiento informado. Procesamiento 100% local.</p>
           </div>
-
           <aside class="card" style="padding:16px">
             <h4 data-es="Resumen técnico rápido" data-en="Quick technical summary">Resumen técnico rápido</h4>
             <p class="muted" data-es="WASM + emuladores + GUI simple = compatibilidad + velocidad + experiencia cognitiva optimizada." data-en="WASM + emulators + simple GUI = compatibility + speed + optimized cognitive experience.">WASM + emuladores + GUI simple = compatibilidad + velocidad + experiencia cognitiva optimizada.</p>
             <p data-es="<strong>Implementación actual:</strong> WASM + js-dos + adaptadores WINE (experimental)." data-en="<strong>Current implementation:</strong> WASM + js-dos + WINE adapters (experimental)."><strong>Implementación actual:</strong> WASM + js-dos + adaptadores WINE (experimental).</p>
+            <p data-es="<strong>Requisitos:</strong> Procesador > Helio G99 y 6 GB RAM para modo local offline. Cualquier dispositivo para modo nube." data-en="<strong>Requirements:</strong> Processor > Helio G99 and 6 GB RAM for local offline mode. Any device for cloud mode."><strong>Requisitos:</strong> Procesador > Helio G99 y 6 GB RAM para modo local offline. Cualquier dispositivo para modo nube.</p>
           </aside>
         </div>
       </section>
 
-      <!-- CAPTURAS -->
+      <!-- CAPTURES -->
       <section id="captures" class="card" style="padding:22px; margin-top:20px">
         <h3 data-es="Capturas del sistema (clic para ampliar)" data-en="System screenshots (click to enlarge)">Capturas del sistema (clic para ampliar)</h3>
         <p class="muted" data-es="Las imágenes muestran la experiencia real dentro del prototipo WineBOX. Haz clic en cualquier imagen para ver descripción ampliada." data-en="Images show the actual experience within the WineBOX prototype. Click any image to see expanded description.">Las imágenes muestran la experiencia real dentro del prototipo WineBOX. Haz clic en cualquier imagen para ver descripción ampliada.</p>
 
         <div class="gallery" aria-hidden="false">
-          <!-- gallery thumbs -->
           <img data-full="http://winebox.cloud/src/cap1.png" data-caption-es="Botón de inicio: el Boot. Presiona para encender el sistema WineBOX y acceder al escritorio." data-caption-en="Boot button: starts WineBOX and powers on the desktop." src="http://winebox.cloud/src/cap1.png" alt="Boot - botón de inicio">
           <img data-full="http://winebox.cloud/src/cap2.png" data-caption-es="Escritorio inicial: interfaz maximizada diseñada para reducir distracciones y facilitar la orientación espacial." data-caption-en="Initial desktop: maximized UI to reduce distractions and aid spatial orientation." src="http://winebox.cloud/src/cap2.png" alt="Escritorio inicial">
           <img data-full="http://winebox.cloud/src/cap3.png" data-caption-es="Menú principal (equivalente al botón Start): acceso a apps, juegos y herramientas de configuración." data-caption-en="Main menu (Start equivalent): access apps, games and settings." src="http://winebox.cloud/src/cap3.png" alt="Menu principal">
@@ -501,12 +652,11 @@
         </div>
       </section>
 
-      <!-- Full whitepaper / docs accessible -->
+      <!-- WHITEPAPER / DOCS -->
       <section id="whitepaper" class="card doc" style="padding:22px; margin-top:20px">
         <h3 data-es="Whitepaper — Documento técnico (v1.2)" data-en="Whitepaper — Technical document (v1.2)">Whitepaper — Documento técnico (v1.2)</h3>
         <p class="muted" data-es="Versión completa online. Incluye metodología, fundamentos neurocognitivos, implementación técnica y anexos." data-en="Full online version. Includes methodology, neurocognitive foundations, technical implementation and appendices.">Versión completa online. Incluye metodología, fundamentos neurocognitivos, implementación técnica y anexos.</p>
 
-        <!-- Collapsible table of contents -->
         <details open>
           <summary style="font-weight:700; margin-bottom:8px" data-es="Índice (clic para navegar)" data-en="Table of contents (click to navigate)">Índice (clic para navegar)</summary>
           <ol>
@@ -522,10 +672,9 @@
           </ol>
         </details>
 
-        <!-- Whitepaper content inserted - expanded and structured -->
         <article id="wp-intro" style="margin-top:12px">
           <h4 data-es="1. Introducción" data-en="1. Introduction">1. Introducción</h4>
-          <p data-es="La sobrecarga sensorial compromete la interacción digital en personas neurodivergentes. WineBOX propone reducir la carga perceptual para permitir un procesamiento cognitivo más eficiente, usando videojuegos de baja fidelidad y una GUI que promueve la orientación espacial y la autonomía." data-en="Sensory overload compromises digital interaction in neurodivergent people. WineBOX proposes to reduce perceptual load to allow more efficient cognitive processing, using low-fidelity video games and a GUI that promotes spatial orientation and autonomy.">La sobrecarga sensorial compromete la interacción digital en personas neurodivergentes. WineBOX propone reducir la carga perceptual para permitir un procesamiento cognitivo más eficiente, usando videojuegos de baja fidelidad y una GUI que promueve la orientación espacial y la autonomía.</p>
+          <p data-es="La sobrecarga sensorial compromete la interacción digital en personas neurodivergentes y en pacientes con daño cerebral adquirido. WineBOX propone reducir la carga perceptual para permitir un procesamiento cognitivo más eficiente, usando videojuegos de baja fidelidad y una GUI que promueve la orientación espacial y la autonomía." data-en="Sensory overload compromises digital interaction in neurodivergent people and patients with acquired brain injury. WineBOX proposes to reduce perceptual load to allow more efficient cognitive processing, using low-fidelity video games and a GUI that promotes spatial orientation and autonomy.">La sobrecarga sensorial compromete la interacción digital en personas neurodivergentes y en pacientes con daño cerebral adquirido. WineBOX propone reducir la carga perceptual para permitir un procesamiento cognitivo más eficiente, usando videojuegos de baja fidelidad y una GUI que promueve la orientación espacial y la autonomía.</p>
 
           <h4 id="wp-objetivos" data-es="2. Objetivos del Proyecto" data-en="2. Project Objectives">2. Objetivos del Proyecto</h4>
           <p data-es="<strong>General:</strong> Optimizar el entrenamiento de funciones ejecutivas mediante una interfaz de baja complejidad sensorial." data-en="<strong>General:</strong> Optimize executive function training through a low sensory complexity interface."><strong>General:</strong> Optimizar el entrenamiento de funciones ejecutivas mediante una interfaz de baja complejidad sensorial.</p>
@@ -534,11 +683,8 @@
             <li data-es="Reducir distracciones y ruido visual." data-en="Reduce distractions and visual noise.">Reducir distracciones y ruido visual.</li>
             <li data-es="Potenciar la toma de decisiones en entornos simples." data-en="Enhance decision-making in simple environments.">Potenciar la toma de decisiones en entornos simples.</li>
             <li data-es="Proveer herramientas para familias y terapeutas." data-en="Provide tools for families and therapists.">Proveer herramientas para familias y terapeutas.</li>
-            <li data-es="Generar evidencia científica y clínica." data-en="Generate scientific and clinical evidence.">Generar evidencia científica y clínica.</li>
+            <li data-es="Generar evidencia científica y clínica en neurorrehabilitación." data-en="Generate scientific and clinical evidence in neurorehabilitation.">Generar evidencia científica y clínica en neurorrehabilitación.</li>
           </ul>
-
-          <h4 id="wp-metodologia" data-es="3. Metodología de desarrollo" data-en="3. Development methodology">3. Metodología de desarrollo</h4>
-          <p data-es="Diseño iterativo con fases alpha/beta, selección de software legal (shareware), tests de usabilidad con familias y evaluación de impacto en sesiones piloto." data-en="Iterative design with alpha/beta phases, selection of legal software (shareware), usability tests with families and impact evaluation in pilot sessions.">Diseño iterativo con fases alpha/beta, selección de software legal (shareware), tests de usabilidad con familias y evaluación de impacto en sesiones piloto.</p>
 
           <h4 id="wp-fundamentos" data-es="4. Fundamentos neurocognitivos" data-en="4. Neurocognitive foundations">4. Fundamentos neurocognitivos</h4>
           <h5 data-es="4.1 Versión para familias" data-en="4.1 Version for families">4.1 Versión para familias</h5>
@@ -548,106 +694,100 @@
           <p data-es="Se fundamenta en la Teoría de la Carga Cognitiva (Sweller), estudios sobre FE y la relación entre representación visual y reclutamiento prefrontal (Miller & Cohen). Se propone que la baja fidelidad promueve cierre perceptivo y mayor participación ejecutiva." data-en="Based on Cognitive Load Theory (Sweller), studies on EF and the relationship between visual representation and prefrontal recruitment (Miller & Cohen). It is proposed that low fidelity promotes perceptual closure and greater executive participation.">Se fundamenta en la Teoría de la Carga Cognitiva (Sweller), estudios sobre FE y la relación entre representación visual y reclutamiento prefrontal (Miller & Cohen). Se propone que la baja fidelidad promueve cierre perceptivo y mayor participación ejecutiva.</p>
 
           <h4 id="wp-resultados" data-es="5. Resultados esperados y validación" data-en="5. Expected results and validation">5. Resultados esperados y validación</h4>
-          <p data-es="Se anticipan mejoras en flexibilidad cognitiva, control inhibitorio, planificación y autonomía. Plan de validación: ECA, pruebas neuropsicológicas estandarizadas, fNIRS/EEG y estudios ecológicos en hogares y centros." data-en="Improvements in cognitive flexibility, inhibitory control, planning and autonomy are anticipated. Validation plan: RCT, standardized neuropsychological tests, fNIRS/EEG and ecological studies in homes and centers.">Se anticipan mejoras en flexibilidad cognitiva, control inhibitorio, planificación y autonomía. Plan de validación: ECA, pruebas neuropsicológicas estandarizadas, fNIRS/EEG y estudios ecológicos en hogares y centros.</p>
+          <p data-es="Se anticipan mejoras en flexibilidad cognitiva, control inhibitorio, planificación y autonomía. Plan de validación: ECA, pruebas neuropsicológicas estandarizadas (CPT-3, BRIEF-2, Torre de Londres), fNIRS/EEG y estudios ecológicos en hogares y centros." data-en="Improvements in cognitive flexibility, inhibitory control, planning and autonomy are anticipated. Validation plan: RCT, standardized neuropsychological tests (CPT-3, BRIEF-2, Tower of London), fNIRS/EEG and ecological studies in homes and centers.">Se anticipan mejoras en flexibilidad cognitiva, control inhibitorio, planificación y autonomía. Plan de validación: ECA, pruebas neuropsicológicas estandarizadas (CPT-3, BRIEF-2, Torre de Londres), fNIRS/EEG y estudios ecológicos en hogares y centros.</p>
 
           <h4 id="wp-legal" data-es="6. Legalidad, seguridad y accesibilidad" data-en="6. Legality, security and accessibility">6. Legalidad, seguridad y accesibilidad</h4>
           <p data-es="WineBOX ejecuta software legal (shareware). No promueve abandonware ni piratería. El entorno corre en el navegador con sandboxing y no recolecta datos sin consentimiento." data-en="WineBOX runs legal software (shareware). It does not promote abandonware or piracy. The environment runs in the browser with sandboxing and does not collect data without consent.">WineBOX ejecuta software legal (shareware). No promueve abandonware ni piratería. El entorno corre en el navegador con sandboxing y no recolecta datos sin consentimiento.</p>
 
-          <h4 id="wp-implementacion" data-es="7. Implementación técnica (anexos)" data-en="7. Technical implementation (appendices)">7. Implementación técnica (anexos)</h4>
-          <p data-es="Aquí se documenta con detalle las piezas técnicas:" data-en="Here the technical pieces are documented in detail:">Aquí se documenta con detalle las piezas técnicas:</p>
-
-          <h5 data-es="7.1 WebAssembly (WASM)" data-en="7.1 WebAssembly (WASM)">7.1 WebAssembly (WASM)</h5>
-          <p data-es="WASM permite compilar emuladores para correr dentro del navegador con rendimiento optimizado y control de memoria. En WineBOX se usa para portar núcleos de emulación y partes del runtime." data-en="WASM allows compiling emulators to run inside the browser with optimized performance and memory control. In WineBOX it is used to port emulation cores and parts of the runtime.">WASM permite compilar emuladores para correr dentro del navegador con rendimiento optimizado y control de memoria. En WineBOX se usa para portar núcleos de emulación y partes del runtime.</p>
-
-          <h5 data-es="7.2 WINE" data-en="7.2 WINE">7.2 WINE</h5>
-          <p data-es="WINE actúa como capa para ejecutar binarios Win32. En el modelo WineBOX su uso se integra con contenedores y adaptadores para mantener seguridad y compatibilidad con el frontend WASM." data-en="WINE acts as a layer to run Win32 binaries. In the WineBOX model its use is integrated with containers and adapters to maintain security and compatibility with the WASM frontend.">WINE actúa como capa para ejecutar binarios Win32. En el modelo WineBOX su uso se integra con contenedores y adaptadores para mantener seguridad y compatibilidad con el frontend WASM.</p>
-
-          <h5 data-es="7.3 js-dos / DOSBox" data-en="7.3 js-dos / DOSBox">7.3 js-dos / DOSBox</h5>
-          <p data-es="js-dos ejecuta juegos MS-DOS sobre HTML5. Es estable, ligero y perfecto para juegos shareware que conforman la biblioteca inicial." data-en="js-dos runs MS-DOS games on HTML5. It is stable, lightweight and perfect for shareware games that make up the initial library.">js-dos ejecuta juegos MS-DOS sobre HTML5. Es estable, ligero y perfecto para juegos shareware que conforman la biblioteca inicial.</p>
-
-          <h5 data-es="7.4 Touch Support Box" data-en="7.4 Touch Support Box">7.4 Touch Support Box</h5>
-          <p data-es="Translation layer que mapea gestos táctiles a eventos de teclado/ratón. Incluye calibración de sensibilidad y perfiles para interacción infantil." data-en="Translation layer that maps touch gestures to keyboard/mouse events. Includes sensitivity calibration and profiles for child interaction.">Translation layer que mapea gestos táctiles a eventos de teclado/ratón. Incluye calibración de sensibilidad y perfiles para interacción infantil.</p>
-
-          <h5 data-es="7.5 Anexos técnicos" data-en="7.5 Technical appendices">7.5 Anexos técnicos</h5>
-          <p data-es="En anexos se incluye diagrama de arquitectura, tabla de compatibilidad por plataforma y guías de deployment en servidores." data-en="Appendices include architecture diagram, compatibility table by platform and deployment guides on servers.">En anexos se incluye diagrama de arquitectura, tabla de compatibilidad por plataforma y guías de deployment en servidores.</p>
-
           <h4 id="wp-limitaciones" data-es="8. Limitaciones y trabajo futuro" data-en="8. Limitations and future work">8. Limitaciones y trabajo futuro</h4>
           <ul>
-            <li data-es="Necesidad de validación clínica para uso terapéutico formal." data-en="Need for clinical validation for formal therapeutic use.">Necesidad de validación clínica para uso terapéutico formal.</li>
+            <li data-es="Necesidad de validación clínica para uso terapéutico formal en ICTUS/ACV." data-en="Need for clinical validation for formal therapeutic use in stroke.">Necesidad de validación clínica para uso terapéutico formal en ICTUS/ACV.</li>
             <li data-es="La biblioteca de software requiere curación y acuerdos de licencia a largo plazo." data-en="The software library requires curation and long-term license agreements.">La biblioteca de software requiere curación y acuerdos de licencia a largo plazo.</li>
             <li data-es="Escalabilidad y optimización para dispositivos offline." data-en="Scalability and optimization for offline devices.">Escalabilidad y optimización para dispositivos offline.</li>
           </ul>
 
           <h4 id="wp-conclu" data-es="9. Conclusión y agradecimientos" data-en="9. Conclusion and acknowledgments">9. Conclusión y agradecimientos</h4>
-          <p data-es="WineBOX propone que "menos" puede ser terapéutico: al reducir estímulos se libera capacidad cognitiva que puede reorientarse a planificación, control y creatividad." data-en="WineBOX proposes that "less" can be therapeutic: by reducing stimuli, cognitive capacity is released that can be redirected to planning, control and creativity.">WineBOX propone que "menos" puede ser terapéutico: al reducir estímulos se libera capacidad cognitiva que puede reorientarse a planificación, control y creatividad.</p>
-          <p data-es="<strong>Agradecimientos</strong>: A las familias por su compromiso y paciencia." data-en="<strong>Acknowledgments</strong>: To families for their commitment and patience."><strong>Agradecimientos</strong>: A las familias por su compromiso y paciencia.</p>
+          <p data-es="WineBOX propone que "menos" puede ser terapéutico: al reducir estímulos se libera capacidad cognitiva que puede reorientarse a planificación, control y creatividad. En neurorrehabilitación post-ICTUS, esta filosofía se traduce en sesiones de 18 minutos, 30 ejercicios dosificados en 8 semanas y una observación conductual sistemática." data-en="WineBOX proposes that "less" can be therapeutic: by reducing stimuli, cognitive capacity is released that can be redirected to planning, control and creativity. In post-stroke neurorehabilitation, this philosophy translates into 18-minute sessions, 30 exercises dosed over 8 weeks and systematic behavioral observation.">WineBOX propone que "menos" puede ser terapéutico: al reducir estímulos se libera capacidad cognitiva que puede reorientarse a planificación, control y creatividad. En neurorrehabilitación post-ICTUS, esta filosofía se traduce en sesiones de 18 minutos, 30 ejercicios dosificados en 8 semanas y una observación conductual sistemática.</p>
+          <p data-es="<strong>Agradecimientos</strong>: A las familias por su compromiso y paciencia, y a los profesionales que sistematizan la esperanza con evidencia." data-en="<strong>Acknowledgments</strong>: To families for their commitment and patience, and to professionals who systematize hope with evidence."><strong>Agradecimientos</strong>: A las familias por su compromiso y paciencia, y a los profesionales que sistematizan la esperanza con evidencia.</p>
         </article>
       </section>
 
-      <!-- FAQ and donate -->
+      <!-- FAQ -->
       <section id="faq" class="card" style="padding:18px; margin-top:20px">
         <h3 data-es="Preguntas frecuentes" data-en="Frequently asked questions">Preguntas frecuentes</h3>
         <div>
           <strong data-es="¿Es seguro?" data-en="Is it safe?">¿Es seguro?</strong>
-          <p class="muted" data-es="Sí; se ejecuta en navegador con sandbox. Recomendamos supervisión de un adulto." data-en="Yes; it runs in browser with sandbox. We recommend adult supervision.">Sí; se ejecuta en navegador con sandbox. Recomendamos supervisión de un adulto.</p>
+          <p class="muted" data-es="Sí; se ejecuta en navegador con sandbox. Procesamiento 100% local. Recomendamos supervisión de un adulto o terapeuta." data-en="Yes; it runs in browser with sandbox. 100% local processing. We recommend adult or therapist supervision.">Sí; se ejecuta en navegador con sandbox. Procesamiento 100% local. Recomendamos supervisión de un adulto o terapeuta.</p>
 
           <strong data-es="¿Es terapia?" data-en="Is it therapy?">¿Es terapia?</strong>
-          <p class="muted" data-es="No reemplaza terapia ni diagnóstico. Es una herramienta de estimulación complementaria." data-en="It does not replace therapy or diagnosis. It is a complementary stimulation tool.">No reemplaza terapia ni diagnóstico. Es una herramienta de estimulación complementaria.</p>
+          <p class="muted" data-es="No reemplaza terapia ni diagnóstico. Es una herramienta de estimulación complementaria. No es un dispositivo médico." data-en="It does not replace therapy or diagnosis. It is a complementary stimulation tool. It is not a medical device.">No reemplaza terapia ni diagnóstico. Es una herramienta de estimulación complementaria. No es un dispositivo médico.</p>
+
+          <strong data-es="¿Sirve para ICTUS/ACV?" data-en="Does it work for stroke?">¿Sirve para ICTUS/ACV?</strong>
+          <p class="muted" data-es="Sí, el Método WineBOX incluye un protocolo específico de 8 semanas y 30 ejercicios adaptados para neurorrehabilitación post-daño cerebral, con medidas de resultado cuantitativas y criterios de progresión." data-en="Yes, the WineBOX Method includes a specific 8-week protocol and 30 exercises adapted for post-brain injury neurorehabilitation, with quantitative outcome measures and progression criteria.">Sí, el Método WineBOX incluye un protocolo específico de 8 semanas y 30 ejercicios adaptados para neurorrehabilitación post-daño cerebral, con medidas de resultado cuantitativas y criterios de progresión.</p>
+
+          <strong data-es="¿Cómo solicito terapia o asesoramiento?" data-en="How do I request therapy or advice?">¿Cómo solicito terapia o asesoramiento?</strong>
+          <p class="muted" data-es="Escribinos por WhatsApp al +54 9 11 6611-6631. Un coordinador te guiará según tus necesidades." data-en="Write to us on WhatsApp at +54 9 11 6611-6631. A coordinator will guide you according to your needs.">Escribinos por WhatsApp al +54 9 11 6611-6631. Un coordinador te guiará según tus necesidades.</p>
 
           <strong data-es="¿Cómo contribuyo?" data-en="How can I contribute?">¿Cómo contribuyo?</strong>
-          <p class="muted" data-es="Donaciones y licencias institucionales sostienen la investigación y el acceso gratuito." data-en="Donations and institutional licenses support research and free access.">Donaciones y licencias institucionales sostienen la investigación y el acceso gratuito.</p>
+          <p class="muted" data-es="Donaciones y licencias institucionales sostienen la investigación y el acceso gratuito. Contactanos por WhatsApp para más información." data-en="Donations and institutional licenses support research and free access. Contact us via WhatsApp for more information.">Donaciones y licencias institucionales sostienen la investigación y el acceso gratuito. Contactanos por WhatsApp para más información.</p>
         </div>
       </section>
 
+      <!-- ACCESS & CONTACT -->
       <section id="access" class="card" style="padding:18px; margin-top:20px">
         <h3 data-es="Acceder a WineBOX" data-en="Access WineBOX">Acceder a WineBOX</h3>
         <p data-es="El sistema arranca desde <a href='http://winebox.cloud' target='_blank' rel='noopener'>winebox.cloud</a>. Al acceder, el entorno se prepara y puede ejecutarse en el navegador o auto-instalar un runner local según la plataforma." data-en="The system boots from <a href='http://winebox.cloud' target='_blank' rel='noopener'>winebox.cloud</a>. Upon access, the environment prepares and can run in the browser or auto-install a local runner depending on the platform.">El sistema arranca desde <a href="http://winebox.cloud" target="_blank" rel="noopener">winebox.cloud</a>. Al acceder, el entorno se prepara y puede ejecutarse en el navegador o auto-instalar un runner local según la plataforma.</p>
-        <p class="muted" data-es="Si querés pruebas o licencias institucionales, contactanos en ifilex@gmail.com" data-en="If you want trials or institutional licenses, contact us at ifilex@gmail.com">Si querés pruebas o licencias institucionales, contactanos en ifilex@gmail.com</p>
+        <p class="muted" data-es="Si querés pruebas, licencias institucionales o coordinar una sesión de neurorrehabilitación, contactanos por WhatsApp." data-en="If you want trials, institutional licenses or to coordinate a neurorehabilitation session, contact us via WhatsApp.">Si querés pruebas, licencias institucionales o coordinar una sesión de neurorrehabilitación, contactanos por WhatsApp.</p>
+        <a class="cta-wsp" style="margin-top:12px" href="https://wa.me/5491166116631?text=Hola%2C%20quisiera%20acceder%20a%20WineBOX%20y%20coordinar%20una%20sesi%C3%B3n" target="_blank" rel="noopener" data-es="Contactar por WhatsApp" data-en="Contact via WhatsApp">Contactar por WhatsApp</a>
       </section>
 
+      <!-- DONATE -->
       <section id="donate" class="card" style="padding:18px; margin-top:20px">
         <h3 data-es="Donaciones y sostenibilidad" data-en="Donations and sustainability">Donaciones y sostenibilidad</h3>
         <p data-es="Tu donación se destina a:" data-en="Your donation goes to:">Tu donación se destina a:</p>
         <ul>
-          <li data-es="Investigación clínica y ECA" data-en="Clinical research and RCT">Investigación clínica y ECA</li>
+          <li data-es="Investigación clínica en neurorrehabilitación post-ICTUS/ACV" data-en="Clinical research in post-stroke neurorehabilitation">Investigación clínica en neurorrehabilitación post-ICTUS/ACV</li>
           <li data-es="Dispositivos para familias sin recursos" data-en="Devices for families without resources">Dispositivos para familias sin recursos</li>
           <li data-es="Mejoras en la biblioteca y UX" data-en="Library and UX improvements">Mejoras en la biblioteca y UX</li>
         </ul>
-        <a class="cta-primary" href="#donate" onclick="alert(lang.current === 'es' ? 'Pronto habilitaremos pasarelas de pago. Escribinos a ifilex@gmail.com para colaborar ahora.' : 'We will soon enable payment gateways. Write to ifilex@gmail.com to collaborate now.');return false" data-es="Quiero ayudar" data-en="I want to help">Quiero ayudar</a>
+        <a class="cta-wsp" href="https://wa.me/5491166116631?text=Hola%2C%20quisiera%20colaborar%20con%20WineBOX" target="_blank" rel="noopener" data-es="Quiero ayudar" data-en="I want to help">Quiero ayudar</a>
       </section>
 
     </main>
 
     <footer>
       <div style="max-width:var(--max-w); margin:20px auto; text-align:center">
-        <p class="muted" data-es="WineBOX Project — Documento preliminar v1.2 · Contacto: <a href='mailto:ifilex@gmail.com'>ifilex@gmail.com</a>" data-en="WineBOX Project — Preliminary document v1.2 · Contact: <a href='mailto:ifilex@gmail.com'>ifilex@gmail.com</a>">WineBOX Project — Documento preliminar v1.2 · Contacto: <a href="mailto:ifilex@gmail.com">ifilex@gmail.com</a></p>
-        <p class="muted" data-es="Licencia: CC BY-NC 4.0 · © 2025 WineBOX Project" data-en="License: CC BY-NC 4.0 · © 2025 WineBOX Project">Licencia: CC BY-NC 4.0 · © 2025 WineBOX Project</p>
+        <p class="muted" data-es="WineBOX Project — Documento preliminar v1.3 · Contacto: <a href='https://wa.me/5491166116631'>WhatsApp +54 9 11 6611-6631</a>" data-en="WineBOX Project — Preliminary document v1.3 · Contact: <a href='https://wa.me/5491166116631'>WhatsApp +54 9 11 6611-6631</a>">WineBOX Project — Documento preliminar v1.3 · Contacto: <a href="https://wa.me/5491166116631">WhatsApp +54 9 11 6611-6631</a></p>
+        <p class="muted" data-es="Licencia: CC BY-NC 4.0 · © 2025-2026 WineBOX Project · Lic. Emanuel Chanampa (MN 56716 · MP 84132)" data-en="License: CC BY-NC 4.0 · © 2025-2026 WineBOX Project · Lic. Emanuel Chanampa (MN 56716 · MP 84132)">Licencia: CC BY-NC 4.0 · © 2025-2026 WineBOX Project · Lic. Emanuel Chanampa (MN 56716 · MP 84132)</p>
       </div>
     </footer>
 
   </div>
 
-  <!-- SIMPLE LIGHTBOX -->
+  <!-- WHATSAPP FLOATING BUTTON -->
+  <a class="whatsapp-float" href="https://wa.me/5491166116631?text=Hola%2C%20quisiera%20solicitar%20asesoramiento%20sobre%20WineBOX" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <!-- LIGHTBOX -->
   <div class="lightbox-overlay" id="lightbox">
     <div class="lightbox-content">
       <div class="lightbox-counter" id="lightbox-counter">1 / 9</div>
       <button class="lightbox-close" id="lightbox-close">✕</button>
-      
       <div class="lightbox-nav">
         <button id="lightbox-prev">‹</button>
         <button id="lightbox-next">›</button>
       </div>
-      
       <img class="lightbox-img" id="lightbox-img" src="" alt="">
       <div class="lightbox-caption" id="lightbox-caption"></div>
     </div>
   </div>
 
-  <!-- MODAL PARA WHITEPAPER TOOLS -->
+  <!-- MODAL WHITEPAPER -->
   <div class="wp-modal-overlay" id="wpModal">
     <div class="wp-modal-content">
       <div class="wp-modal-header">
-        <h3 id="wpModalTitle" data-es="📄 Documento técnico WineBOX Tools" data-en="📄 WineBOX Tools Technical Whitepaper">📄 Documento técnico WineBOX Tools</h3>
+        <h3 id="wpModalTitle" data-es="📄 Documento técnico WineBOX" data-en="📄 WineBOX Technical Whitepaper">📄 Documento técnico WineBOX</h3>
         <button class="wp-modal-close" id="closeWpModal">&times;</button>
       </div>
       <div class="wp-modal-body">
@@ -657,22 +797,15 @@
   </div>
 
   <script>
-    // Language management system
     const lang = { current: 'es' };
-    
-    // Lightbox variables
     let images = [];
     let currentIndex = 0;
     
-    // Function to set language and update all elements
     function setLang(l) {
       lang.current = l;
-      
-      // Update button active states
       document.getElementById('btnES').classList.toggle('active', l === 'es');
       document.getElementById('btnEN').classList.toggle('active', l === 'en');
       
-      // Update all elements with data-es and data-en attributes
       document.querySelectorAll('[data-es], [data-en]').forEach(el => {
         if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
           if (el.hasAttribute('placeholder')) {
@@ -685,8 +818,6 @@
         } else if (el.tagName === 'A' && el.hasAttribute('href')) {
           const text = el.getAttribute(`data-${l}`) || el.textContent;
           if (text) el.textContent = text;
-          
-          // Special handling for PDF link
           if (el.id === 'whitepaperPdfBtn') {
             const hrefAttr = `data-href-${l}`;
             const newHref = el.getAttribute(hrefAttr);
@@ -706,28 +837,19 @@
         }
       });
       
-      // Update page language attribute
       document.documentElement.lang = l;
-      
-      // Save preference to localStorage
       localStorage.setItem('winebox-lang', l);
-
-      // Update modal title
       const modalTitle = document.getElementById('wpModalTitle');
       if (modalTitle) {
         const titleText = modalTitle.getAttribute(`data-${l}`);
         if (titleText) modalTitle.innerHTML = titleText;
       }
-      
-      // Update lightbox caption if open
       if (window.updateLightboxCaption) window.updateLightboxCaption();
     }
     
-    // Event listeners for language buttons
     document.getElementById('btnES').addEventListener('click', () => setLang('es'));
     document.getElementById('btnEN').addEventListener('click', () => setLang('en'));
     
-    // Load saved language preference or default to Spanish
     const savedLang = localStorage.getItem('winebox-lang');
     if (savedLang && (savedLang === 'es' || savedLang === 'en')) {
       setLang(savedLang);
@@ -735,7 +857,7 @@
       setLang('es');
     }
 
-    // SIMPLE LIGHTBOX SYSTEM
+    // LIGHTBOX
     document.addEventListener('DOMContentLoaded', function() {
       const lightbox = document.getElementById('lightbox');
       const lightboxImg = document.getElementById('lightbox-img');
@@ -745,7 +867,6 @@
       const lightboxPrev = document.getElementById('lightbox-prev');
       const lightboxNext = document.getElementById('lightbox-next');
       
-      // Collect all gallery images
       document.querySelectorAll('.gallery img').forEach((img, index) => {
         images.push({
           src: img.getAttribute('data-full') || img.src,
@@ -753,8 +874,6 @@
           captionEs: img.getAttribute('data-caption-es') || '',
           captionEn: img.getAttribute('data-caption-en') || ''
         });
-        
-        // Add click event to each image
         img.addEventListener('click', () => {
           currentIndex = index;
           showLightboxImage(currentIndex);
@@ -770,8 +889,6 @@
           lightboxImg.alt = imgData.alt;
           updateLightboxCaption();
           lightboxCounter.textContent = `${index + 1} / ${images.length}`;
-          
-          // Show/hide navigation buttons
           lightboxPrev.style.display = index === 0 ? 'none' : 'flex';
           lightboxNext.style.display = index === images.length - 1 ? 'none' : 'flex';
         }
@@ -779,79 +896,33 @@
       
       function updateLightboxCaption() {
         if (images[currentIndex]) {
-          if (lang.current === 'es') {
-            lightboxCaption.textContent = images[currentIndex].captionEs;
-          } else {
-            lightboxCaption.textContent = images[currentIndex].captionEn;
-          }
+          lightboxCaption.textContent = lang.current === 'es' ? images[currentIndex].captionEs : images[currentIndex].captionEn;
         }
       }
       
-      // Lightbox navigation
-      lightboxPrev.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (currentIndex > 0) {
-          currentIndex--;
-          showLightboxImage(currentIndex);
-        }
-      });
-      
-      lightboxNext.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (currentIndex < images.length - 1) {
-          currentIndex++;
-          showLightboxImage(currentIndex);
-        }
-      });
-      
-      // Close lightbox
-      lightboxClose.addEventListener('click', (e) => {
-        e.stopPropagation();
-        closeLightbox();
-      });
-      
-      lightbox.addEventListener('click', (e) => {
-        if (e.target === lightbox) {
-          closeLightbox();
-        }
-      });
+      lightboxPrev.addEventListener('click', (e) => { e.stopPropagation(); if (currentIndex > 0) { currentIndex--; showLightboxImage(currentIndex); } });
+      lightboxNext.addEventListener('click', (e) => { e.stopPropagation(); if (currentIndex < images.length - 1) { currentIndex++; showLightboxImage(currentIndex); } });
+      lightboxClose.addEventListener('click', (e) => { e.stopPropagation(); closeLightbox(); });
+      lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
       
       function closeLightbox() {
         lightbox.classList.remove('active');
         document.body.style.overflow = '';
       }
       
-      // Keyboard navigation
       document.addEventListener('keydown', (e) => {
         if (lightbox.classList.contains('active')) {
-          switch(e.key) {
-            case 'ArrowLeft':
-              if (currentIndex > 0) {
-                currentIndex--;
-                showLightboxImage(currentIndex);
-              }
-              break;
-            case 'ArrowRight':
-              if (currentIndex < images.length - 1) {
-                currentIndex++;
-                showLightboxImage(currentIndex);
-              }
-              break;
-            case 'Escape':
-              closeLightbox();
-              break;
-          }
+          if (e.key === 'ArrowLeft' && currentIndex > 0) { currentIndex--; showLightboxImage(currentIndex); }
+          if (e.key === 'ArrowRight' && currentIndex < images.length - 1) { currentIndex++; showLightboxImage(currentIndex); }
+          if (e.key === 'Escape') closeLightbox();
         }
       });
       
-      // Initialize
       if (images.length > 0) showLightboxImage(0);
-      
-      // Expose function for language updates
       window.updateLightboxCaption = updateLightboxCaption;
     });
 
-    // Smooth anchor scrolling
+    // SMOOTH SCROLL
     document.querySelectorAll('a[href^="#"]').forEach(a => {
       a.addEventListener('click', function(e) {
         const href = this.getAttribute('href');
@@ -861,12 +932,7 @@
             e.preventDefault();
             const headerHeight = document.querySelector('.site').offsetHeight;
             const targetPosition = target.offsetTop - headerHeight - 20;
-            
-            window.scrollTo({
-              top: targetPosition,
-              behavior: 'smooth'
-            });
-            
+            window.scrollTo({ top: targetPosition, behavior: 'smooth' });
             target.setAttribute('tabindex', '-1');
             target.focus();
             setTimeout(() => target.removeAttribute('tabindex'), 1000);
@@ -875,14 +941,13 @@
       });
     });
 
-    // ===== MODAL PARA WHITEPAPER TOOLS =====
+    // MODAL WHITEPAPER
     const wpModal = document.getElementById('wpModal');
     const wpIframe = document.getElementById('wpIframe');
     const closeWpBtn = document.getElementById('closeWpModal');
     const whitepaperBtn = document.getElementById('whitepaperBtn');
 
     function openWhitepaper() {
-      // Cargar el whitepaper según idioma actual
       const file = lang.current === 'es' ? 'whitepaper.html' : 'whitepaper.en.html';
       wpIframe.src = file;
       wpModal.classList.add('active');
@@ -895,35 +960,10 @@
       wpIframe.src = '';
     }
 
-    if (whitepaperBtn) {
-      whitepaperBtn.addEventListener('click', openWhitepaper);
-    }
-
+    if (whitepaperBtn) whitepaperBtn.addEventListener('click', openWhitepaper);
     closeWpBtn.addEventListener('click', closeWhitepaper);
-
-    wpModal.addEventListener('click', (e) => {
-      if (e.target === wpModal) {
-        closeWhitepaper();
-      }
-    });
-
-    // Cerrar con tecla Escape
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && wpModal.classList.contains('active')) {
-        closeWhitepaper();
-      }
-    });
-
-    // Actualizar iframe si cambia idioma con modal abierto
-    const originalSetLang = setLang;
-    window.setLang = function(l) {
-      originalSetLang(l);
-      if (wpModal.classList.contains('active')) {
-        const file = l === 'es' ? 'whitepaper.html' : 'whitepaper.en.html';
-        wpIframe.src = file;
-      }
-    };
-    setLang = window.setLang;
+    wpModal.addEventListener('click', (e) => { if (e.target === wpModal) closeWhitepaper(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && wpModal.classList.contains('active')) closeWhitepaper(); });
   </script>
 </body>
 </html>
