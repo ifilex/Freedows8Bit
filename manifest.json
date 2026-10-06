@@ -1,7 +1,7 @@
 {
   "short_name": "WineBOX",
-  "name": "WineBOX - Cognitive Stimulation System",
-  "description": "WineBOX is a global and free cognitive stimulation environment using retro games to improve attention, planning, and executive functions in neurodivergent users.",
+  "name": "WineBOX OS - Web Application Suite",
+  "description": "Sistema operativo y catálogo de aplicaciones web WineBOX para PC, Android e iOS",
   "icons": [
     {
       "src": "https://winebox.cloud/src/icons/fileExplorer.png",
