@@ -2,37 +2,30 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
-    <title>WineBOX OS</title>
-
-    <!-- PWA Web Manifest & Theme -->
-    <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#141414" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>WineBOX Cognitive Retro Hub</title>
+    <meta name="description" content="Repositorio centralizado y base de datos SQL para videojuegos retro legales con estimulación cognitiva, descarga de ROMs, sincronización con WineBOX Cognitive, gamificación y reportes PDF." />
+    <meta property="og:title" content="WineBOX Cognitive Retro Hub" />
+    <meta property="og:description" content="Repositorio centralizado y base de datos SQL para videojuegos retro legales con estimulación cognitiva, descarga de ROMs, sincronización con WineBOX Cognitive, gamificación y reportes PDF." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    
+    <!-- PWA & Mobile Web App Meta -->
+    <meta name="theme-color" content="#0e1117" />
     <meta name="mobile-web-app-capable" content="yes" />
-
-    <!-- iOS / Safari Apple Web App support -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="WineBOX" />
-    <link rel="apple-touch-icon" href="https://winebox.cloud/src/icons/fileExplorer.png" />
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="https://winebox.cloud/src/icons/fileExplorer.png" />
-    <script type="module" crossorigin src="/assets/index-cA2U9Yzt.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-D7O7UcQe.css">
-  </head>
-  <body class="bg-[#141414] text-white select-none overflow-x-hidden">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <script type="module" crossorigin src="/assets/index-CXlmdVA9.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-Dj-3ZQx4.css">
+  <link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script></head>
+  <body class="bg-[#0e1117] text-[#c6d4df] antialiased selection:bg-[#66c0f4] selection:text-[#0e1117] overflow-x-hidden">
     <div id="root"></div>
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js').catch((err) => {
-            console.log('SW registration error:', err);
-          });
-        });
-      }
-    </script>
   </body>
 </html>
-
-
