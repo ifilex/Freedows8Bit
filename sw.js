@@ -1,1 +1,30 @@
-if(!self.define){let e,i={};const n=(n,r)=>(n=new URL(n+".js",r).href,i[n]||new Promise(i=>{if("document"in self){const e=document.createElement("script");e.src=n,e.onload=i,document.head.appendChild(e)}else e=n,importScripts(n),i()}).then(()=>{let e=i[n];if(!e)throw new Error(`Module ${n} didn’t register its module`);return e}));self.define=(r,s)=>{const d=e||("document"in self?document.currentScript.src:"")||location.href;if(i[d])return;let o={};const c=e=>n(e,d),l={module:{uri:d},exports:o,require:c};i[d]=Promise.all(r.map(e=>l[e]||c(e))).then(e=>(s(...e),o))}}define(["./workbox-9c191d2f"],function(e){"use strict";self.skipWaiting(),e.clientsClaim(),e.precacheAndRoute([{url:"registerSW.js",revision:"1872c500de691dce40960bb85481de07"},{url:"pwa-maskable-512x512.png",revision:"0d25725c64f75813e4ac17526182eee5"},{url:"pwa-512x512.png",revision:"0d25725c64f75813e4ac17526182eee5"},{url:"pwa-192x192.png",revision:"2dbb12a9df834c4e8eb50d0564422c4d"},{url:"index.html",revision:"c516361275d6894df16fe0b682dfee6d"},{url:"icon.svg",revision:"e8b36828e4716ade6a9a4d8fd1ff0d22"},{url:"apple-touch-icon.png",revision:"850320827041f3e9e6f4bffe7ac994e3"},{url:"assets/index-Dj-3ZQx4.css",revision:null},{url:"assets/index-CXlmdVA9.js",revision:null},{url:"apple-touch-icon.png",revision:"850320827041f3e9e6f4bffe7ac994e3"},{url:"icon.svg",revision:"e8b36828e4716ade6a9a4d8fd1ff0d22"},{url:"pwa-192x192.png",revision:"2dbb12a9df834c4e8eb50d0564422c4d"},{url:"pwa-512x512.png",revision:"0d25725c64f75813e4ac17526182eee5"},{url:"pwa-maskable-512x512.png",revision:"0d25725c64f75813e4ac17526182eee5"},{url:"manifest.webmanifest",revision:"462ac45fa9eab1e8b125c676d8275abc"}],{}),e.cleanupOutdatedCaches(),e.registerRoute(new e.NavigationRoute(e.createHandlerBoundToURL("index.html")))});
+// Service Worker for WineBOX PWA
+const CACHE_NAME = 'winebox-cache-v1';
+
+self.addEventListener('install', (event) => {
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheName !== CACHE_NAME) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    }).then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener('fetch', (event) => {
+  // Network first strategy
+  if (event.request.method !== 'GET') return;
+  event.respondWith(
+    fetch(event.request).catch(() => {
+      return caches.match(event.request);
+    })
+  );
+});
