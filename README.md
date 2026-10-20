@@ -112,31 +112,34 @@ WineBOX is a Russian doll of open-source ingenuity. Here's how the magic works:
 
 The Software Stack (With Credit Where It's Due!)
 text
+
 Your Android Device
 ├── 📦 **Termux** (GPLv3) - The Linux playground on Android.
+
 ├── 🐚 **PRoot** (GPLv3) - Creates a virtual Linux filesystem.
+
 │   └── 🖥️ **Ubuntu Rootfs** - A full ARM Linux environment.
+
 │       ├── 🎭 **Box86/Box64** (MIT) - Translates x86 apps for ARM CPUs.
+
 │       ├── 🍷 **Wine/Proton** (LGPL) - The heart of it all. Runs Windows apps.
+
 │       ├── 🎮 **DXVK / VKD3D-Proton** (zlib/LGPL) - Turns DirectX into Vulkan for gaming.
+
 │       ├── 🖌️ **Mesa 3D** (MIT) - The open-source graphics driver powerhouse.
+
 │       └── 🖱️ **Termux-X11** (GPLv3) - Paints the desktop on your screen.
+
 └── ✨ **Your Interaction** - Where cognition meets code.
+
 📚 Complete Credit & Licensing
 Termux & Termux-X11: GPLv3 - Android terminal and display server
-
 Box86/Box64: MIT License - x86 to ARM translation layers
-
 Wine/Proton: LGPL/Valve License - Windows compatibility layer
-
 DXVK/VKD3D-Proton: zlib/LGPL - Direct3D to Vulkan translation
-
 Mesa 3D Graphics: MIT License - OpenGL/Vulkan implementation
-
 PRoot: GPLv3 - User-space chroot/chroot implementation
-
 js-DOS: MIT License - Browser-based DOS emulation (Web version)
-
 All clinical research and documentation: CC BY-NC 4.0
 
 🎯 The Pillars of Our Philosophy
@@ -159,11 +162,8 @@ Phase	Status	Focus
 Controlled clinical trials with neurodivergent participants
 
 fNIRS/EEG studies measuring prefrontal cortex activation
-
 Longitudinal studies on digital autonomy development
-
 Cross-cultural adaptation for global accessibility
-
 We are actively seeking collaborations with researchers, therapists, and developers. If our vision resonates with you, get in touch.
 
 ❤️ Join the Revolution
@@ -171,13 +171,9 @@ WineBOX proves that compassionate technology doesn't need to be complicated or e
 
 How You Can Help:
 ⭐ Star this repo if you believe in tech that makes a real difference
-
 🍴 Fork it to dive into the code or create your own version
-
 🐛 Report issues to help us improve
-
 📬 Share it with teachers, therapists, or neurodiversity communities
-
 🔬 Collaborate if you're a researcher or clinician
 
 This project is maintained with ❤️ by an interdisciplinary team of developers, neuropsychologists, and families who believe technology should empower everyone.
